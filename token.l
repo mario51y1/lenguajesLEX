@@ -1,9 +1,13 @@
 %{
 #include <stdlib.h>
+#include <stdio.h>
 #include <string.h>
 #include "tabla.h"
+
+int linea_actual=0;
 %}
 %%
+[ \t\n]	;
 
 "["	return ABRIRCORCH;
 "]"	return CERRARCORCH;
@@ -57,7 +61,7 @@
 "hasta"	return HASTA;
 "hacer"	return HACER;
 
-"lista_de"	return DEFLIST;
+"lista_de "	return DEFLIST;
 
 "booleano"	return TIPO;
 "real"	return TIPO;
@@ -69,24 +73,29 @@
 "verdadero"	return VERDFALS;
 "falso"	return VERDFALS;
 
-
-
 "variables"	return INICIOVARS;
 "finvariables"	return FINVARS;
+
+[\+\-]?([0-9])+	return ENTERO;
+[\+\-]?([0-9])+\.([0-9])+	return REAL;
 
 \'[^\']\'	return CARACTER;
 \"[^\"]*\"	return CADENA;
 
+[a-zA-Z][a-zA-Z0-9]*	return IDENTIFICADOR;
+
+.	printf("\n (Linea %d) Error léxico: cadena %s\n",yylineno, yytext);
+
 %%
 
-main() {
+int main(int argc, char *argv[]) {
   	
 	int val;
-  
+  	yyin = fopen (argv[1],"rt");
 	val = yylex();
-	while (val!=0)
-		printf(" %d \n", val);
-		val = yylex();
+
+	printf(" %d \n", val);
+
 	exit(0);
   
  	 

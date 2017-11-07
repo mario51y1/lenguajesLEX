@@ -30,3 +30,6 @@
 #define TIPO 286
 #define CARACTER 287
 #define CADENA 288
+#define ENTERO 289
+#define REAL 290
+#define IDENTIFICADOR 291
