@@ -39,6 +39,7 @@
 %token CADENA
 %token IDENTIFICADOR
 %token ENTERO
+%token REAL
 
 
 
@@ -107,14 +108,12 @@ sentencia_if : CONDSI ABRIRPARENT expresion CERRARPARENT Sentencia
 
  sentencia_while : CONDMIENTRAS ABRIRPARENT expresion CERRARPARENT Sentencia ;
 
-sentencia_entrada : nomb_entrada Identificadores PUNTOCOMA ;
-nomb_entrada : LEE ;
+sentencia_entrada : LEE Identificadores PUNTOCOMA ;
 
-sentencia_salida : nomb_salida lista_expresiones_o_cadena PUNTOCOMA ;
-nomb_salida : ESCRIBE ;
+sentencia_salida : ESCRIBE lista_expresiones_o_cadena PUNTOCOMA ;
 
 expcad : expresion
-	| string_comillas
+	| CADENA
   ;
 
 lista_expresiones_o_cadena : expcad
@@ -122,11 +121,12 @@ lista_expresiones_o_cadena : expcad
   ;
 
 llamada_proced : IDENTIFICADOR ABRIRPARENT  lista_expresiones  CERRARPARENT PUNTOCOMA ;
+
 sentencia_for : DURANTE IDENTIFICADOR DOSPUNTOSIGUAL  expresion HASTA expresion HACER Sentencia ;
 
 expresion : ABRIRPARENT expresion CERRARPARENT
 	| op_unario expresion
-	| expresion op_binario expresion
+	| expresion OPBINARIO expresion
 	| expresion MASMAS expresion ARROBA expresion
 	| IDENTIFICADOR
 	| constante
@@ -134,14 +134,9 @@ expresion : ABRIRPARENT expresion CERRARPARENT
 
 lista_expresiones : lista_expresiones expresion | expresion | ;
 
-op_binario : OPBINARIO
-;
-
 op_unario: MASMAS | UNARIOSIMPLE | MASMENOS
 ;
 
-Signo : MASMENOS
-;
 
 constante : ENTERO | REAL | lista | VERDFALS | CARACTER ;
 
@@ -153,14 +148,14 @@ lista : lista_enteros
 
 lista_enteros: ABRIRCORCH Enteros CERRARCORCH ;
 
-Enteros : entero_signo
-	| Enteros COMA entero_signo
+Enteros : ENTERO
+	| Enteros COMA ENTERO
 ;
 
 lista_reales : ABRIRCORCH Reales CERRARCORCH ;
 
-Reales: real_signo
-	|Reales COMA real_signo
+Reales: REAL
+	|Reales COMA REAL
   ;
 
 
@@ -175,25 +170,6 @@ lista_caracteres: ABRIRCORCH Caracteres CERRARCORCH ;
 Caracteres: CARACTER
 | Caracteres COMA CARACTER
 ;
-
-entero_sig : MASMENOS ENTERO
-	| ENTERO
-  ;
-
-real_signo : REAL
-	| MASMENOS REAL
-  ;
-
-cadena : caracter | cadena caracter ;
-
-
-string_comillas: CADENA ;
-
-string : caracter | caracter_especial
-	|string caracter | string caracter_especial
-  ;
-
-
 
 
 %%
