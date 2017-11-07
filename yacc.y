@@ -38,6 +38,7 @@
 %token CARACTER
 %token CADENA
 %token IDENTIFICADOR
+%token ENTERO
 
 
 
@@ -62,8 +63,8 @@ Declar_de_subprogs : Declar_de_subprogs Declar_subprog
 
 Declar_subprog : Cabecera_subprograma bloque ;
 
-Cabecera_programa : principal ;
-Cabecera_subprograma : procedimiento IDENTIFICADOR ABRIRPARENT parametros CERRARPARENT ;
+Cabecera_programa : MAIN ;
+Cabecera_subprograma : PROCED IDENTIFICADOR ABRIRPARENT parametros CERRARPARENT ;
 parametros : parametro
 	| parametros COMA parametro
 	|
@@ -93,7 +94,8 @@ Sentencia : bloque
 	| sentencia_if
 	| sentencia_while
 	| sentencia_entrada
-	| sentencia_salidaa	| llamada_proced
+	| sentencia_salida
+  | llamada_proced
 	| sentencia_for
 ;
 
@@ -103,24 +105,24 @@ sentencia_if : CONDSI ABRIRPARENT expresion CERRARPARENT Sentencia
 	| CONDSI ABRIRPARENT expresion CERRARPARENT Sentencia CONDSINO Sentencia
   ;
 
- sentencia_while> : CONDMIENTRAS ABRIRPARENT expresion CERRARPARENT Sentencia
+ sentencia_while : CONDMIENTRAS ABRIRPARENT expresion CERRARPARENT Sentencia ;
 
-sentencia_entrada : nomb_entrada identificadores PUNTOCOMA ;
+sentencia_entrada : nomb_entrada Identificadores PUNTOCOMA ;
 nomb_entrada : LEE ;
 
 sentencia_salida : nomb_salida lista_expresiones_o_cadena PUNTOCOMA ;
 nomb_salida : ESCRIBE ;
 
-exp-cad : expresion
+expcad : expresion
 	| string_comillas
   ;
 
-lista_expresiones_o_cadena : exp-cad
-	| lista_expresiones_o_cadena COMA exp-cad
+lista_expresiones_o_cadena : expcad
+	| lista_expresiones_o_cadena COMA expcad
   ;
 
 llamada_proced : IDENTIFICADOR ABRIRPARENT  lista_expresiones  CERRARPARENT PUNTOCOMA ;
-sentencia_for : DURANTE identificador DOSPUNTOSIGUAL  expresion HASTA expresion HACER Sentencia ;
+sentencia_for : DURANTE IDENTIFICADOR DOSPUNTOSIGUAL  expresion HASTA expresion HACER Sentencia ;
 
 expresion : ABRIRPARENT expresion CERRARPARENT
 	| op_unario expresion
@@ -171,7 +173,7 @@ Booleanos : VERDFALS
 lista_caracteres: ABRIRCORCH Caracteres CERRARCORCH ;
 
 Caracteres: CARACTER
-| Cadenas COMA CARACTER
+| Caracteres COMA CARACTER
 ;
 
 entero_sig : MASMENOS ENTERO
