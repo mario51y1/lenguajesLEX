@@ -1,7 +1,6 @@
 
 
 %{
-  int vbltable[26]; //NOSE QUE ES
 %}
 
 
@@ -41,6 +40,7 @@
 %token ENTERO
 %token REAL
 
+%start Programa
 
 
 %%
@@ -81,9 +81,8 @@ Variables_locales : Variables_locales Cuerpo_declar_variables
 Cuerpo_declar_variables : tipo Identificadores PUNTOCOMA ;
 Identificadores : IDENTIFICADOR | Identificadores COMA IDENTIFICADOR ;
 
-tipo : tipo_normal | tipo_lista ;
-tipo_lista : DEFLIST tipo_normal ;
-tipo_normal: TIPO ;
+tipo : TIPO | tipo_lista ;
+tipo_lista : DEFLIST TIPO ;
 
 Sentencias : Sentencias Sentencia
 	| Sentencia
@@ -125,20 +124,20 @@ llamada_proced : IDENTIFICADOR ABRIRPARENT  lista_expresiones  CERRARPARENT PUNT
 sentencia_for : DURANTE IDENTIFICADOR DOSPUNTOSIGUAL  expresion HASTA expresion HACER Sentencia ;
 
 expresion : ABRIRPARENT expresion CERRARPARENT
-	| op_unario expresion
+  | MASMAS expresion
+  | UNARIOSIMPLE expresion
+  | MASMENOS expresion
 	| expresion OPBINARIO expresion
 	| expresion MASMAS expresion ARROBA expresion
 	| IDENTIFICADOR
-	| constante
+  | ENTERO
+  | REAL
+  | VERDFALS
+  | CARACTER
+  | lista
   ;
 
-lista_expresiones : lista_expresiones expresion | expresion | ;
-
-op_unario: MASMAS | UNARIOSIMPLE | MASMENOS
-;
-
-
-constante : ENTERO | REAL | lista | VERDFALS | CARACTER ;
+lista_expresiones : lista_expresiones expresion | expresion ;
 
 lista : lista_enteros
 	| lista_reales

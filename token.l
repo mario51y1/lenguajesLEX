@@ -2,7 +2,7 @@
 #include <stdlib.h>
 #include <stdio.h>
 #include <string.h>
-#include "tabla.h"
+#include "y.tab.h"
 
 int linea_actual=0;
 %}
@@ -39,7 +39,7 @@ int linea_actual=0;
 "!"	return UNARIOSIMPLE;
 "#"	return UNARIOSIMPLE;
 "?"	return UNARIOSIMPLE;
-  
+
 "+"	return MASMENOS;
 "-"	return MASMENOS;
 "++"	return MASMAS;
@@ -83,13 +83,11 @@ int linea_actual=0;
 \"[^\"]*\"	return CADENA;
 
 [a-zA-Z][a-zA-Z0-9]*	return IDENTIFICADOR;
-
-.	printf("\n (Linea %d) Error léxico: cadena %s\n",yylineno, yytext);
-
+. ;
 %%
 
 int main(int argc, char *argv[]) {
-  	
+
 	int val;
   	yyin = fopen (argv[1],"rt");
 	val = yylex();
@@ -97,6 +95,6 @@ int main(int argc, char *argv[]) {
 	printf(" %d \n", val);
 
 	exit(0);
-  
- 	 
+
+
 }
