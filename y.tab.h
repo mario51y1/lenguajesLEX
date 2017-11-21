@@ -60,20 +60,31 @@
      COMA = 276,
      VERDFALS = 277,
      MASMAS = 278,
-     UNARIOSIMPLE = 279,
-     MASMENOS = 280,
-     ARROBA = 281,
-     OPBINARIO = 282,
-     DURANTE = 283,
-     DOSPUNTOSIGUAL = 284,
-     HASTA = 285,
-     HACER = 286,
-     TIPO = 287,
-     CARACTER = 288,
-     CADENA = 289,
-     IDENTIFICADOR = 290,
-     ENTERO = 291,
-     REAL = 292
+     MASMENOS = 279,
+     ARROBA = 280,
+     DURANTE = 281,
+     DOSPUNTOSIGUAL = 282,
+     HASTA = 283,
+     HACER = 284,
+     TIPO = 285,
+     CARACTER = 286,
+     CADENA = 287,
+     IDENTIFICADOR = 288,
+     ENTERO = 289,
+     REAL = 290,
+     LOGOR = 291,
+     LOGAND = 292,
+     ORBIT = 293,
+     EXOR = 294,
+     ANDBIT = 295,
+     IGUALDAD = 296,
+     MENOSMENOS = 297,
+     MULTIDIV = 298,
+     EXCLAMACION = 299,
+     AVANRETRO = 300,
+     UNARIOSLISTA = 301,
+     PORCENTAJE = 302,
+     MULMUL = 303
    };
 #endif
 /* Tokens.  */
@@ -98,20 +109,31 @@
 #define COMA 276
 #define VERDFALS 277
 #define MASMAS 278
-#define UNARIOSIMPLE 279
-#define MASMENOS 280
-#define ARROBA 281
-#define OPBINARIO 282
-#define DURANTE 283
-#define DOSPUNTOSIGUAL 284
-#define HASTA 285
-#define HACER 286
-#define TIPO 287
-#define CARACTER 288
-#define CADENA 289
-#define IDENTIFICADOR 290
-#define ENTERO 291
-#define REAL 292
+#define MASMENOS 279
+#define ARROBA 280
+#define DURANTE 281
+#define DOSPUNTOSIGUAL 282
+#define HASTA 283
+#define HACER 284
+#define TIPO 285
+#define CARACTER 286
+#define CADENA 287
+#define IDENTIFICADOR 288
+#define ENTERO 289
+#define REAL 290
+#define LOGOR 291
+#define LOGAND 292
+#define ORBIT 293
+#define EXOR 294
+#define ANDBIT 295
+#define IGUALDAD 296
+#define MENOSMENOS 297
+#define MULTIDIV 298
+#define EXCLAMACION 299
+#define AVANRETRO 300
+#define UNARIOSLISTA 301
+#define PORCENTAJE 302
+#define MULMUL 303
 
 
 

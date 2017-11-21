@@ -32,7 +32,7 @@ int linea_actual=0;
 "<"	return IGUALDAD;
 ">"	return IGUALDAD;
 "%"	return PORCENTAJE;
-"*"	return MUL;
+"*"	return MULTIDIV;
 "&"	return ANDBIT;
 
 "--"	return MENOSMENOS;

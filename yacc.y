@@ -25,10 +25,8 @@
 %token COMA
 %token VERDFALS
 %token MASMAS
-%token UNARIOSIMPLE
 %token MASMENOS
 %token ARROBA
-%token OPBINARIO
 %token DURANTE
 %token DOSPUNTOSIGUAL
 %token HASTA
@@ -46,7 +44,6 @@
 %token EXOR
 %token ANDBIT
 %token IGUALDAD
-%token RELACION
 %token MENOSMENOS
 %token MULTIDIV
 %token EXCLAMACION
@@ -58,12 +55,12 @@
 
 %start Programa
 
-%right ASIG
-%left MASMENOS
-%right MASMAS
-%left UNARIOSIMPLE
-%right ARROBA
-%left OPBINARIO
+%left LOGOR ORBIT LOGAND ANDBIT EXOR IGUALDAD MASMENOS UNARIOSLISTA AVANRETRO
+%right MENOSMENOS MASMAS EXCLAMACION MULMUL
+%left MULTIDIV PORCENTAJE
+%left ARROBA
+
+
 %%
 
 //Pagina 45 pdf de practicas - simplificar BNF
@@ -146,9 +143,20 @@ sentencia_for : DURANTE IDENTIFICADOR DOSPUNTOSIGUAL  expresion HASTA expresion 
 
 expresion : ABRIRPARENT expresion CERRARPARENT
   | MASMAS expresion
-  | UNARIOSIMPLE expresion
-  | MASMENOS expresion
-	| expresion OPBINARIO expresion
+	| UNARIOSLISTA expresion
+	| MENOSMENOS expresion
+	| EXCLAMACION expresion
+	| expresion AVANRETRO
+	| expresion MULMUL expresion
+	| expresion MULTIDIV expresion
+	| expresion LOGAND expresion
+	| expresion EXOR expresion
+	| expresion ORBIT expresion
+	| expresion LOGOR expresion
+	| expresion IGUALDAD expresion
+	| expresion PORCENTAJE expresion
+	| expresion ANDBIT expresion
+	| expresion MASMENOS expresion
 	| expresion MASMAS expresion ARROBA expresion
 	| IDENTIFICADOR
   | ENTERO
