@@ -1,11 +1,4 @@
-Estado 90 conflictos: 2 desplazamiento(s)/reducción(ones)
-Estado 91 conflictos: 2 desplazamiento(s)/reducción(ones)
-Estado 92 conflictos: 2 desplazamiento(s)/reducción(ones)
-Estado 98 conflictos: 1 desplazamiento(s)/reducción(ones)
-Estado 119 conflictos: 2 desplazamiento(s)/reducción(ones)
-Estado 122 conflictos: 1 desplazamiento(s)/reducción(ones)
 Estado 127 conflictos: 1 desplazamiento(s)/reducción(ones)
-Estado 138 conflictos: 2 desplazamiento(s)/reducción(ones)
 
 
 Gramática
@@ -101,7 +94,7 @@ Gramática
    58          | CARACTER
    59          | lista
 
-   60 lista_expresiones: lista_expresiones expresion
+   60 lista_expresiones: lista_expresiones COMA expresion
    61                  | expresion
 
    62 lista: lista_enteros
@@ -152,7 +145,7 @@ CONDMIENTRAS (272) 39
 CONDSINO (273) 38
 LEE (274) 40
 ESCRIBE (275) 41
-COMA (276) 13 22 45 68 71 74 77
+COMA (276) 13 22 45 60 68 71 74 77
 VERDFALS (277) 57 73 74
 MASMAS (278) 49 53
 UNARIOSIMPLE (279) 50
@@ -262,8 +255,6 @@ Caracteres (78)
 estado 0
 
     0 $accept: . Programa $end
-    1 Programa: . Cabecera_programa bloque
-   10 Cabecera_programa: . MAIN
 
     MAIN  desplazar e ir al estado 1
 
@@ -288,8 +279,6 @@ estado 2
 estado 3
 
     1 Programa: Cabecera_programa . bloque
-    2 bloque: . Inicio_de_bloque Declar_de_variables_locales Declar_de_subprogs Sentencias Fin_de_bloque
-   16 Inicio_de_bloque: . ABRIRLLAVES
 
     ABRIRLLAVES  desplazar e ir al estado 5
 
@@ -321,9 +310,6 @@ estado 6
 estado 7
 
     2 bloque: Inicio_de_bloque . Declar_de_variables_locales Declar_de_subprogs Sentencias Fin_de_bloque
-    3 Declar_de_variables_locales: . Marca_ini_declar_variables Variables_locales Marca_fin_declar_variables
-    4                            | .  [PROCED, ABRIRLLAVES, CONDSI, CONDMIENTRAS, LEE, ESCRIBE, DURANTE, IDENTIFICADOR]
-    5 Marca_ini_declar_variables: . INICIOVARS Inicio_de_bloque
 
     INICIOVARS  desplazar e ir al estado 8
 
@@ -336,7 +322,6 @@ estado 7
 estado 8
 
     5 Marca_ini_declar_variables: INICIOVARS . Inicio_de_bloque
-   16 Inicio_de_bloque: . ABRIRLLAVES
 
     ABRIRLLAVES  desplazar e ir al estado 5
 
@@ -346,8 +331,6 @@ estado 8
 estado 9
 
     2 bloque: Inicio_de_bloque Declar_de_variables_locales . Declar_de_subprogs Sentencias Fin_de_bloque
-    7 Declar_de_subprogs: . Declar_de_subprogs Declar_subprog
-    8                   | .
 
     $default  reduce usando la regla 8 (Declar_de_subprogs)
 
@@ -357,12 +340,6 @@ estado 9
 estado 10
 
     3 Declar_de_variables_locales: Marca_ini_declar_variables . Variables_locales Marca_fin_declar_variables
-   18 Variables_locales: . Variables_locales Cuerpo_declar_variables
-   19                  | . Cuerpo_declar_variables
-   20 Cuerpo_declar_variables: . tipo Identificadores PUNTOCOMA
-   23 tipo: . TIPO
-   24     | . tipo_lista
-   25 tipo_lista: . DEFLIST TIPO
 
     DEFLIST  desplazar e ir al estado 13
     TIPO     desplazar e ir al estado 14
@@ -382,30 +359,8 @@ estado 11
 
 estado 12
 
-    2 bloque: . Inicio_de_bloque Declar_de_variables_locales Declar_de_subprogs Sentencias Fin_de_bloque
-    2       | Inicio_de_bloque Declar_de_variables_locales Declar_de_subprogs . Sentencias Fin_de_bloque
+    2 bloque: Inicio_de_bloque Declar_de_variables_locales Declar_de_subprogs . Sentencias Fin_de_bloque
     7 Declar_de_subprogs: Declar_de_subprogs . Declar_subprog
-    9 Declar_subprog: . Cabecera_subprograma bloque
-   11 Cabecera_subprograma: . PROCED IDENTIFICADOR ABRIRPARENT parametros CERRARPARENT
-   16 Inicio_de_bloque: . ABRIRLLAVES
-   26 Sentencias: . Sentencias Sentencia
-   27           | . Sentencia
-   28 Sentencia: . bloque
-   29          | . sentencia_asignacion
-   30          | . sentencia_if
-   31          | . sentencia_while
-   32          | . sentencia_entrada
-   33          | . sentencia_salida
-   34          | . llamada_proced
-   35          | . sentencia_for
-   36 sentencia_asignacion: . IDENTIFICADOR ASIG expresion PUNTOCOMA
-   37 sentencia_if: . CONDSI ABRIRPARENT expresion CERRARPARENT Sentencia
-   38             | . CONDSI ABRIRPARENT expresion CERRARPARENT Sentencia CONDSINO Sentencia
-   39 sentencia_while: . CONDMIENTRAS ABRIRPARENT expresion CERRARPARENT Sentencia
-   40 sentencia_entrada: . LEE Identificadores PUNTOCOMA
-   41 sentencia_salida: . ESCRIBE lista_expresiones_o_cadena PUNTOCOMA
-   46 llamada_proced: . IDENTIFICADOR ABRIRPARENT lista_expresiones CERRARPARENT PUNTOCOMA
-   47 sentencia_for: . DURANTE IDENTIFICADOR DOSPUNTOSIGUAL expresion HASTA expresion HACER Sentencia
 
     PROCED         desplazar e ir al estado 19
     ABRIRLLAVES    desplazar e ir al estado 5
@@ -448,13 +403,7 @@ estado 14
 estado 15
 
     3 Declar_de_variables_locales: Marca_ini_declar_variables Variables_locales . Marca_fin_declar_variables
-    6 Marca_fin_declar_variables: . Fin_de_bloque FINVARS PUNTOCOMA
-   17 Fin_de_bloque: . CERRARLLAVES
    18 Variables_locales: Variables_locales . Cuerpo_declar_variables
-   20 Cuerpo_declar_variables: . tipo Identificadores PUNTOCOMA
-   23 tipo: . TIPO
-   24     | . tipo_lista
-   25 tipo_lista: . DEFLIST TIPO
 
     CERRARLLAVES  desplazar e ir al estado 39
     DEFLIST       desplazar e ir al estado 13
@@ -477,8 +426,6 @@ estado 16
 estado 17
 
    20 Cuerpo_declar_variables: tipo . Identificadores PUNTOCOMA
-   21 Identificadores: . IDENTIFICADOR
-   22                | . Identificadores COMA IDENTIFICADOR
 
     IDENTIFICADOR  desplazar e ir al estado 43
 
@@ -516,8 +463,6 @@ estado 21
 
 estado 22
 
-   21 Identificadores: . IDENTIFICADOR
-   22                | . Identificadores COMA IDENTIFICADOR
    40 sentencia_entrada: LEE . Identificadores PUNTOCOMA
 
     IDENTIFICADOR  desplazar e ir al estado 43
@@ -528,30 +473,6 @@ estado 22
 estado 23
 
    41 sentencia_salida: ESCRIBE . lista_expresiones_o_cadena PUNTOCOMA
-   42 expcad: . expresion
-   43       | . CADENA
-   44 lista_expresiones_o_cadena: . expcad
-   45                           | . lista_expresiones_o_cadena COMA expcad
-   48 expresion: . ABRIRPARENT expresion CERRARPARENT
-   49          | . MASMAS expresion
-   50          | . UNARIOSIMPLE expresion
-   51          | . MASMENOS expresion
-   52          | . expresion OPBINARIO expresion
-   53          | . expresion MASMAS expresion ARROBA expresion
-   54          | . IDENTIFICADOR
-   55          | . ENTERO
-   56          | . REAL
-   57          | . VERDFALS
-   58          | . CARACTER
-   59          | . lista
-   62 lista: . lista_enteros
-   63      | . lista_reales
-   64      | . lista_booleanos
-   65      | . lista_caracteres
-   66 lista_enteros: . ABRIRCORCH Enteros CERRARCORCH
-   69 lista_reales: . ABRIRCORCH Reales CERRARCORCH
-   72 lista_booleanos: . ABRIRCORCH Booleanos CERRARCORCH
-   75 lista_caracteres: . ABRIRCORCH Caracteres CERRARCORCH
 
     ABRIRCORCH     desplazar e ir al estado 49
     ABRIRPARENT    desplazar e ir al estado 50
@@ -607,9 +528,7 @@ estado 27
 
 estado 28
 
-    2 bloque: . Inicio_de_bloque Declar_de_variables_locales Declar_de_subprogs Sentencias Fin_de_bloque
     9 Declar_subprog: Cabecera_subprograma . bloque
-   16 Inicio_de_bloque: . ABRIRLLAVES
 
     ABRIRLLAVES  desplazar e ir al estado 5
 
@@ -619,27 +538,8 @@ estado 28
 
 estado 29
 
-    2 bloque: . Inicio_de_bloque Declar_de_variables_locales Declar_de_subprogs Sentencias Fin_de_bloque
-    2       | Inicio_de_bloque Declar_de_variables_locales Declar_de_subprogs Sentencias . Fin_de_bloque
-   16 Inicio_de_bloque: . ABRIRLLAVES
-   17 Fin_de_bloque: . CERRARLLAVES
+    2 bloque: Inicio_de_bloque Declar_de_variables_locales Declar_de_subprogs Sentencias . Fin_de_bloque
    26 Sentencias: Sentencias . Sentencia
-   28 Sentencia: . bloque
-   29          | . sentencia_asignacion
-   30          | . sentencia_if
-   31          | . sentencia_while
-   32          | . sentencia_entrada
-   33          | . sentencia_salida
-   34          | . llamada_proced
-   35          | . sentencia_for
-   36 sentencia_asignacion: . IDENTIFICADOR ASIG expresion PUNTOCOMA
-   37 sentencia_if: . CONDSI ABRIRPARENT expresion CERRARPARENT Sentencia
-   38             | . CONDSI ABRIRPARENT expresion CERRARPARENT Sentencia CONDSINO Sentencia
-   39 sentencia_while: . CONDMIENTRAS ABRIRPARENT expresion CERRARPARENT Sentencia
-   40 sentencia_entrada: . LEE Identificadores PUNTOCOMA
-   41 sentencia_salida: . ESCRIBE lista_expresiones_o_cadena PUNTOCOMA
-   46 llamada_proced: . IDENTIFICADOR ABRIRPARENT lista_expresiones CERRARPARENT PUNTOCOMA
-   47 sentencia_for: . DURANTE IDENTIFICADOR DOSPUNTOSIGUAL expresion HASTA expresion HACER Sentencia
 
     ABRIRLLAVES    desplazar e ir al estado 5
     CERRARLLAVES   desplazar e ir al estado 39
@@ -781,26 +681,6 @@ estado 46
 
    37 sentencia_if: CONDSI ABRIRPARENT . expresion CERRARPARENT Sentencia
    38             | CONDSI ABRIRPARENT . expresion CERRARPARENT Sentencia CONDSINO Sentencia
-   48 expresion: . ABRIRPARENT expresion CERRARPARENT
-   49          | . MASMAS expresion
-   50          | . UNARIOSIMPLE expresion
-   51          | . MASMENOS expresion
-   52          | . expresion OPBINARIO expresion
-   53          | . expresion MASMAS expresion ARROBA expresion
-   54          | . IDENTIFICADOR
-   55          | . ENTERO
-   56          | . REAL
-   57          | . VERDFALS
-   58          | . CARACTER
-   59          | . lista
-   62 lista: . lista_enteros
-   63      | . lista_reales
-   64      | . lista_booleanos
-   65      | . lista_caracteres
-   66 lista_enteros: . ABRIRCORCH Enteros CERRARCORCH
-   69 lista_reales: . ABRIRCORCH Reales CERRARCORCH
-   72 lista_booleanos: . ABRIRCORCH Booleanos CERRARCORCH
-   75 lista_caracteres: . ABRIRCORCH Caracteres CERRARCORCH
 
     ABRIRCORCH     desplazar e ir al estado 49
     ABRIRPARENT    desplazar e ir al estado 50
@@ -824,26 +704,6 @@ estado 46
 estado 47
 
    39 sentencia_while: CONDMIENTRAS ABRIRPARENT . expresion CERRARPARENT Sentencia
-   48 expresion: . ABRIRPARENT expresion CERRARPARENT
-   49          | . MASMAS expresion
-   50          | . UNARIOSIMPLE expresion
-   51          | . MASMENOS expresion
-   52          | . expresion OPBINARIO expresion
-   53          | . expresion MASMAS expresion ARROBA expresion
-   54          | . IDENTIFICADOR
-   55          | . ENTERO
-   56          | . REAL
-   57          | . VERDFALS
-   58          | . CARACTER
-   59          | . lista
-   62 lista: . lista_enteros
-   63      | . lista_reales
-   64      | . lista_booleanos
-   65      | . lista_caracteres
-   66 lista_enteros: . ABRIRCORCH Enteros CERRARCORCH
-   69 lista_reales: . ABRIRCORCH Reales CERRARCORCH
-   72 lista_booleanos: . ABRIRCORCH Booleanos CERRARCORCH
-   75 lista_caracteres: . ABRIRCORCH Caracteres CERRARCORCH
 
     ABRIRCORCH     desplazar e ir al estado 49
     ABRIRPARENT    desplazar e ir al estado 50
@@ -876,17 +736,9 @@ estado 48
 estado 49
 
    66 lista_enteros: ABRIRCORCH . Enteros CERRARCORCH
-   67 Enteros: . ENTERO
-   68        | . Enteros COMA ENTERO
    69 lista_reales: ABRIRCORCH . Reales CERRARCORCH
-   70 Reales: . REAL
-   71       | . Reales COMA REAL
    72 lista_booleanos: ABRIRCORCH . Booleanos CERRARCORCH
-   73 Booleanos: . VERDFALS
-   74          | . Booleanos COMA VERDFALS
    75 lista_caracteres: ABRIRCORCH . Caracteres CERRARCORCH
-   76 Caracteres: . CARACTER
-   77           | . Caracteres COMA CARACTER
 
     VERDFALS  desplazar e ir al estado 81
     CARACTER  desplazar e ir al estado 82
@@ -901,27 +753,7 @@ estado 49
 
 estado 50
 
-   48 expresion: . ABRIRPARENT expresion CERRARPARENT
-   48          | ABRIRPARENT . expresion CERRARPARENT
-   49          | . MASMAS expresion
-   50          | . UNARIOSIMPLE expresion
-   51          | . MASMENOS expresion
-   52          | . expresion OPBINARIO expresion
-   53          | . expresion MASMAS expresion ARROBA expresion
-   54          | . IDENTIFICADOR
-   55          | . ENTERO
-   56          | . REAL
-   57          | . VERDFALS
-   58          | . CARACTER
-   59          | . lista
-   62 lista: . lista_enteros
-   63      | . lista_reales
-   64      | . lista_booleanos
-   65      | . lista_caracteres
-   66 lista_enteros: . ABRIRCORCH Enteros CERRARCORCH
-   69 lista_reales: . ABRIRCORCH Reales CERRARCORCH
-   72 lista_booleanos: . ABRIRCORCH Booleanos CERRARCORCH
-   75 lista_caracteres: . ABRIRCORCH Caracteres CERRARCORCH
+   48 expresion: ABRIRPARENT . expresion CERRARPARENT
 
     ABRIRCORCH     desplazar e ir al estado 49
     ABRIRPARENT    desplazar e ir al estado 50
@@ -951,27 +783,7 @@ estado 51
 
 estado 52
 
-   48 expresion: . ABRIRPARENT expresion CERRARPARENT
-   49          | . MASMAS expresion
-   49          | MASMAS . expresion
-   50          | . UNARIOSIMPLE expresion
-   51          | . MASMENOS expresion
-   52          | . expresion OPBINARIO expresion
-   53          | . expresion MASMAS expresion ARROBA expresion
-   54          | . IDENTIFICADOR
-   55          | . ENTERO
-   56          | . REAL
-   57          | . VERDFALS
-   58          | . CARACTER
-   59          | . lista
-   62 lista: . lista_enteros
-   63      | . lista_reales
-   64      | . lista_booleanos
-   65      | . lista_caracteres
-   66 lista_enteros: . ABRIRCORCH Enteros CERRARCORCH
-   69 lista_reales: . ABRIRCORCH Reales CERRARCORCH
-   72 lista_booleanos: . ABRIRCORCH Booleanos CERRARCORCH
-   75 lista_caracteres: . ABRIRCORCH Caracteres CERRARCORCH
+   49 expresion: MASMAS . expresion
 
     ABRIRCORCH     desplazar e ir al estado 49
     ABRIRPARENT    desplazar e ir al estado 50
@@ -994,27 +806,7 @@ estado 52
 
 estado 53
 
-   48 expresion: . ABRIRPARENT expresion CERRARPARENT
-   49          | . MASMAS expresion
-   50          | . UNARIOSIMPLE expresion
-   50          | UNARIOSIMPLE . expresion
-   51          | . MASMENOS expresion
-   52          | . expresion OPBINARIO expresion
-   53          | . expresion MASMAS expresion ARROBA expresion
-   54          | . IDENTIFICADOR
-   55          | . ENTERO
-   56          | . REAL
-   57          | . VERDFALS
-   58          | . CARACTER
-   59          | . lista
-   62 lista: . lista_enteros
-   63      | . lista_reales
-   64      | . lista_booleanos
-   65      | . lista_caracteres
-   66 lista_enteros: . ABRIRCORCH Enteros CERRARCORCH
-   69 lista_reales: . ABRIRCORCH Reales CERRARCORCH
-   72 lista_booleanos: . ABRIRCORCH Booleanos CERRARCORCH
-   75 lista_caracteres: . ABRIRCORCH Caracteres CERRARCORCH
+   50 expresion: UNARIOSIMPLE . expresion
 
     ABRIRCORCH     desplazar e ir al estado 49
     ABRIRPARENT    desplazar e ir al estado 50
@@ -1037,27 +829,7 @@ estado 53
 
 estado 54
 
-   48 expresion: . ABRIRPARENT expresion CERRARPARENT
-   49          | . MASMAS expresion
-   50          | . UNARIOSIMPLE expresion
-   51          | . MASMENOS expresion
-   51          | MASMENOS . expresion
-   52          | . expresion OPBINARIO expresion
-   53          | . expresion MASMAS expresion ARROBA expresion
-   54          | . IDENTIFICADOR
-   55          | . ENTERO
-   56          | . REAL
-   57          | . VERDFALS
-   58          | . CARACTER
-   59          | . lista
-   62 lista: . lista_enteros
-   63      | . lista_reales
-   64      | . lista_booleanos
-   65      | . lista_caracteres
-   66 lista_enteros: . ABRIRCORCH Enteros CERRARCORCH
-   69 lista_reales: . ABRIRCORCH Reales CERRARCORCH
-   72 lista_booleanos: . ABRIRCORCH Booleanos CERRARCORCH
-   75 lista_caracteres: . ABRIRCORCH Caracteres CERRARCORCH
+   51 expresion: MASMENOS . expresion
 
     ABRIRCORCH     desplazar e ir al estado 49
     ABRIRPARENT    desplazar e ir al estado 50
@@ -1131,7 +903,7 @@ estado 61
 
 estado 62
 
-   42 expcad: expresion .  [PUNTOCOMA, COMA]
+   42 expcad: expresion .
    52 expresion: expresion . OPBINARIO expresion
    53          | expresion . MASMAS expresion ARROBA expresion
 
@@ -1186,28 +958,6 @@ estado 68
 estado 69
 
    46 llamada_proced: IDENTIFICADOR ABRIRPARENT . lista_expresiones CERRARPARENT PUNTOCOMA
-   48 expresion: . ABRIRPARENT expresion CERRARPARENT
-   49          | . MASMAS expresion
-   50          | . UNARIOSIMPLE expresion
-   51          | . MASMENOS expresion
-   52          | . expresion OPBINARIO expresion
-   53          | . expresion MASMAS expresion ARROBA expresion
-   54          | . IDENTIFICADOR
-   55          | . ENTERO
-   56          | . REAL
-   57          | . VERDFALS
-   58          | . CARACTER
-   59          | . lista
-   60 lista_expresiones: . lista_expresiones expresion
-   61                  | . expresion
-   62 lista: . lista_enteros
-   63      | . lista_reales
-   64      | . lista_booleanos
-   65      | . lista_caracteres
-   66 lista_enteros: . ABRIRCORCH Enteros CERRARCORCH
-   69 lista_reales: . ABRIRCORCH Reales CERRARCORCH
-   72 lista_booleanos: . ABRIRCORCH Booleanos CERRARCORCH
-   75 lista_caracteres: . ABRIRCORCH Caracteres CERRARCORCH
 
     ABRIRCORCH     desplazar e ir al estado 49
     ABRIRPARENT    desplazar e ir al estado 50
@@ -1232,26 +982,6 @@ estado 69
 estado 70
 
    36 sentencia_asignacion: IDENTIFICADOR ASIG . expresion PUNTOCOMA
-   48 expresion: . ABRIRPARENT expresion CERRARPARENT
-   49          | . MASMAS expresion
-   50          | . UNARIOSIMPLE expresion
-   51          | . MASMENOS expresion
-   52          | . expresion OPBINARIO expresion
-   53          | . expresion MASMAS expresion ARROBA expresion
-   54          | . IDENTIFICADOR
-   55          | . ENTERO
-   56          | . REAL
-   57          | . VERDFALS
-   58          | . CARACTER
-   59          | . lista
-   62 lista: . lista_enteros
-   63      | . lista_reales
-   64      | . lista_booleanos
-   65      | . lista_caracteres
-   66 lista_enteros: . ABRIRCORCH Enteros CERRARCORCH
-   69 lista_reales: . ABRIRCORCH Reales CERRARCORCH
-   72 lista_booleanos: . ABRIRCORCH Booleanos CERRARCORCH
-   75 lista_caracteres: . ABRIRCORCH Caracteres CERRARCORCH
 
     ABRIRCORCH     desplazar e ir al estado 49
     ABRIRPARENT    desplazar e ir al estado 50
@@ -1317,13 +1047,6 @@ estado 76
 estado 77
 
    11 Cabecera_subprograma: PROCED IDENTIFICADOR ABRIRPARENT . parametros CERRARPARENT
-   12 parametros: . parametro
-   13           | . parametros COMA parametro
-   14           | .  [CERRARPARENT, COMA]
-   15 parametro: . tipo IDENTIFICADOR
-   23 tipo: . TIPO
-   24     | . tipo_lista
-   25 tipo_lista: . DEFLIST TIPO
 
     DEFLIST  desplazar e ir al estado 13
     TIPO     desplazar e ir al estado 14
@@ -1443,44 +1166,37 @@ estado 89
 
 estado 90
 
-   49 expresion: MASMAS expresion .  [PUNTOCOMA, ABRIRCORCH, ABRIRPARENT, CERRARPARENT, COMA, VERDFALS, MASMAS, UNARIOSIMPLE, MASMENOS, ARROBA, OPBINARIO, HASTA, HACER, CARACTER, IDENTIFICADOR, ENTERO, REAL]
+   49 expresion: MASMAS expresion .
    52          | expresion . OPBINARIO expresion
    53          | expresion . MASMAS expresion ARROBA expresion
 
     MASMAS     desplazar e ir al estado 95
     OPBINARIO  desplazar e ir al estado 96
 
-    MASMAS     [reduce usando la regla 49 (expresion)]
-    OPBINARIO  [reduce usando la regla 49 (expresion)]
-    $default   reduce usando la regla 49 (expresion)
+    $default  reduce usando la regla 49 (expresion)
 
 
 estado 91
 
-   50 expresion: UNARIOSIMPLE expresion .  [PUNTOCOMA, ABRIRCORCH, ABRIRPARENT, CERRARPARENT, COMA, VERDFALS, MASMAS, UNARIOSIMPLE, MASMENOS, ARROBA, OPBINARIO, HASTA, HACER, CARACTER, IDENTIFICADOR, ENTERO, REAL]
+   50 expresion: UNARIOSIMPLE expresion .
    52          | expresion . OPBINARIO expresion
    53          | expresion . MASMAS expresion ARROBA expresion
 
-    MASMAS     desplazar e ir al estado 95
     OPBINARIO  desplazar e ir al estado 96
 
-    MASMAS     [reduce usando la regla 50 (expresion)]
-    OPBINARIO  [reduce usando la regla 50 (expresion)]
-    $default   reduce usando la regla 50 (expresion)
+    $default  reduce usando la regla 50 (expresion)
 
 
 estado 92
 
-   51 expresion: MASMENOS expresion .  [PUNTOCOMA, ABRIRCORCH, ABRIRPARENT, CERRARPARENT, COMA, VERDFALS, MASMAS, UNARIOSIMPLE, MASMENOS, ARROBA, OPBINARIO, HASTA, HACER, CARACTER, IDENTIFICADOR, ENTERO, REAL]
+   51 expresion: MASMENOS expresion .
    52          | expresion . OPBINARIO expresion
    53          | expresion . MASMAS expresion ARROBA expresion
 
     MASMAS     desplazar e ir al estado 95
     OPBINARIO  desplazar e ir al estado 96
 
-    MASMAS     [reduce usando la regla 51 (expresion)]
-    OPBINARIO  [reduce usando la regla 51 (expresion)]
-    $default   reduce usando la regla 51 (expresion)
+    $default  reduce usando la regla 51 (expresion)
 
 
 estado 93
@@ -1492,29 +1208,7 @@ estado 93
 
 estado 94
 
-   42 expcad: . expresion
-   43       | . CADENA
    45 lista_expresiones_o_cadena: lista_expresiones_o_cadena COMA . expcad
-   48 expresion: . ABRIRPARENT expresion CERRARPARENT
-   49          | . MASMAS expresion
-   50          | . UNARIOSIMPLE expresion
-   51          | . MASMENOS expresion
-   52          | . expresion OPBINARIO expresion
-   53          | . expresion MASMAS expresion ARROBA expresion
-   54          | . IDENTIFICADOR
-   55          | . ENTERO
-   56          | . REAL
-   57          | . VERDFALS
-   58          | . CARACTER
-   59          | . lista
-   62 lista: . lista_enteros
-   63      | . lista_reales
-   64      | . lista_booleanos
-   65      | . lista_caracteres
-   66 lista_enteros: . ABRIRCORCH Enteros CERRARCORCH
-   69 lista_reales: . ABRIRCORCH Reales CERRARCORCH
-   72 lista_booleanos: . ABRIRCORCH Booleanos CERRARCORCH
-   75 lista_caracteres: . ABRIRCORCH Caracteres CERRARCORCH
 
     ABRIRCORCH     desplazar e ir al estado 49
     ABRIRPARENT    desplazar e ir al estado 50
@@ -1539,27 +1233,7 @@ estado 94
 
 estado 95
 
-   48 expresion: . ABRIRPARENT expresion CERRARPARENT
-   49          | . MASMAS expresion
-   50          | . UNARIOSIMPLE expresion
-   51          | . MASMENOS expresion
-   52          | . expresion OPBINARIO expresion
-   53          | . expresion MASMAS expresion ARROBA expresion
-   53          | expresion MASMAS . expresion ARROBA expresion
-   54          | . IDENTIFICADOR
-   55          | . ENTERO
-   56          | . REAL
-   57          | . VERDFALS
-   58          | . CARACTER
-   59          | . lista
-   62 lista: . lista_enteros
-   63      | . lista_reales
-   64      | . lista_booleanos
-   65      | . lista_caracteres
-   66 lista_enteros: . ABRIRCORCH Enteros CERRARCORCH
-   69 lista_reales: . ABRIRCORCH Reales CERRARCORCH
-   72 lista_booleanos: . ABRIRCORCH Booleanos CERRARCORCH
-   75 lista_caracteres: . ABRIRCORCH Caracteres CERRARCORCH
+   53 expresion: expresion MASMAS . expresion ARROBA expresion
 
     ABRIRCORCH     desplazar e ir al estado 49
     ABRIRPARENT    desplazar e ir al estado 50
@@ -1582,27 +1256,7 @@ estado 95
 
 estado 96
 
-   48 expresion: . ABRIRPARENT expresion CERRARPARENT
-   49          | . MASMAS expresion
-   50          | . UNARIOSIMPLE expresion
-   51          | . MASMENOS expresion
-   52          | . expresion OPBINARIO expresion
-   52          | expresion OPBINARIO . expresion
-   53          | . expresion MASMAS expresion ARROBA expresion
-   54          | . IDENTIFICADOR
-   55          | . ENTERO
-   56          | . REAL
-   57          | . VERDFALS
-   58          | . CARACTER
-   59          | . lista
-   62 lista: . lista_enteros
-   63      | . lista_reales
-   64      | . lista_booleanos
-   65      | . lista_caracteres
-   66 lista_enteros: . ABRIRCORCH Enteros CERRARCORCH
-   69 lista_reales: . ABRIRCORCH Reales CERRARCORCH
-   72 lista_booleanos: . ABRIRCORCH Booleanos CERRARCORCH
-   75 lista_caracteres: . ABRIRCORCH Caracteres CERRARCORCH
+   52 expresion: expresion OPBINARIO . expresion
 
     ABRIRCORCH     desplazar e ir al estado 49
     ABRIRPARENT    desplazar e ir al estado 50
@@ -1626,26 +1280,6 @@ estado 96
 estado 97
 
    47 sentencia_for: DURANTE IDENTIFICADOR DOSPUNTOSIGUAL . expresion HASTA expresion HACER Sentencia
-   48 expresion: . ABRIRPARENT expresion CERRARPARENT
-   49          | . MASMAS expresion
-   50          | . UNARIOSIMPLE expresion
-   51          | . MASMENOS expresion
-   52          | . expresion OPBINARIO expresion
-   53          | . expresion MASMAS expresion ARROBA expresion
-   54          | . IDENTIFICADOR
-   55          | . ENTERO
-   56          | . REAL
-   57          | . VERDFALS
-   58          | . CARACTER
-   59          | . lista
-   62 lista: . lista_enteros
-   63      | . lista_reales
-   64      | . lista_booleanos
-   65      | . lista_caracteres
-   66 lista_enteros: . ABRIRCORCH Enteros CERRARCORCH
-   69 lista_reales: . ABRIRCORCH Reales CERRARCORCH
-   72 lista_booleanos: . ABRIRCORCH Booleanos CERRARCORCH
-   75 lista_caracteres: . ABRIRCORCH Caracteres CERRARCORCH
 
     ABRIRCORCH     desplazar e ir al estado 49
     ABRIRPARENT    desplazar e ir al estado 50
@@ -1670,58 +1304,21 @@ estado 98
 
    52 expresion: expresion . OPBINARIO expresion
    53          | expresion . MASMAS expresion ARROBA expresion
-   61 lista_expresiones: expresion .  [ABRIRCORCH, ABRIRPARENT, CERRARPARENT, VERDFALS, MASMAS, UNARIOSIMPLE, MASMENOS, CARACTER, IDENTIFICADOR, ENTERO, REAL]
+   61 lista_expresiones: expresion .
 
     MASMAS     desplazar e ir al estado 95
     OPBINARIO  desplazar e ir al estado 96
 
-    MASMAS    [reduce usando la regla 61 (lista_expresiones)]
     $default  reduce usando la regla 61 (lista_expresiones)
 
 
 estado 99
 
    46 llamada_proced: IDENTIFICADOR ABRIRPARENT lista_expresiones . CERRARPARENT PUNTOCOMA
-   48 expresion: . ABRIRPARENT expresion CERRARPARENT
-   49          | . MASMAS expresion
-   50          | . UNARIOSIMPLE expresion
-   51          | . MASMENOS expresion
-   52          | . expresion OPBINARIO expresion
-   53          | . expresion MASMAS expresion ARROBA expresion
-   54          | . IDENTIFICADOR
-   55          | . ENTERO
-   56          | . REAL
-   57          | . VERDFALS
-   58          | . CARACTER
-   59          | . lista
-   60 lista_expresiones: lista_expresiones . expresion
-   62 lista: . lista_enteros
-   63      | . lista_reales
-   64      | . lista_booleanos
-   65      | . lista_caracteres
-   66 lista_enteros: . ABRIRCORCH Enteros CERRARCORCH
-   69 lista_reales: . ABRIRCORCH Reales CERRARCORCH
-   72 lista_booleanos: . ABRIRCORCH Booleanos CERRARCORCH
-   75 lista_caracteres: . ABRIRCORCH Caracteres CERRARCORCH
+   60 lista_expresiones: lista_expresiones . COMA expresion
 
-    ABRIRCORCH     desplazar e ir al estado 49
-    ABRIRPARENT    desplazar e ir al estado 50
-    CERRARPARENT   desplazar e ir al estado 121
-    VERDFALS       desplazar e ir al estado 51
-    MASMAS         desplazar e ir al estado 52
-    UNARIOSIMPLE   desplazar e ir al estado 53
-    MASMENOS       desplazar e ir al estado 54
-    CARACTER       desplazar e ir al estado 55
-    IDENTIFICADOR  desplazar e ir al estado 57
-    ENTERO         desplazar e ir al estado 58
-    REAL           desplazar e ir al estado 59
-
-    expresion         ir al estado 122
-    lista             ir al estado 63
-    lista_enteros     ir al estado 64
-    lista_reales      ir al estado 65
-    lista_booleanos   ir al estado 66
-    lista_caracteres  ir al estado 67
+    CERRARPARENT  desplazar e ir al estado 121
+    COMA          desplazar e ir al estado 122
 
 
 estado 100
@@ -1774,26 +1371,8 @@ estado 105
 
 estado 106
 
-    2 bloque: . Inicio_de_bloque Declar_de_variables_locales Declar_de_subprogs Sentencias Fin_de_bloque
-   16 Inicio_de_bloque: . ABRIRLLAVES
-   28 Sentencia: . bloque
-   29          | . sentencia_asignacion
-   30          | . sentencia_if
-   31          | . sentencia_while
-   32          | . sentencia_entrada
-   33          | . sentencia_salida
-   34          | . llamada_proced
-   35          | . sentencia_for
-   36 sentencia_asignacion: . IDENTIFICADOR ASIG expresion PUNTOCOMA
-   37 sentencia_if: . CONDSI ABRIRPARENT expresion CERRARPARENT Sentencia
-   37             | CONDSI ABRIRPARENT expresion CERRARPARENT . Sentencia
-   38             | . CONDSI ABRIRPARENT expresion CERRARPARENT Sentencia CONDSINO Sentencia
+   37 sentencia_if: CONDSI ABRIRPARENT expresion CERRARPARENT . Sentencia
    38             | CONDSI ABRIRPARENT expresion CERRARPARENT . Sentencia CONDSINO Sentencia
-   39 sentencia_while: . CONDMIENTRAS ABRIRPARENT expresion CERRARPARENT Sentencia
-   40 sentencia_entrada: . LEE Identificadores PUNTOCOMA
-   41 sentencia_salida: . ESCRIBE lista_expresiones_o_cadena PUNTOCOMA
-   46 llamada_proced: . IDENTIFICADOR ABRIRPARENT lista_expresiones CERRARPARENT PUNTOCOMA
-   47 sentencia_for: . DURANTE IDENTIFICADOR DOSPUNTOSIGUAL expresion HASTA expresion HACER Sentencia
 
     ABRIRLLAVES    desplazar e ir al estado 5
     CONDSI         desplazar e ir al estado 20
@@ -1817,25 +1396,7 @@ estado 106
 
 estado 107
 
-    2 bloque: . Inicio_de_bloque Declar_de_variables_locales Declar_de_subprogs Sentencias Fin_de_bloque
-   16 Inicio_de_bloque: . ABRIRLLAVES
-   28 Sentencia: . bloque
-   29          | . sentencia_asignacion
-   30          | . sentencia_if
-   31          | . sentencia_while
-   32          | . sentencia_entrada
-   33          | . sentencia_salida
-   34          | . llamada_proced
-   35          | . sentencia_for
-   36 sentencia_asignacion: . IDENTIFICADOR ASIG expresion PUNTOCOMA
-   37 sentencia_if: . CONDSI ABRIRPARENT expresion CERRARPARENT Sentencia
-   38             | . CONDSI ABRIRPARENT expresion CERRARPARENT Sentencia CONDSINO Sentencia
-   39 sentencia_while: . CONDMIENTRAS ABRIRPARENT expresion CERRARPARENT Sentencia
-   39                | CONDMIENTRAS ABRIRPARENT expresion CERRARPARENT . Sentencia
-   40 sentencia_entrada: . LEE Identificadores PUNTOCOMA
-   41 sentencia_salida: . ESCRIBE lista_expresiones_o_cadena PUNTOCOMA
-   46 llamada_proced: . IDENTIFICADOR ABRIRPARENT lista_expresiones CERRARPARENT PUNTOCOMA
-   47 sentencia_for: . DURANTE IDENTIFICADOR DOSPUNTOSIGUAL expresion HASTA expresion HACER Sentencia
+   39 sentencia_while: CONDMIENTRAS ABRIRPARENT expresion CERRARPARENT . Sentencia
 
     ABRIRLLAVES    desplazar e ir al estado 5
     CONDSI         desplazar e ir al estado 20
@@ -1941,15 +1502,10 @@ estado 118
 estado 119
 
    52 expresion: expresion . OPBINARIO expresion
-   52          | expresion OPBINARIO expresion .  [PUNTOCOMA, ABRIRCORCH, ABRIRPARENT, CERRARPARENT, COMA, VERDFALS, MASMAS, UNARIOSIMPLE, MASMENOS, ARROBA, OPBINARIO, HASTA, HACER, CARACTER, IDENTIFICADOR, ENTERO, REAL]
+   52          | expresion OPBINARIO expresion .
    53          | expresion . MASMAS expresion ARROBA expresion
 
-    MASMAS     desplazar e ir al estado 95
-    OPBINARIO  desplazar e ir al estado 96
-
-    MASMAS     [reduce usando la regla 52 (expresion)]
-    OPBINARIO  [reduce usando la regla 52 (expresion)]
-    $default   reduce usando la regla 52 (expresion)
+    $default  reduce usando la regla 52 (expresion)
 
 
 estado 120
@@ -1972,15 +1528,25 @@ estado 121
 
 estado 122
 
-   52 expresion: expresion . OPBINARIO expresion
-   53          | expresion . MASMAS expresion ARROBA expresion
-   60 lista_expresiones: lista_expresiones expresion .  [ABRIRCORCH, ABRIRPARENT, CERRARPARENT, VERDFALS, MASMAS, UNARIOSIMPLE, MASMENOS, CARACTER, IDENTIFICADOR, ENTERO, REAL]
+   60 lista_expresiones: lista_expresiones COMA . expresion
 
-    MASMAS     desplazar e ir al estado 95
-    OPBINARIO  desplazar e ir al estado 96
+    ABRIRCORCH     desplazar e ir al estado 49
+    ABRIRPARENT    desplazar e ir al estado 50
+    VERDFALS       desplazar e ir al estado 51
+    MASMAS         desplazar e ir al estado 52
+    UNARIOSIMPLE   desplazar e ir al estado 53
+    MASMENOS       desplazar e ir al estado 54
+    CARACTER       desplazar e ir al estado 55
+    IDENTIFICADOR  desplazar e ir al estado 57
+    ENTERO         desplazar e ir al estado 58
+    REAL           desplazar e ir al estado 59
 
-    MASMAS    [reduce usando la regla 60 (lista_expresiones)]
-    $default  reduce usando la regla 60 (lista_expresiones)
+    expresion         ir al estado 136
+    lista             ir al estado 63
+    lista_enteros     ir al estado 64
+    lista_reales      ir al estado 65
+    lista_booleanos   ir al estado 66
+    lista_caracteres  ir al estado 67
 
 
 estado 123
@@ -2000,15 +1566,11 @@ estado 124
 estado 125
 
    13 parametros: parametros COMA . parametro
-   15 parametro: . tipo IDENTIFICADOR
-   23 tipo: . TIPO
-   24     | . tipo_lista
-   25 tipo_lista: . DEFLIST TIPO
 
     DEFLIST  desplazar e ir al estado 13
     TIPO     desplazar e ir al estado 14
 
-    parametro   ir al estado 136
+    parametro   ir al estado 137
     tipo        ir al estado 105
     tipo_lista  ir al estado 18
 
@@ -2022,10 +1584,10 @@ estado 126
 
 estado 127
 
-   37 sentencia_if: CONDSI ABRIRPARENT expresion CERRARPARENT Sentencia .  [ABRIRLLAVES, CERRARLLAVES, CONDSI, CONDMIENTRAS, CONDSINO, LEE, ESCRIBE, DURANTE, IDENTIFICADOR]
+   37 sentencia_if: CONDSI ABRIRPARENT expresion CERRARPARENT Sentencia .
    38             | CONDSI ABRIRPARENT expresion CERRARPARENT Sentencia . CONDSINO Sentencia
 
-    CONDSINO  desplazar e ir al estado 137
+    CONDSINO  desplazar e ir al estado 138
 
     CONDSINO  [reduce usando la regla 37 (sentencia_if)]
     $default  reduce usando la regla 37 (sentencia_if)
@@ -2068,70 +1630,7 @@ estado 132
 
 estado 133
 
-   48 expresion: . ABRIRPARENT expresion CERRARPARENT
-   49          | . MASMAS expresion
-   50          | . UNARIOSIMPLE expresion
-   51          | . MASMENOS expresion
-   52          | . expresion OPBINARIO expresion
-   53          | . expresion MASMAS expresion ARROBA expresion
-   53          | expresion MASMAS expresion ARROBA . expresion
-   54          | . IDENTIFICADOR
-   55          | . ENTERO
-   56          | . REAL
-   57          | . VERDFALS
-   58          | . CARACTER
-   59          | . lista
-   62 lista: . lista_enteros
-   63      | . lista_reales
-   64      | . lista_booleanos
-   65      | . lista_caracteres
-   66 lista_enteros: . ABRIRCORCH Enteros CERRARCORCH
-   69 lista_reales: . ABRIRCORCH Reales CERRARCORCH
-   72 lista_booleanos: . ABRIRCORCH Booleanos CERRARCORCH
-   75 lista_caracteres: . ABRIRCORCH Caracteres CERRARCORCH
-
-    ABRIRCORCH     desplazar e ir al estado 49
-    ABRIRPARENT    desplazar e ir al estado 50
-    VERDFALS       desplazar e ir al estado 51
-    MASMAS         desplazar e ir al estado 52
-    UNARIOSIMPLE   desplazar e ir al estado 53
-    MASMENOS       desplazar e ir al estado 54
-    CARACTER       desplazar e ir al estado 55
-    IDENTIFICADOR  desplazar e ir al estado 57
-    ENTERO         desplazar e ir al estado 58
-    REAL           desplazar e ir al estado 59
-
-    expresion         ir al estado 138
-    lista             ir al estado 63
-    lista_enteros     ir al estado 64
-    lista_reales      ir al estado 65
-    lista_booleanos   ir al estado 66
-    lista_caracteres  ir al estado 67
-
-
-estado 134
-
-   47 sentencia_for: DURANTE IDENTIFICADOR DOSPUNTOSIGUAL expresion HASTA . expresion HACER Sentencia
-   48 expresion: . ABRIRPARENT expresion CERRARPARENT
-   49          | . MASMAS expresion
-   50          | . UNARIOSIMPLE expresion
-   51          | . MASMENOS expresion
-   52          | . expresion OPBINARIO expresion
-   53          | . expresion MASMAS expresion ARROBA expresion
-   54          | . IDENTIFICADOR
-   55          | . ENTERO
-   56          | . REAL
-   57          | . VERDFALS
-   58          | . CARACTER
-   59          | . lista
-   62 lista: . lista_enteros
-   63      | . lista_reales
-   64      | . lista_booleanos
-   65      | . lista_caracteres
-   66 lista_enteros: . ABRIRCORCH Enteros CERRARCORCH
-   69 lista_reales: . ABRIRCORCH Reales CERRARCORCH
-   72 lista_booleanos: . ABRIRCORCH Booleanos CERRARCORCH
-   75 lista_caracteres: . ABRIRCORCH Caracteres CERRARCORCH
+   53 expresion: expresion MASMAS expresion ARROBA . expresion
 
     ABRIRCORCH     desplazar e ir al estado 49
     ABRIRPARENT    desplazar e ir al estado 50
@@ -2152,6 +1651,29 @@ estado 134
     lista_caracteres  ir al estado 67
 
 
+estado 134
+
+   47 sentencia_for: DURANTE IDENTIFICADOR DOSPUNTOSIGUAL expresion HASTA . expresion HACER Sentencia
+
+    ABRIRCORCH     desplazar e ir al estado 49
+    ABRIRPARENT    desplazar e ir al estado 50
+    VERDFALS       desplazar e ir al estado 51
+    MASMAS         desplazar e ir al estado 52
+    UNARIOSIMPLE   desplazar e ir al estado 53
+    MASMENOS       desplazar e ir al estado 54
+    CARACTER       desplazar e ir al estado 55
+    IDENTIFICADOR  desplazar e ir al estado 57
+    ENTERO         desplazar e ir al estado 58
+    REAL           desplazar e ir al estado 59
+
+    expresion         ir al estado 140
+    lista             ir al estado 63
+    lista_enteros     ir al estado 64
+    lista_reales      ir al estado 65
+    lista_booleanos   ir al estado 66
+    lista_caracteres  ir al estado 67
+
+
 estado 135
 
    46 llamada_proced: IDENTIFICADOR ABRIRPARENT lista_expresiones CERRARPARENT PUNTOCOMA .
@@ -2161,32 +1683,26 @@ estado 135
 
 estado 136
 
+   52 expresion: expresion . OPBINARIO expresion
+   53          | expresion . MASMAS expresion ARROBA expresion
+   60 lista_expresiones: lista_expresiones COMA expresion .
+
+    MASMAS     desplazar e ir al estado 95
+    OPBINARIO  desplazar e ir al estado 96
+
+    $default  reduce usando la regla 60 (lista_expresiones)
+
+
+estado 137
+
    13 parametros: parametros COMA parametro .
 
     $default  reduce usando la regla 13 (parametros)
 
 
-estado 137
+estado 138
 
-    2 bloque: . Inicio_de_bloque Declar_de_variables_locales Declar_de_subprogs Sentencias Fin_de_bloque
-   16 Inicio_de_bloque: . ABRIRLLAVES
-   28 Sentencia: . bloque
-   29          | . sentencia_asignacion
-   30          | . sentencia_if
-   31          | . sentencia_while
-   32          | . sentencia_entrada
-   33          | . sentencia_salida
-   34          | . llamada_proced
-   35          | . sentencia_for
-   36 sentencia_asignacion: . IDENTIFICADOR ASIG expresion PUNTOCOMA
-   37 sentencia_if: . CONDSI ABRIRPARENT expresion CERRARPARENT Sentencia
-   38             | . CONDSI ABRIRPARENT expresion CERRARPARENT Sentencia CONDSINO Sentencia
-   38             | CONDSI ABRIRPARENT expresion CERRARPARENT Sentencia CONDSINO . Sentencia
-   39 sentencia_while: . CONDMIENTRAS ABRIRPARENT expresion CERRARPARENT Sentencia
-   40 sentencia_entrada: . LEE Identificadores PUNTOCOMA
-   41 sentencia_salida: . ESCRIBE lista_expresiones_o_cadena PUNTOCOMA
-   46 llamada_proced: . IDENTIFICADOR ABRIRPARENT lista_expresiones CERRARPARENT PUNTOCOMA
-   47 sentencia_for: . DURANTE IDENTIFICADOR DOSPUNTOSIGUAL expresion HASTA expresion HACER Sentencia
+   38 sentencia_if: CONDSI ABRIRPARENT expresion CERRARPARENT Sentencia CONDSINO . Sentencia
 
     ABRIRLLAVES    desplazar e ir al estado 5
     CONDSI         desplazar e ir al estado 20
@@ -2198,7 +1714,7 @@ estado 137
 
     bloque                ir al estado 26
     Inicio_de_bloque      ir al estado 7
-    Sentencia             ir al estado 140
+    Sentencia             ir al estado 141
     sentencia_asignacion  ir al estado 31
     sentencia_if          ir al estado 32
     sentencia_while       ir al estado 33
@@ -2208,21 +1724,18 @@ estado 137
     sentencia_for         ir al estado 37
 
 
-estado 138
+estado 139
 
    52 expresion: expresion . OPBINARIO expresion
    53          | expresion . MASMAS expresion ARROBA expresion
-   53          | expresion MASMAS expresion ARROBA expresion .  [PUNTOCOMA, ABRIRCORCH, ABRIRPARENT, CERRARPARENT, COMA, VERDFALS, MASMAS, UNARIOSIMPLE, MASMENOS, ARROBA, OPBINARIO, HASTA, HACER, CARACTER, IDENTIFICADOR, ENTERO, REAL]
+   53          | expresion MASMAS expresion ARROBA expresion .
 
-    MASMAS     desplazar e ir al estado 95
     OPBINARIO  desplazar e ir al estado 96
 
-    MASMAS     [reduce usando la regla 53 (expresion)]
-    OPBINARIO  [reduce usando la regla 53 (expresion)]
-    $default   reduce usando la regla 53 (expresion)
+    $default  reduce usando la regla 53 (expresion)
 
 
-estado 139
+estado 140
 
    47 sentencia_for: DURANTE IDENTIFICADOR DOSPUNTOSIGUAL expresion HASTA expresion . HACER Sentencia
    52 expresion: expresion . OPBINARIO expresion
@@ -2230,37 +1743,19 @@ estado 139
 
     MASMAS     desplazar e ir al estado 95
     OPBINARIO  desplazar e ir al estado 96
-    HACER      desplazar e ir al estado 141
+    HACER      desplazar e ir al estado 142
 
 
-estado 140
+estado 141
 
    38 sentencia_if: CONDSI ABRIRPARENT expresion CERRARPARENT Sentencia CONDSINO Sentencia .
 
     $default  reduce usando la regla 38 (sentencia_if)
 
 
-estado 141
+estado 142
 
-    2 bloque: . Inicio_de_bloque Declar_de_variables_locales Declar_de_subprogs Sentencias Fin_de_bloque
-   16 Inicio_de_bloque: . ABRIRLLAVES
-   28 Sentencia: . bloque
-   29          | . sentencia_asignacion
-   30          | . sentencia_if
-   31          | . sentencia_while
-   32          | . sentencia_entrada
-   33          | . sentencia_salida
-   34          | . llamada_proced
-   35          | . sentencia_for
-   36 sentencia_asignacion: . IDENTIFICADOR ASIG expresion PUNTOCOMA
-   37 sentencia_if: . CONDSI ABRIRPARENT expresion CERRARPARENT Sentencia
-   38             | . CONDSI ABRIRPARENT expresion CERRARPARENT Sentencia CONDSINO Sentencia
-   39 sentencia_while: . CONDMIENTRAS ABRIRPARENT expresion CERRARPARENT Sentencia
-   40 sentencia_entrada: . LEE Identificadores PUNTOCOMA
-   41 sentencia_salida: . ESCRIBE lista_expresiones_o_cadena PUNTOCOMA
-   46 llamada_proced: . IDENTIFICADOR ABRIRPARENT lista_expresiones CERRARPARENT PUNTOCOMA
-   47 sentencia_for: . DURANTE IDENTIFICADOR DOSPUNTOSIGUAL expresion HASTA expresion HACER Sentencia
-   47              | DURANTE IDENTIFICADOR DOSPUNTOSIGUAL expresion HASTA expresion HACER . Sentencia
+   47 sentencia_for: DURANTE IDENTIFICADOR DOSPUNTOSIGUAL expresion HASTA expresion HACER . Sentencia
 
     ABRIRLLAVES    desplazar e ir al estado 5
     CONDSI         desplazar e ir al estado 20
@@ -2272,7 +1767,7 @@ estado 141
 
     bloque                ir al estado 26
     Inicio_de_bloque      ir al estado 7
-    Sentencia             ir al estado 142
+    Sentencia             ir al estado 143
     sentencia_asignacion  ir al estado 31
     sentencia_if          ir al estado 32
     sentencia_while       ir al estado 33
@@ -2282,7 +1777,7 @@ estado 141
     sentencia_for         ir al estado 37
 
 
-estado 142
+estado 143
 
    47 sentencia_for: DURANTE IDENTIFICADOR DOSPUNTOSIGUAL expresion HASTA expresion HACER Sentencia .
 

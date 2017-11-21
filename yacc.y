@@ -40,9 +40,30 @@
 %token ENTERO
 %token REAL
 
+%token LOGOR
+%token LOGAND
+%token ORBIT
+%token EXOR
+%token ANDBIT
+%token IGUALDAD
+%token RELACION
+%token MENOSMENOS
+%token MULTIDIV
+%token EXCLAMACION
+%token AVANRETRO
+%token UNARIOSLISTA
+%token PORCENTAJE
+%token MULMUL
+
+
 %start Programa
 
-
+%right ASIG
+%left MASMENOS
+%right MASMAS
+%left UNARIOSIMPLE
+%right ARROBA
+%left OPBINARIO
 %%
 
 //Pagina 45 pdf de practicas - simplificar BNF
@@ -137,7 +158,7 @@ expresion : ABRIRPARENT expresion CERRARPARENT
   | lista
   ;
 
-lista_expresiones : lista_expresiones expresion | expresion ;
+lista_expresiones : lista_expresiones COMA expresion | expresion ;
 
 lista : lista_enteros
 	| lista_reales

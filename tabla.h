@@ -1,7 +1,7 @@
 #define INICIOVARS 257
 #define FINVARS 258
 #define PUNTOCOMA 259
-#define MAIN 260 
+#define MAIN 260
 #define PROCED 261
 #define ABRIRCORCH 262
 #define CERRARCORCH 263
@@ -23,6 +23,7 @@
 #define MASMENOS 279
 #define ARROBA 280
 #define OPBINARIO 281
+#define OPOR 292
 #define DURANTE 282
 #define DOSPUNTOSIGUAL 283
 #define HASTA 284
