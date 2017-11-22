@@ -78,13 +78,14 @@
      EXOR = 294,
      ANDBIT = 295,
      IGUALDAD = 296,
-     MENOSMENOS = 297,
-     MULTIDIV = 298,
-     EXCLAMACION = 299,
-     AVANRETRO = 300,
-     UNARIOSLISTA = 301,
-     PORCENTAJE = 302,
-     MULMUL = 303
+     REL = 297,
+     PORCENTAJE = 298,
+     MULTIDIV = 299,
+     UNARIOSLISTA = 300,
+     EXCLAMACION = 301,
+     MENOSMENOS = 302,
+     MULMUL = 303,
+     AVANRETRO = 304
    };
 #endif
 /* Tokens.  */
@@ -127,13 +128,14 @@
 #define EXOR 294
 #define ANDBIT 295
 #define IGUALDAD 296
-#define MENOSMENOS 297
-#define MULTIDIV 298
-#define EXCLAMACION 299
-#define AVANRETRO 300
-#define UNARIOSLISTA 301
-#define PORCENTAJE 302
+#define REL 297
+#define PORCENTAJE 298
+#define MULTIDIV 299
+#define UNARIOSLISTA 300
+#define EXCLAMACION 301
+#define MENOSMENOS 302
 #define MULMUL 303
+#define AVANRETRO 304
 
 
 
