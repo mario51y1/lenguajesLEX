@@ -4,10 +4,15 @@
 
 	#include <stdio.h>
 	#include <stdlib.h>
+	#include <iostream>
+	#include "lex.yy.c"
+
 	extern int yylex();
 	extern int yyparse();
 	extern FILE* yyin;
-
+	
+	void yyerror(const char* s);  
+	using namespace std;
 %}
 
 
@@ -211,9 +216,18 @@ Caracteres: CARACTER
 
 %%
 
-void main(int argc, char **argv){
+int main(int argc, char **argv){
 	yyin = fopen("test.t","r");
 	yyparse();
 	fclose(yyin);
+	
+	cout << "done" << endl;
+
 	return 0;
 }
+
+void yyerror(const char *s)  
+{  
+   cout << "Error. " << s << endl;   
+   exit(-1);     
+}  
