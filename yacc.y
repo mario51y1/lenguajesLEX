@@ -123,26 +123,16 @@ Sentencia : bloque
 	| sentencia_for
 ;
 
-sentencia_asignacion : IDENTIFICADOR ASIG expresion PUNTOCOMA 
-	| IDENTIFICADOR error_asignacion ;
-error_asignacion : error ;
+sentencia_asignacion : IDENTIFICADOR ASIG expresion PUNTOCOMA ;
 
 sentencia_if : CONDSI ABRIRPARENT expresion CERRARPARENT Sentencia
-	| CONDSI ABRIRPARENT expresion CERRARPARENT Sentencia CONDSINO Sentencia
-  	| CONDSI error_if ;
-error_if : error ;
+	| CONDSI ABRIRPARENT expresion CERRARPARENT Sentencia CONDSINO Sentencia;
 
-sentencia_while : CONDMIENTRAS ABRIRPARENT expresion CERRARPARENT Sentencia 
-	|	CONDMIENTRAS error_while ;
-error_while : error ;
+sentencia_while : CONDMIENTRAS ABRIRPARENT expresion CERRARPARENT Sentencia ;
 
-sentencia_entrada : LEE Identificadores PUNTOCOMA 
-	|	LEE error_entrada ;
-error_entrada : error ;
+sentencia_entrada : LEE Identificadores PUNTOCOMA ; 
 
-sentencia_salida : ESCRIBE lista_expresiones_o_cadena PUNTOCOMA 
-	|	ESCRIBE error_salida ;
-error_salida : error ;
+sentencia_salida : ESCRIBE lista_expresiones_o_cadena PUNTOCOMA ;
 
 expcad : expresion
 	| CADENA
@@ -151,13 +141,9 @@ expcad : expresion
 lista_expresiones_o_cadena : expcad
 	| lista_expresiones_o_cadena COMA expcad  ;
 
-llamada_proced : IDENTIFICADOR ABRIRPARENT  lista_expresiones  CERRARPARENT PUNTOCOMA 
-	|	error_llamada_proced ;
-error_llamada_proced : error ;
+llamada_proced : IDENTIFICADOR ABRIRPARENT  lista_expresiones  CERRARPARENT PUNTOCOMA ;
 
-sentencia_for : DURANTE IDENTIFICADOR DOSPUNTOSIGUAL  expresion HASTA expresion HACER Sentencia
-	| DURANTE error_for ;
-error_for : error ;
+sentencia_for : DURANTE IDENTIFICADOR DOSPUNTOSIGUAL  expresion HASTA expresion HACER Sentencia ;
 
 expresion : ABRIRPARENT expresion CERRARPARENT
   	| MASMENOS expresion %prec EXCLAMACION
