@@ -1,7 +1,10 @@
 %error-verbose
 
 %{
+#include <iostream>
+using namespace std;
 
+FILE *yyin;
 
 
 
@@ -207,3 +210,10 @@ Caracteres: CARACTER
 
 
 %%
+
+void main(int argc, char **argv){
+	yyin = fopen("input.c","r");
+	yyparse();
+	fclose(yyin);
+	return 0;
+}

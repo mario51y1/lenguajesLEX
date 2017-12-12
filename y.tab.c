@@ -64,12 +64,15 @@
 /* Copy the first part of user declarations.  */
 #line 3 "yacc.y" /* yacc.c:339  */
 
+#include <iostream>
+using namespace std;
+
+FILE *yyin;
 
 
 
 
-
-#line 73 "y.tab.c" /* yacc.c:339  */
+#line 76 "y.tab.c" /* yacc.c:339  */
 
 # ifndef YY_NULLPTR
 #  if defined __cplusplus && 201103L <= __cplusplus
@@ -218,7 +221,7 @@ int yyparse (void);
 
 /* Copy the second part of user declarations.  */
 
-#line 222 "y.tab.c" /* yacc.c:358  */
+#line 225 "y.tab.c" /* yacc.c:358  */
 
 #ifdef short
 # undef short
@@ -520,16 +523,16 @@ static const yytype_uint8 yytranslate[] =
   /* YYRLINE[YYN] -- Source line where rule number YYN was defined.  */
 static const yytype_uint8 yyrline[] =
 {
-       0,    67,    67,    69,    71,    72,    75,    76,    78,    79,
-      82,    84,    86,    87,    88,    90,    91,    92,    94,    96,
-      97,    99,   100,   102,   103,   104,   106,   106,   108,   108,
-     109,   111,   112,   116,   117,   118,   119,   120,   121,   122,
-     123,   126,   128,   129,   131,   133,   135,   137,   138,   141,
-     142,   144,   146,   148,   149,   150,   151,   152,   153,   154,
-     155,   156,   157,   158,   159,   160,   161,   162,   163,   164,
-     165,   166,   167,   168,   169,   170,   171,   172,   173,   175,
-     175,   177,   178,   179,   180,   183,   185,   186,   189,   191,
-     192,   196,   198,   199,   202,   204,   205
+       0,    70,    70,    72,    74,    75,    78,    79,    81,    82,
+      85,    87,    89,    90,    91,    93,    94,    95,    97,    99,
+     100,   102,   103,   105,   106,   107,   109,   109,   111,   111,
+     112,   114,   115,   119,   120,   121,   122,   123,   124,   125,
+     126,   129,   131,   132,   134,   136,   138,   140,   141,   144,
+     145,   147,   149,   151,   152,   153,   154,   155,   156,   157,
+     158,   159,   160,   161,   162,   163,   164,   165,   166,   167,
+     168,   169,   170,   171,   172,   173,   174,   175,   176,   178,
+     178,   180,   181,   182,   183,   186,   188,   189,   192,   194,
+     195,   199,   201,   202,   205,   207,   208
 };
 #endif
 
@@ -1474,7 +1477,7 @@ yyreduce:
   switch (yyn)
     {
       
-#line 1478 "y.tab.c" /* yacc.c:1646  */
+#line 1481 "y.tab.c" /* yacc.c:1646  */
       default: break;
     }
   /* User semantic actions sometimes alter yychar, and that requires
@@ -1702,5 +1705,12 @@ yyreturn:
 #endif
   return yyresult;
 }
-#line 209 "yacc.y" /* yacc.c:1906  */
+#line 212 "yacc.y" /* yacc.c:1906  */
 
+
+void main(int argc, char **argv){
+	yyin = fopen("input.c","r");
+	yyparse();
+	fclose(yyin);
+	return 0;
+}
