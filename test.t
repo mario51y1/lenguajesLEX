@@ -15,7 +15,26 @@ principal
     lista_de real lr;
     lista_de booleano lb;
     lista_de entero le;
-    
+
   }
   finvariables;
+
+  procedimiento funcionA(entero veA)
+  {
+    variables
+    {
+      booleano vbA;
+    }
+    finvariables;
+
+    vbA = verdadero;
+    ve = veA;
+  }
+
+  funcionA(3);
+
+  si (ve == veA) {
+    ve = 5;
+  }
+
 }
