@@ -1,6 +1,10 @@
-
+%error-verbose
 
 %{
+
+
+
+
 %}
 
 
@@ -78,7 +82,11 @@ Declar_de_subprogs : Declar_de_subprogs Declar_subprog
 Declar_subprog : Cabecera_subprograma bloque ;
 
 Cabecera_programa : MAIN ;
-Cabecera_subprograma : PROCED IDENTIFICADOR ABRIRPARENT parametros CERRARPARENT ;
+
+Cabecera_subprograma : PROCED IDENTIFICADOR ABRIRPARENT parametros CERRARPARENT 
+	| PROCED error_subprog ;
+error_subprog : error ;
+
 parametros : parametro
 	| parametros COMA parametro
 	|
@@ -91,7 +99,10 @@ Fin_de_bloque :  CERRARLLAVES ;
 Variables_locales : Variables_locales Cuerpo_declar_variables
 	| Cuerpo_declar_variables
   ;
-Cuerpo_declar_variables : tipo Identificadores PUNTOCOMA ;
+Cuerpo_declar_variables : tipo Identificadores PUNTOCOMA 
+	| error_decl_variables;
+error_decl_variables : error ; 
+
 Identificadores : IDENTIFICADOR | Identificadores COMA IDENTIFICADOR ;
 
 tipo : TIPO | tipo_lista ;
@@ -108,33 +119,45 @@ Sentencia : bloque
 	| sentencia_while
 	| sentencia_entrada
 	| sentencia_salida
-  | llamada_proced
+  	| llamada_proced
 	| sentencia_for
 ;
 
-sentencia_asignacion : IDENTIFICADOR ASIG expresion PUNTOCOMA ;
+sentencia_asignacion : IDENTIFICADOR ASIG expresion PUNTOCOMA 
+	| IDENTIFICADOR error_asignacion ;
+error_asignacion : error ;
 
 sentencia_if : CONDSI ABRIRPARENT expresion CERRARPARENT Sentencia
 	| CONDSI ABRIRPARENT expresion CERRARPARENT Sentencia CONDSINO Sentencia
-  ;
+  	| CONDSI error_if ;
+error_if : error ;
 
- sentencia_while : CONDMIENTRAS ABRIRPARENT expresion CERRARPARENT Sentencia ;
+sentencia_while : CONDMIENTRAS ABRIRPARENT expresion CERRARPARENT Sentencia 
+	|	CONDMIENTRAS error_while ;
+error_while : error ;
 
-sentencia_entrada : LEE Identificadores PUNTOCOMA ;
+sentencia_entrada : LEE Identificadores PUNTOCOMA 
+	|	LEE error_entrada ;
+error_entrada : error ;
 
-sentencia_salida : ESCRIBE lista_expresiones_o_cadena PUNTOCOMA ;
+sentencia_salida : ESCRIBE lista_expresiones_o_cadena PUNTOCOMA 
+	|	ESCRIBE error_salida ;
+error_salida : error ;
 
 expcad : expresion
 	| CADENA
   ;
 
 lista_expresiones_o_cadena : expcad
-	| lista_expresiones_o_cadena COMA expcad
-  ;
+	| lista_expresiones_o_cadena COMA expcad  ;
 
-llamada_proced : IDENTIFICADOR ABRIRPARENT  lista_expresiones  CERRARPARENT PUNTOCOMA ;
+llamada_proced : IDENTIFICADOR ABRIRPARENT  lista_expresiones  CERRARPARENT PUNTOCOMA 
+	|	error_llamada_proced ;
+error_llamada_proced : error ;
 
-sentencia_for : DURANTE IDENTIFICADOR DOSPUNTOSIGUAL  expresion HASTA expresion HACER Sentencia ;
+sentencia_for : DURANTE IDENTIFICADOR DOSPUNTOSIGUAL  expresion HASTA expresion HACER Sentencia
+	| DURANTE error_for ;
+error_for : error ;
 
 expresion : ABRIRPARENT expresion CERRARPARENT
   	| MASMENOS expresion %prec EXCLAMACION
@@ -160,7 +183,8 @@ expresion : ABRIRPARENT expresion CERRARPARENT
   | VERDFALS
   | CARACTER
   | lista
-  ;
+  |	error_expresion	;
+error_expresion : error ;
 
 lista_expresiones : lista_expresiones COMA expresion | expresion ;
 

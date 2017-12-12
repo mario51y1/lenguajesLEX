@@ -3,10 +3,11 @@ Terminals unused in grammar
    REL
 
 
-Estado 148 conflictos: 1 desplazamiento(s)/reducción(ones)
+State 21 conflicts: 1 reduce/reduce
+State 170 conflicts: 1 shift/reduce
 
 
-Gramática
+Grammar
 
     0 $accept: Programa $end
 
@@ -15,2582 +16,2952 @@ Gramática
     2 bloque: Inicio_de_bloque Declar_de_variables_locales Declar_de_subprogs Sentencias Fin_de_bloque
 
     3 Declar_de_variables_locales: Marca_ini_declar_variables Variables_locales Marca_fin_declar_variables
-    4                            | /* vacío */
+    4                            | %empty
 
     5 Marca_ini_declar_variables: INICIOVARS Inicio_de_bloque
 
     6 Marca_fin_declar_variables: Fin_de_bloque FINVARS PUNTOCOMA
 
     7 Declar_de_subprogs: Declar_de_subprogs Declar_subprog
-    8                   | /* vacío */
+    8                   | %empty
 
     9 Declar_subprog: Cabecera_subprograma bloque
 
    10 Cabecera_programa: MAIN
 
    11 Cabecera_subprograma: PROCED IDENTIFICADOR ABRIRPARENT parametros CERRARPARENT
+   12                     | error_subprog
 
-   12 parametros: parametro
-   13           | parametros COMA parametro
-   14           | /* vacío */
+   13 error_subprog: error
 
-   15 parametro: tipo IDENTIFICADOR
+   14 parametros: parametro
+   15           | parametros COMA parametro
+   16           | %empty
 
-   16 Inicio_de_bloque: ABRIRLLAVES
+   17 parametro: tipo IDENTIFICADOR
 
-   17 Fin_de_bloque: CERRARLLAVES
+   18 Inicio_de_bloque: ABRIRLLAVES
 
-   18 Variables_locales: Variables_locales Cuerpo_declar_variables
-   19                  | Cuerpo_declar_variables
+   19 Fin_de_bloque: CERRARLLAVES
 
-   20 Cuerpo_declar_variables: tipo Identificadores PUNTOCOMA
+   20 Variables_locales: Variables_locales Cuerpo_declar_variables
+   21                  | Cuerpo_declar_variables
 
-   21 Identificadores: IDENTIFICADOR
-   22                | Identificadores COMA IDENTIFICADOR
+   22 Cuerpo_declar_variables: tipo Identificadores PUNTOCOMA
+   23                        | error_decl_variables
 
-   23 tipo: TIPO
-   24     | tipo_lista
+   24 error_decl_variables: error
 
-   25 tipo_lista: DEFLIST TIPO
+   25 Identificadores: IDENTIFICADOR
+   26                | Identificadores COMA IDENTIFICADOR
 
-   26 Sentencias: Sentencias Sentencia
-   27           | Sentencia
+   27 tipo: TIPO
+   28     | tipo_lista
 
-   28 Sentencia: bloque
-   29          | sentencia_asignacion
-   30          | sentencia_if
-   31          | sentencia_while
-   32          | sentencia_entrada
-   33          | sentencia_salida
-   34          | llamada_proced
-   35          | sentencia_for
+   29 tipo_lista: DEFLIST TIPO
 
-   36 sentencia_asignacion: IDENTIFICADOR ASIG expresion PUNTOCOMA
+   30 Sentencias: Sentencias Sentencia
+   31           | Sentencia
 
-   37 sentencia_if: CONDSI ABRIRPARENT expresion CERRARPARENT Sentencia
-   38             | CONDSI ABRIRPARENT expresion CERRARPARENT Sentencia CONDSINO Sentencia
+   32 Sentencia: bloque
+   33          | sentencia_asignacion
+   34          | sentencia_if
+   35          | sentencia_while
+   36          | sentencia_entrada
+   37          | sentencia_salida
+   38          | llamada_proced
+   39          | sentencia_for
 
-   39 sentencia_while: CONDMIENTRAS ABRIRPARENT expresion CERRARPARENT Sentencia
+   40 sentencia_asignacion: IDENTIFICADOR ASIG expresion PUNTOCOMA
+   41                     | IDENTIFICADOR error_asignacion
 
-   40 sentencia_entrada: LEE Identificadores PUNTOCOMA
+   42 error_asignacion: error
 
-   41 sentencia_salida: ESCRIBE lista_expresiones_o_cadena PUNTOCOMA
+   43 sentencia_if: CONDSI ABRIRPARENT expresion CERRARPARENT Sentencia
+   44             | CONDSI ABRIRPARENT expresion CERRARPARENT Sentencia CONDSINO Sentencia
+   45             | CONDSI error_if
 
-   42 expcad: expresion
-   43       | CADENA
+   46 error_if: error
 
-   44 lista_expresiones_o_cadena: expcad
-   45                           | lista_expresiones_o_cadena COMA expcad
+   47 sentencia_while: CONDMIENTRAS ABRIRPARENT expresion CERRARPARENT Sentencia
+   48                | CONDMIENTRAS error_while
 
-   46 llamada_proced: IDENTIFICADOR ABRIRPARENT lista_expresiones CERRARPARENT PUNTOCOMA
+   49 error_while: error
 
-   47 sentencia_for: DURANTE IDENTIFICADOR DOSPUNTOSIGUAL expresion HASTA expresion HACER Sentencia
+   50 sentencia_entrada: LEE Identificadores PUNTOCOMA
+   51                  | LEE error_entrada
 
-   48 expresion: ABRIRPARENT expresion CERRARPARENT
-   49          | MASMAS expresion
-   50          | UNARIOSLISTA expresion
-   51          | MENOSMENOS expresion
-   52          | EXCLAMACION expresion
-   53          | expresion AVANRETRO
-   54          | expresion MULMUL expresion
-   55          | expresion MULTIDIV expresion
-   56          | expresion LOGAND expresion
-   57          | expresion EXOR expresion
-   58          | expresion ORBIT expresion
-   59          | expresion LOGOR expresion
-   60          | expresion IGUALDAD expresion
-   61          | expresion PORCENTAJE expresion
-   62          | expresion ANDBIT expresion
-   63          | expresion MASMENOS expresion
-   64          | expresion MASMAS expresion ARROBA expresion
-   65          | IDENTIFICADOR
-   66          | ENTERO
-   67          | REAL
-   68          | VERDFALS
-   69          | CARACTER
-   70          | lista
+   52 error_entrada: error
 
-   71 lista_expresiones: lista_expresiones COMA expresion
-   72                  | expresion
+   53 sentencia_salida: ESCRIBE lista_expresiones_o_cadena PUNTOCOMA
+   54                 | ESCRIBE error_salida
 
-   73 lista: lista_enteros
-   74      | lista_reales
-   75      | lista_booleanos
-   76      | lista_caracteres
+   55 error_salida: error
 
-   77 lista_enteros: ABRIRCORCH Enteros CERRARCORCH
+   56 expcad: expresion
+   57       | CADENA
 
-   78 Enteros: ENTERO
-   79        | Enteros COMA ENTERO
+   58 lista_expresiones_o_cadena: expcad
+   59                           | lista_expresiones_o_cadena COMA expcad
 
-   80 lista_reales: ABRIRCORCH Reales CERRARCORCH
+   60 llamada_proced: IDENTIFICADOR ABRIRPARENT lista_expresiones CERRARPARENT PUNTOCOMA
+   61               | error_llamada_proced
 
-   81 Reales: REAL
-   82       | Reales COMA REAL
+   62 error_llamada_proced: error
 
-   83 lista_booleanos: ABRIRCORCH Booleanos CERRARCORCH
+   63 sentencia_for: DURANTE IDENTIFICADOR DOSPUNTOSIGUAL expresion HASTA expresion HACER Sentencia
+   64              | DURANTE error_for
 
-   84 Booleanos: VERDFALS
-   85          | Booleanos COMA VERDFALS
+   65 error_for: error
 
-   86 lista_caracteres: ABRIRCORCH Caracteres CERRARCORCH
+   66 expresion: ABRIRPARENT expresion CERRARPARENT
+   67          | MASMENOS expresion
+   68          | UNARIOSLISTA expresion
+   69          | MASMAS expresion
+   70          | MENOSMENOS expresion
+   71          | EXCLAMACION expresion
+   72          | expresion AVANRETRO
+   73          | expresion MULMUL expresion
+   74          | expresion MULTIDIV expresion
+   75          | expresion LOGAND expresion
+   76          | expresion EXOR expresion
+   77          | expresion ORBIT expresion
+   78          | expresion LOGOR expresion
+   79          | expresion IGUALDAD expresion
+   80          | expresion PORCENTAJE expresion
+   81          | expresion ANDBIT expresion
+   82          | expresion MASMENOS expresion
+   83          | expresion MASMAS expresion ARROBA expresion
+   84          | IDENTIFICADOR
+   85          | ENTERO
+   86          | REAL
+   87          | VERDFALS
+   88          | CARACTER
+   89          | lista
+   90          | error_expresion
 
-   87 Caracteres: CARACTER
-   88           | Caracteres COMA CARACTER
+   91 error_expresion: error
+
+   92 lista_expresiones: lista_expresiones COMA expresion
+   93                  | expresion
+
+   94 lista: lista_enteros
+   95      | lista_reales
+   96      | lista_booleanos
+   97      | lista_caracteres
+
+   98 lista_enteros: ABRIRCORCH Enteros CERRARCORCH
+
+   99 Enteros: ENTERO
+  100        | Enteros COMA ENTERO
+
+  101 lista_reales: ABRIRCORCH Reales CERRARCORCH
+
+  102 Reales: REAL
+  103       | Reales COMA REAL
+
+  104 lista_booleanos: ABRIRCORCH Booleanos CERRARCORCH
+
+  105 Booleanos: VERDFALS
+  106          | Booleanos COMA VERDFALS
+
+  107 lista_caracteres: ABRIRCORCH Caracteres CERRARCORCH
+
+  108 Caracteres: CARACTER
+  109           | Caracteres COMA CARACTER
 
 
-Terminales con las reglas donde aparecen
+Terminals, with rules where they appear
 
 $end (0) 0
-error (256)
+error (256) 13 24 42 46 49 52 55 62 65 91
 INICIOVARS (258) 5
 FINVARS (259) 6
-PUNTOCOMA (260) 6 20 36 40 41 46
+PUNTOCOMA (260) 6 22 40 50 53 60
 MAIN (261) 10
 PROCED (262) 11
-ABRIRCORCH (263) 77 80 83 86
-CERRARCORCH (264) 77 80 83 86
-ABRIRPARENT (265) 11 37 38 39 46 48
-CERRARPARENT (266) 11 37 38 39 46 48
-ABRIRLLAVES (267) 16
-CERRARLLAVES (268) 17
-DEFLIST (269) 25
-ASIG (270) 36
-CONDSI (271) 37 38
-CONDMIENTRAS (272) 39
-CONDSINO (273) 38
-LEE (274) 40
-ESCRIBE (275) 41
-COMA (276) 13 22 45 71 79 82 85 88
-VERDFALS (277) 68 84 85
-MASMAS (278) 49 64
-MASMENOS (279) 63
-ARROBA (280) 64
-DURANTE (281) 47
-DOSPUNTOSIGUAL (282) 47
-HASTA (283) 47
-HACER (284) 47
-TIPO (285) 23 25
-CARACTER (286) 69 87 88
-CADENA (287) 43
-IDENTIFICADOR (288) 11 15 21 22 36 46 47 65
-ENTERO (289) 66 78 79
-REAL (290) 67 81 82
-LOGOR (291) 59
-LOGAND (292) 56
-ORBIT (293) 58
-EXOR (294) 57
-ANDBIT (295) 62
-IGUALDAD (296) 60
+ABRIRCORCH (263) 98 101 104 107
+CERRARCORCH (264) 98 101 104 107
+ABRIRPARENT (265) 11 43 44 47 60 66
+CERRARPARENT (266) 11 43 44 47 60 66
+ABRIRLLAVES (267) 18
+CERRARLLAVES (268) 19
+DEFLIST (269) 29
+ASIG (270) 40
+CONDSI (271) 43 44 45
+CONDMIENTRAS (272) 47 48
+CONDSINO (273) 44
+LEE (274) 50 51
+ESCRIBE (275) 53 54
+COMA (276) 15 26 59 92 100 103 106 109
+VERDFALS (277) 87 105 106
+MASMAS (278) 69 83
+MASMENOS (279) 67 82
+ARROBA (280) 83
+DURANTE (281) 63 64
+DOSPUNTOSIGUAL (282) 63
+HASTA (283) 63
+HACER (284) 63
+TIPO (285) 27 29
+CARACTER (286) 88 108 109
+CADENA (287) 57
+IDENTIFICADOR (288) 11 17 25 26 40 41 60 63 84
+ENTERO (289) 85 99 100
+REAL (290) 86 102 103
+LOGOR (291) 78
+LOGAND (292) 75
+ORBIT (293) 77
+EXOR (294) 76
+ANDBIT (295) 81
+IGUALDAD (296) 79
 REL (297)
-PORCENTAJE (298) 61
-MULTIDIV (299) 55
-UNARIOSLISTA (300) 50
-EXCLAMACION (301) 52
-MENOSMENOS (302) 51
-MULMUL (303) 54
-AVANRETRO (304) 53
+MULTIDIV (298) 74
+PORCENTAJE (299) 80
+UNARIOSLISTA (300) 68
+EXCLAMACION (301) 71
+MENOSMENOS (302) 70
+MULMUL (303) 73
+AVANRETRO (304) 72
 
 
-No terminales con las reglas donde aparecen
+Nonterminals, with rules where they appear
 
 $accept (50)
-    en la izquierda: 0
+    on left: 0
 Programa (51)
-    en la izquierda: 1, en la derecha: 0
+    on left: 1, on right: 0
 bloque (52)
-    en la izquierda: 2, en la derecha: 1 9 28
+    on left: 2, on right: 1 9 32
 Declar_de_variables_locales (53)
-    en la izquierda: 3 4, en la derecha: 2
+    on left: 3 4, on right: 2
 Marca_ini_declar_variables (54)
-    en la izquierda: 5, en la derecha: 3
+    on left: 5, on right: 3
 Marca_fin_declar_variables (55)
-    en la izquierda: 6, en la derecha: 3
+    on left: 6, on right: 3
 Declar_de_subprogs (56)
-    en la izquierda: 7 8, en la derecha: 2 7
+    on left: 7 8, on right: 2 7
 Declar_subprog (57)
-    en la izquierda: 9, en la derecha: 7
+    on left: 9, on right: 7
 Cabecera_programa (58)
-    en la izquierda: 10, en la derecha: 1
+    on left: 10, on right: 1
 Cabecera_subprograma (59)
-    en la izquierda: 11, en la derecha: 9
-parametros (60)
-    en la izquierda: 12 13 14, en la derecha: 11 13
-parametro (61)
-    en la izquierda: 15, en la derecha: 12 13
-Inicio_de_bloque (62)
-    en la izquierda: 16, en la derecha: 2 5
-Fin_de_bloque (63)
-    en la izquierda: 17, en la derecha: 2 6
-Variables_locales (64)
-    en la izquierda: 18 19, en la derecha: 3 18
-Cuerpo_declar_variables (65)
-    en la izquierda: 20, en la derecha: 18 19
-Identificadores (66)
-    en la izquierda: 21 22, en la derecha: 20 22 40
-tipo (67)
-    en la izquierda: 23 24, en la derecha: 15 20
-tipo_lista (68)
-    en la izquierda: 25, en la derecha: 24
-Sentencias (69)
-    en la izquierda: 26 27, en la derecha: 2 26
-Sentencia (70)
-    en la izquierda: 28 29 30 31 32 33 34 35, en la derecha: 26 27
-    37 38 39 47
-sentencia_asignacion (71)
-    en la izquierda: 36, en la derecha: 29
-sentencia_if (72)
-    en la izquierda: 37 38, en la derecha: 30
-sentencia_while (73)
-    en la izquierda: 39, en la derecha: 31
-sentencia_entrada (74)
-    en la izquierda: 40, en la derecha: 32
-sentencia_salida (75)
-    en la izquierda: 41, en la derecha: 33
-expcad (76)
-    en la izquierda: 42 43, en la derecha: 44 45
-lista_expresiones_o_cadena (77)
-    en la izquierda: 44 45, en la derecha: 41 45
-llamada_proced (78)
-    en la izquierda: 46, en la derecha: 34
-sentencia_for (79)
-    en la izquierda: 47, en la derecha: 35
-expresion (80)
-    en la izquierda: 48 49 50 51 52 53 54 55 56 57 58 59 60 61 62 63
-    64 65 66 67 68 69 70, en la derecha: 36 37 38 39 42 47 48 49 50
-    51 52 53 54 55 56 57 58 59 60 61 62 63 64 71 72
-lista_expresiones (81)
-    en la izquierda: 71 72, en la derecha: 46 71
-lista (82)
-    en la izquierda: 73 74 75 76, en la derecha: 70
-lista_enteros (83)
-    en la izquierda: 77, en la derecha: 73
-Enteros (84)
-    en la izquierda: 78 79, en la derecha: 77 79
-lista_reales (85)
-    en la izquierda: 80, en la derecha: 74
-Reales (86)
-    en la izquierda: 81 82, en la derecha: 80 82
-lista_booleanos (87)
-    en la izquierda: 83, en la derecha: 75
-Booleanos (88)
-    en la izquierda: 84 85, en la derecha: 83 85
-lista_caracteres (89)
-    en la izquierda: 86, en la derecha: 76
-Caracteres (90)
-    en la izquierda: 87 88, en la derecha: 86 88
+    on left: 11 12, on right: 9
+error_subprog (60)
+    on left: 13, on right: 12
+parametros (61)
+    on left: 14 15 16, on right: 11 15
+parametro (62)
+    on left: 17, on right: 14 15
+Inicio_de_bloque (63)
+    on left: 18, on right: 2 5
+Fin_de_bloque (64)
+    on left: 19, on right: 2 6
+Variables_locales (65)
+    on left: 20 21, on right: 3 20
+Cuerpo_declar_variables (66)
+    on left: 22 23, on right: 20 21
+error_decl_variables (67)
+    on left: 24, on right: 23
+Identificadores (68)
+    on left: 25 26, on right: 22 26 50
+tipo (69)
+    on left: 27 28, on right: 17 22
+tipo_lista (70)
+    on left: 29, on right: 28
+Sentencias (71)
+    on left: 30 31, on right: 2 30
+Sentencia (72)
+    on left: 32 33 34 35 36 37 38 39, on right: 30 31 43 44 47 63
+sentencia_asignacion (73)
+    on left: 40 41, on right: 33
+error_asignacion (74)
+    on left: 42, on right: 41
+sentencia_if (75)
+    on left: 43 44 45, on right: 34
+error_if (76)
+    on left: 46, on right: 45
+sentencia_while (77)
+    on left: 47 48, on right: 35
+error_while (78)
+    on left: 49, on right: 48
+sentencia_entrada (79)
+    on left: 50 51, on right: 36
+error_entrada (80)
+    on left: 52, on right: 51
+sentencia_salida (81)
+    on left: 53 54, on right: 37
+error_salida (82)
+    on left: 55, on right: 54
+expcad (83)
+    on left: 56 57, on right: 58 59
+lista_expresiones_o_cadena (84)
+    on left: 58 59, on right: 53 59
+llamada_proced (85)
+    on left: 60 61, on right: 38
+error_llamada_proced (86)
+    on left: 62, on right: 61
+sentencia_for (87)
+    on left: 63 64, on right: 39
+error_for (88)
+    on left: 65, on right: 64
+expresion (89)
+    on left: 66 67 68 69 70 71 72 73 74 75 76 77 78 79 80 81 82 83
+    84 85 86 87 88 89 90, on right: 40 43 44 47 56 63 66 67 68 69 70
+    71 72 73 74 75 76 77 78 79 80 81 82 83 92 93
+error_expresion (90)
+    on left: 91, on right: 90
+lista_expresiones (91)
+    on left: 92 93, on right: 60 92
+lista (92)
+    on left: 94 95 96 97, on right: 89
+lista_enteros (93)
+    on left: 98, on right: 94
+Enteros (94)
+    on left: 99 100, on right: 98 100
+lista_reales (95)
+    on left: 101, on right: 95
+Reales (96)
+    on left: 102 103, on right: 101 103
+lista_booleanos (97)
+    on left: 104, on right: 96
+Booleanos (98)
+    on left: 105 106, on right: 104 106
+lista_caracteres (99)
+    on left: 107, on right: 97
+Caracteres (100)
+    on left: 108 109, on right: 107 109
 
 
-estado 0
+State 0
 
     0 $accept: . Programa $end
 
-    MAIN  desplazar e ir al estado 1
+    MAIN  shift, and go to state 1
 
-    Programa           ir al estado 2
-    Cabecera_programa  ir al estado 3
+    Programa           go to state 2
+    Cabecera_programa  go to state 3
 
 
-estado 1
+State 1
 
    10 Cabecera_programa: MAIN .
 
-    $default  reduce usando la regla 10 (Cabecera_programa)
+    $default  reduce using rule 10 (Cabecera_programa)
 
 
-estado 2
+State 2
 
     0 $accept: Programa . $end
 
-    $end  desplazar e ir al estado 4
+    $end  shift, and go to state 4
 
 
-estado 3
+State 3
 
     1 Programa: Cabecera_programa . bloque
 
-    ABRIRLLAVES  desplazar e ir al estado 5
+    ABRIRLLAVES  shift, and go to state 5
 
-    bloque            ir al estado 6
-    Inicio_de_bloque  ir al estado 7
+    bloque            go to state 6
+    Inicio_de_bloque  go to state 7
 
 
-estado 4
+State 4
 
     0 $accept: Programa $end .
 
-    $default  aceptar
+    $default  accept
 
 
-estado 5
+State 5
 
-   16 Inicio_de_bloque: ABRIRLLAVES .
+   18 Inicio_de_bloque: ABRIRLLAVES .
 
-    $default  reduce usando la regla 16 (Inicio_de_bloque)
+    $default  reduce using rule 18 (Inicio_de_bloque)
 
 
-estado 6
+State 6
 
     1 Programa: Cabecera_programa bloque .
 
-    $default  reduce usando la regla 1 (Programa)
+    $default  reduce using rule 1 (Programa)
 
 
-estado 7
+State 7
 
     2 bloque: Inicio_de_bloque . Declar_de_variables_locales Declar_de_subprogs Sentencias Fin_de_bloque
 
-    INICIOVARS  desplazar e ir al estado 8
+    INICIOVARS  shift, and go to state 8
 
-    $default  reduce usando la regla 4 (Declar_de_variables_locales)
+    $default  reduce using rule 4 (Declar_de_variables_locales)
 
-    Declar_de_variables_locales  ir al estado 9
-    Marca_ini_declar_variables   ir al estado 10
+    Declar_de_variables_locales  go to state 9
+    Marca_ini_declar_variables   go to state 10
 
 
-estado 8
+State 8
 
     5 Marca_ini_declar_variables: INICIOVARS . Inicio_de_bloque
 
-    ABRIRLLAVES  desplazar e ir al estado 5
+    ABRIRLLAVES  shift, and go to state 5
 
-    Inicio_de_bloque  ir al estado 11
+    Inicio_de_bloque  go to state 11
 
 
-estado 9
+State 9
 
     2 bloque: Inicio_de_bloque Declar_de_variables_locales . Declar_de_subprogs Sentencias Fin_de_bloque
 
-    $default  reduce usando la regla 8 (Declar_de_subprogs)
+    $default  reduce using rule 8 (Declar_de_subprogs)
 
-    Declar_de_subprogs  ir al estado 12
+    Declar_de_subprogs  go to state 12
 
 
-estado 10
+State 10
 
     3 Declar_de_variables_locales: Marca_ini_declar_variables . Variables_locales Marca_fin_declar_variables
 
-    DEFLIST  desplazar e ir al estado 13
-    TIPO     desplazar e ir al estado 14
+    error    shift, and go to state 13
+    DEFLIST  shift, and go to state 14
+    TIPO     shift, and go to state 15
 
-    Variables_locales        ir al estado 15
-    Cuerpo_declar_variables  ir al estado 16
-    tipo                     ir al estado 17
-    tipo_lista               ir al estado 18
+    Variables_locales        go to state 16
+    Cuerpo_declar_variables  go to state 17
+    error_decl_variables     go to state 18
+    tipo                     go to state 19
+    tipo_lista               go to state 20
 
 
-estado 11
+State 11
 
     5 Marca_ini_declar_variables: INICIOVARS Inicio_de_bloque .
 
-    $default  reduce usando la regla 5 (Marca_ini_declar_variables)
+    $default  reduce using rule 5 (Marca_ini_declar_variables)
 
 
-estado 12
+State 12
 
     2 bloque: Inicio_de_bloque Declar_de_variables_locales Declar_de_subprogs . Sentencias Fin_de_bloque
     7 Declar_de_subprogs: Declar_de_subprogs . Declar_subprog
 
-    PROCED         desplazar e ir al estado 19
-    ABRIRLLAVES    desplazar e ir al estado 5
-    CONDSI         desplazar e ir al estado 20
-    CONDMIENTRAS   desplazar e ir al estado 21
-    LEE            desplazar e ir al estado 22
-    ESCRIBE        desplazar e ir al estado 23
-    DURANTE        desplazar e ir al estado 24
-    IDENTIFICADOR  desplazar e ir al estado 25
+    error          shift, and go to state 21
+    PROCED         shift, and go to state 22
+    ABRIRLLAVES    shift, and go to state 5
+    CONDSI         shift, and go to state 23
+    CONDMIENTRAS   shift, and go to state 24
+    LEE            shift, and go to state 25
+    ESCRIBE        shift, and go to state 26
+    DURANTE        shift, and go to state 27
+    IDENTIFICADOR  shift, and go to state 28
 
-    bloque                ir al estado 26
-    Declar_subprog        ir al estado 27
-    Cabecera_subprograma  ir al estado 28
-    Inicio_de_bloque      ir al estado 7
-    Sentencias            ir al estado 29
-    Sentencia             ir al estado 30
-    sentencia_asignacion  ir al estado 31
-    sentencia_if          ir al estado 32
-    sentencia_while       ir al estado 33
-    sentencia_entrada     ir al estado 34
-    sentencia_salida      ir al estado 35
-    llamada_proced        ir al estado 36
-    sentencia_for         ir al estado 37
-
-
-estado 13
-
-   25 tipo_lista: DEFLIST . TIPO
-
-    TIPO  desplazar e ir al estado 38
+    bloque                go to state 29
+    Declar_subprog        go to state 30
+    Cabecera_subprograma  go to state 31
+    error_subprog         go to state 32
+    Inicio_de_bloque      go to state 7
+    Sentencias            go to state 33
+    Sentencia             go to state 34
+    sentencia_asignacion  go to state 35
+    sentencia_if          go to state 36
+    sentencia_while       go to state 37
+    sentencia_entrada     go to state 38
+    sentencia_salida      go to state 39
+    llamada_proced        go to state 40
+    error_llamada_proced  go to state 41
+    sentencia_for         go to state 42
 
 
-estado 14
+State 13
 
-   23 tipo: TIPO .
+   24 error_decl_variables: error .
 
-    $default  reduce usando la regla 23 (tipo)
+    $default  reduce using rule 24 (error_decl_variables)
 
 
-estado 15
+State 14
+
+   29 tipo_lista: DEFLIST . TIPO
+
+    TIPO  shift, and go to state 43
+
+
+State 15
+
+   27 tipo: TIPO .
+
+    $default  reduce using rule 27 (tipo)
+
+
+State 16
 
     3 Declar_de_variables_locales: Marca_ini_declar_variables Variables_locales . Marca_fin_declar_variables
-   18 Variables_locales: Variables_locales . Cuerpo_declar_variables
+   20 Variables_locales: Variables_locales . Cuerpo_declar_variables
 
-    CERRARLLAVES  desplazar e ir al estado 39
-    DEFLIST       desplazar e ir al estado 13
-    TIPO          desplazar e ir al estado 14
+    error         shift, and go to state 13
+    CERRARLLAVES  shift, and go to state 44
+    DEFLIST       shift, and go to state 14
+    TIPO          shift, and go to state 15
 
-    Marca_fin_declar_variables  ir al estado 40
-    Fin_de_bloque               ir al estado 41
-    Cuerpo_declar_variables     ir al estado 42
-    tipo                        ir al estado 17
-    tipo_lista                  ir al estado 18
-
-
-estado 16
-
-   19 Variables_locales: Cuerpo_declar_variables .
-
-    $default  reduce usando la regla 19 (Variables_locales)
+    Marca_fin_declar_variables  go to state 45
+    Fin_de_bloque               go to state 46
+    Cuerpo_declar_variables     go to state 47
+    error_decl_variables        go to state 18
+    tipo                        go to state 19
+    tipo_lista                  go to state 20
 
 
-estado 17
+State 17
 
-   20 Cuerpo_declar_variables: tipo . Identificadores PUNTOCOMA
+   21 Variables_locales: Cuerpo_declar_variables .
 
-    IDENTIFICADOR  desplazar e ir al estado 43
-
-    Identificadores  ir al estado 44
+    $default  reduce using rule 21 (Variables_locales)
 
 
-estado 18
+State 18
 
-   24 tipo: tipo_lista .
+   23 Cuerpo_declar_variables: error_decl_variables .
 
-    $default  reduce usando la regla 24 (tipo)
+    $default  reduce using rule 23 (Cuerpo_declar_variables)
 
 
-estado 19
+State 19
+
+   22 Cuerpo_declar_variables: tipo . Identificadores PUNTOCOMA
+
+    IDENTIFICADOR  shift, and go to state 48
+
+    Identificadores  go to state 49
+
+
+State 20
+
+   28 tipo: tipo_lista .
+
+    $default  reduce using rule 28 (tipo)
+
+
+State 21
+
+   13 error_subprog: error .
+   62 error_llamada_proced: error .
+
+    ABRIRLLAVES  reduce using rule 13 (error_subprog)
+    ABRIRLLAVES  [reduce using rule 62 (error_llamada_proced)]
+    $default     reduce using rule 62 (error_llamada_proced)
+
+
+State 22
 
    11 Cabecera_subprograma: PROCED . IDENTIFICADOR ABRIRPARENT parametros CERRARPARENT
 
-    IDENTIFICADOR  desplazar e ir al estado 45
+    IDENTIFICADOR  shift, and go to state 50
 
 
-estado 20
+State 23
 
-   37 sentencia_if: CONDSI . ABRIRPARENT expresion CERRARPARENT Sentencia
-   38             | CONDSI . ABRIRPARENT expresion CERRARPARENT Sentencia CONDSINO Sentencia
+   43 sentencia_if: CONDSI . ABRIRPARENT expresion CERRARPARENT Sentencia
+   44             | CONDSI . ABRIRPARENT expresion CERRARPARENT Sentencia CONDSINO Sentencia
+   45             | CONDSI . error_if
 
-    ABRIRPARENT  desplazar e ir al estado 46
+    error        shift, and go to state 51
+    ABRIRPARENT  shift, and go to state 52
 
-
-estado 21
-
-   39 sentencia_while: CONDMIENTRAS . ABRIRPARENT expresion CERRARPARENT Sentencia
-
-    ABRIRPARENT  desplazar e ir al estado 47
+    error_if  go to state 53
 
 
-estado 22
+State 24
 
-   40 sentencia_entrada: LEE . Identificadores PUNTOCOMA
+   47 sentencia_while: CONDMIENTRAS . ABRIRPARENT expresion CERRARPARENT Sentencia
+   48                | CONDMIENTRAS . error_while
 
-    IDENTIFICADOR  desplazar e ir al estado 43
+    error        shift, and go to state 54
+    ABRIRPARENT  shift, and go to state 55
 
-    Identificadores  ir al estado 48
-
-
-estado 23
-
-   41 sentencia_salida: ESCRIBE . lista_expresiones_o_cadena PUNTOCOMA
-
-    ABRIRCORCH     desplazar e ir al estado 49
-    ABRIRPARENT    desplazar e ir al estado 50
-    VERDFALS       desplazar e ir al estado 51
-    MASMAS         desplazar e ir al estado 52
-    CARACTER       desplazar e ir al estado 53
-    CADENA         desplazar e ir al estado 54
-    IDENTIFICADOR  desplazar e ir al estado 55
-    ENTERO         desplazar e ir al estado 56
-    REAL           desplazar e ir al estado 57
-    UNARIOSLISTA   desplazar e ir al estado 58
-    EXCLAMACION    desplazar e ir al estado 59
-    MENOSMENOS     desplazar e ir al estado 60
-
-    expcad                      ir al estado 61
-    lista_expresiones_o_cadena  ir al estado 62
-    expresion                   ir al estado 63
-    lista                       ir al estado 64
-    lista_enteros               ir al estado 65
-    lista_reales                ir al estado 66
-    lista_booleanos             ir al estado 67
-    lista_caracteres            ir al estado 68
+    error_while  go to state 56
 
 
-estado 24
+State 25
 
-   47 sentencia_for: DURANTE . IDENTIFICADOR DOSPUNTOSIGUAL expresion HASTA expresion HACER Sentencia
+   50 sentencia_entrada: LEE . Identificadores PUNTOCOMA
+   51                  | LEE . error_entrada
 
-    IDENTIFICADOR  desplazar e ir al estado 69
+    error          shift, and go to state 57
+    IDENTIFICADOR  shift, and go to state 48
 
-
-estado 25
-
-   36 sentencia_asignacion: IDENTIFICADOR . ASIG expresion PUNTOCOMA
-   46 llamada_proced: IDENTIFICADOR . ABRIRPARENT lista_expresiones CERRARPARENT PUNTOCOMA
-
-    ABRIRPARENT  desplazar e ir al estado 70
-    ASIG         desplazar e ir al estado 71
+    Identificadores  go to state 58
+    error_entrada    go to state 59
 
 
-estado 26
+State 26
 
-   28 Sentencia: bloque .
+   53 sentencia_salida: ESCRIBE . lista_expresiones_o_cadena PUNTOCOMA
+   54                 | ESCRIBE . error_salida
 
-    $default  reduce usando la regla 28 (Sentencia)
+    error          shift, and go to state 60
+    ABRIRCORCH     shift, and go to state 61
+    ABRIRPARENT    shift, and go to state 62
+    VERDFALS       shift, and go to state 63
+    MASMAS         shift, and go to state 64
+    MASMENOS       shift, and go to state 65
+    CARACTER       shift, and go to state 66
+    CADENA         shift, and go to state 67
+    IDENTIFICADOR  shift, and go to state 68
+    ENTERO         shift, and go to state 69
+    REAL           shift, and go to state 70
+    UNARIOSLISTA   shift, and go to state 71
+    EXCLAMACION    shift, and go to state 72
+    MENOSMENOS     shift, and go to state 73
+
+    error_salida                go to state 74
+    expcad                      go to state 75
+    lista_expresiones_o_cadena  go to state 76
+    expresion                   go to state 77
+    error_expresion             go to state 78
+    lista                       go to state 79
+    lista_enteros               go to state 80
+    lista_reales                go to state 81
+    lista_booleanos             go to state 82
+    lista_caracteres            go to state 83
 
 
-estado 27
+State 27
+
+   63 sentencia_for: DURANTE . IDENTIFICADOR DOSPUNTOSIGUAL expresion HASTA expresion HACER Sentencia
+   64              | DURANTE . error_for
+
+    error          shift, and go to state 84
+    IDENTIFICADOR  shift, and go to state 85
+
+    error_for  go to state 86
+
+
+State 28
+
+   40 sentencia_asignacion: IDENTIFICADOR . ASIG expresion PUNTOCOMA
+   41                     | IDENTIFICADOR . error_asignacion
+   60 llamada_proced: IDENTIFICADOR . ABRIRPARENT lista_expresiones CERRARPARENT PUNTOCOMA
+
+    error        shift, and go to state 87
+    ABRIRPARENT  shift, and go to state 88
+    ASIG         shift, and go to state 89
+
+    error_asignacion  go to state 90
+
+
+State 29
+
+   32 Sentencia: bloque .
+
+    $default  reduce using rule 32 (Sentencia)
+
+
+State 30
 
     7 Declar_de_subprogs: Declar_de_subprogs Declar_subprog .
 
-    $default  reduce usando la regla 7 (Declar_de_subprogs)
+    $default  reduce using rule 7 (Declar_de_subprogs)
 
 
-estado 28
+State 31
 
     9 Declar_subprog: Cabecera_subprograma . bloque
 
-    ABRIRLLAVES  desplazar e ir al estado 5
+    ABRIRLLAVES  shift, and go to state 5
 
-    bloque            ir al estado 72
-    Inicio_de_bloque  ir al estado 7
+    bloque            go to state 91
+    Inicio_de_bloque  go to state 7
 
 
-estado 29
+State 32
+
+   12 Cabecera_subprograma: error_subprog .
+
+    $default  reduce using rule 12 (Cabecera_subprograma)
+
+
+State 33
 
     2 bloque: Inicio_de_bloque Declar_de_variables_locales Declar_de_subprogs Sentencias . Fin_de_bloque
-   26 Sentencias: Sentencias . Sentencia
+   30 Sentencias: Sentencias . Sentencia
 
-    ABRIRLLAVES    desplazar e ir al estado 5
-    CERRARLLAVES   desplazar e ir al estado 39
-    CONDSI         desplazar e ir al estado 20
-    CONDMIENTRAS   desplazar e ir al estado 21
-    LEE            desplazar e ir al estado 22
-    ESCRIBE        desplazar e ir al estado 23
-    DURANTE        desplazar e ir al estado 24
-    IDENTIFICADOR  desplazar e ir al estado 25
+    error          shift, and go to state 92
+    ABRIRLLAVES    shift, and go to state 5
+    CERRARLLAVES   shift, and go to state 44
+    CONDSI         shift, and go to state 23
+    CONDMIENTRAS   shift, and go to state 24
+    LEE            shift, and go to state 25
+    ESCRIBE        shift, and go to state 26
+    DURANTE        shift, and go to state 27
+    IDENTIFICADOR  shift, and go to state 28
 
-    bloque                ir al estado 26
-    Inicio_de_bloque      ir al estado 7
-    Fin_de_bloque         ir al estado 73
-    Sentencia             ir al estado 74
-    sentencia_asignacion  ir al estado 31
-    sentencia_if          ir al estado 32
-    sentencia_while       ir al estado 33
-    sentencia_entrada     ir al estado 34
-    sentencia_salida      ir al estado 35
-    llamada_proced        ir al estado 36
-    sentencia_for         ir al estado 37
-
-
-estado 30
-
-   27 Sentencias: Sentencia .
-
-    $default  reduce usando la regla 27 (Sentencias)
+    bloque                go to state 29
+    Inicio_de_bloque      go to state 7
+    Fin_de_bloque         go to state 93
+    Sentencia             go to state 94
+    sentencia_asignacion  go to state 35
+    sentencia_if          go to state 36
+    sentencia_while       go to state 37
+    sentencia_entrada     go to state 38
+    sentencia_salida      go to state 39
+    llamada_proced        go to state 40
+    error_llamada_proced  go to state 41
+    sentencia_for         go to state 42
 
 
-estado 31
+State 34
 
-   29 Sentencia: sentencia_asignacion .
+   31 Sentencias: Sentencia .
 
-    $default  reduce usando la regla 29 (Sentencia)
-
-
-estado 32
-
-   30 Sentencia: sentencia_if .
-
-    $default  reduce usando la regla 30 (Sentencia)
+    $default  reduce using rule 31 (Sentencias)
 
 
-estado 33
+State 35
 
-   31 Sentencia: sentencia_while .
+   33 Sentencia: sentencia_asignacion .
 
-    $default  reduce usando la regla 31 (Sentencia)
-
-
-estado 34
-
-   32 Sentencia: sentencia_entrada .
-
-    $default  reduce usando la regla 32 (Sentencia)
+    $default  reduce using rule 33 (Sentencia)
 
 
-estado 35
+State 36
 
-   33 Sentencia: sentencia_salida .
+   34 Sentencia: sentencia_if .
 
-    $default  reduce usando la regla 33 (Sentencia)
-
-
-estado 36
-
-   34 Sentencia: llamada_proced .
-
-    $default  reduce usando la regla 34 (Sentencia)
+    $default  reduce using rule 34 (Sentencia)
 
 
-estado 37
+State 37
 
-   35 Sentencia: sentencia_for .
+   35 Sentencia: sentencia_while .
 
-    $default  reduce usando la regla 35 (Sentencia)
-
-
-estado 38
-
-   25 tipo_lista: DEFLIST TIPO .
-
-    $default  reduce usando la regla 25 (tipo_lista)
+    $default  reduce using rule 35 (Sentencia)
 
 
-estado 39
+State 38
 
-   17 Fin_de_bloque: CERRARLLAVES .
+   36 Sentencia: sentencia_entrada .
 
-    $default  reduce usando la regla 17 (Fin_de_bloque)
+    $default  reduce using rule 36 (Sentencia)
 
 
-estado 40
+State 39
+
+   37 Sentencia: sentencia_salida .
+
+    $default  reduce using rule 37 (Sentencia)
+
+
+State 40
+
+   38 Sentencia: llamada_proced .
+
+    $default  reduce using rule 38 (Sentencia)
+
+
+State 41
+
+   61 llamada_proced: error_llamada_proced .
+
+    $default  reduce using rule 61 (llamada_proced)
+
+
+State 42
+
+   39 Sentencia: sentencia_for .
+
+    $default  reduce using rule 39 (Sentencia)
+
+
+State 43
+
+   29 tipo_lista: DEFLIST TIPO .
+
+    $default  reduce using rule 29 (tipo_lista)
+
+
+State 44
+
+   19 Fin_de_bloque: CERRARLLAVES .
+
+    $default  reduce using rule 19 (Fin_de_bloque)
+
+
+State 45
 
     3 Declar_de_variables_locales: Marca_ini_declar_variables Variables_locales Marca_fin_declar_variables .
 
-    $default  reduce usando la regla 3 (Declar_de_variables_locales)
+    $default  reduce using rule 3 (Declar_de_variables_locales)
 
 
-estado 41
+State 46
 
     6 Marca_fin_declar_variables: Fin_de_bloque . FINVARS PUNTOCOMA
 
-    FINVARS  desplazar e ir al estado 75
+    FINVARS  shift, and go to state 95
 
 
-estado 42
+State 47
 
-   18 Variables_locales: Variables_locales Cuerpo_declar_variables .
+   20 Variables_locales: Variables_locales Cuerpo_declar_variables .
 
-    $default  reduce usando la regla 18 (Variables_locales)
-
-
-estado 43
-
-   21 Identificadores: IDENTIFICADOR .
-
-    $default  reduce usando la regla 21 (Identificadores)
+    $default  reduce using rule 20 (Variables_locales)
 
 
-estado 44
+State 48
 
-   20 Cuerpo_declar_variables: tipo Identificadores . PUNTOCOMA
-   22 Identificadores: Identificadores . COMA IDENTIFICADOR
+   25 Identificadores: IDENTIFICADOR .
 
-    PUNTOCOMA  desplazar e ir al estado 76
-    COMA       desplazar e ir al estado 77
+    $default  reduce using rule 25 (Identificadores)
 
 
-estado 45
+State 49
+
+   22 Cuerpo_declar_variables: tipo Identificadores . PUNTOCOMA
+   26 Identificadores: Identificadores . COMA IDENTIFICADOR
+
+    PUNTOCOMA  shift, and go to state 96
+    COMA       shift, and go to state 97
+
+
+State 50
 
    11 Cabecera_subprograma: PROCED IDENTIFICADOR . ABRIRPARENT parametros CERRARPARENT
 
-    ABRIRPARENT  desplazar e ir al estado 78
-
-
-estado 46
+    ABRIRPARENT  shift, and go to state 98
 
-   37 sentencia_if: CONDSI ABRIRPARENT . expresion CERRARPARENT Sentencia
-   38             | CONDSI ABRIRPARENT . expresion CERRARPARENT Sentencia CONDSINO Sentencia
 
-    ABRIRCORCH     desplazar e ir al estado 49
-    ABRIRPARENT    desplazar e ir al estado 50
-    VERDFALS       desplazar e ir al estado 51
-    MASMAS         desplazar e ir al estado 52
-    CARACTER       desplazar e ir al estado 53
-    IDENTIFICADOR  desplazar e ir al estado 55
-    ENTERO         desplazar e ir al estado 56
-    REAL           desplazar e ir al estado 57
-    UNARIOSLISTA   desplazar e ir al estado 58
-    EXCLAMACION    desplazar e ir al estado 59
-    MENOSMENOS     desplazar e ir al estado 60
+State 51
 
-    expresion         ir al estado 79
-    lista             ir al estado 64
-    lista_enteros     ir al estado 65
-    lista_reales      ir al estado 66
-    lista_booleanos   ir al estado 67
-    lista_caracteres  ir al estado 68
+   46 error_if: error .
 
+    $default  reduce using rule 46 (error_if)
 
-estado 47
 
-   39 sentencia_while: CONDMIENTRAS ABRIRPARENT . expresion CERRARPARENT Sentencia
+State 52
 
-    ABRIRCORCH     desplazar e ir al estado 49
-    ABRIRPARENT    desplazar e ir al estado 50
-    VERDFALS       desplazar e ir al estado 51
-    MASMAS         desplazar e ir al estado 52
-    CARACTER       desplazar e ir al estado 53
-    IDENTIFICADOR  desplazar e ir al estado 55
-    ENTERO         desplazar e ir al estado 56
-    REAL           desplazar e ir al estado 57
-    UNARIOSLISTA   desplazar e ir al estado 58
-    EXCLAMACION    desplazar e ir al estado 59
-    MENOSMENOS     desplazar e ir al estado 60
+   43 sentencia_if: CONDSI ABRIRPARENT . expresion CERRARPARENT Sentencia
+   44             | CONDSI ABRIRPARENT . expresion CERRARPARENT Sentencia CONDSINO Sentencia
 
-    expresion         ir al estado 80
-    lista             ir al estado 64
-    lista_enteros     ir al estado 65
-    lista_reales      ir al estado 66
-    lista_booleanos   ir al estado 67
-    lista_caracteres  ir al estado 68
+    error          shift, and go to state 99
+    ABRIRCORCH     shift, and go to state 61
+    ABRIRPARENT    shift, and go to state 62
+    VERDFALS       shift, and go to state 63
+    MASMAS         shift, and go to state 64
+    MASMENOS       shift, and go to state 65
+    CARACTER       shift, and go to state 66
+    IDENTIFICADOR  shift, and go to state 68
+    ENTERO         shift, and go to state 69
+    REAL           shift, and go to state 70
+    UNARIOSLISTA   shift, and go to state 71
+    EXCLAMACION    shift, and go to state 72
+    MENOSMENOS     shift, and go to state 73
 
+    expresion         go to state 100
+    error_expresion   go to state 78
+    lista             go to state 79
+    lista_enteros     go to state 80
+    lista_reales      go to state 81
+    lista_booleanos   go to state 82
+    lista_caracteres  go to state 83
 
-estado 48
 
-   22 Identificadores: Identificadores . COMA IDENTIFICADOR
-   40 sentencia_entrada: LEE Identificadores . PUNTOCOMA
+State 53
 
-    PUNTOCOMA  desplazar e ir al estado 81
-    COMA       desplazar e ir al estado 77
+   45 sentencia_if: CONDSI error_if .
 
+    $default  reduce using rule 45 (sentencia_if)
 
-estado 49
 
-   77 lista_enteros: ABRIRCORCH . Enteros CERRARCORCH
-   80 lista_reales: ABRIRCORCH . Reales CERRARCORCH
-   83 lista_booleanos: ABRIRCORCH . Booleanos CERRARCORCH
-   86 lista_caracteres: ABRIRCORCH . Caracteres CERRARCORCH
+State 54
 
-    VERDFALS  desplazar e ir al estado 82
-    CARACTER  desplazar e ir al estado 83
-    ENTERO    desplazar e ir al estado 84
-    REAL      desplazar e ir al estado 85
+   49 error_while: error .
 
-    Enteros     ir al estado 86
-    Reales      ir al estado 87
-    Booleanos   ir al estado 88
-    Caracteres  ir al estado 89
+    $default  reduce using rule 49 (error_while)
 
 
-estado 50
+State 55
 
-   48 expresion: ABRIRPARENT . expresion CERRARPARENT
+   47 sentencia_while: CONDMIENTRAS ABRIRPARENT . expresion CERRARPARENT Sentencia
 
-    ABRIRCORCH     desplazar e ir al estado 49
-    ABRIRPARENT    desplazar e ir al estado 50
-    VERDFALS       desplazar e ir al estado 51
-    MASMAS         desplazar e ir al estado 52
-    CARACTER       desplazar e ir al estado 53
-    IDENTIFICADOR  desplazar e ir al estado 55
-    ENTERO         desplazar e ir al estado 56
-    REAL           desplazar e ir al estado 57
-    UNARIOSLISTA   desplazar e ir al estado 58
-    EXCLAMACION    desplazar e ir al estado 59
-    MENOSMENOS     desplazar e ir al estado 60
+    error          shift, and go to state 99
+    ABRIRCORCH     shift, and go to state 61
+    ABRIRPARENT    shift, and go to state 62
+    VERDFALS       shift, and go to state 63
+    MASMAS         shift, and go to state 64
+    MASMENOS       shift, and go to state 65
+    CARACTER       shift, and go to state 66
+    IDENTIFICADOR  shift, and go to state 68
+    ENTERO         shift, and go to state 69
+    REAL           shift, and go to state 70
+    UNARIOSLISTA   shift, and go to state 71
+    EXCLAMACION    shift, and go to state 72
+    MENOSMENOS     shift, and go to state 73
 
-    expresion         ir al estado 90
-    lista             ir al estado 64
-    lista_enteros     ir al estado 65
-    lista_reales      ir al estado 66
-    lista_booleanos   ir al estado 67
-    lista_caracteres  ir al estado 68
+    expresion         go to state 101
+    error_expresion   go to state 78
+    lista             go to state 79
+    lista_enteros     go to state 80
+    lista_reales      go to state 81
+    lista_booleanos   go to state 82
+    lista_caracteres  go to state 83
 
 
-estado 51
+State 56
 
-   68 expresion: VERDFALS .
+   48 sentencia_while: CONDMIENTRAS error_while .
 
-    $default  reduce usando la regla 68 (expresion)
+    $default  reduce using rule 48 (sentencia_while)
 
 
-estado 52
+State 57
 
-   49 expresion: MASMAS . expresion
+   52 error_entrada: error .
 
-    ABRIRCORCH     desplazar e ir al estado 49
-    ABRIRPARENT    desplazar e ir al estado 50
-    VERDFALS       desplazar e ir al estado 51
-    MASMAS         desplazar e ir al estado 52
-    CARACTER       desplazar e ir al estado 53
-    IDENTIFICADOR  desplazar e ir al estado 55
-    ENTERO         desplazar e ir al estado 56
-    REAL           desplazar e ir al estado 57
-    UNARIOSLISTA   desplazar e ir al estado 58
-    EXCLAMACION    desplazar e ir al estado 59
-    MENOSMENOS     desplazar e ir al estado 60
+    $default  reduce using rule 52 (error_entrada)
 
-    expresion         ir al estado 91
-    lista             ir al estado 64
-    lista_enteros     ir al estado 65
-    lista_reales      ir al estado 66
-    lista_booleanos   ir al estado 67
-    lista_caracteres  ir al estado 68
 
+State 58
 
-estado 53
+   26 Identificadores: Identificadores . COMA IDENTIFICADOR
+   50 sentencia_entrada: LEE Identificadores . PUNTOCOMA
 
-   69 expresion: CARACTER .
+    PUNTOCOMA  shift, and go to state 102
+    COMA       shift, and go to state 97
 
-    $default  reduce usando la regla 69 (expresion)
 
+State 59
 
-estado 54
+   51 sentencia_entrada: LEE error_entrada .
 
-   43 expcad: CADENA .
+    $default  reduce using rule 51 (sentencia_entrada)
 
-    $default  reduce usando la regla 43 (expcad)
 
+State 60
 
-estado 55
+   55 error_salida: error .
+   91 error_expresion: error .
 
-   65 expresion: IDENTIFICADOR .
+    error          reduce using rule 55 (error_salida)
+    ABRIRLLAVES    reduce using rule 55 (error_salida)
+    CERRARLLAVES   reduce using rule 55 (error_salida)
+    CONDSI         reduce using rule 55 (error_salida)
+    CONDMIENTRAS   reduce using rule 55 (error_salida)
+    CONDSINO       reduce using rule 55 (error_salida)
+    LEE            reduce using rule 55 (error_salida)
+    ESCRIBE        reduce using rule 55 (error_salida)
+    DURANTE        reduce using rule 55 (error_salida)
+    IDENTIFICADOR  reduce using rule 55 (error_salida)
+    $default       reduce using rule 91 (error_expresion)
 
-    $default  reduce usando la regla 65 (expresion)
 
+State 61
 
-estado 56
+   98 lista_enteros: ABRIRCORCH . Enteros CERRARCORCH
+  101 lista_reales: ABRIRCORCH . Reales CERRARCORCH
+  104 lista_booleanos: ABRIRCORCH . Booleanos CERRARCORCH
+  107 lista_caracteres: ABRIRCORCH . Caracteres CERRARCORCH
 
-   66 expresion: ENTERO .
+    VERDFALS  shift, and go to state 103
+    CARACTER  shift, and go to state 104
+    ENTERO    shift, and go to state 105
+    REAL      shift, and go to state 106
 
-    $default  reduce usando la regla 66 (expresion)
+    Enteros     go to state 107
+    Reales      go to state 108
+    Booleanos   go to state 109
+    Caracteres  go to state 110
 
 
-estado 57
+State 62
 
-   67 expresion: REAL .
+   66 expresion: ABRIRPARENT . expresion CERRARPARENT
 
-    $default  reduce usando la regla 67 (expresion)
+    error          shift, and go to state 99
+    ABRIRCORCH     shift, and go to state 61
+    ABRIRPARENT    shift, and go to state 62
+    VERDFALS       shift, and go to state 63
+    MASMAS         shift, and go to state 64
+    MASMENOS       shift, and go to state 65
+    CARACTER       shift, and go to state 66
+    IDENTIFICADOR  shift, and go to state 68
+    ENTERO         shift, and go to state 69
+    REAL           shift, and go to state 70
+    UNARIOSLISTA   shift, and go to state 71
+    EXCLAMACION    shift, and go to state 72
+    MENOSMENOS     shift, and go to state 73
 
+    expresion         go to state 111
+    error_expresion   go to state 78
+    lista             go to state 79
+    lista_enteros     go to state 80
+    lista_reales      go to state 81
+    lista_booleanos   go to state 82
+    lista_caracteres  go to state 83
 
-estado 58
 
-   50 expresion: UNARIOSLISTA . expresion
+State 63
 
-    ABRIRCORCH     desplazar e ir al estado 49
-    ABRIRPARENT    desplazar e ir al estado 50
-    VERDFALS       desplazar e ir al estado 51
-    MASMAS         desplazar e ir al estado 52
-    CARACTER       desplazar e ir al estado 53
-    IDENTIFICADOR  desplazar e ir al estado 55
-    ENTERO         desplazar e ir al estado 56
-    REAL           desplazar e ir al estado 57
-    UNARIOSLISTA   desplazar e ir al estado 58
-    EXCLAMACION    desplazar e ir al estado 59
-    MENOSMENOS     desplazar e ir al estado 60
+   87 expresion: VERDFALS .
 
-    expresion         ir al estado 92
-    lista             ir al estado 64
-    lista_enteros     ir al estado 65
-    lista_reales      ir al estado 66
-    lista_booleanos   ir al estado 67
-    lista_caracteres  ir al estado 68
+    $default  reduce using rule 87 (expresion)
 
 
-estado 59
+State 64
 
-   52 expresion: EXCLAMACION . expresion
+   69 expresion: MASMAS . expresion
 
-    ABRIRCORCH     desplazar e ir al estado 49
-    ABRIRPARENT    desplazar e ir al estado 50
-    VERDFALS       desplazar e ir al estado 51
-    MASMAS         desplazar e ir al estado 52
-    CARACTER       desplazar e ir al estado 53
-    IDENTIFICADOR  desplazar e ir al estado 55
-    ENTERO         desplazar e ir al estado 56
-    REAL           desplazar e ir al estado 57
-    UNARIOSLISTA   desplazar e ir al estado 58
-    EXCLAMACION    desplazar e ir al estado 59
-    MENOSMENOS     desplazar e ir al estado 60
+    error          shift, and go to state 99
+    ABRIRCORCH     shift, and go to state 61
+    ABRIRPARENT    shift, and go to state 62
+    VERDFALS       shift, and go to state 63
+    MASMAS         shift, and go to state 64
+    MASMENOS       shift, and go to state 65
+    CARACTER       shift, and go to state 66
+    IDENTIFICADOR  shift, and go to state 68
+    ENTERO         shift, and go to state 69
+    REAL           shift, and go to state 70
+    UNARIOSLISTA   shift, and go to state 71
+    EXCLAMACION    shift, and go to state 72
+    MENOSMENOS     shift, and go to state 73
 
-    expresion         ir al estado 93
-    lista             ir al estado 64
-    lista_enteros     ir al estado 65
-    lista_reales      ir al estado 66
-    lista_booleanos   ir al estado 67
-    lista_caracteres  ir al estado 68
+    expresion         go to state 112
+    error_expresion   go to state 78
+    lista             go to state 79
+    lista_enteros     go to state 80
+    lista_reales      go to state 81
+    lista_booleanos   go to state 82
+    lista_caracteres  go to state 83
 
 
-estado 60
+State 65
 
-   51 expresion: MENOSMENOS . expresion
+   67 expresion: MASMENOS . expresion
 
-    ABRIRCORCH     desplazar e ir al estado 49
-    ABRIRPARENT    desplazar e ir al estado 50
-    VERDFALS       desplazar e ir al estado 51
-    MASMAS         desplazar e ir al estado 52
-    CARACTER       desplazar e ir al estado 53
-    IDENTIFICADOR  desplazar e ir al estado 55
-    ENTERO         desplazar e ir al estado 56
-    REAL           desplazar e ir al estado 57
-    UNARIOSLISTA   desplazar e ir al estado 58
-    EXCLAMACION    desplazar e ir al estado 59
-    MENOSMENOS     desplazar e ir al estado 60
+    error          shift, and go to state 99
+    ABRIRCORCH     shift, and go to state 61
+    ABRIRPARENT    shift, and go to state 62
+    VERDFALS       shift, and go to state 63
+    MASMAS         shift, and go to state 64
+    MASMENOS       shift, and go to state 65
+    CARACTER       shift, and go to state 66
+    IDENTIFICADOR  shift, and go to state 68
+    ENTERO         shift, and go to state 69
+    REAL           shift, and go to state 70
+    UNARIOSLISTA   shift, and go to state 71
+    EXCLAMACION    shift, and go to state 72
+    MENOSMENOS     shift, and go to state 73
 
-    expresion         ir al estado 94
-    lista             ir al estado 64
-    lista_enteros     ir al estado 65
-    lista_reales      ir al estado 66
-    lista_booleanos   ir al estado 67
-    lista_caracteres  ir al estado 68
+    expresion         go to state 113
+    error_expresion   go to state 78
+    lista             go to state 79
+    lista_enteros     go to state 80
+    lista_reales      go to state 81
+    lista_booleanos   go to state 82
+    lista_caracteres  go to state 83
 
 
-estado 61
+State 66
 
-   44 lista_expresiones_o_cadena: expcad .
+   88 expresion: CARACTER .
 
-    $default  reduce usando la regla 44 (lista_expresiones_o_cadena)
+    $default  reduce using rule 88 (expresion)
 
 
-estado 62
+State 67
 
-   41 sentencia_salida: ESCRIBE lista_expresiones_o_cadena . PUNTOCOMA
-   45 lista_expresiones_o_cadena: lista_expresiones_o_cadena . COMA expcad
+   57 expcad: CADENA .
 
-    PUNTOCOMA  desplazar e ir al estado 95
-    COMA       desplazar e ir al estado 96
+    $default  reduce using rule 57 (expcad)
 
 
-estado 63
+State 68
 
-   42 expcad: expresion .
-   53 expresion: expresion . AVANRETRO
-   54          | expresion . MULMUL expresion
-   55          | expresion . MULTIDIV expresion
-   56          | expresion . LOGAND expresion
-   57          | expresion . EXOR expresion
-   58          | expresion . ORBIT expresion
-   59          | expresion . LOGOR expresion
-   60          | expresion . IGUALDAD expresion
-   61          | expresion . PORCENTAJE expresion
-   62          | expresion . ANDBIT expresion
-   63          | expresion . MASMENOS expresion
-   64          | expresion . MASMAS expresion ARROBA expresion
+   84 expresion: IDENTIFICADOR .
 
-    MASMAS      desplazar e ir al estado 97
-    MASMENOS    desplazar e ir al estado 98
-    LOGOR       desplazar e ir al estado 99
-    LOGAND      desplazar e ir al estado 100
-    ORBIT       desplazar e ir al estado 101
-    EXOR        desplazar e ir al estado 102
-    ANDBIT      desplazar e ir al estado 103
-    IGUALDAD    desplazar e ir al estado 104
-    PORCENTAJE  desplazar e ir al estado 105
-    MULTIDIV    desplazar e ir al estado 106
-    MULMUL      desplazar e ir al estado 107
-    AVANRETRO   desplazar e ir al estado 108
+    $default  reduce using rule 84 (expresion)
 
-    $default  reduce usando la regla 42 (expcad)
 
+State 69
 
-estado 64
+   85 expresion: ENTERO .
 
-   70 expresion: lista .
+    $default  reduce using rule 85 (expresion)
 
-    $default  reduce usando la regla 70 (expresion)
 
+State 70
 
-estado 65
+   86 expresion: REAL .
 
-   73 lista: lista_enteros .
+    $default  reduce using rule 86 (expresion)
 
-    $default  reduce usando la regla 73 (lista)
 
+State 71
 
-estado 66
+   68 expresion: UNARIOSLISTA . expresion
 
-   74 lista: lista_reales .
+    error          shift, and go to state 99
+    ABRIRCORCH     shift, and go to state 61
+    ABRIRPARENT    shift, and go to state 62
+    VERDFALS       shift, and go to state 63
+    MASMAS         shift, and go to state 64
+    MASMENOS       shift, and go to state 65
+    CARACTER       shift, and go to state 66
+    IDENTIFICADOR  shift, and go to state 68
+    ENTERO         shift, and go to state 69
+    REAL           shift, and go to state 70
+    UNARIOSLISTA   shift, and go to state 71
+    EXCLAMACION    shift, and go to state 72
+    MENOSMENOS     shift, and go to state 73
 
-    $default  reduce usando la regla 74 (lista)
+    expresion         go to state 114
+    error_expresion   go to state 78
+    lista             go to state 79
+    lista_enteros     go to state 80
+    lista_reales      go to state 81
+    lista_booleanos   go to state 82
+    lista_caracteres  go to state 83
 
 
-estado 67
+State 72
 
-   75 lista: lista_booleanos .
+   71 expresion: EXCLAMACION . expresion
 
-    $default  reduce usando la regla 75 (lista)
+    error          shift, and go to state 99
+    ABRIRCORCH     shift, and go to state 61
+    ABRIRPARENT    shift, and go to state 62
+    VERDFALS       shift, and go to state 63
+    MASMAS         shift, and go to state 64
+    MASMENOS       shift, and go to state 65
+    CARACTER       shift, and go to state 66
+    IDENTIFICADOR  shift, and go to state 68
+    ENTERO         shift, and go to state 69
+    REAL           shift, and go to state 70
+    UNARIOSLISTA   shift, and go to state 71
+    EXCLAMACION    shift, and go to state 72
+    MENOSMENOS     shift, and go to state 73
 
+    expresion         go to state 115
+    error_expresion   go to state 78
+    lista             go to state 79
+    lista_enteros     go to state 80
+    lista_reales      go to state 81
+    lista_booleanos   go to state 82
+    lista_caracteres  go to state 83
 
-estado 68
 
-   76 lista: lista_caracteres .
+State 73
 
-    $default  reduce usando la regla 76 (lista)
+   70 expresion: MENOSMENOS . expresion
 
+    error          shift, and go to state 99
+    ABRIRCORCH     shift, and go to state 61
+    ABRIRPARENT    shift, and go to state 62
+    VERDFALS       shift, and go to state 63
+    MASMAS         shift, and go to state 64
+    MASMENOS       shift, and go to state 65
+    CARACTER       shift, and go to state 66
+    IDENTIFICADOR  shift, and go to state 68
+    ENTERO         shift, and go to state 69
+    REAL           shift, and go to state 70
+    UNARIOSLISTA   shift, and go to state 71
+    EXCLAMACION    shift, and go to state 72
+    MENOSMENOS     shift, and go to state 73
 
-estado 69
+    expresion         go to state 116
+    error_expresion   go to state 78
+    lista             go to state 79
+    lista_enteros     go to state 80
+    lista_reales      go to state 81
+    lista_booleanos   go to state 82
+    lista_caracteres  go to state 83
 
-   47 sentencia_for: DURANTE IDENTIFICADOR . DOSPUNTOSIGUAL expresion HASTA expresion HACER Sentencia
 
-    DOSPUNTOSIGUAL  desplazar e ir al estado 109
+State 74
 
+   54 sentencia_salida: ESCRIBE error_salida .
 
-estado 70
+    $default  reduce using rule 54 (sentencia_salida)
 
-   46 llamada_proced: IDENTIFICADOR ABRIRPARENT . lista_expresiones CERRARPARENT PUNTOCOMA
 
-    ABRIRCORCH     desplazar e ir al estado 49
-    ABRIRPARENT    desplazar e ir al estado 50
-    VERDFALS       desplazar e ir al estado 51
-    MASMAS         desplazar e ir al estado 52
-    CARACTER       desplazar e ir al estado 53
-    IDENTIFICADOR  desplazar e ir al estado 55
-    ENTERO         desplazar e ir al estado 56
-    REAL           desplazar e ir al estado 57
-    UNARIOSLISTA   desplazar e ir al estado 58
-    EXCLAMACION    desplazar e ir al estado 59
-    MENOSMENOS     desplazar e ir al estado 60
+State 75
 
-    expresion          ir al estado 110
-    lista_expresiones  ir al estado 111
-    lista              ir al estado 64
-    lista_enteros      ir al estado 65
-    lista_reales       ir al estado 66
-    lista_booleanos    ir al estado 67
-    lista_caracteres   ir al estado 68
+   58 lista_expresiones_o_cadena: expcad .
 
+    $default  reduce using rule 58 (lista_expresiones_o_cadena)
 
-estado 71
 
-   36 sentencia_asignacion: IDENTIFICADOR ASIG . expresion PUNTOCOMA
+State 76
 
-    ABRIRCORCH     desplazar e ir al estado 49
-    ABRIRPARENT    desplazar e ir al estado 50
-    VERDFALS       desplazar e ir al estado 51
-    MASMAS         desplazar e ir al estado 52
-    CARACTER       desplazar e ir al estado 53
-    IDENTIFICADOR  desplazar e ir al estado 55
-    ENTERO         desplazar e ir al estado 56
-    REAL           desplazar e ir al estado 57
-    UNARIOSLISTA   desplazar e ir al estado 58
-    EXCLAMACION    desplazar e ir al estado 59
-    MENOSMENOS     desplazar e ir al estado 60
+   53 sentencia_salida: ESCRIBE lista_expresiones_o_cadena . PUNTOCOMA
+   59 lista_expresiones_o_cadena: lista_expresiones_o_cadena . COMA expcad
 
-    expresion         ir al estado 112
-    lista             ir al estado 64
-    lista_enteros     ir al estado 65
-    lista_reales      ir al estado 66
-    lista_booleanos   ir al estado 67
-    lista_caracteres  ir al estado 68
+    PUNTOCOMA  shift, and go to state 117
+    COMA       shift, and go to state 118
 
 
-estado 72
+State 77
+
+   56 expcad: expresion .
+   72 expresion: expresion . AVANRETRO
+   73          | expresion . MULMUL expresion
+   74          | expresion . MULTIDIV expresion
+   75          | expresion . LOGAND expresion
+   76          | expresion . EXOR expresion
+   77          | expresion . ORBIT expresion
+   78          | expresion . LOGOR expresion
+   79          | expresion . IGUALDAD expresion
+   80          | expresion . PORCENTAJE expresion
+   81          | expresion . ANDBIT expresion
+   82          | expresion . MASMENOS expresion
+   83          | expresion . MASMAS expresion ARROBA expresion
+
+    MASMAS      shift, and go to state 119
+    MASMENOS    shift, and go to state 120
+    LOGOR       shift, and go to state 121
+    LOGAND      shift, and go to state 122
+    ORBIT       shift, and go to state 123
+    EXOR        shift, and go to state 124
+    ANDBIT      shift, and go to state 125
+    IGUALDAD    shift, and go to state 126
+    MULTIDIV    shift, and go to state 127
+    PORCENTAJE  shift, and go to state 128
+    MULMUL      shift, and go to state 129
+    AVANRETRO   shift, and go to state 130
+
+    $default  reduce using rule 56 (expcad)
+
+
+State 78
+
+   90 expresion: error_expresion .
+
+    $default  reduce using rule 90 (expresion)
+
+
+State 79
+
+   89 expresion: lista .
+
+    $default  reduce using rule 89 (expresion)
+
+
+State 80
+
+   94 lista: lista_enteros .
+
+    $default  reduce using rule 94 (lista)
+
+
+State 81
+
+   95 lista: lista_reales .
+
+    $default  reduce using rule 95 (lista)
+
+
+State 82
+
+   96 lista: lista_booleanos .
+
+    $default  reduce using rule 96 (lista)
+
+
+State 83
+
+   97 lista: lista_caracteres .
+
+    $default  reduce using rule 97 (lista)
+
+
+State 84
+
+   65 error_for: error .
+
+    $default  reduce using rule 65 (error_for)
+
+
+State 85
+
+   63 sentencia_for: DURANTE IDENTIFICADOR . DOSPUNTOSIGUAL expresion HASTA expresion HACER Sentencia
+
+    DOSPUNTOSIGUAL  shift, and go to state 131
+
+
+State 86
+
+   64 sentencia_for: DURANTE error_for .
+
+    $default  reduce using rule 64 (sentencia_for)
+
+
+State 87
+
+   42 error_asignacion: error .
+
+    $default  reduce using rule 42 (error_asignacion)
+
+
+State 88
+
+   60 llamada_proced: IDENTIFICADOR ABRIRPARENT . lista_expresiones CERRARPARENT PUNTOCOMA
+
+    error          shift, and go to state 99
+    ABRIRCORCH     shift, and go to state 61
+    ABRIRPARENT    shift, and go to state 62
+    VERDFALS       shift, and go to state 63
+    MASMAS         shift, and go to state 64
+    MASMENOS       shift, and go to state 65
+    CARACTER       shift, and go to state 66
+    IDENTIFICADOR  shift, and go to state 68
+    ENTERO         shift, and go to state 69
+    REAL           shift, and go to state 70
+    UNARIOSLISTA   shift, and go to state 71
+    EXCLAMACION    shift, and go to state 72
+    MENOSMENOS     shift, and go to state 73
+
+    expresion          go to state 132
+    error_expresion    go to state 78
+    lista_expresiones  go to state 133
+    lista              go to state 79
+    lista_enteros      go to state 80
+    lista_reales       go to state 81
+    lista_booleanos    go to state 82
+    lista_caracteres   go to state 83
+
+
+State 89
+
+   40 sentencia_asignacion: IDENTIFICADOR ASIG . expresion PUNTOCOMA
+
+    error          shift, and go to state 99
+    ABRIRCORCH     shift, and go to state 61
+    ABRIRPARENT    shift, and go to state 62
+    VERDFALS       shift, and go to state 63
+    MASMAS         shift, and go to state 64
+    MASMENOS       shift, and go to state 65
+    CARACTER       shift, and go to state 66
+    IDENTIFICADOR  shift, and go to state 68
+    ENTERO         shift, and go to state 69
+    REAL           shift, and go to state 70
+    UNARIOSLISTA   shift, and go to state 71
+    EXCLAMACION    shift, and go to state 72
+    MENOSMENOS     shift, and go to state 73
+
+    expresion         go to state 134
+    error_expresion   go to state 78
+    lista             go to state 79
+    lista_enteros     go to state 80
+    lista_reales      go to state 81
+    lista_booleanos   go to state 82
+    lista_caracteres  go to state 83
+
+
+State 90
+
+   41 sentencia_asignacion: IDENTIFICADOR error_asignacion .
+
+    $default  reduce using rule 41 (sentencia_asignacion)
+
+
+State 91
 
     9 Declar_subprog: Cabecera_subprograma bloque .
 
-    $default  reduce usando la regla 9 (Declar_subprog)
+    $default  reduce using rule 9 (Declar_subprog)
 
 
-estado 73
+State 92
+
+   62 error_llamada_proced: error .
+
+    $default  reduce using rule 62 (error_llamada_proced)
+
+
+State 93
 
     2 bloque: Inicio_de_bloque Declar_de_variables_locales Declar_de_subprogs Sentencias Fin_de_bloque .
 
-    $default  reduce usando la regla 2 (bloque)
+    $default  reduce using rule 2 (bloque)
 
 
-estado 74
+State 94
 
-   26 Sentencias: Sentencias Sentencia .
+   30 Sentencias: Sentencias Sentencia .
 
-    $default  reduce usando la regla 26 (Sentencias)
+    $default  reduce using rule 30 (Sentencias)
 
 
-estado 75
+State 95
 
     6 Marca_fin_declar_variables: Fin_de_bloque FINVARS . PUNTOCOMA
 
-    PUNTOCOMA  desplazar e ir al estado 113
+    PUNTOCOMA  shift, and go to state 135
 
 
-estado 76
+State 96
 
-   20 Cuerpo_declar_variables: tipo Identificadores PUNTOCOMA .
+   22 Cuerpo_declar_variables: tipo Identificadores PUNTOCOMA .
 
-    $default  reduce usando la regla 20 (Cuerpo_declar_variables)
-
-
-estado 77
-
-   22 Identificadores: Identificadores COMA . IDENTIFICADOR
-
-    IDENTIFICADOR  desplazar e ir al estado 114
+    $default  reduce using rule 22 (Cuerpo_declar_variables)
 
 
-estado 78
+State 97
+
+   26 Identificadores: Identificadores COMA . IDENTIFICADOR
+
+    IDENTIFICADOR  shift, and go to state 136
+
+
+State 98
 
    11 Cabecera_subprograma: PROCED IDENTIFICADOR ABRIRPARENT . parametros CERRARPARENT
 
-    DEFLIST  desplazar e ir al estado 13
-    TIPO     desplazar e ir al estado 14
+    DEFLIST  shift, and go to state 14
+    TIPO     shift, and go to state 15
 
-    $default  reduce usando la regla 14 (parametros)
+    $default  reduce using rule 16 (parametros)
 
-    parametros  ir al estado 115
-    parametro   ir al estado 116
-    tipo        ir al estado 117
-    tipo_lista  ir al estado 18
+    parametros  go to state 137
+    parametro   go to state 138
+    tipo        go to state 139
+    tipo_lista  go to state 20
 
 
-estado 79
+State 99
 
-   37 sentencia_if: CONDSI ABRIRPARENT expresion . CERRARPARENT Sentencia
-   38             | CONDSI ABRIRPARENT expresion . CERRARPARENT Sentencia CONDSINO Sentencia
-   53 expresion: expresion . AVANRETRO
-   54          | expresion . MULMUL expresion
-   55          | expresion . MULTIDIV expresion
-   56          | expresion . LOGAND expresion
-   57          | expresion . EXOR expresion
-   58          | expresion . ORBIT expresion
-   59          | expresion . LOGOR expresion
-   60          | expresion . IGUALDAD expresion
-   61          | expresion . PORCENTAJE expresion
-   62          | expresion . ANDBIT expresion
-   63          | expresion . MASMENOS expresion
-   64          | expresion . MASMAS expresion ARROBA expresion
+   91 error_expresion: error .
 
-    CERRARPARENT  desplazar e ir al estado 118
-    MASMAS        desplazar e ir al estado 97
-    MASMENOS      desplazar e ir al estado 98
-    LOGOR         desplazar e ir al estado 99
-    LOGAND        desplazar e ir al estado 100
-    ORBIT         desplazar e ir al estado 101
-    EXOR          desplazar e ir al estado 102
-    ANDBIT        desplazar e ir al estado 103
-    IGUALDAD      desplazar e ir al estado 104
-    PORCENTAJE    desplazar e ir al estado 105
-    MULTIDIV      desplazar e ir al estado 106
-    MULMUL        desplazar e ir al estado 107
-    AVANRETRO     desplazar e ir al estado 108
+    $default  reduce using rule 91 (error_expresion)
 
 
-estado 80
+State 100
 
-   39 sentencia_while: CONDMIENTRAS ABRIRPARENT expresion . CERRARPARENT Sentencia
-   53 expresion: expresion . AVANRETRO
-   54          | expresion . MULMUL expresion
-   55          | expresion . MULTIDIV expresion
-   56          | expresion . LOGAND expresion
-   57          | expresion . EXOR expresion
-   58          | expresion . ORBIT expresion
-   59          | expresion . LOGOR expresion
-   60          | expresion . IGUALDAD expresion
-   61          | expresion . PORCENTAJE expresion
-   62          | expresion . ANDBIT expresion
-   63          | expresion . MASMENOS expresion
-   64          | expresion . MASMAS expresion ARROBA expresion
+   43 sentencia_if: CONDSI ABRIRPARENT expresion . CERRARPARENT Sentencia
+   44             | CONDSI ABRIRPARENT expresion . CERRARPARENT Sentencia CONDSINO Sentencia
+   72 expresion: expresion . AVANRETRO
+   73          | expresion . MULMUL expresion
+   74          | expresion . MULTIDIV expresion
+   75          | expresion . LOGAND expresion
+   76          | expresion . EXOR expresion
+   77          | expresion . ORBIT expresion
+   78          | expresion . LOGOR expresion
+   79          | expresion . IGUALDAD expresion
+   80          | expresion . PORCENTAJE expresion
+   81          | expresion . ANDBIT expresion
+   82          | expresion . MASMENOS expresion
+   83          | expresion . MASMAS expresion ARROBA expresion
 
-    CERRARPARENT  desplazar e ir al estado 119
-    MASMAS        desplazar e ir al estado 97
-    MASMENOS      desplazar e ir al estado 98
-    LOGOR         desplazar e ir al estado 99
-    LOGAND        desplazar e ir al estado 100
-    ORBIT         desplazar e ir al estado 101
-    EXOR          desplazar e ir al estado 102
-    ANDBIT        desplazar e ir al estado 103
-    IGUALDAD      desplazar e ir al estado 104
-    PORCENTAJE    desplazar e ir al estado 105
-    MULTIDIV      desplazar e ir al estado 106
-    MULMUL        desplazar e ir al estado 107
-    AVANRETRO     desplazar e ir al estado 108
+    CERRARPARENT  shift, and go to state 140
+    MASMAS        shift, and go to state 119
+    MASMENOS      shift, and go to state 120
+    LOGOR         shift, and go to state 121
+    LOGAND        shift, and go to state 122
+    ORBIT         shift, and go to state 123
+    EXOR          shift, and go to state 124
+    ANDBIT        shift, and go to state 125
+    IGUALDAD      shift, and go to state 126
+    MULTIDIV      shift, and go to state 127
+    PORCENTAJE    shift, and go to state 128
+    MULMUL        shift, and go to state 129
+    AVANRETRO     shift, and go to state 130
 
 
-estado 81
+State 101
 
-   40 sentencia_entrada: LEE Identificadores PUNTOCOMA .
+   47 sentencia_while: CONDMIENTRAS ABRIRPARENT expresion . CERRARPARENT Sentencia
+   72 expresion: expresion . AVANRETRO
+   73          | expresion . MULMUL expresion
+   74          | expresion . MULTIDIV expresion
+   75          | expresion . LOGAND expresion
+   76          | expresion . EXOR expresion
+   77          | expresion . ORBIT expresion
+   78          | expresion . LOGOR expresion
+   79          | expresion . IGUALDAD expresion
+   80          | expresion . PORCENTAJE expresion
+   81          | expresion . ANDBIT expresion
+   82          | expresion . MASMENOS expresion
+   83          | expresion . MASMAS expresion ARROBA expresion
 
-    $default  reduce usando la regla 40 (sentencia_entrada)
+    CERRARPARENT  shift, and go to state 141
+    MASMAS        shift, and go to state 119
+    MASMENOS      shift, and go to state 120
+    LOGOR         shift, and go to state 121
+    LOGAND        shift, and go to state 122
+    ORBIT         shift, and go to state 123
+    EXOR          shift, and go to state 124
+    ANDBIT        shift, and go to state 125
+    IGUALDAD      shift, and go to state 126
+    MULTIDIV      shift, and go to state 127
+    PORCENTAJE    shift, and go to state 128
+    MULMUL        shift, and go to state 129
+    AVANRETRO     shift, and go to state 130
 
 
-estado 82
+State 102
 
-   84 Booleanos: VERDFALS .
+   50 sentencia_entrada: LEE Identificadores PUNTOCOMA .
 
-    $default  reduce usando la regla 84 (Booleanos)
+    $default  reduce using rule 50 (sentencia_entrada)
 
 
-estado 83
+State 103
 
-   87 Caracteres: CARACTER .
+  105 Booleanos: VERDFALS .
 
-    $default  reduce usando la regla 87 (Caracteres)
+    $default  reduce using rule 105 (Booleanos)
 
 
-estado 84
+State 104
 
-   78 Enteros: ENTERO .
+  108 Caracteres: CARACTER .
 
-    $default  reduce usando la regla 78 (Enteros)
+    $default  reduce using rule 108 (Caracteres)
 
 
-estado 85
+State 105
 
-   81 Reales: REAL .
+   99 Enteros: ENTERO .
 
-    $default  reduce usando la regla 81 (Reales)
+    $default  reduce using rule 99 (Enteros)
 
 
-estado 86
+State 106
 
-   77 lista_enteros: ABRIRCORCH Enteros . CERRARCORCH
-   79 Enteros: Enteros . COMA ENTERO
+  102 Reales: REAL .
 
-    CERRARCORCH  desplazar e ir al estado 120
-    COMA         desplazar e ir al estado 121
+    $default  reduce using rule 102 (Reales)
 
 
-estado 87
+State 107
 
-   80 lista_reales: ABRIRCORCH Reales . CERRARCORCH
-   82 Reales: Reales . COMA REAL
+   98 lista_enteros: ABRIRCORCH Enteros . CERRARCORCH
+  100 Enteros: Enteros . COMA ENTERO
 
-    CERRARCORCH  desplazar e ir al estado 122
-    COMA         desplazar e ir al estado 123
+    CERRARCORCH  shift, and go to state 142
+    COMA         shift, and go to state 143
 
 
-estado 88
+State 108
 
-   83 lista_booleanos: ABRIRCORCH Booleanos . CERRARCORCH
-   85 Booleanos: Booleanos . COMA VERDFALS
+  101 lista_reales: ABRIRCORCH Reales . CERRARCORCH
+  103 Reales: Reales . COMA REAL
 
-    CERRARCORCH  desplazar e ir al estado 124
-    COMA         desplazar e ir al estado 125
+    CERRARCORCH  shift, and go to state 144
+    COMA         shift, and go to state 145
 
 
-estado 89
+State 109
 
-   86 lista_caracteres: ABRIRCORCH Caracteres . CERRARCORCH
-   88 Caracteres: Caracteres . COMA CARACTER
+  104 lista_booleanos: ABRIRCORCH Booleanos . CERRARCORCH
+  106 Booleanos: Booleanos . COMA VERDFALS
 
-    CERRARCORCH  desplazar e ir al estado 126
-    COMA         desplazar e ir al estado 127
+    CERRARCORCH  shift, and go to state 146
+    COMA         shift, and go to state 147
 
 
-estado 90
+State 110
 
-   48 expresion: ABRIRPARENT expresion . CERRARPARENT
-   53          | expresion . AVANRETRO
-   54          | expresion . MULMUL expresion
-   55          | expresion . MULTIDIV expresion
-   56          | expresion . LOGAND expresion
-   57          | expresion . EXOR expresion
-   58          | expresion . ORBIT expresion
-   59          | expresion . LOGOR expresion
-   60          | expresion . IGUALDAD expresion
-   61          | expresion . PORCENTAJE expresion
-   62          | expresion . ANDBIT expresion
-   63          | expresion . MASMENOS expresion
-   64          | expresion . MASMAS expresion ARROBA expresion
+  107 lista_caracteres: ABRIRCORCH Caracteres . CERRARCORCH
+  109 Caracteres: Caracteres . COMA CARACTER
 
-    CERRARPARENT  desplazar e ir al estado 128
-    MASMAS        desplazar e ir al estado 97
-    MASMENOS      desplazar e ir al estado 98
-    LOGOR         desplazar e ir al estado 99
-    LOGAND        desplazar e ir al estado 100
-    ORBIT         desplazar e ir al estado 101
-    EXOR          desplazar e ir al estado 102
-    ANDBIT        desplazar e ir al estado 103
-    IGUALDAD      desplazar e ir al estado 104
-    PORCENTAJE    desplazar e ir al estado 105
-    MULTIDIV      desplazar e ir al estado 106
-    MULMUL        desplazar e ir al estado 107
-    AVANRETRO     desplazar e ir al estado 108
+    CERRARCORCH  shift, and go to state 148
+    COMA         shift, and go to state 149
 
 
-estado 91
+State 111
 
-   49 expresion: MASMAS expresion .
-   53          | expresion . AVANRETRO
-   54          | expresion . MULMUL expresion
-   55          | expresion . MULTIDIV expresion
-   56          | expresion . LOGAND expresion
-   57          | expresion . EXOR expresion
-   58          | expresion . ORBIT expresion
-   59          | expresion . LOGOR expresion
-   60          | expresion . IGUALDAD expresion
-   61          | expresion . PORCENTAJE expresion
-   62          | expresion . ANDBIT expresion
-   63          | expresion . MASMENOS expresion
-   64          | expresion . MASMAS expresion ARROBA expresion
+   66 expresion: ABRIRPARENT expresion . CERRARPARENT
+   72          | expresion . AVANRETRO
+   73          | expresion . MULMUL expresion
+   74          | expresion . MULTIDIV expresion
+   75          | expresion . LOGAND expresion
+   76          | expresion . EXOR expresion
+   77          | expresion . ORBIT expresion
+   78          | expresion . LOGOR expresion
+   79          | expresion . IGUALDAD expresion
+   80          | expresion . PORCENTAJE expresion
+   81          | expresion . ANDBIT expresion
+   82          | expresion . MASMENOS expresion
+   83          | expresion . MASMAS expresion ARROBA expresion
 
-    MASMAS     desplazar e ir al estado 97
-    MULMUL     desplazar e ir al estado 107
-    AVANRETRO  desplazar e ir al estado 108
+    CERRARPARENT  shift, and go to state 150
+    MASMAS        shift, and go to state 119
+    MASMENOS      shift, and go to state 120
+    LOGOR         shift, and go to state 121
+    LOGAND        shift, and go to state 122
+    ORBIT         shift, and go to state 123
+    EXOR          shift, and go to state 124
+    ANDBIT        shift, and go to state 125
+    IGUALDAD      shift, and go to state 126
+    MULTIDIV      shift, and go to state 127
+    PORCENTAJE    shift, and go to state 128
+    MULMUL        shift, and go to state 129
+    AVANRETRO     shift, and go to state 130
 
-    $default  reduce usando la regla 49 (expresion)
 
+State 112
 
-estado 92
+   69 expresion: MASMAS expresion .
+   72          | expresion . AVANRETRO
+   73          | expresion . MULMUL expresion
+   74          | expresion . MULTIDIV expresion
+   75          | expresion . LOGAND expresion
+   76          | expresion . EXOR expresion
+   77          | expresion . ORBIT expresion
+   78          | expresion . LOGOR expresion
+   79          | expresion . IGUALDAD expresion
+   80          | expresion . PORCENTAJE expresion
+   81          | expresion . ANDBIT expresion
+   82          | expresion . MASMENOS expresion
+   83          | expresion . MASMAS expresion ARROBA expresion
 
-   50 expresion: UNARIOSLISTA expresion .
-   53          | expresion . AVANRETRO
-   54          | expresion . MULMUL expresion
-   55          | expresion . MULTIDIV expresion
-   56          | expresion . LOGAND expresion
-   57          | expresion . EXOR expresion
-   58          | expresion . ORBIT expresion
-   59          | expresion . LOGOR expresion
-   60          | expresion . IGUALDAD expresion
-   61          | expresion . PORCENTAJE expresion
-   62          | expresion . ANDBIT expresion
-   63          | expresion . MASMENOS expresion
-   64          | expresion . MASMAS expresion ARROBA expresion
+    MASMAS     shift, and go to state 119
+    MULMUL     shift, and go to state 129
+    AVANRETRO  shift, and go to state 130
 
-    MASMAS     desplazar e ir al estado 97
-    MULMUL     desplazar e ir al estado 107
-    AVANRETRO  desplazar e ir al estado 108
+    $default  reduce using rule 69 (expresion)
 
-    $default  reduce usando la regla 50 (expresion)
 
+State 113
 
-estado 93
+   67 expresion: MASMENOS expresion .
+   72          | expresion . AVANRETRO
+   73          | expresion . MULMUL expresion
+   74          | expresion . MULTIDIV expresion
+   75          | expresion . LOGAND expresion
+   76          | expresion . EXOR expresion
+   77          | expresion . ORBIT expresion
+   78          | expresion . LOGOR expresion
+   79          | expresion . IGUALDAD expresion
+   80          | expresion . PORCENTAJE expresion
+   81          | expresion . ANDBIT expresion
+   82          | expresion . MASMENOS expresion
+   83          | expresion . MASMAS expresion ARROBA expresion
 
-   52 expresion: EXCLAMACION expresion .
-   53          | expresion . AVANRETRO
-   54          | expresion . MULMUL expresion
-   55          | expresion . MULTIDIV expresion
-   56          | expresion . LOGAND expresion
-   57          | expresion . EXOR expresion
-   58          | expresion . ORBIT expresion
-   59          | expresion . LOGOR expresion
-   60          | expresion . IGUALDAD expresion
-   61          | expresion . PORCENTAJE expresion
-   62          | expresion . ANDBIT expresion
-   63          | expresion . MASMENOS expresion
-   64          | expresion . MASMAS expresion ARROBA expresion
+    MASMAS     shift, and go to state 119
+    MULMUL     shift, and go to state 129
+    AVANRETRO  shift, and go to state 130
 
-    MASMAS     desplazar e ir al estado 97
-    MULMUL     desplazar e ir al estado 107
-    AVANRETRO  desplazar e ir al estado 108
+    $default  reduce using rule 67 (expresion)
 
-    $default  reduce usando la regla 52 (expresion)
 
+State 114
 
-estado 94
+   68 expresion: UNARIOSLISTA expresion .
+   72          | expresion . AVANRETRO
+   73          | expresion . MULMUL expresion
+   74          | expresion . MULTIDIV expresion
+   75          | expresion . LOGAND expresion
+   76          | expresion . EXOR expresion
+   77          | expresion . ORBIT expresion
+   78          | expresion . LOGOR expresion
+   79          | expresion . IGUALDAD expresion
+   80          | expresion . PORCENTAJE expresion
+   81          | expresion . ANDBIT expresion
+   82          | expresion . MASMENOS expresion
+   83          | expresion . MASMAS expresion ARROBA expresion
 
-   51 expresion: MENOSMENOS expresion .
-   53          | expresion . AVANRETRO
-   54          | expresion . MULMUL expresion
-   55          | expresion . MULTIDIV expresion
-   56          | expresion . LOGAND expresion
-   57          | expresion . EXOR expresion
-   58          | expresion . ORBIT expresion
-   59          | expresion . LOGOR expresion
-   60          | expresion . IGUALDAD expresion
-   61          | expresion . PORCENTAJE expresion
-   62          | expresion . ANDBIT expresion
-   63          | expresion . MASMENOS expresion
-   64          | expresion . MASMAS expresion ARROBA expresion
+    MASMAS     shift, and go to state 119
+    MULMUL     shift, and go to state 129
+    AVANRETRO  shift, and go to state 130
 
-    MASMAS     desplazar e ir al estado 97
-    MULMUL     desplazar e ir al estado 107
-    AVANRETRO  desplazar e ir al estado 108
+    $default  reduce using rule 68 (expresion)
 
-    $default  reduce usando la regla 51 (expresion)
 
+State 115
 
-estado 95
+   71 expresion: EXCLAMACION expresion .
+   72          | expresion . AVANRETRO
+   73          | expresion . MULMUL expresion
+   74          | expresion . MULTIDIV expresion
+   75          | expresion . LOGAND expresion
+   76          | expresion . EXOR expresion
+   77          | expresion . ORBIT expresion
+   78          | expresion . LOGOR expresion
+   79          | expresion . IGUALDAD expresion
+   80          | expresion . PORCENTAJE expresion
+   81          | expresion . ANDBIT expresion
+   82          | expresion . MASMENOS expresion
+   83          | expresion . MASMAS expresion ARROBA expresion
 
-   41 sentencia_salida: ESCRIBE lista_expresiones_o_cadena PUNTOCOMA .
+    MASMAS     shift, and go to state 119
+    MULMUL     shift, and go to state 129
+    AVANRETRO  shift, and go to state 130
 
-    $default  reduce usando la regla 41 (sentencia_salida)
+    $default  reduce using rule 71 (expresion)
 
 
-estado 96
+State 116
 
-   45 lista_expresiones_o_cadena: lista_expresiones_o_cadena COMA . expcad
+   70 expresion: MENOSMENOS expresion .
+   72          | expresion . AVANRETRO
+   73          | expresion . MULMUL expresion
+   74          | expresion . MULTIDIV expresion
+   75          | expresion . LOGAND expresion
+   76          | expresion . EXOR expresion
+   77          | expresion . ORBIT expresion
+   78          | expresion . LOGOR expresion
+   79          | expresion . IGUALDAD expresion
+   80          | expresion . PORCENTAJE expresion
+   81          | expresion . ANDBIT expresion
+   82          | expresion . MASMENOS expresion
+   83          | expresion . MASMAS expresion ARROBA expresion
 
-    ABRIRCORCH     desplazar e ir al estado 49
-    ABRIRPARENT    desplazar e ir al estado 50
-    VERDFALS       desplazar e ir al estado 51
-    MASMAS         desplazar e ir al estado 52
-    CARACTER       desplazar e ir al estado 53
-    CADENA         desplazar e ir al estado 54
-    IDENTIFICADOR  desplazar e ir al estado 55
-    ENTERO         desplazar e ir al estado 56
-    REAL           desplazar e ir al estado 57
-    UNARIOSLISTA   desplazar e ir al estado 58
-    EXCLAMACION    desplazar e ir al estado 59
-    MENOSMENOS     desplazar e ir al estado 60
+    MASMAS     shift, and go to state 119
+    MULMUL     shift, and go to state 129
+    AVANRETRO  shift, and go to state 130
 
-    expcad            ir al estado 129
-    expresion         ir al estado 63
-    lista             ir al estado 64
-    lista_enteros     ir al estado 65
-    lista_reales      ir al estado 66
-    lista_booleanos   ir al estado 67
-    lista_caracteres  ir al estado 68
+    $default  reduce using rule 70 (expresion)
 
 
-estado 97
+State 117
 
-   64 expresion: expresion MASMAS . expresion ARROBA expresion
+   53 sentencia_salida: ESCRIBE lista_expresiones_o_cadena PUNTOCOMA .
 
-    ABRIRCORCH     desplazar e ir al estado 49
-    ABRIRPARENT    desplazar e ir al estado 50
-    VERDFALS       desplazar e ir al estado 51
-    MASMAS         desplazar e ir al estado 52
-    CARACTER       desplazar e ir al estado 53
-    IDENTIFICADOR  desplazar e ir al estado 55
-    ENTERO         desplazar e ir al estado 56
-    REAL           desplazar e ir al estado 57
-    UNARIOSLISTA   desplazar e ir al estado 58
-    EXCLAMACION    desplazar e ir al estado 59
-    MENOSMENOS     desplazar e ir al estado 60
-
-    expresion         ir al estado 130
-    lista             ir al estado 64
-    lista_enteros     ir al estado 65
-    lista_reales      ir al estado 66
-    lista_booleanos   ir al estado 67
-    lista_caracteres  ir al estado 68
+    $default  reduce using rule 53 (sentencia_salida)
 
 
-estado 98
+State 118
 
-   63 expresion: expresion MASMENOS . expresion
+   59 lista_expresiones_o_cadena: lista_expresiones_o_cadena COMA . expcad
 
-    ABRIRCORCH     desplazar e ir al estado 49
-    ABRIRPARENT    desplazar e ir al estado 50
-    VERDFALS       desplazar e ir al estado 51
-    MASMAS         desplazar e ir al estado 52
-    CARACTER       desplazar e ir al estado 53
-    IDENTIFICADOR  desplazar e ir al estado 55
-    ENTERO         desplazar e ir al estado 56
-    REAL           desplazar e ir al estado 57
-    UNARIOSLISTA   desplazar e ir al estado 58
-    EXCLAMACION    desplazar e ir al estado 59
-    MENOSMENOS     desplazar e ir al estado 60
-
-    expresion         ir al estado 131
-    lista             ir al estado 64
-    lista_enteros     ir al estado 65
-    lista_reales      ir al estado 66
-    lista_booleanos   ir al estado 67
-    lista_caracteres  ir al estado 68
-
-
-estado 99
-
-   59 expresion: expresion LOGOR . expresion
-
-    ABRIRCORCH     desplazar e ir al estado 49
-    ABRIRPARENT    desplazar e ir al estado 50
-    VERDFALS       desplazar e ir al estado 51
-    MASMAS         desplazar e ir al estado 52
-    CARACTER       desplazar e ir al estado 53
-    IDENTIFICADOR  desplazar e ir al estado 55
-    ENTERO         desplazar e ir al estado 56
-    REAL           desplazar e ir al estado 57
-    UNARIOSLISTA   desplazar e ir al estado 58
-    EXCLAMACION    desplazar e ir al estado 59
-    MENOSMENOS     desplazar e ir al estado 60
-
-    expresion         ir al estado 132
-    lista             ir al estado 64
-    lista_enteros     ir al estado 65
-    lista_reales      ir al estado 66
-    lista_booleanos   ir al estado 67
-    lista_caracteres  ir al estado 68
-
-
-estado 100
-
-   56 expresion: expresion LOGAND . expresion
-
-    ABRIRCORCH     desplazar e ir al estado 49
-    ABRIRPARENT    desplazar e ir al estado 50
-    VERDFALS       desplazar e ir al estado 51
-    MASMAS         desplazar e ir al estado 52
-    CARACTER       desplazar e ir al estado 53
-    IDENTIFICADOR  desplazar e ir al estado 55
-    ENTERO         desplazar e ir al estado 56
-    REAL           desplazar e ir al estado 57
-    UNARIOSLISTA   desplazar e ir al estado 58
-    EXCLAMACION    desplazar e ir al estado 59
-    MENOSMENOS     desplazar e ir al estado 60
-
-    expresion         ir al estado 133
-    lista             ir al estado 64
-    lista_enteros     ir al estado 65
-    lista_reales      ir al estado 66
-    lista_booleanos   ir al estado 67
-    lista_caracteres  ir al estado 68
-
-
-estado 101
-
-   58 expresion: expresion ORBIT . expresion
-
-    ABRIRCORCH     desplazar e ir al estado 49
-    ABRIRPARENT    desplazar e ir al estado 50
-    VERDFALS       desplazar e ir al estado 51
-    MASMAS         desplazar e ir al estado 52
-    CARACTER       desplazar e ir al estado 53
-    IDENTIFICADOR  desplazar e ir al estado 55
-    ENTERO         desplazar e ir al estado 56
-    REAL           desplazar e ir al estado 57
-    UNARIOSLISTA   desplazar e ir al estado 58
-    EXCLAMACION    desplazar e ir al estado 59
-    MENOSMENOS     desplazar e ir al estado 60
-
-    expresion         ir al estado 134
-    lista             ir al estado 64
-    lista_enteros     ir al estado 65
-    lista_reales      ir al estado 66
-    lista_booleanos   ir al estado 67
-    lista_caracteres  ir al estado 68
-
-
-estado 102
-
-   57 expresion: expresion EXOR . expresion
-
-    ABRIRCORCH     desplazar e ir al estado 49
-    ABRIRPARENT    desplazar e ir al estado 50
-    VERDFALS       desplazar e ir al estado 51
-    MASMAS         desplazar e ir al estado 52
-    CARACTER       desplazar e ir al estado 53
-    IDENTIFICADOR  desplazar e ir al estado 55
-    ENTERO         desplazar e ir al estado 56
-    REAL           desplazar e ir al estado 57
-    UNARIOSLISTA   desplazar e ir al estado 58
-    EXCLAMACION    desplazar e ir al estado 59
-    MENOSMENOS     desplazar e ir al estado 60
-
-    expresion         ir al estado 135
-    lista             ir al estado 64
-    lista_enteros     ir al estado 65
-    lista_reales      ir al estado 66
-    lista_booleanos   ir al estado 67
-    lista_caracteres  ir al estado 68
-
-
-estado 103
-
-   62 expresion: expresion ANDBIT . expresion
-
-    ABRIRCORCH     desplazar e ir al estado 49
-    ABRIRPARENT    desplazar e ir al estado 50
-    VERDFALS       desplazar e ir al estado 51
-    MASMAS         desplazar e ir al estado 52
-    CARACTER       desplazar e ir al estado 53
-    IDENTIFICADOR  desplazar e ir al estado 55
-    ENTERO         desplazar e ir al estado 56
-    REAL           desplazar e ir al estado 57
-    UNARIOSLISTA   desplazar e ir al estado 58
-    EXCLAMACION    desplazar e ir al estado 59
-    MENOSMENOS     desplazar e ir al estado 60
-
-    expresion         ir al estado 136
-    lista             ir al estado 64
-    lista_enteros     ir al estado 65
-    lista_reales      ir al estado 66
-    lista_booleanos   ir al estado 67
-    lista_caracteres  ir al estado 68
-
-
-estado 104
-
-   60 expresion: expresion IGUALDAD . expresion
-
-    ABRIRCORCH     desplazar e ir al estado 49
-    ABRIRPARENT    desplazar e ir al estado 50
-    VERDFALS       desplazar e ir al estado 51
-    MASMAS         desplazar e ir al estado 52
-    CARACTER       desplazar e ir al estado 53
-    IDENTIFICADOR  desplazar e ir al estado 55
-    ENTERO         desplazar e ir al estado 56
-    REAL           desplazar e ir al estado 57
-    UNARIOSLISTA   desplazar e ir al estado 58
-    EXCLAMACION    desplazar e ir al estado 59
-    MENOSMENOS     desplazar e ir al estado 60
-
-    expresion         ir al estado 137
-    lista             ir al estado 64
-    lista_enteros     ir al estado 65
-    lista_reales      ir al estado 66
-    lista_booleanos   ir al estado 67
-    lista_caracteres  ir al estado 68
-
-
-estado 105
-
-   61 expresion: expresion PORCENTAJE . expresion
-
-    ABRIRCORCH     desplazar e ir al estado 49
-    ABRIRPARENT    desplazar e ir al estado 50
-    VERDFALS       desplazar e ir al estado 51
-    MASMAS         desplazar e ir al estado 52
-    CARACTER       desplazar e ir al estado 53
-    IDENTIFICADOR  desplazar e ir al estado 55
-    ENTERO         desplazar e ir al estado 56
-    REAL           desplazar e ir al estado 57
-    UNARIOSLISTA   desplazar e ir al estado 58
-    EXCLAMACION    desplazar e ir al estado 59
-    MENOSMENOS     desplazar e ir al estado 60
-
-    expresion         ir al estado 138
-    lista             ir al estado 64
-    lista_enteros     ir al estado 65
-    lista_reales      ir al estado 66
-    lista_booleanos   ir al estado 67
-    lista_caracteres  ir al estado 68
-
-
-estado 106
-
-   55 expresion: expresion MULTIDIV . expresion
-
-    ABRIRCORCH     desplazar e ir al estado 49
-    ABRIRPARENT    desplazar e ir al estado 50
-    VERDFALS       desplazar e ir al estado 51
-    MASMAS         desplazar e ir al estado 52
-    CARACTER       desplazar e ir al estado 53
-    IDENTIFICADOR  desplazar e ir al estado 55
-    ENTERO         desplazar e ir al estado 56
-    REAL           desplazar e ir al estado 57
-    UNARIOSLISTA   desplazar e ir al estado 58
-    EXCLAMACION    desplazar e ir al estado 59
-    MENOSMENOS     desplazar e ir al estado 60
-
-    expresion         ir al estado 139
-    lista             ir al estado 64
-    lista_enteros     ir al estado 65
-    lista_reales      ir al estado 66
-    lista_booleanos   ir al estado 67
-    lista_caracteres  ir al estado 68
-
-
-estado 107
-
-   54 expresion: expresion MULMUL . expresion
-
-    ABRIRCORCH     desplazar e ir al estado 49
-    ABRIRPARENT    desplazar e ir al estado 50
-    VERDFALS       desplazar e ir al estado 51
-    MASMAS         desplazar e ir al estado 52
-    CARACTER       desplazar e ir al estado 53
-    IDENTIFICADOR  desplazar e ir al estado 55
-    ENTERO         desplazar e ir al estado 56
-    REAL           desplazar e ir al estado 57
-    UNARIOSLISTA   desplazar e ir al estado 58
-    EXCLAMACION    desplazar e ir al estado 59
-    MENOSMENOS     desplazar e ir al estado 60
-
-    expresion         ir al estado 140
-    lista             ir al estado 64
-    lista_enteros     ir al estado 65
-    lista_reales      ir al estado 66
-    lista_booleanos   ir al estado 67
-    lista_caracteres  ir al estado 68
-
-
-estado 108
-
-   53 expresion: expresion AVANRETRO .
-
-    $default  reduce usando la regla 53 (expresion)
-
-
-estado 109
-
-   47 sentencia_for: DURANTE IDENTIFICADOR DOSPUNTOSIGUAL . expresion HASTA expresion HACER Sentencia
-
-    ABRIRCORCH     desplazar e ir al estado 49
-    ABRIRPARENT    desplazar e ir al estado 50
-    VERDFALS       desplazar e ir al estado 51
-    MASMAS         desplazar e ir al estado 52
-    CARACTER       desplazar e ir al estado 53
-    IDENTIFICADOR  desplazar e ir al estado 55
-    ENTERO         desplazar e ir al estado 56
-    REAL           desplazar e ir al estado 57
-    UNARIOSLISTA   desplazar e ir al estado 58
-    EXCLAMACION    desplazar e ir al estado 59
-    MENOSMENOS     desplazar e ir al estado 60
-
-    expresion         ir al estado 141
-    lista             ir al estado 64
-    lista_enteros     ir al estado 65
-    lista_reales      ir al estado 66
-    lista_booleanos   ir al estado 67
-    lista_caracteres  ir al estado 68
-
-
-estado 110
-
-   53 expresion: expresion . AVANRETRO
-   54          | expresion . MULMUL expresion
-   55          | expresion . MULTIDIV expresion
-   56          | expresion . LOGAND expresion
-   57          | expresion . EXOR expresion
-   58          | expresion . ORBIT expresion
-   59          | expresion . LOGOR expresion
-   60          | expresion . IGUALDAD expresion
-   61          | expresion . PORCENTAJE expresion
-   62          | expresion . ANDBIT expresion
-   63          | expresion . MASMENOS expresion
-   64          | expresion . MASMAS expresion ARROBA expresion
-   72 lista_expresiones: expresion .
-
-    MASMAS      desplazar e ir al estado 97
-    MASMENOS    desplazar e ir al estado 98
-    LOGOR       desplazar e ir al estado 99
-    LOGAND      desplazar e ir al estado 100
-    ORBIT       desplazar e ir al estado 101
-    EXOR        desplazar e ir al estado 102
-    ANDBIT      desplazar e ir al estado 103
-    IGUALDAD    desplazar e ir al estado 104
-    PORCENTAJE  desplazar e ir al estado 105
-    MULTIDIV    desplazar e ir al estado 106
-    MULMUL      desplazar e ir al estado 107
-    AVANRETRO   desplazar e ir al estado 108
-
-    $default  reduce usando la regla 72 (lista_expresiones)
-
-
-estado 111
-
-   46 llamada_proced: IDENTIFICADOR ABRIRPARENT lista_expresiones . CERRARPARENT PUNTOCOMA
-   71 lista_expresiones: lista_expresiones . COMA expresion
-
-    CERRARPARENT  desplazar e ir al estado 142
-    COMA          desplazar e ir al estado 143
-
-
-estado 112
-
-   36 sentencia_asignacion: IDENTIFICADOR ASIG expresion . PUNTOCOMA
-   53 expresion: expresion . AVANRETRO
-   54          | expresion . MULMUL expresion
-   55          | expresion . MULTIDIV expresion
-   56          | expresion . LOGAND expresion
-   57          | expresion . EXOR expresion
-   58          | expresion . ORBIT expresion
-   59          | expresion . LOGOR expresion
-   60          | expresion . IGUALDAD expresion
-   61          | expresion . PORCENTAJE expresion
-   62          | expresion . ANDBIT expresion
-   63          | expresion . MASMENOS expresion
-   64          | expresion . MASMAS expresion ARROBA expresion
-
-    PUNTOCOMA   desplazar e ir al estado 144
-    MASMAS      desplazar e ir al estado 97
-    MASMENOS    desplazar e ir al estado 98
-    LOGOR       desplazar e ir al estado 99
-    LOGAND      desplazar e ir al estado 100
-    ORBIT       desplazar e ir al estado 101
-    EXOR        desplazar e ir al estado 102
-    ANDBIT      desplazar e ir al estado 103
-    IGUALDAD    desplazar e ir al estado 104
-    PORCENTAJE  desplazar e ir al estado 105
-    MULTIDIV    desplazar e ir al estado 106
-    MULMUL      desplazar e ir al estado 107
-    AVANRETRO   desplazar e ir al estado 108
-
-
-estado 113
+    error          shift, and go to state 99
+    ABRIRCORCH     shift, and go to state 61
+    ABRIRPARENT    shift, and go to state 62
+    VERDFALS       shift, and go to state 63
+    MASMAS         shift, and go to state 64
+    MASMENOS       shift, and go to state 65
+    CARACTER       shift, and go to state 66
+    CADENA         shift, and go to state 67
+    IDENTIFICADOR  shift, and go to state 68
+    ENTERO         shift, and go to state 69
+    REAL           shift, and go to state 70
+    UNARIOSLISTA   shift, and go to state 71
+    EXCLAMACION    shift, and go to state 72
+    MENOSMENOS     shift, and go to state 73
+
+    expcad            go to state 151
+    expresion         go to state 77
+    error_expresion   go to state 78
+    lista             go to state 79
+    lista_enteros     go to state 80
+    lista_reales      go to state 81
+    lista_booleanos   go to state 82
+    lista_caracteres  go to state 83
+
+
+State 119
+
+   83 expresion: expresion MASMAS . expresion ARROBA expresion
+
+    error          shift, and go to state 99
+    ABRIRCORCH     shift, and go to state 61
+    ABRIRPARENT    shift, and go to state 62
+    VERDFALS       shift, and go to state 63
+    MASMAS         shift, and go to state 64
+    MASMENOS       shift, and go to state 65
+    CARACTER       shift, and go to state 66
+    IDENTIFICADOR  shift, and go to state 68
+    ENTERO         shift, and go to state 69
+    REAL           shift, and go to state 70
+    UNARIOSLISTA   shift, and go to state 71
+    EXCLAMACION    shift, and go to state 72
+    MENOSMENOS     shift, and go to state 73
+
+    expresion         go to state 152
+    error_expresion   go to state 78
+    lista             go to state 79
+    lista_enteros     go to state 80
+    lista_reales      go to state 81
+    lista_booleanos   go to state 82
+    lista_caracteres  go to state 83
+
+
+State 120
+
+   82 expresion: expresion MASMENOS . expresion
+
+    error          shift, and go to state 99
+    ABRIRCORCH     shift, and go to state 61
+    ABRIRPARENT    shift, and go to state 62
+    VERDFALS       shift, and go to state 63
+    MASMAS         shift, and go to state 64
+    MASMENOS       shift, and go to state 65
+    CARACTER       shift, and go to state 66
+    IDENTIFICADOR  shift, and go to state 68
+    ENTERO         shift, and go to state 69
+    REAL           shift, and go to state 70
+    UNARIOSLISTA   shift, and go to state 71
+    EXCLAMACION    shift, and go to state 72
+    MENOSMENOS     shift, and go to state 73
+
+    expresion         go to state 153
+    error_expresion   go to state 78
+    lista             go to state 79
+    lista_enteros     go to state 80
+    lista_reales      go to state 81
+    lista_booleanos   go to state 82
+    lista_caracteres  go to state 83
+
+
+State 121
+
+   78 expresion: expresion LOGOR . expresion
+
+    error          shift, and go to state 99
+    ABRIRCORCH     shift, and go to state 61
+    ABRIRPARENT    shift, and go to state 62
+    VERDFALS       shift, and go to state 63
+    MASMAS         shift, and go to state 64
+    MASMENOS       shift, and go to state 65
+    CARACTER       shift, and go to state 66
+    IDENTIFICADOR  shift, and go to state 68
+    ENTERO         shift, and go to state 69
+    REAL           shift, and go to state 70
+    UNARIOSLISTA   shift, and go to state 71
+    EXCLAMACION    shift, and go to state 72
+    MENOSMENOS     shift, and go to state 73
+
+    expresion         go to state 154
+    error_expresion   go to state 78
+    lista             go to state 79
+    lista_enteros     go to state 80
+    lista_reales      go to state 81
+    lista_booleanos   go to state 82
+    lista_caracteres  go to state 83
+
+
+State 122
+
+   75 expresion: expresion LOGAND . expresion
+
+    error          shift, and go to state 99
+    ABRIRCORCH     shift, and go to state 61
+    ABRIRPARENT    shift, and go to state 62
+    VERDFALS       shift, and go to state 63
+    MASMAS         shift, and go to state 64
+    MASMENOS       shift, and go to state 65
+    CARACTER       shift, and go to state 66
+    IDENTIFICADOR  shift, and go to state 68
+    ENTERO         shift, and go to state 69
+    REAL           shift, and go to state 70
+    UNARIOSLISTA   shift, and go to state 71
+    EXCLAMACION    shift, and go to state 72
+    MENOSMENOS     shift, and go to state 73
+
+    expresion         go to state 155
+    error_expresion   go to state 78
+    lista             go to state 79
+    lista_enteros     go to state 80
+    lista_reales      go to state 81
+    lista_booleanos   go to state 82
+    lista_caracteres  go to state 83
+
+
+State 123
+
+   77 expresion: expresion ORBIT . expresion
+
+    error          shift, and go to state 99
+    ABRIRCORCH     shift, and go to state 61
+    ABRIRPARENT    shift, and go to state 62
+    VERDFALS       shift, and go to state 63
+    MASMAS         shift, and go to state 64
+    MASMENOS       shift, and go to state 65
+    CARACTER       shift, and go to state 66
+    IDENTIFICADOR  shift, and go to state 68
+    ENTERO         shift, and go to state 69
+    REAL           shift, and go to state 70
+    UNARIOSLISTA   shift, and go to state 71
+    EXCLAMACION    shift, and go to state 72
+    MENOSMENOS     shift, and go to state 73
+
+    expresion         go to state 156
+    error_expresion   go to state 78
+    lista             go to state 79
+    lista_enteros     go to state 80
+    lista_reales      go to state 81
+    lista_booleanos   go to state 82
+    lista_caracteres  go to state 83
+
+
+State 124
+
+   76 expresion: expresion EXOR . expresion
+
+    error          shift, and go to state 99
+    ABRIRCORCH     shift, and go to state 61
+    ABRIRPARENT    shift, and go to state 62
+    VERDFALS       shift, and go to state 63
+    MASMAS         shift, and go to state 64
+    MASMENOS       shift, and go to state 65
+    CARACTER       shift, and go to state 66
+    IDENTIFICADOR  shift, and go to state 68
+    ENTERO         shift, and go to state 69
+    REAL           shift, and go to state 70
+    UNARIOSLISTA   shift, and go to state 71
+    EXCLAMACION    shift, and go to state 72
+    MENOSMENOS     shift, and go to state 73
+
+    expresion         go to state 157
+    error_expresion   go to state 78
+    lista             go to state 79
+    lista_enteros     go to state 80
+    lista_reales      go to state 81
+    lista_booleanos   go to state 82
+    lista_caracteres  go to state 83
+
+
+State 125
+
+   81 expresion: expresion ANDBIT . expresion
+
+    error          shift, and go to state 99
+    ABRIRCORCH     shift, and go to state 61
+    ABRIRPARENT    shift, and go to state 62
+    VERDFALS       shift, and go to state 63
+    MASMAS         shift, and go to state 64
+    MASMENOS       shift, and go to state 65
+    CARACTER       shift, and go to state 66
+    IDENTIFICADOR  shift, and go to state 68
+    ENTERO         shift, and go to state 69
+    REAL           shift, and go to state 70
+    UNARIOSLISTA   shift, and go to state 71
+    EXCLAMACION    shift, and go to state 72
+    MENOSMENOS     shift, and go to state 73
+
+    expresion         go to state 158
+    error_expresion   go to state 78
+    lista             go to state 79
+    lista_enteros     go to state 80
+    lista_reales      go to state 81
+    lista_booleanos   go to state 82
+    lista_caracteres  go to state 83
+
+
+State 126
+
+   79 expresion: expresion IGUALDAD . expresion
+
+    error          shift, and go to state 99
+    ABRIRCORCH     shift, and go to state 61
+    ABRIRPARENT    shift, and go to state 62
+    VERDFALS       shift, and go to state 63
+    MASMAS         shift, and go to state 64
+    MASMENOS       shift, and go to state 65
+    CARACTER       shift, and go to state 66
+    IDENTIFICADOR  shift, and go to state 68
+    ENTERO         shift, and go to state 69
+    REAL           shift, and go to state 70
+    UNARIOSLISTA   shift, and go to state 71
+    EXCLAMACION    shift, and go to state 72
+    MENOSMENOS     shift, and go to state 73
+
+    expresion         go to state 159
+    error_expresion   go to state 78
+    lista             go to state 79
+    lista_enteros     go to state 80
+    lista_reales      go to state 81
+    lista_booleanos   go to state 82
+    lista_caracteres  go to state 83
+
+
+State 127
+
+   74 expresion: expresion MULTIDIV . expresion
+
+    error          shift, and go to state 99
+    ABRIRCORCH     shift, and go to state 61
+    ABRIRPARENT    shift, and go to state 62
+    VERDFALS       shift, and go to state 63
+    MASMAS         shift, and go to state 64
+    MASMENOS       shift, and go to state 65
+    CARACTER       shift, and go to state 66
+    IDENTIFICADOR  shift, and go to state 68
+    ENTERO         shift, and go to state 69
+    REAL           shift, and go to state 70
+    UNARIOSLISTA   shift, and go to state 71
+    EXCLAMACION    shift, and go to state 72
+    MENOSMENOS     shift, and go to state 73
+
+    expresion         go to state 160
+    error_expresion   go to state 78
+    lista             go to state 79
+    lista_enteros     go to state 80
+    lista_reales      go to state 81
+    lista_booleanos   go to state 82
+    lista_caracteres  go to state 83
+
+
+State 128
+
+   80 expresion: expresion PORCENTAJE . expresion
+
+    error          shift, and go to state 99
+    ABRIRCORCH     shift, and go to state 61
+    ABRIRPARENT    shift, and go to state 62
+    VERDFALS       shift, and go to state 63
+    MASMAS         shift, and go to state 64
+    MASMENOS       shift, and go to state 65
+    CARACTER       shift, and go to state 66
+    IDENTIFICADOR  shift, and go to state 68
+    ENTERO         shift, and go to state 69
+    REAL           shift, and go to state 70
+    UNARIOSLISTA   shift, and go to state 71
+    EXCLAMACION    shift, and go to state 72
+    MENOSMENOS     shift, and go to state 73
+
+    expresion         go to state 161
+    error_expresion   go to state 78
+    lista             go to state 79
+    lista_enteros     go to state 80
+    lista_reales      go to state 81
+    lista_booleanos   go to state 82
+    lista_caracteres  go to state 83
+
+
+State 129
+
+   73 expresion: expresion MULMUL . expresion
+
+    error          shift, and go to state 99
+    ABRIRCORCH     shift, and go to state 61
+    ABRIRPARENT    shift, and go to state 62
+    VERDFALS       shift, and go to state 63
+    MASMAS         shift, and go to state 64
+    MASMENOS       shift, and go to state 65
+    CARACTER       shift, and go to state 66
+    IDENTIFICADOR  shift, and go to state 68
+    ENTERO         shift, and go to state 69
+    REAL           shift, and go to state 70
+    UNARIOSLISTA   shift, and go to state 71
+    EXCLAMACION    shift, and go to state 72
+    MENOSMENOS     shift, and go to state 73
+
+    expresion         go to state 162
+    error_expresion   go to state 78
+    lista             go to state 79
+    lista_enteros     go to state 80
+    lista_reales      go to state 81
+    lista_booleanos   go to state 82
+    lista_caracteres  go to state 83
+
+
+State 130
+
+   72 expresion: expresion AVANRETRO .
+
+    $default  reduce using rule 72 (expresion)
+
+
+State 131
+
+   63 sentencia_for: DURANTE IDENTIFICADOR DOSPUNTOSIGUAL . expresion HASTA expresion HACER Sentencia
+
+    error          shift, and go to state 99
+    ABRIRCORCH     shift, and go to state 61
+    ABRIRPARENT    shift, and go to state 62
+    VERDFALS       shift, and go to state 63
+    MASMAS         shift, and go to state 64
+    MASMENOS       shift, and go to state 65
+    CARACTER       shift, and go to state 66
+    IDENTIFICADOR  shift, and go to state 68
+    ENTERO         shift, and go to state 69
+    REAL           shift, and go to state 70
+    UNARIOSLISTA   shift, and go to state 71
+    EXCLAMACION    shift, and go to state 72
+    MENOSMENOS     shift, and go to state 73
+
+    expresion         go to state 163
+    error_expresion   go to state 78
+    lista             go to state 79
+    lista_enteros     go to state 80
+    lista_reales      go to state 81
+    lista_booleanos   go to state 82
+    lista_caracteres  go to state 83
+
+
+State 132
+
+   72 expresion: expresion . AVANRETRO
+   73          | expresion . MULMUL expresion
+   74          | expresion . MULTIDIV expresion
+   75          | expresion . LOGAND expresion
+   76          | expresion . EXOR expresion
+   77          | expresion . ORBIT expresion
+   78          | expresion . LOGOR expresion
+   79          | expresion . IGUALDAD expresion
+   80          | expresion . PORCENTAJE expresion
+   81          | expresion . ANDBIT expresion
+   82          | expresion . MASMENOS expresion
+   83          | expresion . MASMAS expresion ARROBA expresion
+   93 lista_expresiones: expresion .
+
+    MASMAS      shift, and go to state 119
+    MASMENOS    shift, and go to state 120
+    LOGOR       shift, and go to state 121
+    LOGAND      shift, and go to state 122
+    ORBIT       shift, and go to state 123
+    EXOR        shift, and go to state 124
+    ANDBIT      shift, and go to state 125
+    IGUALDAD    shift, and go to state 126
+    MULTIDIV    shift, and go to state 127
+    PORCENTAJE  shift, and go to state 128
+    MULMUL      shift, and go to state 129
+    AVANRETRO   shift, and go to state 130
+
+    $default  reduce using rule 93 (lista_expresiones)
+
+
+State 133
+
+   60 llamada_proced: IDENTIFICADOR ABRIRPARENT lista_expresiones . CERRARPARENT PUNTOCOMA
+   92 lista_expresiones: lista_expresiones . COMA expresion
+
+    CERRARPARENT  shift, and go to state 164
+    COMA          shift, and go to state 165
+
+
+State 134
+
+   40 sentencia_asignacion: IDENTIFICADOR ASIG expresion . PUNTOCOMA
+   72 expresion: expresion . AVANRETRO
+   73          | expresion . MULMUL expresion
+   74          | expresion . MULTIDIV expresion
+   75          | expresion . LOGAND expresion
+   76          | expresion . EXOR expresion
+   77          | expresion . ORBIT expresion
+   78          | expresion . LOGOR expresion
+   79          | expresion . IGUALDAD expresion
+   80          | expresion . PORCENTAJE expresion
+   81          | expresion . ANDBIT expresion
+   82          | expresion . MASMENOS expresion
+   83          | expresion . MASMAS expresion ARROBA expresion
+
+    PUNTOCOMA   shift, and go to state 166
+    MASMAS      shift, and go to state 119
+    MASMENOS    shift, and go to state 120
+    LOGOR       shift, and go to state 121
+    LOGAND      shift, and go to state 122
+    ORBIT       shift, and go to state 123
+    EXOR        shift, and go to state 124
+    ANDBIT      shift, and go to state 125
+    IGUALDAD    shift, and go to state 126
+    MULTIDIV    shift, and go to state 127
+    PORCENTAJE  shift, and go to state 128
+    MULMUL      shift, and go to state 129
+    AVANRETRO   shift, and go to state 130
+
+
+State 135
 
     6 Marca_fin_declar_variables: Fin_de_bloque FINVARS PUNTOCOMA .
 
-    $default  reduce usando la regla 6 (Marca_fin_declar_variables)
+    $default  reduce using rule 6 (Marca_fin_declar_variables)
 
 
-estado 114
+State 136
 
-   22 Identificadores: Identificadores COMA IDENTIFICADOR .
+   26 Identificadores: Identificadores COMA IDENTIFICADOR .
 
-    $default  reduce usando la regla 22 (Identificadores)
+    $default  reduce using rule 26 (Identificadores)
 
 
-estado 115
+State 137
 
    11 Cabecera_subprograma: PROCED IDENTIFICADOR ABRIRPARENT parametros . CERRARPARENT
-   13 parametros: parametros . COMA parametro
+   15 parametros: parametros . COMA parametro
 
-    CERRARPARENT  desplazar e ir al estado 145
-    COMA          desplazar e ir al estado 146
+    CERRARPARENT  shift, and go to state 167
+    COMA          shift, and go to state 168
 
 
-estado 116
+State 138
 
-   12 parametros: parametro .
+   14 parametros: parametro .
 
-    $default  reduce usando la regla 12 (parametros)
+    $default  reduce using rule 14 (parametros)
 
 
-estado 117
+State 139
 
-   15 parametro: tipo . IDENTIFICADOR
+   17 parametro: tipo . IDENTIFICADOR
 
-    IDENTIFICADOR  desplazar e ir al estado 147
+    IDENTIFICADOR  shift, and go to state 169
 
 
-estado 118
+State 140
 
-   37 sentencia_if: CONDSI ABRIRPARENT expresion CERRARPARENT . Sentencia
-   38             | CONDSI ABRIRPARENT expresion CERRARPARENT . Sentencia CONDSINO Sentencia
+   43 sentencia_if: CONDSI ABRIRPARENT expresion CERRARPARENT . Sentencia
+   44             | CONDSI ABRIRPARENT expresion CERRARPARENT . Sentencia CONDSINO Sentencia
 
-    ABRIRLLAVES    desplazar e ir al estado 5
-    CONDSI         desplazar e ir al estado 20
-    CONDMIENTRAS   desplazar e ir al estado 21
-    LEE            desplazar e ir al estado 22
-    ESCRIBE        desplazar e ir al estado 23
-    DURANTE        desplazar e ir al estado 24
-    IDENTIFICADOR  desplazar e ir al estado 25
+    error          shift, and go to state 92
+    ABRIRLLAVES    shift, and go to state 5
+    CONDSI         shift, and go to state 23
+    CONDMIENTRAS   shift, and go to state 24
+    LEE            shift, and go to state 25
+    ESCRIBE        shift, and go to state 26
+    DURANTE        shift, and go to state 27
+    IDENTIFICADOR  shift, and go to state 28
 
-    bloque                ir al estado 26
-    Inicio_de_bloque      ir al estado 7
-    Sentencia             ir al estado 148
-    sentencia_asignacion  ir al estado 31
-    sentencia_if          ir al estado 32
-    sentencia_while       ir al estado 33
-    sentencia_entrada     ir al estado 34
-    sentencia_salida      ir al estado 35
-    llamada_proced        ir al estado 36
-    sentencia_for         ir al estado 37
+    bloque                go to state 29
+    Inicio_de_bloque      go to state 7
+    Sentencia             go to state 170
+    sentencia_asignacion  go to state 35
+    sentencia_if          go to state 36
+    sentencia_while       go to state 37
+    sentencia_entrada     go to state 38
+    sentencia_salida      go to state 39
+    llamada_proced        go to state 40
+    error_llamada_proced  go to state 41
+    sentencia_for         go to state 42
 
 
-estado 119
+State 141
 
-   39 sentencia_while: CONDMIENTRAS ABRIRPARENT expresion CERRARPARENT . Sentencia
+   47 sentencia_while: CONDMIENTRAS ABRIRPARENT expresion CERRARPARENT . Sentencia
 
-    ABRIRLLAVES    desplazar e ir al estado 5
-    CONDSI         desplazar e ir al estado 20
-    CONDMIENTRAS   desplazar e ir al estado 21
-    LEE            desplazar e ir al estado 22
-    ESCRIBE        desplazar e ir al estado 23
-    DURANTE        desplazar e ir al estado 24
-    IDENTIFICADOR  desplazar e ir al estado 25
+    error          shift, and go to state 92
+    ABRIRLLAVES    shift, and go to state 5
+    CONDSI         shift, and go to state 23
+    CONDMIENTRAS   shift, and go to state 24
+    LEE            shift, and go to state 25
+    ESCRIBE        shift, and go to state 26
+    DURANTE        shift, and go to state 27
+    IDENTIFICADOR  shift, and go to state 28
 
-    bloque                ir al estado 26
-    Inicio_de_bloque      ir al estado 7
-    Sentencia             ir al estado 149
-    sentencia_asignacion  ir al estado 31
-    sentencia_if          ir al estado 32
-    sentencia_while       ir al estado 33
-    sentencia_entrada     ir al estado 34
-    sentencia_salida      ir al estado 35
-    llamada_proced        ir al estado 36
-    sentencia_for         ir al estado 37
+    bloque                go to state 29
+    Inicio_de_bloque      go to state 7
+    Sentencia             go to state 171
+    sentencia_asignacion  go to state 35
+    sentencia_if          go to state 36
+    sentencia_while       go to state 37
+    sentencia_entrada     go to state 38
+    sentencia_salida      go to state 39
+    llamada_proced        go to state 40
+    error_llamada_proced  go to state 41
+    sentencia_for         go to state 42
 
 
-estado 120
+State 142
 
-   77 lista_enteros: ABRIRCORCH Enteros CERRARCORCH .
+   98 lista_enteros: ABRIRCORCH Enteros CERRARCORCH .
 
-    $default  reduce usando la regla 77 (lista_enteros)
+    $default  reduce using rule 98 (lista_enteros)
 
 
-estado 121
+State 143
 
-   79 Enteros: Enteros COMA . ENTERO
+  100 Enteros: Enteros COMA . ENTERO
 
-    ENTERO  desplazar e ir al estado 150
+    ENTERO  shift, and go to state 172
 
 
-estado 122
+State 144
 
-   80 lista_reales: ABRIRCORCH Reales CERRARCORCH .
+  101 lista_reales: ABRIRCORCH Reales CERRARCORCH .
 
-    $default  reduce usando la regla 80 (lista_reales)
+    $default  reduce using rule 101 (lista_reales)
 
 
-estado 123
+State 145
 
-   82 Reales: Reales COMA . REAL
+  103 Reales: Reales COMA . REAL
 
-    REAL  desplazar e ir al estado 151
+    REAL  shift, and go to state 173
 
 
-estado 124
+State 146
 
-   83 lista_booleanos: ABRIRCORCH Booleanos CERRARCORCH .
+  104 lista_booleanos: ABRIRCORCH Booleanos CERRARCORCH .
 
-    $default  reduce usando la regla 83 (lista_booleanos)
+    $default  reduce using rule 104 (lista_booleanos)
 
 
-estado 125
+State 147
 
-   85 Booleanos: Booleanos COMA . VERDFALS
+  106 Booleanos: Booleanos COMA . VERDFALS
 
-    VERDFALS  desplazar e ir al estado 152
+    VERDFALS  shift, and go to state 174
 
 
-estado 126
+State 148
 
-   86 lista_caracteres: ABRIRCORCH Caracteres CERRARCORCH .
+  107 lista_caracteres: ABRIRCORCH Caracteres CERRARCORCH .
 
-    $default  reduce usando la regla 86 (lista_caracteres)
+    $default  reduce using rule 107 (lista_caracteres)
 
 
-estado 127
+State 149
 
-   88 Caracteres: Caracteres COMA . CARACTER
+  109 Caracteres: Caracteres COMA . CARACTER
 
-    CARACTER  desplazar e ir al estado 153
+    CARACTER  shift, and go to state 175
 
 
-estado 128
+State 150
 
-   48 expresion: ABRIRPARENT expresion CERRARPARENT .
+   66 expresion: ABRIRPARENT expresion CERRARPARENT .
 
-    $default  reduce usando la regla 48 (expresion)
+    $default  reduce using rule 66 (expresion)
 
 
-estado 129
+State 151
 
-   45 lista_expresiones_o_cadena: lista_expresiones_o_cadena COMA expcad .
+   59 lista_expresiones_o_cadena: lista_expresiones_o_cadena COMA expcad .
 
-    $default  reduce usando la regla 45 (lista_expresiones_o_cadena)
+    $default  reduce using rule 59 (lista_expresiones_o_cadena)
 
 
-estado 130
+State 152
 
-   53 expresion: expresion . AVANRETRO
-   54          | expresion . MULMUL expresion
-   55          | expresion . MULTIDIV expresion
-   56          | expresion . LOGAND expresion
-   57          | expresion . EXOR expresion
-   58          | expresion . ORBIT expresion
-   59          | expresion . LOGOR expresion
-   60          | expresion . IGUALDAD expresion
-   61          | expresion . PORCENTAJE expresion
-   62          | expresion . ANDBIT expresion
-   63          | expresion . MASMENOS expresion
-   64          | expresion . MASMAS expresion ARROBA expresion
-   64          | expresion MASMAS expresion . ARROBA expresion
+   72 expresion: expresion . AVANRETRO
+   73          | expresion . MULMUL expresion
+   74          | expresion . MULTIDIV expresion
+   75          | expresion . LOGAND expresion
+   76          | expresion . EXOR expresion
+   77          | expresion . ORBIT expresion
+   78          | expresion . LOGOR expresion
+   79          | expresion . IGUALDAD expresion
+   80          | expresion . PORCENTAJE expresion
+   81          | expresion . ANDBIT expresion
+   82          | expresion . MASMENOS expresion
+   83          | expresion . MASMAS expresion ARROBA expresion
+   83          | expresion MASMAS expresion . ARROBA expresion
 
-    MASMAS      desplazar e ir al estado 97
-    MASMENOS    desplazar e ir al estado 98
-    ARROBA      desplazar e ir al estado 154
-    LOGOR       desplazar e ir al estado 99
-    LOGAND      desplazar e ir al estado 100
-    ORBIT       desplazar e ir al estado 101
-    EXOR        desplazar e ir al estado 102
-    ANDBIT      desplazar e ir al estado 103
-    IGUALDAD    desplazar e ir al estado 104
-    PORCENTAJE  desplazar e ir al estado 105
-    MULTIDIV    desplazar e ir al estado 106
-    MULMUL      desplazar e ir al estado 107
-    AVANRETRO   desplazar e ir al estado 108
+    MASMAS      shift, and go to state 119
+    MASMENOS    shift, and go to state 120
+    ARROBA      shift, and go to state 176
+    LOGOR       shift, and go to state 121
+    LOGAND      shift, and go to state 122
+    ORBIT       shift, and go to state 123
+    EXOR        shift, and go to state 124
+    ANDBIT      shift, and go to state 125
+    IGUALDAD    shift, and go to state 126
+    MULTIDIV    shift, and go to state 127
+    PORCENTAJE  shift, and go to state 128
+    MULMUL      shift, and go to state 129
+    AVANRETRO   shift, and go to state 130
 
 
-estado 131
+State 153
 
-   53 expresion: expresion . AVANRETRO
-   54          | expresion . MULMUL expresion
-   55          | expresion . MULTIDIV expresion
-   56          | expresion . LOGAND expresion
-   57          | expresion . EXOR expresion
-   58          | expresion . ORBIT expresion
-   59          | expresion . LOGOR expresion
-   60          | expresion . IGUALDAD expresion
-   61          | expresion . PORCENTAJE expresion
-   62          | expresion . ANDBIT expresion
-   63          | expresion . MASMENOS expresion
-   63          | expresion MASMENOS expresion .
-   64          | expresion . MASMAS expresion ARROBA expresion
+   72 expresion: expresion . AVANRETRO
+   73          | expresion . MULMUL expresion
+   74          | expresion . MULTIDIV expresion
+   75          | expresion . LOGAND expresion
+   76          | expresion . EXOR expresion
+   77          | expresion . ORBIT expresion
+   78          | expresion . LOGOR expresion
+   79          | expresion . IGUALDAD expresion
+   80          | expresion . PORCENTAJE expresion
+   81          | expresion . ANDBIT expresion
+   82          | expresion . MASMENOS expresion
+   82          | expresion MASMENOS expresion .
+   83          | expresion . MASMAS expresion ARROBA expresion
 
-    MASMAS      desplazar e ir al estado 97
-    PORCENTAJE  desplazar e ir al estado 105
-    MULTIDIV    desplazar e ir al estado 106
-    MULMUL      desplazar e ir al estado 107
-    AVANRETRO   desplazar e ir al estado 108
+    MASMAS      shift, and go to state 119
+    MULTIDIV    shift, and go to state 127
+    PORCENTAJE  shift, and go to state 128
+    MULMUL      shift, and go to state 129
+    AVANRETRO   shift, and go to state 130
 
-    $default  reduce usando la regla 63 (expresion)
-
-
-estado 132
-
-   53 expresion: expresion . AVANRETRO
-   54          | expresion . MULMUL expresion
-   55          | expresion . MULTIDIV expresion
-   56          | expresion . LOGAND expresion
-   57          | expresion . EXOR expresion
-   58          | expresion . ORBIT expresion
-   59          | expresion . LOGOR expresion
-   59          | expresion LOGOR expresion .
-   60          | expresion . IGUALDAD expresion
-   61          | expresion . PORCENTAJE expresion
-   62          | expresion . ANDBIT expresion
-   63          | expresion . MASMENOS expresion
-   64          | expresion . MASMAS expresion ARROBA expresion
-
-    MASMAS      desplazar e ir al estado 97
-    MASMENOS    desplazar e ir al estado 98
-    LOGAND      desplazar e ir al estado 100
-    ORBIT       desplazar e ir al estado 101
-    EXOR        desplazar e ir al estado 102
-    ANDBIT      desplazar e ir al estado 103
-    IGUALDAD    desplazar e ir al estado 104
-    PORCENTAJE  desplazar e ir al estado 105
-    MULTIDIV    desplazar e ir al estado 106
-    MULMUL      desplazar e ir al estado 107
-    AVANRETRO   desplazar e ir al estado 108
-
-    $default  reduce usando la regla 59 (expresion)
-
-
-estado 133
-
-   53 expresion: expresion . AVANRETRO
-   54          | expresion . MULMUL expresion
-   55          | expresion . MULTIDIV expresion
-   56          | expresion . LOGAND expresion
-   56          | expresion LOGAND expresion .
-   57          | expresion . EXOR expresion
-   58          | expresion . ORBIT expresion
-   59          | expresion . LOGOR expresion
-   60          | expresion . IGUALDAD expresion
-   61          | expresion . PORCENTAJE expresion
-   62          | expresion . ANDBIT expresion
-   63          | expresion . MASMENOS expresion
-   64          | expresion . MASMAS expresion ARROBA expresion
-
-    MASMAS      desplazar e ir al estado 97
-    MASMENOS    desplazar e ir al estado 98
-    ORBIT       desplazar e ir al estado 101
-    EXOR        desplazar e ir al estado 102
-    ANDBIT      desplazar e ir al estado 103
-    IGUALDAD    desplazar e ir al estado 104
-    PORCENTAJE  desplazar e ir al estado 105
-    MULTIDIV    desplazar e ir al estado 106
-    MULMUL      desplazar e ir al estado 107
-    AVANRETRO   desplazar e ir al estado 108
-
-    $default  reduce usando la regla 56 (expresion)
-
-
-estado 134
-
-   53 expresion: expresion . AVANRETRO
-   54          | expresion . MULMUL expresion
-   55          | expresion . MULTIDIV expresion
-   56          | expresion . LOGAND expresion
-   57          | expresion . EXOR expresion
-   58          | expresion . ORBIT expresion
-   58          | expresion ORBIT expresion .
-   59          | expresion . LOGOR expresion
-   60          | expresion . IGUALDAD expresion
-   61          | expresion . PORCENTAJE expresion
-   62          | expresion . ANDBIT expresion
-   63          | expresion . MASMENOS expresion
-   64          | expresion . MASMAS expresion ARROBA expresion
-
-    MASMAS      desplazar e ir al estado 97
-    MASMENOS    desplazar e ir al estado 98
-    EXOR        desplazar e ir al estado 102
-    ANDBIT      desplazar e ir al estado 103
-    IGUALDAD    desplazar e ir al estado 104
-    PORCENTAJE  desplazar e ir al estado 105
-    MULTIDIV    desplazar e ir al estado 106
-    MULMUL      desplazar e ir al estado 107
-    AVANRETRO   desplazar e ir al estado 108
-
-    $default  reduce usando la regla 58 (expresion)
-
-
-estado 135
-
-   53 expresion: expresion . AVANRETRO
-   54          | expresion . MULMUL expresion
-   55          | expresion . MULTIDIV expresion
-   56          | expresion . LOGAND expresion
-   57          | expresion . EXOR expresion
-   57          | expresion EXOR expresion .
-   58          | expresion . ORBIT expresion
-   59          | expresion . LOGOR expresion
-   60          | expresion . IGUALDAD expresion
-   61          | expresion . PORCENTAJE expresion
-   62          | expresion . ANDBIT expresion
-   63          | expresion . MASMENOS expresion
-   64          | expresion . MASMAS expresion ARROBA expresion
-
-    MASMAS      desplazar e ir al estado 97
-    MASMENOS    desplazar e ir al estado 98
-    ANDBIT      desplazar e ir al estado 103
-    IGUALDAD    desplazar e ir al estado 104
-    PORCENTAJE  desplazar e ir al estado 105
-    MULTIDIV    desplazar e ir al estado 106
-    MULMUL      desplazar e ir al estado 107
-    AVANRETRO   desplazar e ir al estado 108
-
-    $default  reduce usando la regla 57 (expresion)
-
-
-estado 136
-
-   53 expresion: expresion . AVANRETRO
-   54          | expresion . MULMUL expresion
-   55          | expresion . MULTIDIV expresion
-   56          | expresion . LOGAND expresion
-   57          | expresion . EXOR expresion
-   58          | expresion . ORBIT expresion
-   59          | expresion . LOGOR expresion
-   60          | expresion . IGUALDAD expresion
-   61          | expresion . PORCENTAJE expresion
-   62          | expresion . ANDBIT expresion
-   62          | expresion ANDBIT expresion .
-   63          | expresion . MASMENOS expresion
-   64          | expresion . MASMAS expresion ARROBA expresion
-
-    MASMAS      desplazar e ir al estado 97
-    MASMENOS    desplazar e ir al estado 98
-    IGUALDAD    desplazar e ir al estado 104
-    PORCENTAJE  desplazar e ir al estado 105
-    MULTIDIV    desplazar e ir al estado 106
-    MULMUL      desplazar e ir al estado 107
-    AVANRETRO   desplazar e ir al estado 108
-
-    $default  reduce usando la regla 62 (expresion)
-
-
-estado 137
-
-   53 expresion: expresion . AVANRETRO
-   54          | expresion . MULMUL expresion
-   55          | expresion . MULTIDIV expresion
-   56          | expresion . LOGAND expresion
-   57          | expresion . EXOR expresion
-   58          | expresion . ORBIT expresion
-   59          | expresion . LOGOR expresion
-   60          | expresion . IGUALDAD expresion
-   60          | expresion IGUALDAD expresion .
-   61          | expresion . PORCENTAJE expresion
-   62          | expresion . ANDBIT expresion
-   63          | expresion . MASMENOS expresion
-   64          | expresion . MASMAS expresion ARROBA expresion
-
-    MASMAS      desplazar e ir al estado 97
-    MASMENOS    desplazar e ir al estado 98
-    PORCENTAJE  desplazar e ir al estado 105
-    MULTIDIV    desplazar e ir al estado 106
-    MULMUL      desplazar e ir al estado 107
-    AVANRETRO   desplazar e ir al estado 108
-
-    $default  reduce usando la regla 60 (expresion)
-
-
-estado 138
-
-   53 expresion: expresion . AVANRETRO
-   54          | expresion . MULMUL expresion
-   55          | expresion . MULTIDIV expresion
-   56          | expresion . LOGAND expresion
-   57          | expresion . EXOR expresion
-   58          | expresion . ORBIT expresion
-   59          | expresion . LOGOR expresion
-   60          | expresion . IGUALDAD expresion
-   61          | expresion . PORCENTAJE expresion
-   61          | expresion PORCENTAJE expresion .
-   62          | expresion . ANDBIT expresion
-   63          | expresion . MASMENOS expresion
-   64          | expresion . MASMAS expresion ARROBA expresion
-
-    MASMAS     desplazar e ir al estado 97
-    MULMUL     desplazar e ir al estado 107
-    AVANRETRO  desplazar e ir al estado 108
-
-    $default  reduce usando la regla 61 (expresion)
-
-
-estado 139
-
-   53 expresion: expresion . AVANRETRO
-   54          | expresion . MULMUL expresion
-   55          | expresion . MULTIDIV expresion
-   55          | expresion MULTIDIV expresion .
-   56          | expresion . LOGAND expresion
-   57          | expresion . EXOR expresion
-   58          | expresion . ORBIT expresion
-   59          | expresion . LOGOR expresion
-   60          | expresion . IGUALDAD expresion
-   61          | expresion . PORCENTAJE expresion
-   62          | expresion . ANDBIT expresion
-   63          | expresion . MASMENOS expresion
-   64          | expresion . MASMAS expresion ARROBA expresion
-
-    MASMAS     desplazar e ir al estado 97
-    MULMUL     desplazar e ir al estado 107
-    AVANRETRO  desplazar e ir al estado 108
-
-    $default  reduce usando la regla 55 (expresion)
-
-
-estado 140
-
-   53 expresion: expresion . AVANRETRO
-   54          | expresion . MULMUL expresion
-   54          | expresion MULMUL expresion .
-   55          | expresion . MULTIDIV expresion
-   56          | expresion . LOGAND expresion
-   57          | expresion . EXOR expresion
-   58          | expresion . ORBIT expresion
-   59          | expresion . LOGOR expresion
-   60          | expresion . IGUALDAD expresion
-   61          | expresion . PORCENTAJE expresion
-   62          | expresion . ANDBIT expresion
-   63          | expresion . MASMENOS expresion
-   64          | expresion . MASMAS expresion ARROBA expresion
-
-    MULMUL     desplazar e ir al estado 107
-    AVANRETRO  desplazar e ir al estado 108
-
-    $default  reduce usando la regla 54 (expresion)
-
-
-estado 141
-
-   47 sentencia_for: DURANTE IDENTIFICADOR DOSPUNTOSIGUAL expresion . HASTA expresion HACER Sentencia
-   53 expresion: expresion . AVANRETRO
-   54          | expresion . MULMUL expresion
-   55          | expresion . MULTIDIV expresion
-   56          | expresion . LOGAND expresion
-   57          | expresion . EXOR expresion
-   58          | expresion . ORBIT expresion
-   59          | expresion . LOGOR expresion
-   60          | expresion . IGUALDAD expresion
-   61          | expresion . PORCENTAJE expresion
-   62          | expresion . ANDBIT expresion
-   63          | expresion . MASMENOS expresion
-   64          | expresion . MASMAS expresion ARROBA expresion
-
-    MASMAS      desplazar e ir al estado 97
-    MASMENOS    desplazar e ir al estado 98
-    HASTA       desplazar e ir al estado 155
-    LOGOR       desplazar e ir al estado 99
-    LOGAND      desplazar e ir al estado 100
-    ORBIT       desplazar e ir al estado 101
-    EXOR        desplazar e ir al estado 102
-    ANDBIT      desplazar e ir al estado 103
-    IGUALDAD    desplazar e ir al estado 104
-    PORCENTAJE  desplazar e ir al estado 105
-    MULTIDIV    desplazar e ir al estado 106
-    MULMUL      desplazar e ir al estado 107
-    AVANRETRO   desplazar e ir al estado 108
-
-
-estado 142
-
-   46 llamada_proced: IDENTIFICADOR ABRIRPARENT lista_expresiones CERRARPARENT . PUNTOCOMA
-
-    PUNTOCOMA  desplazar e ir al estado 156
-
-
-estado 143
-
-   71 lista_expresiones: lista_expresiones COMA . expresion
-
-    ABRIRCORCH     desplazar e ir al estado 49
-    ABRIRPARENT    desplazar e ir al estado 50
-    VERDFALS       desplazar e ir al estado 51
-    MASMAS         desplazar e ir al estado 52
-    CARACTER       desplazar e ir al estado 53
-    IDENTIFICADOR  desplazar e ir al estado 55
-    ENTERO         desplazar e ir al estado 56
-    REAL           desplazar e ir al estado 57
-    UNARIOSLISTA   desplazar e ir al estado 58
-    EXCLAMACION    desplazar e ir al estado 59
-    MENOSMENOS     desplazar e ir al estado 60
-
-    expresion         ir al estado 157
-    lista             ir al estado 64
-    lista_enteros     ir al estado 65
-    lista_reales      ir al estado 66
-    lista_booleanos   ir al estado 67
-    lista_caracteres  ir al estado 68
-
-
-estado 144
-
-   36 sentencia_asignacion: IDENTIFICADOR ASIG expresion PUNTOCOMA .
-
-    $default  reduce usando la regla 36 (sentencia_asignacion)
-
-
-estado 145
+    $default  reduce using rule 82 (expresion)
+
+
+State 154
+
+   72 expresion: expresion . AVANRETRO
+   73          | expresion . MULMUL expresion
+   74          | expresion . MULTIDIV expresion
+   75          | expresion . LOGAND expresion
+   76          | expresion . EXOR expresion
+   77          | expresion . ORBIT expresion
+   78          | expresion . LOGOR expresion
+   78          | expresion LOGOR expresion .
+   79          | expresion . IGUALDAD expresion
+   80          | expresion . PORCENTAJE expresion
+   81          | expresion . ANDBIT expresion
+   82          | expresion . MASMENOS expresion
+   83          | expresion . MASMAS expresion ARROBA expresion
+
+    MASMAS      shift, and go to state 119
+    MASMENOS    shift, and go to state 120
+    LOGAND      shift, and go to state 122
+    ORBIT       shift, and go to state 123
+    EXOR        shift, and go to state 124
+    ANDBIT      shift, and go to state 125
+    IGUALDAD    shift, and go to state 126
+    MULTIDIV    shift, and go to state 127
+    PORCENTAJE  shift, and go to state 128
+    MULMUL      shift, and go to state 129
+    AVANRETRO   shift, and go to state 130
+
+    $default  reduce using rule 78 (expresion)
+
+
+State 155
+
+   72 expresion: expresion . AVANRETRO
+   73          | expresion . MULMUL expresion
+   74          | expresion . MULTIDIV expresion
+   75          | expresion . LOGAND expresion
+   75          | expresion LOGAND expresion .
+   76          | expresion . EXOR expresion
+   77          | expresion . ORBIT expresion
+   78          | expresion . LOGOR expresion
+   79          | expresion . IGUALDAD expresion
+   80          | expresion . PORCENTAJE expresion
+   81          | expresion . ANDBIT expresion
+   82          | expresion . MASMENOS expresion
+   83          | expresion . MASMAS expresion ARROBA expresion
+
+    MASMAS      shift, and go to state 119
+    MASMENOS    shift, and go to state 120
+    ORBIT       shift, and go to state 123
+    EXOR        shift, and go to state 124
+    ANDBIT      shift, and go to state 125
+    IGUALDAD    shift, and go to state 126
+    MULTIDIV    shift, and go to state 127
+    PORCENTAJE  shift, and go to state 128
+    MULMUL      shift, and go to state 129
+    AVANRETRO   shift, and go to state 130
+
+    $default  reduce using rule 75 (expresion)
+
+
+State 156
+
+   72 expresion: expresion . AVANRETRO
+   73          | expresion . MULMUL expresion
+   74          | expresion . MULTIDIV expresion
+   75          | expresion . LOGAND expresion
+   76          | expresion . EXOR expresion
+   77          | expresion . ORBIT expresion
+   77          | expresion ORBIT expresion .
+   78          | expresion . LOGOR expresion
+   79          | expresion . IGUALDAD expresion
+   80          | expresion . PORCENTAJE expresion
+   81          | expresion . ANDBIT expresion
+   82          | expresion . MASMENOS expresion
+   83          | expresion . MASMAS expresion ARROBA expresion
+
+    MASMAS      shift, and go to state 119
+    MASMENOS    shift, and go to state 120
+    EXOR        shift, and go to state 124
+    ANDBIT      shift, and go to state 125
+    IGUALDAD    shift, and go to state 126
+    MULTIDIV    shift, and go to state 127
+    PORCENTAJE  shift, and go to state 128
+    MULMUL      shift, and go to state 129
+    AVANRETRO   shift, and go to state 130
+
+    $default  reduce using rule 77 (expresion)
+
+
+State 157
+
+   72 expresion: expresion . AVANRETRO
+   73          | expresion . MULMUL expresion
+   74          | expresion . MULTIDIV expresion
+   75          | expresion . LOGAND expresion
+   76          | expresion . EXOR expresion
+   76          | expresion EXOR expresion .
+   77          | expresion . ORBIT expresion
+   78          | expresion . LOGOR expresion
+   79          | expresion . IGUALDAD expresion
+   80          | expresion . PORCENTAJE expresion
+   81          | expresion . ANDBIT expresion
+   82          | expresion . MASMENOS expresion
+   83          | expresion . MASMAS expresion ARROBA expresion
+
+    MASMAS      shift, and go to state 119
+    MASMENOS    shift, and go to state 120
+    ANDBIT      shift, and go to state 125
+    IGUALDAD    shift, and go to state 126
+    MULTIDIV    shift, and go to state 127
+    PORCENTAJE  shift, and go to state 128
+    MULMUL      shift, and go to state 129
+    AVANRETRO   shift, and go to state 130
+
+    $default  reduce using rule 76 (expresion)
+
+
+State 158
+
+   72 expresion: expresion . AVANRETRO
+   73          | expresion . MULMUL expresion
+   74          | expresion . MULTIDIV expresion
+   75          | expresion . LOGAND expresion
+   76          | expresion . EXOR expresion
+   77          | expresion . ORBIT expresion
+   78          | expresion . LOGOR expresion
+   79          | expresion . IGUALDAD expresion
+   80          | expresion . PORCENTAJE expresion
+   81          | expresion . ANDBIT expresion
+   81          | expresion ANDBIT expresion .
+   82          | expresion . MASMENOS expresion
+   83          | expresion . MASMAS expresion ARROBA expresion
+
+    MASMAS      shift, and go to state 119
+    MASMENOS    shift, and go to state 120
+    IGUALDAD    shift, and go to state 126
+    MULTIDIV    shift, and go to state 127
+    PORCENTAJE  shift, and go to state 128
+    MULMUL      shift, and go to state 129
+    AVANRETRO   shift, and go to state 130
+
+    $default  reduce using rule 81 (expresion)
+
+
+State 159
+
+   72 expresion: expresion . AVANRETRO
+   73          | expresion . MULMUL expresion
+   74          | expresion . MULTIDIV expresion
+   75          | expresion . LOGAND expresion
+   76          | expresion . EXOR expresion
+   77          | expresion . ORBIT expresion
+   78          | expresion . LOGOR expresion
+   79          | expresion . IGUALDAD expresion
+   79          | expresion IGUALDAD expresion .
+   80          | expresion . PORCENTAJE expresion
+   81          | expresion . ANDBIT expresion
+   82          | expresion . MASMENOS expresion
+   83          | expresion . MASMAS expresion ARROBA expresion
+
+    MASMAS      shift, and go to state 119
+    MASMENOS    shift, and go to state 120
+    MULTIDIV    shift, and go to state 127
+    PORCENTAJE  shift, and go to state 128
+    MULMUL      shift, and go to state 129
+    AVANRETRO   shift, and go to state 130
+
+    $default  reduce using rule 79 (expresion)
+
+
+State 160
+
+   72 expresion: expresion . AVANRETRO
+   73          | expresion . MULMUL expresion
+   74          | expresion . MULTIDIV expresion
+   74          | expresion MULTIDIV expresion .
+   75          | expresion . LOGAND expresion
+   76          | expresion . EXOR expresion
+   77          | expresion . ORBIT expresion
+   78          | expresion . LOGOR expresion
+   79          | expresion . IGUALDAD expresion
+   80          | expresion . PORCENTAJE expresion
+   81          | expresion . ANDBIT expresion
+   82          | expresion . MASMENOS expresion
+   83          | expresion . MASMAS expresion ARROBA expresion
+
+    MASMAS     shift, and go to state 119
+    MULMUL     shift, and go to state 129
+    AVANRETRO  shift, and go to state 130
+
+    $default  reduce using rule 74 (expresion)
+
+
+State 161
+
+   72 expresion: expresion . AVANRETRO
+   73          | expresion . MULMUL expresion
+   74          | expresion . MULTIDIV expresion
+   75          | expresion . LOGAND expresion
+   76          | expresion . EXOR expresion
+   77          | expresion . ORBIT expresion
+   78          | expresion . LOGOR expresion
+   79          | expresion . IGUALDAD expresion
+   80          | expresion . PORCENTAJE expresion
+   80          | expresion PORCENTAJE expresion .
+   81          | expresion . ANDBIT expresion
+   82          | expresion . MASMENOS expresion
+   83          | expresion . MASMAS expresion ARROBA expresion
+
+    MASMAS     shift, and go to state 119
+    MULMUL     shift, and go to state 129
+    AVANRETRO  shift, and go to state 130
+
+    $default  reduce using rule 80 (expresion)
+
+
+State 162
+
+   72 expresion: expresion . AVANRETRO
+   73          | expresion . MULMUL expresion
+   73          | expresion MULMUL expresion .
+   74          | expresion . MULTIDIV expresion
+   75          | expresion . LOGAND expresion
+   76          | expresion . EXOR expresion
+   77          | expresion . ORBIT expresion
+   78          | expresion . LOGOR expresion
+   79          | expresion . IGUALDAD expresion
+   80          | expresion . PORCENTAJE expresion
+   81          | expresion . ANDBIT expresion
+   82          | expresion . MASMENOS expresion
+   83          | expresion . MASMAS expresion ARROBA expresion
+
+    MULMUL     shift, and go to state 129
+    AVANRETRO  shift, and go to state 130
+
+    $default  reduce using rule 73 (expresion)
+
+
+State 163
+
+   63 sentencia_for: DURANTE IDENTIFICADOR DOSPUNTOSIGUAL expresion . HASTA expresion HACER Sentencia
+   72 expresion: expresion . AVANRETRO
+   73          | expresion . MULMUL expresion
+   74          | expresion . MULTIDIV expresion
+   75          | expresion . LOGAND expresion
+   76          | expresion . EXOR expresion
+   77          | expresion . ORBIT expresion
+   78          | expresion . LOGOR expresion
+   79          | expresion . IGUALDAD expresion
+   80          | expresion . PORCENTAJE expresion
+   81          | expresion . ANDBIT expresion
+   82          | expresion . MASMENOS expresion
+   83          | expresion . MASMAS expresion ARROBA expresion
+
+    MASMAS      shift, and go to state 119
+    MASMENOS    shift, and go to state 120
+    HASTA       shift, and go to state 177
+    LOGOR       shift, and go to state 121
+    LOGAND      shift, and go to state 122
+    ORBIT       shift, and go to state 123
+    EXOR        shift, and go to state 124
+    ANDBIT      shift, and go to state 125
+    IGUALDAD    shift, and go to state 126
+    MULTIDIV    shift, and go to state 127
+    PORCENTAJE  shift, and go to state 128
+    MULMUL      shift, and go to state 129
+    AVANRETRO   shift, and go to state 130
+
+
+State 164
+
+   60 llamada_proced: IDENTIFICADOR ABRIRPARENT lista_expresiones CERRARPARENT . PUNTOCOMA
+
+    PUNTOCOMA  shift, and go to state 178
+
+
+State 165
+
+   92 lista_expresiones: lista_expresiones COMA . expresion
+
+    error          shift, and go to state 99
+    ABRIRCORCH     shift, and go to state 61
+    ABRIRPARENT    shift, and go to state 62
+    VERDFALS       shift, and go to state 63
+    MASMAS         shift, and go to state 64
+    MASMENOS       shift, and go to state 65
+    CARACTER       shift, and go to state 66
+    IDENTIFICADOR  shift, and go to state 68
+    ENTERO         shift, and go to state 69
+    REAL           shift, and go to state 70
+    UNARIOSLISTA   shift, and go to state 71
+    EXCLAMACION    shift, and go to state 72
+    MENOSMENOS     shift, and go to state 73
+
+    expresion         go to state 179
+    error_expresion   go to state 78
+    lista             go to state 79
+    lista_enteros     go to state 80
+    lista_reales      go to state 81
+    lista_booleanos   go to state 82
+    lista_caracteres  go to state 83
+
+
+State 166
+
+   40 sentencia_asignacion: IDENTIFICADOR ASIG expresion PUNTOCOMA .
+
+    $default  reduce using rule 40 (sentencia_asignacion)
+
+
+State 167
 
    11 Cabecera_subprograma: PROCED IDENTIFICADOR ABRIRPARENT parametros CERRARPARENT .
 
-    $default  reduce usando la regla 11 (Cabecera_subprograma)
+    $default  reduce using rule 11 (Cabecera_subprograma)
 
 
-estado 146
+State 168
 
-   13 parametros: parametros COMA . parametro
+   15 parametros: parametros COMA . parametro
 
-    DEFLIST  desplazar e ir al estado 13
-    TIPO     desplazar e ir al estado 14
+    DEFLIST  shift, and go to state 14
+    TIPO     shift, and go to state 15
 
-    parametro   ir al estado 158
-    tipo        ir al estado 117
-    tipo_lista  ir al estado 18
+    parametro   go to state 180
+    tipo        go to state 139
+    tipo_lista  go to state 20
 
 
-estado 147
+State 169
 
-   15 parametro: tipo IDENTIFICADOR .
+   17 parametro: tipo IDENTIFICADOR .
 
-    $default  reduce usando la regla 15 (parametro)
+    $default  reduce using rule 17 (parametro)
 
 
-estado 148
+State 170
 
-   37 sentencia_if: CONDSI ABRIRPARENT expresion CERRARPARENT Sentencia .
-   38             | CONDSI ABRIRPARENT expresion CERRARPARENT Sentencia . CONDSINO Sentencia
+   43 sentencia_if: CONDSI ABRIRPARENT expresion CERRARPARENT Sentencia .
+   44             | CONDSI ABRIRPARENT expresion CERRARPARENT Sentencia . CONDSINO Sentencia
 
-    CONDSINO  desplazar e ir al estado 159
+    CONDSINO  shift, and go to state 181
 
-    CONDSINO  [reduce usando la regla 37 (sentencia_if)]
-    $default  reduce usando la regla 37 (sentencia_if)
+    CONDSINO  [reduce using rule 43 (sentencia_if)]
+    $default  reduce using rule 43 (sentencia_if)
 
 
-estado 149
+State 171
 
-   39 sentencia_while: CONDMIENTRAS ABRIRPARENT expresion CERRARPARENT Sentencia .
+   47 sentencia_while: CONDMIENTRAS ABRIRPARENT expresion CERRARPARENT Sentencia .
 
-    $default  reduce usando la regla 39 (sentencia_while)
+    $default  reduce using rule 47 (sentencia_while)
 
 
-estado 150
+State 172
 
-   79 Enteros: Enteros COMA ENTERO .
+  100 Enteros: Enteros COMA ENTERO .
 
-    $default  reduce usando la regla 79 (Enteros)
+    $default  reduce using rule 100 (Enteros)
 
 
-estado 151
+State 173
 
-   82 Reales: Reales COMA REAL .
+  103 Reales: Reales COMA REAL .
 
-    $default  reduce usando la regla 82 (Reales)
+    $default  reduce using rule 103 (Reales)
 
 
-estado 152
+State 174
 
-   85 Booleanos: Booleanos COMA VERDFALS .
+  106 Booleanos: Booleanos COMA VERDFALS .
 
-    $default  reduce usando la regla 85 (Booleanos)
+    $default  reduce using rule 106 (Booleanos)
 
 
-estado 153
+State 175
 
-   88 Caracteres: Caracteres COMA CARACTER .
+  109 Caracteres: Caracteres COMA CARACTER .
 
-    $default  reduce usando la regla 88 (Caracteres)
+    $default  reduce using rule 109 (Caracteres)
 
 
-estado 154
+State 176
 
-   64 expresion: expresion MASMAS expresion ARROBA . expresion
+   83 expresion: expresion MASMAS expresion ARROBA . expresion
 
-    ABRIRCORCH     desplazar e ir al estado 49
-    ABRIRPARENT    desplazar e ir al estado 50
-    VERDFALS       desplazar e ir al estado 51
-    MASMAS         desplazar e ir al estado 52
-    CARACTER       desplazar e ir al estado 53
-    IDENTIFICADOR  desplazar e ir al estado 55
-    ENTERO         desplazar e ir al estado 56
-    REAL           desplazar e ir al estado 57
-    UNARIOSLISTA   desplazar e ir al estado 58
-    EXCLAMACION    desplazar e ir al estado 59
-    MENOSMENOS     desplazar e ir al estado 60
+    error          shift, and go to state 99
+    ABRIRCORCH     shift, and go to state 61
+    ABRIRPARENT    shift, and go to state 62
+    VERDFALS       shift, and go to state 63
+    MASMAS         shift, and go to state 64
+    MASMENOS       shift, and go to state 65
+    CARACTER       shift, and go to state 66
+    IDENTIFICADOR  shift, and go to state 68
+    ENTERO         shift, and go to state 69
+    REAL           shift, and go to state 70
+    UNARIOSLISTA   shift, and go to state 71
+    EXCLAMACION    shift, and go to state 72
+    MENOSMENOS     shift, and go to state 73
 
-    expresion         ir al estado 160
-    lista             ir al estado 64
-    lista_enteros     ir al estado 65
-    lista_reales      ir al estado 66
-    lista_booleanos   ir al estado 67
-    lista_caracteres  ir al estado 68
+    expresion         go to state 182
+    error_expresion   go to state 78
+    lista             go to state 79
+    lista_enteros     go to state 80
+    lista_reales      go to state 81
+    lista_booleanos   go to state 82
+    lista_caracteres  go to state 83
 
 
-estado 155
+State 177
 
-   47 sentencia_for: DURANTE IDENTIFICADOR DOSPUNTOSIGUAL expresion HASTA . expresion HACER Sentencia
+   63 sentencia_for: DURANTE IDENTIFICADOR DOSPUNTOSIGUAL expresion HASTA . expresion HACER Sentencia
 
-    ABRIRCORCH     desplazar e ir al estado 49
-    ABRIRPARENT    desplazar e ir al estado 50
-    VERDFALS       desplazar e ir al estado 51
-    MASMAS         desplazar e ir al estado 52
-    CARACTER       desplazar e ir al estado 53
-    IDENTIFICADOR  desplazar e ir al estado 55
-    ENTERO         desplazar e ir al estado 56
-    REAL           desplazar e ir al estado 57
-    UNARIOSLISTA   desplazar e ir al estado 58
-    EXCLAMACION    desplazar e ir al estado 59
-    MENOSMENOS     desplazar e ir al estado 60
-
-    expresion         ir al estado 161
-    lista             ir al estado 64
-    lista_enteros     ir al estado 65
-    lista_reales      ir al estado 66
-    lista_booleanos   ir al estado 67
-    lista_caracteres  ir al estado 68
-
-
-estado 156
-
-   46 llamada_proced: IDENTIFICADOR ABRIRPARENT lista_expresiones CERRARPARENT PUNTOCOMA .
-
-    $default  reduce usando la regla 46 (llamada_proced)
-
-
-estado 157
-
-   53 expresion: expresion . AVANRETRO
-   54          | expresion . MULMUL expresion
-   55          | expresion . MULTIDIV expresion
-   56          | expresion . LOGAND expresion
-   57          | expresion . EXOR expresion
-   58          | expresion . ORBIT expresion
-   59          | expresion . LOGOR expresion
-   60          | expresion . IGUALDAD expresion
-   61          | expresion . PORCENTAJE expresion
-   62          | expresion . ANDBIT expresion
-   63          | expresion . MASMENOS expresion
-   64          | expresion . MASMAS expresion ARROBA expresion
-   71 lista_expresiones: lista_expresiones COMA expresion .
-
-    MASMAS      desplazar e ir al estado 97
-    MASMENOS    desplazar e ir al estado 98
-    LOGOR       desplazar e ir al estado 99
-    LOGAND      desplazar e ir al estado 100
-    ORBIT       desplazar e ir al estado 101
-    EXOR        desplazar e ir al estado 102
-    ANDBIT      desplazar e ir al estado 103
-    IGUALDAD    desplazar e ir al estado 104
-    PORCENTAJE  desplazar e ir al estado 105
-    MULTIDIV    desplazar e ir al estado 106
-    MULMUL      desplazar e ir al estado 107
-    AVANRETRO   desplazar e ir al estado 108
-
-    $default  reduce usando la regla 71 (lista_expresiones)
-
-
-estado 158
-
-   13 parametros: parametros COMA parametro .
-
-    $default  reduce usando la regla 13 (parametros)
-
-
-estado 159
-
-   38 sentencia_if: CONDSI ABRIRPARENT expresion CERRARPARENT Sentencia CONDSINO . Sentencia
-
-    ABRIRLLAVES    desplazar e ir al estado 5
-    CONDSI         desplazar e ir al estado 20
-    CONDMIENTRAS   desplazar e ir al estado 21
-    LEE            desplazar e ir al estado 22
-    ESCRIBE        desplazar e ir al estado 23
-    DURANTE        desplazar e ir al estado 24
-    IDENTIFICADOR  desplazar e ir al estado 25
-
-    bloque                ir al estado 26
-    Inicio_de_bloque      ir al estado 7
-    Sentencia             ir al estado 162
-    sentencia_asignacion  ir al estado 31
-    sentencia_if          ir al estado 32
-    sentencia_while       ir al estado 33
-    sentencia_entrada     ir al estado 34
-    sentencia_salida      ir al estado 35
-    llamada_proced        ir al estado 36
-    sentencia_for         ir al estado 37
-
-
-estado 160
-
-   53 expresion: expresion . AVANRETRO
-   54          | expresion . MULMUL expresion
-   55          | expresion . MULTIDIV expresion
-   56          | expresion . LOGAND expresion
-   57          | expresion . EXOR expresion
-   58          | expresion . ORBIT expresion
-   59          | expresion . LOGOR expresion
-   60          | expresion . IGUALDAD expresion
-   61          | expresion . PORCENTAJE expresion
-   62          | expresion . ANDBIT expresion
-   63          | expresion . MASMENOS expresion
-   64          | expresion . MASMAS expresion ARROBA expresion
-   64          | expresion MASMAS expresion ARROBA expresion .
-
-    $default  reduce usando la regla 64 (expresion)
-
-
-estado 161
-
-   47 sentencia_for: DURANTE IDENTIFICADOR DOSPUNTOSIGUAL expresion HASTA expresion . HACER Sentencia
-   53 expresion: expresion . AVANRETRO
-   54          | expresion . MULMUL expresion
-   55          | expresion . MULTIDIV expresion
-   56          | expresion . LOGAND expresion
-   57          | expresion . EXOR expresion
-   58          | expresion . ORBIT expresion
-   59          | expresion . LOGOR expresion
-   60          | expresion . IGUALDAD expresion
-   61          | expresion . PORCENTAJE expresion
-   62          | expresion . ANDBIT expresion
-   63          | expresion . MASMENOS expresion
-   64          | expresion . MASMAS expresion ARROBA expresion
-
-    MASMAS      desplazar e ir al estado 97
-    MASMENOS    desplazar e ir al estado 98
-    HACER       desplazar e ir al estado 163
-    LOGOR       desplazar e ir al estado 99
-    LOGAND      desplazar e ir al estado 100
-    ORBIT       desplazar e ir al estado 101
-    EXOR        desplazar e ir al estado 102
-    ANDBIT      desplazar e ir al estado 103
-    IGUALDAD    desplazar e ir al estado 104
-    PORCENTAJE  desplazar e ir al estado 105
-    MULTIDIV    desplazar e ir al estado 106
-    MULMUL      desplazar e ir al estado 107
-    AVANRETRO   desplazar e ir al estado 108
-
-
-estado 162
-
-   38 sentencia_if: CONDSI ABRIRPARENT expresion CERRARPARENT Sentencia CONDSINO Sentencia .
-
-    $default  reduce usando la regla 38 (sentencia_if)
-
-
-estado 163
-
-   47 sentencia_for: DURANTE IDENTIFICADOR DOSPUNTOSIGUAL expresion HASTA expresion HACER . Sentencia
-
-    ABRIRLLAVES    desplazar e ir al estado 5
-    CONDSI         desplazar e ir al estado 20
-    CONDMIENTRAS   desplazar e ir al estado 21
-    LEE            desplazar e ir al estado 22
-    ESCRIBE        desplazar e ir al estado 23
-    DURANTE        desplazar e ir al estado 24
-    IDENTIFICADOR  desplazar e ir al estado 25
-
-    bloque                ir al estado 26
-    Inicio_de_bloque      ir al estado 7
-    Sentencia             ir al estado 164
-    sentencia_asignacion  ir al estado 31
-    sentencia_if          ir al estado 32
-    sentencia_while       ir al estado 33
-    sentencia_entrada     ir al estado 34
-    sentencia_salida      ir al estado 35
-    llamada_proced        ir al estado 36
-    sentencia_for         ir al estado 37
-
-
-estado 164
-
-   47 sentencia_for: DURANTE IDENTIFICADOR DOSPUNTOSIGUAL expresion HASTA expresion HACER Sentencia .
-
-    $default  reduce usando la regla 47 (sentencia_for)
+    error          shift, and go to state 99
+    ABRIRCORCH     shift, and go to state 61
+    ABRIRPARENT    shift, and go to state 62
+    VERDFALS       shift, and go to state 63
+    MASMAS         shift, and go to state 64
+    MASMENOS       shift, and go to state 65
+    CARACTER       shift, and go to state 66
+    IDENTIFICADOR  shift, and go to state 68
+    ENTERO         shift, and go to state 69
+    REAL           shift, and go to state 70
+    UNARIOSLISTA   shift, and go to state 71
+    EXCLAMACION    shift, and go to state 72
+    MENOSMENOS     shift, and go to state 73
+
+    expresion         go to state 183
+    error_expresion   go to state 78
+    lista             go to state 79
+    lista_enteros     go to state 80
+    lista_reales      go to state 81
+    lista_booleanos   go to state 82
+    lista_caracteres  go to state 83
+
+
+State 178
+
+   60 llamada_proced: IDENTIFICADOR ABRIRPARENT lista_expresiones CERRARPARENT PUNTOCOMA .
+
+    $default  reduce using rule 60 (llamada_proced)
+
+
+State 179
+
+   72 expresion: expresion . AVANRETRO
+   73          | expresion . MULMUL expresion
+   74          | expresion . MULTIDIV expresion
+   75          | expresion . LOGAND expresion
+   76          | expresion . EXOR expresion
+   77          | expresion . ORBIT expresion
+   78          | expresion . LOGOR expresion
+   79          | expresion . IGUALDAD expresion
+   80          | expresion . PORCENTAJE expresion
+   81          | expresion . ANDBIT expresion
+   82          | expresion . MASMENOS expresion
+   83          | expresion . MASMAS expresion ARROBA expresion
+   92 lista_expresiones: lista_expresiones COMA expresion .
+
+    MASMAS      shift, and go to state 119
+    MASMENOS    shift, and go to state 120
+    LOGOR       shift, and go to state 121
+    LOGAND      shift, and go to state 122
+    ORBIT       shift, and go to state 123
+    EXOR        shift, and go to state 124
+    ANDBIT      shift, and go to state 125
+    IGUALDAD    shift, and go to state 126
+    MULTIDIV    shift, and go to state 127
+    PORCENTAJE  shift, and go to state 128
+    MULMUL      shift, and go to state 129
+    AVANRETRO   shift, and go to state 130
+
+    $default  reduce using rule 92 (lista_expresiones)
+
+
+State 180
+
+   15 parametros: parametros COMA parametro .
+
+    $default  reduce using rule 15 (parametros)
+
+
+State 181
+
+   44 sentencia_if: CONDSI ABRIRPARENT expresion CERRARPARENT Sentencia CONDSINO . Sentencia
+
+    error          shift, and go to state 92
+    ABRIRLLAVES    shift, and go to state 5
+    CONDSI         shift, and go to state 23
+    CONDMIENTRAS   shift, and go to state 24
+    LEE            shift, and go to state 25
+    ESCRIBE        shift, and go to state 26
+    DURANTE        shift, and go to state 27
+    IDENTIFICADOR  shift, and go to state 28
+
+    bloque                go to state 29
+    Inicio_de_bloque      go to state 7
+    Sentencia             go to state 184
+    sentencia_asignacion  go to state 35
+    sentencia_if          go to state 36
+    sentencia_while       go to state 37
+    sentencia_entrada     go to state 38
+    sentencia_salida      go to state 39
+    llamada_proced        go to state 40
+    error_llamada_proced  go to state 41
+    sentencia_for         go to state 42
+
+
+State 182
+
+   72 expresion: expresion . AVANRETRO
+   73          | expresion . MULMUL expresion
+   74          | expresion . MULTIDIV expresion
+   75          | expresion . LOGAND expresion
+   76          | expresion . EXOR expresion
+   77          | expresion . ORBIT expresion
+   78          | expresion . LOGOR expresion
+   79          | expresion . IGUALDAD expresion
+   80          | expresion . PORCENTAJE expresion
+   81          | expresion . ANDBIT expresion
+   82          | expresion . MASMENOS expresion
+   83          | expresion . MASMAS expresion ARROBA expresion
+   83          | expresion MASMAS expresion ARROBA expresion .
+
+    $default  reduce using rule 83 (expresion)
+
+
+State 183
+
+   63 sentencia_for: DURANTE IDENTIFICADOR DOSPUNTOSIGUAL expresion HASTA expresion . HACER Sentencia
+   72 expresion: expresion . AVANRETRO
+   73          | expresion . MULMUL expresion
+   74          | expresion . MULTIDIV expresion
+   75          | expresion . LOGAND expresion
+   76          | expresion . EXOR expresion
+   77          | expresion . ORBIT expresion
+   78          | expresion . LOGOR expresion
+   79          | expresion . IGUALDAD expresion
+   80          | expresion . PORCENTAJE expresion
+   81          | expresion . ANDBIT expresion
+   82          | expresion . MASMENOS expresion
+   83          | expresion . MASMAS expresion ARROBA expresion
+
+    MASMAS      shift, and go to state 119
+    MASMENOS    shift, and go to state 120
+    HACER       shift, and go to state 185
+    LOGOR       shift, and go to state 121
+    LOGAND      shift, and go to state 122
+    ORBIT       shift, and go to state 123
+    EXOR        shift, and go to state 124
+    ANDBIT      shift, and go to state 125
+    IGUALDAD    shift, and go to state 126
+    MULTIDIV    shift, and go to state 127
+    PORCENTAJE  shift, and go to state 128
+    MULMUL      shift, and go to state 129
+    AVANRETRO   shift, and go to state 130
+
+
+State 184
+
+   44 sentencia_if: CONDSI ABRIRPARENT expresion CERRARPARENT Sentencia CONDSINO Sentencia .
+
+    $default  reduce using rule 44 (sentencia_if)
+
+
+State 185
+
+   63 sentencia_for: DURANTE IDENTIFICADOR DOSPUNTOSIGUAL expresion HASTA expresion HACER . Sentencia
+
+    error          shift, and go to state 92
+    ABRIRLLAVES    shift, and go to state 5
+    CONDSI         shift, and go to state 23
+    CONDMIENTRAS   shift, and go to state 24
+    LEE            shift, and go to state 25
+    ESCRIBE        shift, and go to state 26
+    DURANTE        shift, and go to state 27
+    IDENTIFICADOR  shift, and go to state 28
+
+    bloque                go to state 29
+    Inicio_de_bloque      go to state 7
+    Sentencia             go to state 186
+    sentencia_asignacion  go to state 35
+    sentencia_if          go to state 36
+    sentencia_while       go to state 37
+    sentencia_entrada     go to state 38
+    sentencia_salida      go to state 39
+    llamada_proced        go to state 40
+    error_llamada_proced  go to state 41
+    sentencia_for         go to state 42
+
+
+State 186
+
+   63 sentencia_for: DURANTE IDENTIFICADOR DOSPUNTOSIGUAL expresion HASTA expresion HACER Sentencia .
+
+    $default  reduce using rule 63 (sentencia_for)
