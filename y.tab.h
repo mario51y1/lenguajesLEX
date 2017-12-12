@@ -1,19 +1,21 @@
-/* A Bison parser, made by GNU Bison 3.0.4.  */
 
-/* Bison interface for Yacc-like parsers in C
+/* A Bison parser, made by GNU Bison 2.4.1.  */
 
-   Copyright (C) 1984, 1989-1990, 2000-2015 Free Software Foundation, Inc.
-
+/* Skeleton interface for Bison's Yacc-like parsers in C
+   
+      Copyright (C) 1984, 1989, 1990, 2000, 2001, 2002, 2003, 2004, 2005, 2006
+   Free Software Foundation, Inc.
+   
    This program is free software: you can redistribute it and/or modify
    it under the terms of the GNU General Public License as published by
    the Free Software Foundation, either version 3 of the License, or
    (at your option) any later version.
-
+   
    This program is distributed in the hope that it will be useful,
    but WITHOUT ANY WARRANTY; without even the implied warranty of
    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
    GNU General Public License for more details.
-
+   
    You should have received a copy of the GNU General Public License
    along with this program.  If not, see <http://www.gnu.org/licenses/>.  */
 
@@ -26,73 +28,65 @@
    special exception, which will cause the skeleton and the resulting
    Bison output files to be licensed under the GNU General Public
    License without this special exception.
-
+   
    This special exception was added by the Free Software Foundation in
    version 2.2 of Bison.  */
 
-#ifndef YY_YY_Y_TAB_H_INCLUDED
-# define YY_YY_Y_TAB_H_INCLUDED
-/* Debug traces.  */
-#ifndef YYDEBUG
-# define YYDEBUG 0
-#endif
-#if YYDEBUG
-extern int yydebug;
-#endif
 
-/* Token type.  */
+/* Tokens.  */
 #ifndef YYTOKENTYPE
 # define YYTOKENTYPE
-  enum yytokentype
-  {
-    INICIOVARS = 258,
-    FINVARS = 259,
-    PUNTOCOMA = 260,
-    MAIN = 261,
-    PROCED = 262,
-    ABRIRCORCH = 263,
-    CERRARCORCH = 264,
-    ABRIRPARENT = 265,
-    CERRARPARENT = 266,
-    ABRIRLLAVES = 267,
-    CERRARLLAVES = 268,
-    DEFLIST = 269,
-    ASIG = 270,
-    CONDSI = 271,
-    CONDMIENTRAS = 272,
-    CONDSINO = 273,
-    LEE = 274,
-    ESCRIBE = 275,
-    COMA = 276,
-    VERDFALS = 277,
-    MASMAS = 278,
-    MASMENOS = 279,
-    ARROBA = 280,
-    DURANTE = 281,
-    DOSPUNTOSIGUAL = 282,
-    HASTA = 283,
-    HACER = 284,
-    TIPO = 285,
-    CARACTER = 286,
-    CADENA = 287,
-    IDENTIFICADOR = 288,
-    ENTERO = 289,
-    REAL = 290,
-    LOGOR = 291,
-    LOGAND = 292,
-    ORBIT = 293,
-    EXOR = 294,
-    ANDBIT = 295,
-    IGUALDAD = 296,
-    REL = 297,
-    MULTIDIV = 298,
-    PORCENTAJE = 299,
-    UNARIOSLISTA = 300,
-    EXCLAMACION = 301,
-    MENOSMENOS = 302,
-    MULMUL = 303,
-    AVANRETRO = 304
-  };
+   /* Put the tokens into the symbol table, so that GDB and other debuggers
+      know about them.  */
+   enum yytokentype {
+     INICIOVARS = 258,
+     FINVARS = 259,
+     PUNTOCOMA = 260,
+     MAIN = 261,
+     PROCED = 262,
+     ABRIRCORCH = 263,
+     CERRARCORCH = 264,
+     ABRIRPARENT = 265,
+     CERRARPARENT = 266,
+     ABRIRLLAVES = 267,
+     CERRARLLAVES = 268,
+     DEFLIST = 269,
+     ASIG = 270,
+     CONDSI = 271,
+     CONDMIENTRAS = 272,
+     CONDSINO = 273,
+     LEE = 274,
+     ESCRIBE = 275,
+     COMA = 276,
+     VERDFALS = 277,
+     MASMAS = 278,
+     MASMENOS = 279,
+     ARROBA = 280,
+     DURANTE = 281,
+     DOSPUNTOSIGUAL = 282,
+     HASTA = 283,
+     HACER = 284,
+     TIPO = 285,
+     CARACTER = 286,
+     CADENA = 287,
+     IDENTIFICADOR = 288,
+     ENTERO = 289,
+     REAL = 290,
+     LOGOR = 291,
+     LOGAND = 292,
+     ORBIT = 293,
+     EXOR = 294,
+     ANDBIT = 295,
+     IGUALDAD = 296,
+     REL = 297,
+     PORCENTAJE = 298,
+     MULTIDIV = 299,
+     UNARIOSLISTA = 300,
+     EXCLAMACION = 301,
+     MENOSMENOS = 302,
+     MULMUL = 303,
+     AVANRETRO = 304
+   };
 #endif
 /* Tokens.  */
 #define INICIOVARS 258
@@ -135,24 +129,24 @@ extern int yydebug;
 #define ANDBIT 295
 #define IGUALDAD 296
 #define REL 297
-#define MULTIDIV 298
-#define PORCENTAJE 299
+#define PORCENTAJE 298
+#define MULTIDIV 299
 #define UNARIOSLISTA 300
 #define EXCLAMACION 301
 #define MENOSMENOS 302
 #define MULMUL 303
 #define AVANRETRO 304
 
-/* Value type.  */
+
+
+
 #if ! defined YYSTYPE && ! defined YYSTYPE_IS_DECLARED
 typedef int YYSTYPE;
 # define YYSTYPE_IS_TRIVIAL 1
+# define yystype YYSTYPE /* obsolescent; will be withdrawn */
 # define YYSTYPE_IS_DECLARED 1
 #endif
 
-
 extern YYSTYPE yylval;
 
-int yyparse (void);
 
-#endif /* !YY_YY_Y_TAB_H_INCLUDED  */

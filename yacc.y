@@ -1,12 +1,12 @@
 %error-verbose
 
 %{
-#include <iostream>
-using namespace std;
 
-FILE *yyin;
-
-
+	#include <stdio.h>
+	#include <stdlib.h>
+	extern int yylex();
+	extern int yyparse();
+	extern FILE* yyin;
 
 %}
 
@@ -86,7 +86,7 @@ Declar_subprog : Cabecera_subprograma bloque ;
 
 Cabecera_programa : MAIN ;
 
-Cabecera_subprograma : PROCED IDENTIFICADOR ABRIRPARENT parametros CERRARPARENT 
+Cabecera_subprograma : PROCED IDENTIFICADOR ABRIRPARENT parametros CERRARPARENT
 	| PROCED error_subprog ;
 error_subprog : error ;
 
@@ -102,9 +102,9 @@ Fin_de_bloque :  CERRARLLAVES ;
 Variables_locales : Variables_locales Cuerpo_declar_variables
 	| Cuerpo_declar_variables
   ;
-Cuerpo_declar_variables : tipo Identificadores PUNTOCOMA 
+Cuerpo_declar_variables : tipo Identificadores PUNTOCOMA
 	| error_decl_variables;
-error_decl_variables : error ; 
+error_decl_variables : error ;
 
 Identificadores : IDENTIFICADOR | Identificadores COMA IDENTIFICADOR ;
 
@@ -133,7 +133,7 @@ sentencia_if : CONDSI ABRIRPARENT expresion CERRARPARENT Sentencia
 
 sentencia_while : CONDMIENTRAS ABRIRPARENT expresion CERRARPARENT Sentencia ;
 
-sentencia_entrada : LEE Identificadores PUNTOCOMA ; 
+sentencia_entrada : LEE Identificadores PUNTOCOMA ;
 
 sentencia_salida : ESCRIBE lista_expresiones_o_cadena PUNTOCOMA ;
 
@@ -151,7 +151,7 @@ sentencia_for : DURANTE IDENTIFICADOR DOSPUNTOSIGUAL  expresion HASTA expresion 
 expresion : ABRIRPARENT expresion CERRARPARENT
   	| MASMENOS expresion %prec EXCLAMACION
 	| UNARIOSLISTA expresion
-	| MASMAS expresion 
+	| MASMAS expresion
 	| MENOSMENOS expresion
 	| EXCLAMACION expresion
 	| expresion AVANRETRO
@@ -165,7 +165,7 @@ expresion : ABRIRPARENT expresion CERRARPARENT
 	| expresion PORCENTAJE expresion
 	| expresion ANDBIT expresion
 	| expresion MASMENOS expresion
-	| expresion MASMAS expresion ARROBA expresion 
+	| expresion MASMAS expresion ARROBA expresion
 	| IDENTIFICADOR
   | ENTERO
   | REAL
@@ -212,7 +212,7 @@ Caracteres: CARACTER
 %%
 
 void main(int argc, char **argv){
-	yyin = fopen("input.c","r");
+	yyin = fopen("test.t","r");
 	yyparse();
 	fclose(yyin);
 	return 0;

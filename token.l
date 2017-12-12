@@ -5,6 +5,9 @@
 #include "y.tab.h"
 
 int linea_actual=0;
+
+#define YY_DECL int yylex()
+
 %}
 %%
 [ \t\n]	;
@@ -88,16 +91,3 @@ int linea_actual=0;
 [a-zA-Z][a-zA-Z0-9]*	return IDENTIFICADOR;
 . ;
 %%
-
-int main(int argc, char *argv[]) {
-
-	int val;
-  	yyin = fopen (argv[1],"rt");
-	val = yylex();
-
-	printf(" %d \n", val);
-
-	exit(0);
-
-
-}
