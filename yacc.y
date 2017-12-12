@@ -25,7 +25,8 @@
 %token COMA
 %token VERDFALS
 %token MASMAS
-%token MASMENOS%token ARROBA
+%token MASMENOS
+%token ARROBA
 %token DURANTE
 %token DOSPUNTOSIGUAL
 %token HASTA
@@ -46,13 +47,13 @@
 %left REL
 %left MASMENOS
 %left MULTIDIV PORCENTAJE
-%left UNARIOSLISTA
+%right UNARIOSLISTA
 %right EXCLAMACION
 %right MENOSMENOS
 %right MASMAS
 %right MULMUL
 %left AVANRETRO
-%left ARROBA
+%right ARROBA
 
 
 %%
@@ -136,8 +137,9 @@ llamada_proced : IDENTIFICADOR ABRIRPARENT  lista_expresiones  CERRARPARENT PUNT
 sentencia_for : DURANTE IDENTIFICADOR DOSPUNTOSIGUAL  expresion HASTA expresion HACER Sentencia ;
 
 expresion : ABRIRPARENT expresion CERRARPARENT
-  | MASMAS expresion %prec EXCLAMACION
+  	| MASMENOS expresion %prec EXCLAMACION
 	| UNARIOSLISTA expresion
+	| MASMAS expresion 
 	| MENOSMENOS expresion
 	| EXCLAMACION expresion
 	| expresion AVANRETRO
@@ -151,7 +153,7 @@ expresion : ABRIRPARENT expresion CERRARPARENT
 	| expresion PORCENTAJE expresion
 	| expresion ANDBIT expresion
 	| expresion MASMENOS expresion
-	| expresion MASMAS expresion ARROBA expresion
+	| expresion MASMAS expresion ARROBA expresion 
 	| IDENTIFICADOR
   | ENTERO
   | REAL
