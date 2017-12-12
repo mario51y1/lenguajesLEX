@@ -1,16 +1,16 @@
 %{
-#include <stdlib.h>
-#include <stdio.h>
-#include <string.h>
-#include "y.tab.h"
 
-int linea_actual=0;
-
-#define YY_DECL int yylex()
+#define MAXLONBUFFER 200
+char buffer[MAXLONBUFFER];
 
 %}
+
+%option	noyywrap
+
 %%
-[ \t\n]	;
+[ \t]	;
+
+"\n"	linea_actual++;
 
 "["	return ABRIRCORCH;
 "]"	return CERRARCORCH;

@@ -1,20 +1,20 @@
-%error-verbose
-
 %{
 
 	#include <stdio.h>
 	#include <stdlib.h>
-	#include <iostream>
-	#include "lex.yy.c"
+
+	#include <string.h>
 
 	extern int yylex();
 	extern int yyparse();
 	extern FILE* yyin;
 	
-	void yyerror(const char* s);  
-	using namespace std;
+	void yyerror(const char* msg); 
+	int linea_actual = 1;
+
 %}
 
+%error-verbose
 
 %token INICIOVARS
 %token FINVARS
@@ -216,18 +216,17 @@ Caracteres: CARACTER
 
 %%
 
-int main(int argc, char **argv){
-	yyin = fopen("test.t","r");
-	yyparse();
-	fclose(yyin);
-	
-	cout << "done" << endl;
+#ifdef DOSWINDOWS
+#include "lexyy.c"
+#else
+#include "lex.yy.c"
+#endif
 
-	return 0;
-}
-
-void yyerror(const char *s)  
+void yyerror(const char *msg)  
 {  
-   cout << "Error. " << s << endl;   
-   exit(-1);     
+	fprintf(stderr,"[Linea %d]: %s\n", linea_actual,msg);
 }  
+
+
+
+
