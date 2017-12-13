@@ -8,8 +8,8 @@
 	extern int yylex();
 	extern int yyparse();
 	extern FILE* yyin;
-	
-	void yyerror(const char* msg); 
+
+	void yyerror(const char* msg);
 	int linea_actual = 1;
 
 %}
@@ -38,7 +38,6 @@
 %token VERDFALS
 %token MASMAS
 %token MASMENOS
-%token ARROBA
 %token DURANTE
 %token DOSPUNTOSIGUAL
 %token HASTA
@@ -166,6 +165,7 @@ expresion : ABRIRPARENT expresion CERRARPARENT
 	| expresion EXOR expresion
 	| expresion ORBIT expresion
 	| expresion LOGOR expresion
+	| expresion REL expresion
 	| expresion IGUALDAD expresion
 	| expresion PORCENTAJE expresion
 	| expresion ANDBIT expresion
@@ -222,11 +222,7 @@ Caracteres: CARACTER
 #include "lex.yy.c"
 #endif
 
-void yyerror(const char *msg)  
-{  
+void yyerror(const char *msg)
+{
 	fprintf(stderr,"[Linea %d]: %s\n", linea_actual,msg);
-}  
-
-
-
-
+}

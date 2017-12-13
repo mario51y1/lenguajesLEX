@@ -42,8 +42,9 @@ principal
         }finvariables;
 
         x1 = 1.3;
-        if ( c2>10 )
-          c2 = c2-1;
+
+        if ( c2 > 10  )
+          c2 = c2 - 1;
         else
           x1 = 3.1;
         return x1;
