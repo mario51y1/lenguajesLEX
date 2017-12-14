@@ -43,18 +43,17 @@ principal
 
         x1 = 1.3;
 
-        if ( c2 > 10  )
+        si ( c2 > 10  )
           c2 = c2 - 1;
-        else
+        sino
           x1 = 3.1;
-        return x1;
       }
 
       xf = funcionC(verdadero,10);
 
       x2 = xf * (funcionC(false,1)-funcionC(true,23))/10.0;
 
-      while (x2*funcionC(false,1)-xf<10.0) {
+      mientras (x2*funcionC(false,1)-xf<10.0) {
         x2 = x2*xf;
       }
 
@@ -69,9 +68,9 @@ principal
         procedimiento funcionE( caracter e1, caracter e2){
 
           lee "introduzca dos caracteres: ", e1 , e2;
-          if (e1 == 'a')
+          si (e1 == 'a')
             return e1;
-          else if (e1 == 'b')
+          sino si (e1 == 'b')
             return e2;
           else
             return ' ' ;

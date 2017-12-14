@@ -160,7 +160,7 @@ expresion : ABRIRPARENT expresion CERRARPARENT
 	| EXCLAMACION expresion
 	| expresion AVANRETRO
 	| expresion MULMUL expresion
-	| expresion MULTIDIV expresion
+	| expresion MULTIDIV expresion 
 	| expresion LOGAND expresion
 	| expresion EXOR expresion
 	| expresion ORBIT expresion
