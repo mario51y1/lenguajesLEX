@@ -1,8 +1,8 @@
-/* A Bison parser, made by GNU Bison 3.0.2.  */
+/* A Bison parser, made by GNU Bison 3.0.4.  */
 
 /* Bison implementation for Yacc-like parsers in C
 
-   Copyright (C) 1984, 1989-1990, 2000-2013 Free Software Foundation, Inc.
+   Copyright (C) 1984, 1989-1990, 2000-2015 Free Software Foundation, Inc.
 
    This program is free software: you can redistribute it and/or modify
    it under the terms of the GNU General Public License as published by
@@ -44,7 +44,7 @@
 #define YYBISON 1
 
 /* Bison version.  */
-#define YYBISON_VERSION "3.0.2"
+#define YYBISON_VERSION "3.0.4"
 
 /* Skeleton name.  */
 #define YYSKELETON_NAME "yacc.c"
@@ -69,16 +69,17 @@
 	#include <stdlib.h>
 
 	#include <string.h>
-
+	#include "sefasgen.h"
 	extern int yylex();
 	extern int yyparse();
 	extern FILE* yyin;
 
 	void yyerror(const char* msg);
+extern stEntrada yylval;
 	int linea_actual = 1;
 
 
-#line 82 "y.tab.c" /* yacc.c:339  */
+#line 83 "y.tab.c" /* yacc.c:339  */
 
 # ifndef YY_NULLPTR
 #  if defined __cplusplus && 201103L <= __cplusplus
@@ -137,11 +138,11 @@ extern int yydebug;
     HASTA = 282,
     HACER = 283,
     TIPO = 284,
-    CARACTER = 285,
+    T_CARACTER = 285,
     CADENA = 286,
     IDENTIFICADOR = 287,
-    ENTERO = 288,
-    REAL = 289,
+    T_ENTERO = 288,
+    T_REAL = 289,
     LOGOR = 290,
     LOGAND = 291,
     ORBIT = 292,
@@ -159,6 +160,54 @@ extern int yydebug;
     ARROBA = 304
   };
 #endif
+/* Tokens.  */
+#define INICIOVARS 258
+#define FINVARS 259
+#define PUNTOCOMA 260
+#define MAIN 261
+#define PROCED 262
+#define ABRIRCORCH 263
+#define CERRARCORCH 264
+#define ABRIRPARENT 265
+#define CERRARPARENT 266
+#define ABRIRLLAVES 267
+#define CERRARLLAVES 268
+#define DEFLIST 269
+#define ASIG 270
+#define CONDSI 271
+#define CONDMIENTRAS 272
+#define CONDSINO 273
+#define LEE 274
+#define ESCRIBE 275
+#define COMA 276
+#define VERDFALS 277
+#define MASMAS 278
+#define MASMENOS 279
+#define DURANTE 280
+#define DOSPUNTOSIGUAL 281
+#define HASTA 282
+#define HACER 283
+#define TIPO 284
+#define T_CARACTER 285
+#define CADENA 286
+#define IDENTIFICADOR 287
+#define T_ENTERO 288
+#define T_REAL 289
+#define LOGOR 290
+#define LOGAND 291
+#define ORBIT 292
+#define EXOR 293
+#define ANDBIT 294
+#define IGUALDAD 295
+#define REL 296
+#define MULTIDIV 297
+#define PORCENTAJE 298
+#define UNARIOSLISTA 299
+#define EXCLAMACION 300
+#define MENOSMENOS 301
+#define MULMUL 302
+#define AVANRETRO 303
+#define ARROBA 304
 
 /* Value type.  */
 #if ! defined YYSTYPE && ! defined YYSTYPE_IS_DECLARED
@@ -176,7 +225,7 @@ int yyparse (void);
 
 /* Copy the second part of user declarations.  */
 
-#line 180 "y.tab.c" /* yacc.c:358  */
+#line 229 "y.tab.c" /* yacc.c:358  */
 
 #ifdef short
 # undef short
@@ -478,16 +527,16 @@ static const yytype_uint8 yytranslate[] =
   /* YYRLINE[YYN] -- Source line where rule number YYN was defined.  */
 static const yytype_uint8 yyrline[] =
 {
-       0,    74,    74,    76,    78,    79,    82,    83,    85,    86,
-      89,    91,    93,    94,    95,    97,    98,    99,   101,   103,
-     104,   106,   107,   109,   110,   111,   113,   113,   115,   115,
-     116,   118,   119,   123,   124,   125,   126,   127,   128,   129,
-     130,   133,   135,   136,   138,   140,   142,   144,   145,   148,
-     149,   151,   153,   155,   156,   157,   158,   159,   160,   161,
-     162,   163,   164,   165,   166,   167,   168,   169,   170,   171,
-     172,   173,   174,   175,   176,   177,   178,   179,   180,   181,
-     183,   183,   185,   186,   187,   188,   191,   193,   194,   197,
-     199,   200,   204,   206,   207,   210,   212,   213
+       0,    80,    80,    82,    84,    85,    88,    89,    91,    92,
+      95,    97,    99,   100,   101,   103,   104,   105,   107,   109,
+     110,   112,   113,   115,   116,   117,   119,   119,   121,   121,
+     122,   124,   125,   129,   130,   131,   132,   133,   134,   135,
+     136,   139,   141,   142,   144,   146,   148,   150,   151,   154,
+     155,   157,   159,   161,   162,   163,   164,   165,   166,   167,
+     168,   169,   170,   171,   172,   173,   174,   175,   176,   177,
+     178,   179,   180,   181,   182,   183,   184,   185,   186,   187,
+     189,   189,   191,   192,   193,   194,   197,   199,   200,   203,
+     205,   206,   210,   212,   213,   216,   218,   219
 };
 #endif
 
@@ -501,11 +550,11 @@ static const char *const yytname[] =
   "CERRARPARENT", "ABRIRLLAVES", "CERRARLLAVES", "DEFLIST", "ASIG",
   "CONDSI", "CONDMIENTRAS", "CONDSINO", "LEE", "ESCRIBE", "COMA",
   "VERDFALS", "MASMAS", "MASMENOS", "DURANTE", "DOSPUNTOSIGUAL", "HASTA",
-  "HACER", "TIPO", "CARACTER", "CADENA", "IDENTIFICADOR", "ENTERO", "REAL",
-  "LOGOR", "LOGAND", "ORBIT", "EXOR", "ANDBIT", "IGUALDAD", "REL",
-  "MULTIDIV", "PORCENTAJE", "UNARIOSLISTA", "EXCLAMACION", "MENOSMENOS",
-  "MULMUL", "AVANRETRO", "ARROBA", "$accept", "Programa", "bloque",
-  "Declar_de_variables_locales", "Marca_ini_declar_variables",
+  "HACER", "TIPO", "T_CARACTER", "CADENA", "IDENTIFICADOR", "T_ENTERO",
+  "T_REAL", "LOGOR", "LOGAND", "ORBIT", "EXOR", "ANDBIT", "IGUALDAD",
+  "REL", "MULTIDIV", "PORCENTAJE", "UNARIOSLISTA", "EXCLAMACION",
+  "MENOSMENOS", "MULMUL", "AVANRETRO", "ARROBA", "$accept", "Programa",
+  "bloque", "Declar_de_variables_locales", "Marca_ini_declar_variables",
   "Marca_fin_declar_variables", "Declar_de_subprogs", "Declar_subprog",
   "Cabecera_programa", "Cabecera_subprograma", "error_subprog",
   "parametros", "parametro", "Inicio_de_bloque", "Fin_de_bloque",
@@ -1433,7 +1482,7 @@ yyreduce:
   switch (yyn)
     {
       
-#line 1437 "y.tab.c" /* yacc.c:1646  */
+#line 1486 "y.tab.c" /* yacc.c:1646  */
       default: break;
     }
   /* User semantic actions sometimes alter yychar, and that requires
@@ -1661,7 +1710,7 @@ yyreturn:
 #endif
   return yyresult;
 }
-#line 217 "yacc.y" /* yacc.c:1906  */
+#line 223 "yacc.y" /* yacc.c:1906  */
 
 
 #ifdef DOSWINDOWS

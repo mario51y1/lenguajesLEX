@@ -4,14 +4,13 @@
 	#include <stdlib.h>
 
 	#include <string.h>
-
 	#include "sefasgen.h"
-
 	extern int yylex();
 	extern int yyparse();
 	extern FILE* yyin;
 
 	void yyerror(const char* msg);
+extern stEntrada yylval;
 	int linea_actual = 1;
 
 %}
@@ -50,11 +49,11 @@
 %token HASTA
 %token HACER
 %token TIPO
-%token CARACTER
+%token T_CARACTER
 %token CADENA
 %token IDENTIFICADOR
-%token ENTERO
-%token REAL
+%token T_ENTERO
+%token T_REAL
 
 %left LOGOR
 %left LOGAND
@@ -179,10 +178,10 @@ expresion : ABRIRPARENT expresion CERRARPARENT
 	| expresion MASMENOS expresion
 	| expresion MASMAS expresion ARROBA expresion
 	| IDENTIFICADOR
-  | ENTERO
-  | REAL
+  | T_ENTERO
+  | T_REAL
   | VERDFALS
-  | CARACTER
+  | T_CARACTER
   | lista
   |	error_expresion	;
 error_expresion : error ;
@@ -197,18 +196,18 @@ lista : lista_enteros
 
 lista_enteros: ABRIRCORCH Enteros CERRARCORCH ;
 
-Enteros : ENTERO
-	| Enteros COMA ENTERO
+Enteros : T_ENTERO
+	| Enteros COMA T_ENTERO
 ;
 
 lista_reales : ABRIRCORCH Reales CERRARCORCH ;
 
-Reales: REAL
-	|Reales COMA REAL
+Reales: T_REAL
+	|Reales COMA T_REAL
   ;
 
 
-lista_booleanos : ABRIRCORCH Booleanos CERRARCORCH ;
+lista_booleanos : ABRIRCORCH Booleanos	 CERRARCORCH ;
 
 Booleanos : VERDFALS
 	| Booleanos COMA VERDFALS
@@ -216,8 +215,8 @@ Booleanos : VERDFALS
 
 lista_caracteres: ABRIRCORCH Caracteres CERRARCORCH ;
 
-Caracteres: CARACTER
-| Caracteres COMA CARACTER
+Caracteres: T_CARACTER
+| Caracteres COMA T_CARACTER
 ;
 
 

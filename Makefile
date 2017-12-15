@@ -10,7 +10,7 @@ main.o: main.c
 	gcc -c main.c
 
 y.tab.c: yacc.y lex.yy.c
-	bison -o y.tab.c yacc.y
+	yacc -o y.tab.c yacc.y
 
 lex.yy.c: token.l
 	flex token.l
