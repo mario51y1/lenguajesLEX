@@ -6,11 +6,12 @@ char buffer[MAXLONBUFFER];
 %}
 
 %option	noyywrap
+%option yylineno
 
 %%
 [ \t]	;
 
-"\n"	linea_actual++;
+"\n"	{linea_actual++;}
 
 "["	return ABRIRCORCH;
 "]"	return CERRARCORCH;

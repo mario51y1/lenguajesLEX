@@ -5,6 +5,8 @@
 
 	#include <string.h>
 
+	#include "sefasgen.h"
+
 	extern int yylex();
 	extern int yyparse();
 	extern FILE* yyin;
@@ -13,6 +15,11 @@
 	int linea_actual = 1;
 
 %}
+
+// tabla de simbolos
+// - añadir entrada especial en la tabla, marca comienzo de bloque, se añaden variables, cuando se acaba el bloque se quitan las variables hasta encontrar un inicio de bloque
+
+
 
 %error-verbose
 
