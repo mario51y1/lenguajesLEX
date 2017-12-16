@@ -1,24 +1,18 @@
 %{
-
 	#include <stdio.h>
-	#include <stdlib.h>
-
 	#include <string.h>
+
 	#include "sefasgen.h"
+
 	extern int yylex();
 	extern int yyparse();
 	extern FILE* yyin;
 
 	void yyerror(const char* msg);
-extern stEntrada yylval;
+
 	int linea_actual = 1;
 
 %}
-
-// tabla de simbolos
-// - añadir entrada especial en la tabla, marca comienzo de bloque, se añaden variables, cuando se acaba el bloque se quitan las variables hasta encontrar un inicio de bloque
-
-
 
 %error-verbose
 
@@ -79,10 +73,17 @@ extern stEntrada yylval;
 
 Programa : Cabecera_programa bloque ;
 
-bloque : Inicio_de_bloque Declar_de_variables_locales Declar_de_subprogs Sentencias Fin_de_bloque ;
+bloque : Inicio_de_bloque 
+	Declar_de_variables_locales 
+	Declar_de_subprogs 
+	Sentencias 
+	Fin_de_bloque 
+	;
 
-Declar_de_variables_locales : Marca_ini_declar_variables Variables_locales Marca_fin_declar_variables
-|
+Declar_de_variables_locales : Marca_ini_declar_variables 
+			      Variables_locales 	
+			      Marca_fin_declar_variables
+			     |
 ;
 
 Marca_ini_declar_variables : INICIOVARS Inicio_de_bloque ;
@@ -104,9 +105,14 @@ parametros : parametro
 	| parametros COMA parametro
 	|
   ;
-parametro : tipo IDENTIFICADOR ;
+parametro : tipo IDENTIFICADOR {pet_BuscarPROC(yylval);};
 
-Inicio_de_bloque :  ABRIRLLAVES ;
+Inicio_de_bloque :  ABRIRLLAVES 
+	{
+	stEntrada j;	
+	yylval.lexema = stdrup("a");
+	pet_introTS(yylval,MARCA);	
+	};
 Fin_de_bloque :  CERRARLLAVES ;
 
 Variables_locales : Variables_locales Cuerpo_declar_variables
@@ -221,14 +227,13 @@ Caracteres: T_CARACTER
 
 
 %%
-
-#ifdef DOSWINDOWS
-#include "lexyy.c"
-#else
 #include "lex.yy.c"
-#endif
+#include "sefasgen.h"
+
 
 void yyerror(const char *msg)
 {
 	fprintf(stderr,"[Linea %d]: %s\n", linea_actual,msg);
 }
+
+#include "main.c"

@@ -1,8 +1,15 @@
 
 %option	noyywrap
-%option yylineno
+option yylineno
 
 %{
+
+
+#include <string.h>
+#include <stdio.h>
+
+#include "y.tab.h"
+
 #include "sefasgen.h"
 
 #define MAXLONBUFFER 200
@@ -13,8 +20,9 @@ static int linF = 0;
 static int colI = 0;
 static int colF = 0;
 
-tEntrada tipoTS;
 
+tEntrada tipoTS;
+extern stEntrada yylval;
 
 void actualizarLoc(stEntrada *reg, int tamToken);
 %}

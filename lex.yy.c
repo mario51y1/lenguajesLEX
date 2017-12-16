@@ -174,27 +174,8 @@ extern FILE *yyin, *yyout;
 #define EOB_ACT_END_OF_FILE 1
 #define EOB_ACT_LAST_MATCH 2
 
-    /* Note: We specifically omit the test for yy_rule_can_match_eol because it requires
-     *       access to the local variable yy_act. Since yyless() is a macro, it would break
-     *       existing scanners that call yyless() from OUTSIDE yylex. 
-     *       One obvious solution it to make yy_act a global. I tried that, and saw
-     *       a 5% performance hit in a non-yylineno scanner, because yy_act is
-     *       normally declared as a register variable-- so it is not worth it.
-     */
-    #define  YY_LESS_LINENO(n) \
-            do { \
-                int yyl;\
-                for ( yyl = n; yyl < yyleng; ++yyl )\
-                    if ( yytext[yyl] == '\n' )\
-                        --yylineno;\
-            }while(0)
-    #define YY_LINENO_REWIND_TO(dst) \
-            do {\
-                const char *p;\
-                for ( p = yy_cp-1; p >= (dst); --p)\
-                    if ( *p == '\n' )\
-                        --yylineno;\
-            }while(0)
+    #define YY_LESS_LINENO(n)
+    #define YY_LINENO_REWIND_TO(ptr)
     
 /* Return all but the first "n" matched characters back to the input stream. */
 #define yyless(n) \
@@ -582,14 +563,6 @@ static yyconst flex_int16_t yy_chk[251] =
       181,  181,  181,  181,  181,  181,  181,  181,  181,  181
     } ;
 
-/* Table of booleans, true if rule could match eol. */
-static yyconst flex_int32_t yy_rule_can_match_eol[67] =
-    {   0,
-0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 
-    0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 
-    0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 
-    0, 0, 1, 1, 0, 0, 0,     };
-
 static yy_state_type yy_last_accepting_state;
 static char *yy_last_accepting_cpos;
 
@@ -606,6 +579,13 @@ int yy_flex_debug = 0;
 char *yytext;
 #line 1 "token.l"
 #line 6 "token.l"
+
+
+#include <string.h>
+#include <stdio.h>
+
+#include "y.tab.h"
+
 #include "sefasgen.h"
 
 #define MAXLONBUFFER 200
@@ -616,11 +596,12 @@ static int linF = 0;
 static int colI = 0;
 static int colF = 0;
 
-tEntrada tipoTS;
 
+tEntrada tipoTS;
+extern stEntrada yylval;
 
 void actualizarLoc(stEntrada *reg, int tamToken);
-#line 624 "lex.yy.c"
+#line 605 "lex.yy.c"
 
 #define INITIAL 0
 
@@ -838,9 +819,9 @@ YY_DECL
 		}
 
 	{
-#line 22 "token.l"
+#line 30 "token.l"
 
-#line 844 "lex.yy.c"
+#line 825 "lex.yy.c"
 
 	while ( /*CONSTCOND*/1 )		/* loops until end-of-file is reached */
 		{
@@ -886,16 +867,6 @@ yy_find_action:
 
 		YY_DO_BEFORE_ACTION;
 
-		if ( yy_act != YY_END_OF_BUFFER && yy_rule_can_match_eol[yy_act] )
-			{
-			yy_size_t yyl;
-			for ( yyl = 0; yyl < yyleng; ++yyl )
-				if ( yytext[yyl] == '\n' )
-					   
-    yylineno++;
-;
-			}
-
 do_action:	/* This label is used only to access EOF actions. */
 
 		switch ( yy_act )
@@ -909,29 +880,29 @@ do_action:	/* This label is used only to access EOF actions. */
 
 case 1:
 YY_RULE_SETUP
-#line 23 "token.l"
+#line 31 "token.l"
 {colI+=yyleng;};
 	YY_BREAK
 case 2:
 /* rule 2 can match eol */
 YY_RULE_SETUP
-#line 25 "token.l"
+#line 33 "token.l"
 {linea_actual++;
 	colI += yyleng;}
 	YY_BREAK
 case 3:
 YY_RULE_SETUP
-#line 28 "token.l"
+#line 36 "token.l"
 { colI += yyleng;return ABRIRCORCH;}
 	YY_BREAK
 case 4:
 YY_RULE_SETUP
-#line 30 "token.l"
+#line 38 "token.l"
 { colI += yyleng;return CERRARCORCH;}
 	YY_BREAK
 case 5:
 YY_RULE_SETUP
-#line 32 "token.l"
+#line 40 "token.l"
 {
 	actualizarLoc(&yylval,yyleng);
 	return ABRIRPARENT;
@@ -939,7 +910,7 @@ YY_RULE_SETUP
 	YY_BREAK
 case 6:
 YY_RULE_SETUP
-#line 37 "token.l"
+#line 45 "token.l"
 {
 	actualizarLoc(&yylval,yyleng);
 	return CERRARPARENT;
@@ -947,7 +918,7 @@ YY_RULE_SETUP
 	YY_BREAK
 case 7:
 YY_RULE_SETUP
-#line 42 "token.l"
+#line 50 "token.l"
 {
 	actualizarLoc(&yylval,yyleng);
 
@@ -956,7 +927,7 @@ YY_RULE_SETUP
 	YY_BREAK
 case 8:
 YY_RULE_SETUP
-#line 48 "token.l"
+#line 56 "token.l"
 {
 	actualizarLoc(&yylval,yyleng);
 	return CERRARLLAVES;
@@ -964,12 +935,12 @@ YY_RULE_SETUP
 	YY_BREAK
 case 9:
 YY_RULE_SETUP
-#line 53 "token.l"
+#line 61 "token.l"
 { colI += yyleng;return PUNTOCOMA;}
 	YY_BREAK
 case 10:
 YY_RULE_SETUP
-#line 55 "token.l"
+#line 63 "token.l"
 {
 	actualizarLoc(&yylval,yyleng);
 	return MULMUL;
@@ -977,7 +948,7 @@ YY_RULE_SETUP
 	YY_BREAK
 case 11:
 YY_RULE_SETUP
-#line 60 "token.l"
+#line 68 "token.l"
 {
 	actualizarLoc(&yylval,yyleng);
 	yylval.lexema = strdup(yytext);
@@ -987,7 +958,7 @@ YY_RULE_SETUP
 	YY_BREAK
 case 12:
 YY_RULE_SETUP
-#line 67 "token.l"
+#line 75 "token.l"
 {
 	actualizarLoc(&yylval,yyleng);
 	yylval.lexema = strdup(yytext);
@@ -997,7 +968,7 @@ YY_RULE_SETUP
 	YY_BREAK
 case 13:
 YY_RULE_SETUP
-#line 74 "token.l"
+#line 82 "token.l"
 {
 	actualizarLoc(&yylval,yyleng);
 	yylval.lexema = strdup(yytext);
@@ -1007,7 +978,7 @@ YY_RULE_SETUP
 	YY_BREAK
 case 14:
 YY_RULE_SETUP
-#line 81 "token.l"
+#line 89 "token.l"
 {
 	actualizarLoc(&yylval,yyleng);
 	yylval.lexema = strdup(yytext);
@@ -1017,7 +988,7 @@ YY_RULE_SETUP
 	YY_BREAK
 case 15:
 YY_RULE_SETUP
-#line 88 "token.l"
+#line 96 "token.l"
 {
 	actualizarLoc(&yylval,yyleng);
 	yylval.lexema = strdup(yytext);
@@ -1027,7 +998,7 @@ YY_RULE_SETUP
 	YY_BREAK
 case 16:
 YY_RULE_SETUP
-#line 95 "token.l"
+#line 103 "token.l"
 {
 	actualizarLoc(&yylval,yyleng);
 	
@@ -1039,7 +1010,7 @@ YY_RULE_SETUP
 	YY_BREAK
 case 17:
 YY_RULE_SETUP
-#line 104 "token.l"
+#line 112 "token.l"
 {
 	actualizarLoc(&yylval,yyleng);
 	
@@ -1051,7 +1022,7 @@ YY_RULE_SETUP
 	YY_BREAK
 case 18:
 YY_RULE_SETUP
-#line 113 "token.l"
+#line 121 "token.l"
 {
 	actualizarLoc(&yylval,yyleng);
 	
@@ -1063,7 +1034,7 @@ YY_RULE_SETUP
 	YY_BREAK
 case 19:
 YY_RULE_SETUP
-#line 122 "token.l"
+#line 130 "token.l"
 {
 	actualizarLoc(&yylval,yyleng);
 	
@@ -1075,7 +1046,7 @@ YY_RULE_SETUP
 	YY_BREAK
 case 20:
 YY_RULE_SETUP
-#line 131 "token.l"
+#line 139 "token.l"
 {
 	actualizarLoc(&yylval,yyleng);
 	
@@ -1086,7 +1057,7 @@ YY_RULE_SETUP
 	YY_BREAK
 case 21:
 YY_RULE_SETUP
-#line 139 "token.l"
+#line 147 "token.l"
 {
 	actualizarLoc(&yylval,yyleng);
 	
@@ -1097,7 +1068,7 @@ YY_RULE_SETUP
 	YY_BREAK
 case 22:
 YY_RULE_SETUP
-#line 147 "token.l"
+#line 155 "token.l"
 {
 	actualizarLoc(&yylval,yyleng);
 	
@@ -1108,7 +1079,7 @@ YY_RULE_SETUP
 	YY_BREAK
 case 23:
 YY_RULE_SETUP
-#line 155 "token.l"
+#line 163 "token.l"
 {
 	actualizarLoc(&yylval,yyleng);
 	
@@ -1119,12 +1090,12 @@ YY_RULE_SETUP
 	YY_BREAK
 case 24:
 YY_RULE_SETUP
-#line 163 "token.l"
+#line 171 "token.l"
 {colI+=yyleng;return PORCENTAJE;}
 	YY_BREAK
 case 25:
 YY_RULE_SETUP
-#line 165 "token.l"
+#line 173 "token.l"
 {
 	actualizarLoc(&yylval,yyleng);
 	
@@ -1135,7 +1106,7 @@ YY_RULE_SETUP
 	YY_BREAK
 case 26:
 YY_RULE_SETUP
-#line 173 "token.l"
+#line 181 "token.l"
 {
 	actualizarLoc(&yylval,yyleng);
 	
@@ -1146,12 +1117,12 @@ YY_RULE_SETUP
 	YY_BREAK
 case 27:
 YY_RULE_SETUP
-#line 181 "token.l"
+#line 189 "token.l"
 {colI+=yyleng;return MENOSMENOS;}
 	YY_BREAK
 case 28:
 YY_RULE_SETUP
-#line 182 "token.l"
+#line 190 "token.l"
 {
 	actualizarLoc(&yylval,yyleng);
 	yylval.lexema = strdup(yytext);
@@ -1161,32 +1132,32 @@ YY_RULE_SETUP
 	YY_BREAK
 case 29:
 YY_RULE_SETUP
-#line 189 "token.l"
+#line 197 "token.l"
 {colI+=yyleng;yylval.nParam=0;return UNARIOSLISTA;}
 	YY_BREAK
 case 30:
 YY_RULE_SETUP
-#line 190 "token.l"
+#line 198 "token.l"
 {colI+=yyleng;yylval.nParam=1;return UNARIOSLISTA;}
 	YY_BREAK
 case 31:
 YY_RULE_SETUP
-#line 191 "token.l"
+#line 199 "token.l"
 {colI+=yyleng;yylval.nParam=2;return UNARIOSLISTA;}
 	YY_BREAK
 case 32:
 YY_RULE_SETUP
-#line 193 "token.l"
+#line 201 "token.l"
 {colI+=yyleng;yylval.nParam=0;return AVANRETRO;}
 	YY_BREAK
 case 33:
 YY_RULE_SETUP
-#line 194 "token.l"
+#line 202 "token.l"
 {colI+=yyleng;yylval.nParam=1;return AVANRETRO;}
 	YY_BREAK
 case 34:
 YY_RULE_SETUP
-#line 196 "token.l"
+#line 204 "token.l"
 {
 	actualizarLoc(&yylval,yyleng);
 	
@@ -1198,7 +1169,7 @@ YY_RULE_SETUP
 	YY_BREAK
 case 35:
 YY_RULE_SETUP
-#line 205 "token.l"
+#line 213 "token.l"
 {
 	actualizarLoc(&yylval,yyleng);
 
@@ -1210,32 +1181,32 @@ YY_RULE_SETUP
 	YY_BREAK
 case 36:
 YY_RULE_SETUP
-#line 214 "token.l"
+#line 222 "token.l"
 {colI+=yyleng;return MASMAS;}
 	YY_BREAK
 case 37:
 YY_RULE_SETUP
-#line 216 "token.l"
+#line 224 "token.l"
 {colI+=yyleng;return ARROBA;}
 	YY_BREAK
 case 38:
 YY_RULE_SETUP
-#line 218 "token.l"
+#line 226 "token.l"
 {colI += yyleng;return COMA;}
 	YY_BREAK
 case 39:
 YY_RULE_SETUP
-#line 219 "token.l"
+#line 227 "token.l"
 {colI += yyleng;return ASIG;}
 	YY_BREAK
 case 40:
 YY_RULE_SETUP
-#line 220 "token.l"
+#line 228 "token.l"
 {colI+=yyleng;return DOSPUNTOSIGUAL;}
 	YY_BREAK
 case 41:
 YY_RULE_SETUP
-#line 222 "token.l"
+#line 230 "token.l"
 {
 	colF = colI + yyleng - 1;
 
@@ -1250,7 +1221,7 @@ YY_RULE_SETUP
 	YY_BREAK
 case 42:
 YY_RULE_SETUP
-#line 234 "token.l"
+#line 242 "token.l"
 {
 		actualizarLoc(&yylval, yyleng);
 		return ESCRIBE;
@@ -1258,12 +1229,12 @@ YY_RULE_SETUP
 	YY_BREAK
 case 43:
 YY_RULE_SETUP
-#line 239 "token.l"
+#line 247 "token.l"
 {colI += yyleng;return DURANTE;}
 	YY_BREAK
 case 44:
 YY_RULE_SETUP
-#line 241 "token.l"
+#line 249 "token.l"
 {
 	actualizarLoc(&yylval,yyleng);
 
@@ -1272,12 +1243,12 @@ YY_RULE_SETUP
 	YY_BREAK
 case 45:
 YY_RULE_SETUP
-#line 247 "token.l"
+#line 255 "token.l"
 {colI += yyleng;return CONDMIENTRAS;}
 	YY_BREAK
 case 46:
 YY_RULE_SETUP
-#line 249 "token.l"
+#line 257 "token.l"
 {
 	actualizarLoc(&yylval,yyleng);
 
@@ -1286,22 +1257,22 @@ YY_RULE_SETUP
 	YY_BREAK
 case 47:
 YY_RULE_SETUP
-#line 255 "token.l"
+#line 263 "token.l"
 {colI += yyleng;return HASTA;}
 	YY_BREAK
 case 48:
 YY_RULE_SETUP
-#line 256 "token.l"
+#line 264 "token.l"
 {colI += yyleng;return HACER;}
 	YY_BREAK
 case 49:
 YY_RULE_SETUP
-#line 258 "token.l"
+#line 266 "token.l"
 {colI += yyleng;return DEFLIST;}
 	YY_BREAK
 case 50:
 YY_RULE_SETUP
-#line 260 "token.l"
+#line 268 "token.l"
 {
 		colI += yyleng; 
 		yylval.tipoDato = BOOLEANO;
@@ -1310,7 +1281,7 @@ YY_RULE_SETUP
 	YY_BREAK
 case 51:
 YY_RULE_SETUP
-#line 265 "token.l"
+#line 273 "token.l"
 {
 	colI += yyleng; 
 	yylval.tipoDato = REAL;
@@ -1319,7 +1290,7 @@ YY_RULE_SETUP
 	YY_BREAK
 case 52:
 YY_RULE_SETUP
-#line 271 "token.l"
+#line 279 "token.l"
 {
 		colI += yyleng; 
 		yylval.tipoDato = REAL;
@@ -1328,7 +1299,7 @@ YY_RULE_SETUP
 	YY_BREAK
 case 53:
 YY_RULE_SETUP
-#line 277 "token.l"
+#line 285 "token.l"
 {
 		colI += yyleng; 
 		yylval.tipoDato = REAL;
@@ -1337,7 +1308,7 @@ YY_RULE_SETUP
 	YY_BREAK
 case 54:
 YY_RULE_SETUP
-#line 283 "token.l"
+#line 291 "token.l"
 {
 		yylval.lexema = strdup(yytext);	
 
@@ -1348,7 +1319,7 @@ YY_RULE_SETUP
 	YY_BREAK
 case 55:
 YY_RULE_SETUP
-#line 291 "token.l"
+#line 299 "token.l"
 {	
 		actualizarLoc(&yylval,yyleng);
 		return PROCED;
@@ -1356,7 +1327,7 @@ YY_RULE_SETUP
 	YY_BREAK
 case 56:
 YY_RULE_SETUP
-#line 296 "token.l"
+#line 304 "token.l"
 {
 		actualizarLoc(&yylval,yyleng);
 
@@ -1367,7 +1338,7 @@ YY_RULE_SETUP
 	YY_BREAK
 case 57:
 YY_RULE_SETUP
-#line 304 "token.l"
+#line 312 "token.l"
 {
 	actualizarLoc(&yylval,yyleng);
 	
@@ -1378,7 +1349,7 @@ YY_RULE_SETUP
 	YY_BREAK
 case 58:
 YY_RULE_SETUP
-#line 312 "token.l"
+#line 320 "token.l"
 {
 		colI+=yyleng;
 		return INICIOVARS;
@@ -1386,7 +1357,7 @@ YY_RULE_SETUP
 	YY_BREAK
 case 59:
 YY_RULE_SETUP
-#line 317 "token.l"
+#line 325 "token.l"
 {
 		colI+=yyleng;
 		return FINVARS;
@@ -1394,7 +1365,7 @@ YY_RULE_SETUP
 	YY_BREAK
 case 60:
 YY_RULE_SETUP
-#line 322 "token.l"
+#line 330 "token.l"
 {
 		actualizarLoc(&yylval,yyleng);
 		yylval.tipoDato = ENTERO;
@@ -1405,7 +1376,7 @@ YY_RULE_SETUP
 	YY_BREAK
 case 61:
 YY_RULE_SETUP
-#line 329 "token.l"
+#line 337 "token.l"
 {
 				actualizarLoc(&yylval, yyleng);
 				yylval.tipoDato = REAL;
@@ -1417,7 +1388,7 @@ YY_RULE_SETUP
 case 62:
 /* rule 62 can match eol */
 YY_RULE_SETUP
-#line 337 "token.l"
+#line 345 "token.l"
 {
 		actualizarLoc(&yylval, yyleng);
 		yylval.tipoDato = CARACTER;
@@ -1430,7 +1401,7 @@ YY_RULE_SETUP
 case 63:
 /* rule 63 can match eol */
 YY_RULE_SETUP
-#line 346 "token.l"
+#line 354 "token.l"
 {
 		actualizarLoc(&yylval, yyleng);
 		yylval.lexema = strdup(yytext);		
@@ -1439,7 +1410,7 @@ YY_RULE_SETUP
 	YY_BREAK
 case 64:
 YY_RULE_SETUP
-#line 351 "token.l"
+#line 359 "token.l"
 {
 			actualizarLoc(&yylval, yyleng);
 			yylval.lexema = strdup(yytext);			
@@ -1448,15 +1419,15 @@ YY_RULE_SETUP
 	YY_BREAK
 case 65:
 YY_RULE_SETUP
-#line 356 "token.l"
+#line 364 "token.l"
 ;
 	YY_BREAK
 case 66:
 YY_RULE_SETUP
-#line 357 "token.l"
+#line 365 "token.l"
 ECHO;
 	YY_BREAK
-#line 1460 "lex.yy.c"
+#line 1431 "lex.yy.c"
 case YY_STATE_EOF(INITIAL):
 	yyterminate();
 
@@ -1820,10 +1791,6 @@ static int yy_get_next_buffer (void)
 
 	*--yy_cp = (char) c;
 
-    if ( c == '\n' ){
-        --yylineno;
-    }
-
 	(yytext_ptr) = yy_bp;
 	(yy_hold_char) = *yy_cp;
 	(yy_c_buf_p) = yy_cp;
@@ -1900,11 +1867,6 @@ static int yy_get_next_buffer (void)
 	c = *(unsigned char *) (yy_c_buf_p);	/* cast for 8-bit char's */
 	*(yy_c_buf_p) = '\0';	/* preserve yytext */
 	(yy_hold_char) = *++(yy_c_buf_p);
-
-	if ( c == '\n' )
-		   
-    yylineno++;
-;
 
 	return c;
 }
@@ -2372,9 +2334,6 @@ static int yy_init_globals (void)
      * This function is called from yylex_destroy(), so don't allocate here.
      */
 
-    /* We do not touch yylineno unless the option is enabled. */
-    yylineno =  1;
-    
     (yy_buffer_stack) = 0;
     (yy_buffer_stack_top) = 0;
     (yy_buffer_stack_max) = 0;
@@ -2469,7 +2428,7 @@ void yyfree (void * ptr )
 
 #define YYTABLES_NAME "yytables"
 
-#line 357 "token.l"
+#line 365 "token.l"
 
 
 
