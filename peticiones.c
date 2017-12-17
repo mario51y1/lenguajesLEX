@@ -3,7 +3,7 @@
  Funciones de peticion de operacion con TS
  del compilador al GUI.
 */
- 
+
 #include <stdio.h>
 #include <stdlib.h>
 #include <unistd.h>
@@ -25,7 +25,7 @@ int pet_introTS(stEntrada reg, tEntrada tipoTS) {
 	char msj[4];
 	int tam, nbytes;
 	unsigned char tipo;
-	
+
 	// Mandamos peticion al padre
 
 	// Tipo de mensaje: Insercion
@@ -41,15 +41,15 @@ int pet_introTS(stEntrada reg, tEntrada tipoTS) {
 	nbytes = write(1, reg.lexema, tam * sizeof(char));
 
 	// Tipo de dato
-	
+
 	tipo = reg.tipoDato;
 	nbytes = write(1, &tipo, sizeof(unsigned char));
-	
+
 	// Tipo de entrada
-	
+
 	tipo = tipoTS;
 	nbytes = write(1, &tipo, sizeof(unsigned char));
-	
+
 	// Si se trata de un descriptor de control
 	// Mandar campos adicionales
 
@@ -86,7 +86,7 @@ int pet_introTS(stEntrada reg, tEntrada tipoTS) {
 
 	// Esperamos Respuesta del PADRE
 	// Tipo de respuesta:
-	//	ACK 
+	//	ACK
 	//	REP (simbolo presente en TS)
 
 
@@ -97,7 +97,7 @@ int pet_introTS(stEntrada reg, tEntrada tipoTS) {
 
 	// Comprobamos si debemos REINICIAR
 	check();
-	
+
 	if ( strcmp(msj, "ACK") == 0 ) {
 		printf("Simbolo introducido...\n");
 		return 1;
@@ -115,21 +115,21 @@ int pet_introTS(stEntrada reg, tEntrada tipoTS) {
  el lexema del simbolo y las variables de localizacion
  @return Tipo de dato del simbolo DESC si no se encuentra
 */
- 
+
 tDato pet_BuscarTS(stEntrada reg) {
 	int tam, nbytes;
 	char msj[4];
 	unsigned char tipo;
-		
+
 	fprintf(stderr, "[INF] Buscando %s\n", reg.lexema);
-	
+
 	// Peticion al padre
 	// strcpy(msj, "B");
 	msj[0] = BSIM;
 	nbytes = write(1, &msj, sizeof(char));
-	
+
 	// Tam e Identificador
-	
+
 	tam = strlen(reg.lexema);
 	nbytes = write(1, &tam, sizeof(int));
 	nbytes = write(1, reg.lexema, tam * sizeof(char));
@@ -142,18 +142,18 @@ tDato pet_BuscarTS(stEntrada reg) {
 
 	// Esperamos Respuesta del PADRE
 	// Tipo de respuesta:
-	//	ACK 
+	//	ACK
 	//	ERR (simbolo no encontrado)
 
 	nbytes = read(0, msj, 4 * sizeof(char));
-	
+
 	// Tipo de dato
 
 	nbytes = read(0, &tipo, sizeof(unsigned char));
-	
+
 	fprintf(stderr, "[INF] Recibido Tipo de %s\n", reg.lexema);
-	
-	// Espera de señal de continuacion
+
+	// Espera de seï¿½al de continuacion
 	// nbytes = read(0, msj, 4 * sizeof(char));
 
 	// Comprobamos si debemos REINICIAR
@@ -166,18 +166,18 @@ tDato pet_BuscarTS(stEntrada reg) {
   Sacar todos los simbolos pertenecientes
   al ultimo bloque.
 */
- 
+
 void pet_SacarTS(void) {
 	char msj[4];
 	int nbytes;
-	
+
 	fprintf(stderr, "COMP Sacando simbolos...\n");
-	
+
 	// Peticion al padre
 	// strcpy(msj, "S");
 	msj[0] = DEL;
 	nbytes = write(1, msj, sizeof(char));
-	
+
 	// Esperamos respuesta del padre
 	// ACK o ERR
 	// nbytes = read(0, msj, 4 * sizeof(char));
@@ -185,10 +185,10 @@ void pet_SacarTS(void) {
 
 	// Comprobamos si debemos REINICIAR
 	check();
-	
+
 	return;
 	}
-	
+
 /**
  Peticion de busqueda PROCEDIMIENTO para
   comprobar numero y tipo de argumentos
@@ -200,20 +200,20 @@ void pet_SacarTS(void) {
 int pet_BuscarPROC(stEntrada reg) {
 	char msj[4];
 	int nbytes, tam;
-	
+
 	fprintf(stderr, "COMP Buscando PROC: %s\n", reg.lexema);
-	
+
 	// Peticion al padre
 	// strcpy(msj, "P");
 	msj[0] = BPROC;
 	nbytes = write(1, msj, sizeof(char));
-	
-	// Tamaño y lexema del identificar de PROC
-	
+
+	// Tamaï¿½o y lexema del identificar de PROC
+
 	tam = strlen(reg.lexema);
 	nbytes = write(1, &tam, sizeof(int));
 	nbytes = write(1, reg.lexema, tam * sizeof(char));
-	
+
 	// Variables de localizacion
 	nbytes = write(1, &reg.linIni, sizeof(int));
 	nbytes = write(1, &reg.linFin, sizeof(int));
@@ -226,34 +226,34 @@ int pet_BuscarPROC(stEntrada reg) {
 
 	// Comprobamos si debemos REINICIAR
 	check();
-	
+
 	return tam;
 	}
 
- 
+
 /**
- Peticion para comprobar tipo de Dato 
+ Peticion para comprobar tipo de Dato
  de un argumento en una llamada a PROCEDIMIENTO.
  @return 1 si el tipo es correcto
 	 0 en otro caso
  *************************************************/
- 
+
 unsigned char pet_BuscarPARAM(stEntrada reg) {
 	char msj[4];
 	int nbytes, tam;
 	unsigned char resultado;
 
 	fprintf(stderr, "COMP Buscando tipo PARAM...\n");
-	
+
 	// Peticion al padre
 	// strcpy(msj, "A");
 	msj[0] = BPARAM;
 	nbytes = write(1, msj, sizeof(char));
-	
+
 	// Tipo de dato
-	
+
 	nbytes = write(1, &reg.tipoDato, sizeof(unsigned char));
-	
+
 	// Variables de localizacion
 	nbytes = write(1, &reg.linIni, sizeof(int));
 	nbytes = write(1, &reg.linFin, sizeof(int));
@@ -265,15 +265,15 @@ unsigned char pet_BuscarPARAM(stEntrada reg) {
 	// ACK -> Tipo correcto
 	// NUM -> Num de parametros incorrecto
 	// ERR -> Tipo de dato INCORRECTO
-	
+
 	nbytes = read(0, msj, 4 * sizeof(char));
 	if ( strcmp(msj, "ACK") == 0 )
 		resultado = 1;
 	else
 		resultado = 0;
-	
-	
-	// Espera de la señal de continuar
+
+
+	// Espera de la seï¿½al de continuar
 	// nbytes = read(0, msj, 4 * sizeof(char));
 
 	// Comprobamos si debemos REINICIAR
@@ -317,7 +317,7 @@ int pet_VerifTIPO(stEntrada reg1, stEntrada reg2) {
 	// 2a entrada
 	// Tipo de dato
 	nbytes = write(1, &reg2.tipoDato, sizeof(unsigned char));
-	
+
 	// Variables de localizacion
 	nbytes = write(1, &reg2.linIni, sizeof(int));
 	nbytes = write(1, &reg2.linIni, sizeof(int));
@@ -327,7 +327,7 @@ int pet_VerifTIPO(stEntrada reg1, stEntrada reg2) {
 	// Esperamos contestacion
 	nbytes = read(0, &res, sizeof(int));
 
-	// Esperamos señal de continuar
+	// Esperamos seï¿½al de continuar
 	// nbytes = read(0, msj, 4 * sizeof(char));
 
 	// Comprobamos si debemos REINICIAR
@@ -401,13 +401,13 @@ void pet_GenIniBlq(char *comentario, int ini, int fin) {
 	msj[0] = GENCOD;
 	msj[1] = 1;
 	nbytes = write(1, msj, 2 * sizeof(char));
-	
+
 	// Enviamos las variables de localizacion
 	nbytes = write(1, &ini, sizeof(int));
 	nbytes = write(1, &fin, sizeof(int));
 
 
-	// Enviamos comentario y su tamaño
+	// Enviamos comentario y su tamaï¿½o
 	// si es que lo hay...
 
 	if ( comentario != NULL ) {
@@ -418,7 +418,7 @@ void pet_GenIniBlq(char *comentario, int ini, int fin) {
 		tam = 0;
 		write(1, &tam, sizeof(int));
 		}
-	
+
 	// Comprobamos si debemos reiniciar
 	check();
 
@@ -438,7 +438,7 @@ void pet_GenFinBlq(void) {
 	msj[0] = GENCOD;
 	msj[1] = FIN_BLOQUE;
 	nbytes = write(1, msj, 2 * sizeof(char));
-	
+
 
 	// Comprobamos si debemos reiniciar
 	check();
@@ -503,9 +503,9 @@ void pet_GenAsig(int numOp, char *op1, char *op2, char *op3, char *op4) {
 		}
 
 
-			
 
-			
+
+
 	// Comprobamos si debemos reiniciar
 	check();
 
@@ -554,8 +554,8 @@ char *pet_GenTemp(void) {
 
  @param colIni columna de inicio de la expresion
  @param colFin columna final de la expresion
- @param tipo Tipo de dato del argumento a añadir
- @param nuevoArg nombre del nuevo argumento a añadir
+ @param tipo Tipo de dato del argumento a aï¿½adir
+ @param nuevoArg nombre del nuevo argumento a aï¿½adir
  @param tipoSent Tipo de Sentencia 0 - SALIDA 1 - ENTRADA
 */
 
@@ -682,7 +682,7 @@ void pet_GenCadFormato(int colIni, int colFin
 		*vars = strcat(*vars, nuevaVar);
 		free(nuevaVar);
 		}
-	
+
 	fprintf(stderr, "COMP genCadFormato TOTALES Fmt: %s Var: %s\n"
 		, *formato, *vars);
 
@@ -717,12 +717,12 @@ void pet_GenENTRADA(char *fmt, char *vars) {
 	nbytes = write(1, &tipoSent, sizeof(char));
 	***/
 
-	// Tamaño y cadena de formato
+	// Tamaï¿½o y cadena de formato
 	tam = strlen(fmt);
 	nbytes = write(1, &tam, sizeof(int));
 	nbytes = write(1, fmt, tam * sizeof(char));
 
-	// Tamaño y cadena de variables
+	// Tamaï¿½o y cadena de variables
 	tam = strlen(vars);
 	nbytes = write(1, &tam, sizeof(int));
 	nbytes = write(1, vars, tam * sizeof(char));
@@ -756,12 +756,12 @@ void pet_GenSALIDA(char *fmt, char *vars) {
 	nbytes = write(1, &tipoSent, sizeof(char));
 	***/
 
-	// Tamaño y cadena de formato
+	// Tamaï¿½o y cadena de formato
 	tam = strlen(fmt);
 	nbytes = write(1, &tam, sizeof(int));
 	nbytes = write(1, fmt, tam * sizeof(char));
 
-	// Tamaño y cadena de variables
+	// Tamaï¿½o y cadena de variables
 	tam = strlen(vars);
 	nbytes = write(1, &tam, sizeof(int));
 	nbytes = write(1, vars, tam * sizeof(char));
@@ -876,7 +876,7 @@ char *pet_GenEtiq(void) {
 
 	return etq;
 	}
-	
+
 /**
  Peticion escribir etiqueta.
  @param etq Cadena con la etiqueta a escribir
@@ -924,7 +924,7 @@ char *pet_BuscarEtq(unsigned char tipoEtq) {
 
 	fprintf(stderr, "DEBUG COMPILADOR Enviado Tipo Etiqueta\n");
 
-	// Recepcion de la etiqueta y tamaño
+	// Recepcion de la etiqueta y tamaï¿½o
 	nbytes = read(0, &tam, sizeof(int));
 	etq = (char *) malloc ((tam+1) * sizeof(char));
 	if ( etq == NULL ) {
@@ -1085,18 +1085,18 @@ void informar(int pos, int tam) {
 
 /***********************************************
  convCadena
- 
+
  Convierte el valor que se pasa como argumento
  a una cadena
  ***********************************************/
- 
-char *convCadena(tDato tipo, tValor valor) 
+
+char *convCadena(tDato tipo, tValor valor)
 {
 	char *cadValor;
 	int num = -1;
 	int tam = 25;
-		
-	
+
+
 	if ( tipo == CARACTER )
 		tam = 4;
 
@@ -1105,22 +1105,22 @@ char *convCadena(tDato tipo, tValor valor)
 		perror("convCadena >> cadValor");
 		exit(-1);
 		}
-	
+
 	switch ( tipo ) {
 		case ENTERO:
-					
+
 			while ( !(num > -1 && num < tam) ) {
-				
+
 				num = snprintf(cadValor, tam, "%d"
 					, valor.entero);
-				
-				if ( num > -1 ) 
+
+				if ( num > -1 )
 					/* glibc 2.1 */
 					tam++;
 				else
 					/* glibc 2.0 */
 					tam *= 2;
-					
+
 				cadValor = realloc(cadValor
 					, tam*sizeof(char));
 
@@ -1129,26 +1129,26 @@ char *convCadena(tDato tipo, tValor valor)
 					exit(-1);
 					}
 				}
-			
+
 			#ifdef __DEBUG__
 				fprintf(stderr, "Snprintf: %s\n", cadValor);
 			#endif
-			
+
 			break;
 
 		case REAL:
-		
+
 			while ( !(num > -1 && num < tam) ) {
-				
+
 				num = snprintf(cadValor, tam, "%f", valor.real);
-				
-				if ( num > -1 ) 
+
+				if ( num > -1 )
 					/* glibc 2.1 */
 					tam++;
 				else
 					/* glibc 2.0 */
 					tam *= 2;
-					
+
 				cadValor = realloc(cadValor
 					, tam*sizeof(char));
 
@@ -1157,78 +1157,78 @@ char *convCadena(tDato tipo, tValor valor)
 					exit(-1);
 					}
 				}
-			
+
 			#ifdef __DEBUG__
 				fprintf(stderr, "Snprintf: %s\n", cadValor);
 			#endif
-			
+
 			break;
 
 		case BOOLEANO:
-		
+
 			while ( !(num > -1 && num < tam) ) {
-				
+
 				num = snprintf(cadValor, tam, "%d"
 					, valor.booleano);
-				
-				if ( num > -1 ) 
+
+				if ( num > -1 )
 					/* glibc 2.1 */
 					tam++;
 				else
 					/* glibc 2.0 */
 					tam *= 2;
-					
+
 				if ( (cadValor = realloc(cadValor, tam*sizeof(char))) == NULL ) {
 					perror("convCadena >> cadValor");
 					exit(-1);
 					}
 				}
-			
+
 			#ifdef __DEBUG__
 				fprintf(stderr, "Snprintf: %s\n", cadValor);
 			#endif
-			
+
 			break;
-		
+
 		case CARACTER:
-		
+
 			while ( !(num > -1 && num < tam) ) {
-				
+
 				/* Necesitamos las comillas simples */
-				
+
 				cadValor[0] = '\'';
 				num = snprintf(&cadValor[1], tam, "%c", valor.caracter);
 
-				if ( num > -1 && num < tam ) 
+				if ( num > -1 && num < tam )
 					/* glibc 2.1 */
 					tam++;
 				else if ( num == -1 )
 					/* glibc 2.0 */
 					tam *= 2;
-					
+
 				if ( (cadValor = realloc(cadValor, tam*sizeof(char))) == NULL ) {
 					perror("convCadena >> cadValor");
 					exit(-1);
 					}
 				}
-			
+
 			cadValor[0] = '\'';
 			cadValor[2] = '\'';
 			cadValor[3] = '\0';
-			
+
 			#ifdef __DEBUG__
 				fprintf(stderr, "Snprintf: %s\n", cadValor);
 			#endif
-			
+
 			break;
 
 		default:
-		
+
 			fprintf(stderr, "COMP Tipo %d NO CONV a cadena\n"
 				, tipo);
 			break;
 		}
-	
+
 	return cadValor;
 	}
 
@@ -1347,4 +1347,3 @@ void pet_GenLlamada(char *id, char *listaParams) {
 	// Comprobamos...
 	check();
 	}
-

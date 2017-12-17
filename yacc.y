@@ -2,7 +2,7 @@
 	#include <stdio.h>
 	#include <string.h>
 
-	#include "sefasgen.h"
+	#include "ts.h"
 
 	//extern int yylex();
 	//extern int yyparse();
@@ -10,7 +10,7 @@
 
 	//void yyerror(const char* msg);
 
-	tDato tempTipoDato, tipoTemp, tipoAux;
+	dtipo tempTipoDato, tipoTemp, tipoAux;
 	int estado;
 	unsigned int flag = 0;
 
@@ -84,27 +84,17 @@
 
 //Pagina 45 pdf de practicas - simplificar BNF
 
-Programa : Cabecera_programa { pet_GenIni(); }
- bloque ;
+Programa : Cabecera_programa bloque ;
 
 bloque : Inicio_de_bloque
 	{
-	yylval.lexema = strdup("INIBLOQUE");
-	yylval.tipoDato = NO_ASIG;
-	pet_introTS(yylval, MARCA);
-
-	//pet_GenIniBlq(NULL, $1.colIni, $1.colFin);
+	yylval.nombre = strdup("INIBLOQUE");
+	inserta(yylval, MARCA);
 	}
 	Declar_de_variables_locales
 	Declar_de_subprogs
 	Sentencias
-	Fin_de_bloque
-	{
-	pet_SacarTS();
-
-	//pet_GenFinBlq();
-	}
-	;
+	Fin_de_bloque	;
 
 
 Declar_de_variables_locales : Marca_ini_declar_variables
@@ -120,51 +110,34 @@ Declar_de_subprogs : Declar_de_subprogs Declar_subprog
 	|
   ;
 
-Declar_subprog : Cabecera_subprograma bloque
-		{
-		pet_GenFinDecProc();
-		}
-;
+Declar_subprog : Cabecera_subprograma bloque;
 
 Cabecera_programa : PROCED MAIN ABRIRPARENT CERRARPARENT
-{
-$2.tipoDato = NO_ASIG;
-pet_introTS($2, PROC);
-}
+	{
+	$2.tipoDato = NO_ASIG;
+	inserta($2, PROC);
+	}
 ;
 
 
 
 Cabecera_subprograma : PROCED IDENTIFICADOR
  {
-	 $2.tipoDato = NO_ASIG;
-
-	 estado = pet_introTS($2, PROC);
-	if ( estado )
-		pet_GenDecProc($2.lexema, NO_ASIG);
-	}
- ABRIRPARENT parametros CERRARPARENT
- {
- 	pet_GenFinCabecera();
+	 estado = inserta($2, PROC);
  }
+ ABRIRPARENT parametros CERRARPARENT
 | PROCED error_subprog ;
 error_subprog : error ;
 
 parametros : parametro
 	| parametros COMA parametro
 	|
-	{
-	pet_GenParam(NO_ASIG, NULL);
-	}
   ;
 parametro : tipo IDENTIFICADOR
 	{
 	$2.tipoDato = $1.tipoDato;
-	estado = pet_introTS($2, PAR_FORMAL);
-
-	if ( estado )
-		pet_GenParam($1.tipoDato, $2.lexema);
-	}
+	estado = inserta($2, PAR_FORMAL);
+}
 ;
 
 Inicio_de_bloque :  ABRIRLLAVES ;
@@ -173,32 +146,48 @@ Fin_de_bloque :  CERRARLLAVES ;
 Variables_locales : Variables_locales Cuerpo_declar_variables
 	| Cuerpo_declar_variables
   ;
-Cuerpo_declar_variables : tipo {tempTipoDato = $1.tipoDato;} Identificadores PUNTOCOMA
+Cuerpo_declar_variables : tipo Identificadores PUNTOCOMA
 	| error_decl_variables;
 error_decl_variables : error ;
 
 Identificadores : IDENTIFICADOR
 		{
 			$1.tipoDato = tempTipoDato;
-			estado = pet_introTS($1, VARIABLE);
-
-		if ( estado ) {
-			pet_GenDecVar($1.tipoDato, $1.lexema);
-			}
+			estado = inserta($1, VARIABLE);
 		}
 | Identificadores COMA IDENTIFICADOR
 		{
 		$3.tipoDato = tempTipoDato;
-		estado = pet_introTS($3, VARIABLE);
-
-		if ( estado ) {
-			pet_GenDecVar($3.tipoDato, $3.lexema);
-			}
+		estado = inserta($3, VARIABLE);
 		}
 ;
 
-tipo : TIPO | tipo_lista ;
-tipo_lista : DEFLIST TIPO ;
+tipo : TIPO {tempTipoDato = $1.tipoDato;} | tipo_lista  ;
+tipo_lista : DEFLIST TIPO
+{
+
+	switch ($2.tipoDato) {
+		case NO_ASIG:
+		tempTipoDato = 0;
+		break;
+		case DESC:
+		tempTipoDato = 0;
+		break;
+		case ENTERO:
+		tempTipoDato = LISTA_ENTERO;
+		break;
+		case REAL:
+		tempTipoDato = LISTA_REAL;
+		break;
+		case BOOLEANO:
+		tempTipoDato = LISTA_BOOLEANO;
+		break;
+		case CARACTER:
+		tempTipoDato = LISTA_CARACTER;
+		break;
+	}
+
+} ;
 
 Sentencias : Sentencias Sentencia
 	| Sentencia
@@ -218,50 +207,22 @@ Sentencia : bloque
 sentencia_asignacion : IDENTIFICADOR ASIG expresion PUNTOCOMA
 {
 
-tipoTemp = pet_BuscarTS($1);
-$1.tipoDato = tipoTemp;
-estado = pet_VerifTIPO($1, $3);
-
+tipoTemp = devuelveEntrada(busca($1)).tipoDato;
 
 if ( tipoTemp != $3.tipoDato ) {
-	fprintf(stderr, "[ERR] Error linea: %d ASIGNACION "
+	printf(stderr, "[ERR] Error linea: %d ASIGNACION "
 		, yylineno);
-	fprintf(stderr, "tipos no coinciden\n");
-	// impTipo(tipoTemp);
-	// printf(" y ");
-	// impTipo($4.tipoDato);
-	// printf("\n");
+	printf(stderr, "tipos no coinciden\n");
 	}
-
-
-fprintf(stderr, "[COMP] Misma comprobacion tipo ");
-fprintf(stderr, "segun PADRE: %s\n", (estado == 1)?"OK":"ERR");
-
-pet_GenIniBlq("/** Asignacion **/\n", $1.colIni, $3.colFin);
-
-// Peticion de ASIGNACION
-
-pet_GenAsig(2, $1.lexema, $3.nomTemp, NULL, NULL);
-
-pet_GenFinBlq();
 }
-; ;
+;
 
 sentencia_if : CONDSI ABRIRPARENT expresion CERRARPARENT Sentencia
 	| CONDSI ABRIRPARENT expresion CERRARPARENT Sentencia CONDSINO Sentencia;
 
 sentencia_while : CONDMIENTRAS ABRIRPARENT expresion CERRARPARENT Sentencia ;
 
-sentencia_entrada : LEE
-{
-pet_GenIniBlq("/** Sent ENTRADA **/\n", $1.colIni, $1.colFin);
-}
-Identificadores
-{
-pet_GenENTRADA($3.formato, $3.variables);
-
-pet_GenFinBlq();
-} PUNTOCOMA ;
+sentencia_entrada : LEE Identificadores PUNTOCOMA ;
 
 sentencia_salida : ESCRIBE lista_expresiones_o_cadena PUNTOCOMA ;
 
@@ -272,33 +233,7 @@ expcad : expresion
 lista_expresiones_o_cadena : expcad
 	| lista_expresiones_o_cadena COMA expcad  ;
 
-llamada_proced : IDENTIFICADOR {
-$1.nParam = pet_BuscarPROC($1);
-contParam = 0;
-if ( $1.nParam < 0 )
-	fprintf(stderr, "[ERR] Proc no declarado: %s\n", $1.lexema);
-else {
-	// Usamos
-	$1.tipoDato = NO_ASIG;
-	pet_GenIniBlq("/** Llamada a PROC **/\n"
-		, $1.colIni, $1.colFin);
-	}
-} ABRIRPARENT  lista_expresiones  CERRARPARENT PUNTOCOMA
-{
-if ( contParam != $1.nParam && $1.nParam >= 0 ) {
-	fprintf(stderr, "[ERR] Linea %d Num parametros no concuerda\n", yylineno);
-	fprintf(stderr, "[ERR] Declarados: %d  Usados: %d\n",$1.nParam, contParam);
-} else if ( $4.tipoDato != NO_ASIG ) {
-	fprintf(stderr, "[ERR] Linea %d Llamada a PROC incorrecta\n", yylineno);
-} else {
-	// Llamada CORRECTA
-	pet_GenLlamada($1.lexema, $4.variables);
-	// TODO: Liberar MEMORIA
-	free($4.variables);
-	}
-pet_GenFinBlq();
-}
-;
+llamada_proced : IDENTIFICADOR  ABRIRPARENT  lista_expresiones  CERRARPARENT PUNTOCOMA;
 
 sentencia_for : DURANTE IDENTIFICADOR DOSPUNTOSIGUAL  expresion HASTA expresion HACER Sentencia ;
 
@@ -320,74 +255,6 @@ expresion : ABRIRPARENT expresion CERRARPARENT
 	| expresion PORCENTAJE expresion
 	| expresion ANDBIT expresion
 	| expresion MASMENOS expresion
-	{
-	/**********************************************
-	  COMPROBACION DE TIPOS
-
-	  NO SE PIDE LA ASIGNACION DE VALORES !!!!!!!
-	  OP_ARIT12 = "+", "-"
-	 **********************************************/
-
-	if ( $1.tipoDato == $3.tipoDato ) {
-		/**************************************************
-		  La suma/resta se puede hacer para cualquier tipo
-		  EXCEPTO para booleanos
-		 **************************************************/
-
-		if ( ($1.tipoDato != BOOLEANO)
-			&& ($1.tipoDato != LISTA_BOOLEANO) ) {
-
-			$$.tipoDato = $1.tipoDato;
-
-			/* Hay que definir las operaciones para listas 	*/
-			/* $2.nParam define la operacion		*/
-			/* 1 = Suma, 2 = Resta				*/
-
-			//  operar(&($$), $1, $3, $2.nParam);
-
-		} else {
-
-			fprintf(stderr, "ERROR linea: %d ", yylineno);
-			fprintf(stderr, "Op +/- con tipo de dato");
-			fprintf(stderr, "incorrecto");
-
-			$$.tipoDato = DESC;
-			}
-	} else {
-
-		fprintf(stderr, "ERROR linea: %d OP_A12 ", yylineno);
-		fprintf(stderr, "Tipos no coinciden ");
-		$$.tipoDato = DESC;
-		}
-
-	/******************************************
-	  Asignacion variables de localizacion
-	  TODO: Verificacion TIPO por OPERADOR !!!
-	 ******************************************/
-
-	estado = pet_VerifTIPO($1, $3);
-
-	$$.linIni = $1.linIni;
-	$$.colIni = $1.colIni;
-	$$.linFin = $3.linFin;
-	$$.colFin = $3.colFin;
-
-	$$.nomTemp = pet_GenTemp();
-
-	if ( estado ) {
-		$$.tipoDato = $1.tipoDato;
-		pet_GenDecVar($$.tipoDato, $$.nomTemp);
-
-		fprintf(stderr, "ASIG %s = %s %s %s\n"
-			, $$.nomTemp, $1.nomTemp
-			, $2.lexema, $3.nomTemp);
-
-		pet_GenAsig(4, $$.nomTemp, $1.nomTemp
-			, $2.lexema, $3.nomTemp);
-	} else {
-		$$.tipoDato = DESC;
-		}
-	}
 	| expresion MASMAS expresion ARROBA expresion
 	| IDENTIFICADOR
 	| T_ENTERO
@@ -400,56 +267,8 @@ expresion : ABRIRPARENT expresion CERRARPARENT
 error_expresion : error ;
 
 lista_expresiones : lista_expresiones COMA expresion
-{
-fprintf(stderr, "[COMP] Argumentos R1\n");
-tipoOK = pet_BuscarPARAM($3);
-contParam++;
-
-if ( tipoOK && $1.tipoDato == NO_ASIG ) {
-	$$.tipoDato = NO_ASIG;
-	tamCadena = strlen($1.variables)
-		+ 2 + strlen($3.nomTemp) + 1;
-
-	$$.variables = (char *) malloc(tamCadena * sizeof(char));
-	if ( $$.variables == NULL ) {
-		perror("LISTA_EXP");
-		$$.tipoDato = DESC;
-	} else {
-		strcpy($$.variables, $1.variables);
-		strcat($$.variables, ", ");
-		strcat($$.variables, $3.nomTemp);
-		fprintf(stderr, "DEBUG ListaEXP %s\n"
-			, $$.variables);
-
-		// Deberiamos poder liberar memoria !!!
-		free($3.nomTemp);
-		free($1.variables);
-		}
-} else {
-	$$.tipoDato = DESC;
-	}
-}
  | expresion
- {
- fprintf(stderr, "[COMP] Argumentos R2\n");
- tipoOK = pet_BuscarPARAM($1);
- contParam++;
- if ( tipoOK ) {
- 	$$.tipoDato = NO_ASIG;
- 	// Crear la lista de expresiones...
- 	$$.variables = strdup($1.nomTemp);
- 	fprintf(stderr, "DEBUG ListaExp %s\n", $1.nomTemp);
- 	// Deberiamos poder liberar la memoria
- 	// de nomTemp ???? y toda la demas...
- 	free($1.nomTemp);
- } else
- 	$$.tipoDato = DESC;
- }
  |
- {
- $$.tipoDato = NO_ASIG;
- $$.variables = strdup("<< SIN_ARGUMENTOS >>");
- }
   ;
 
 lista : lista_enteros
@@ -486,12 +305,12 @@ Caracteres: T_CARACTER
 
 %%
 #include "lex.yy.c"
-#include "sefasgen.h"
+#include "ts.h"
 
 
 void yyerror(const char *msg)
 {
-	fprintf(stderr,"[Linea %d]: %s\n", linea_actual,msg);
+	printf("[Linea %d]: %s\n", linea_actual,msg);
 }
 
 #include "main.c"

@@ -23,4 +23,4 @@ todo:
 	make prog
 
 alt: lex yacc
-	gcc peticiones.c y.tab.c -o compilador
+	gcc ts.c y.tab.c -o compilador
