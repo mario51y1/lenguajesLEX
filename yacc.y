@@ -83,9 +83,11 @@
 
 //Pagina 45 pdf de practicas - simplificar BNF
 
-Programa : Cabecera_programa bloque ;
+Programa : Cabecera_programa { pet_GenIni(); }
+ bloque ;
 
-bloque : Inicio_de_bloque {
+bloque : Inicio_de_bloque
+{
 yylval.lexema = strdup("FIN_PARS");
 yylval.tipoDato = NO_ASIG;
 pet_introTS(yylval, MARCA);
@@ -96,7 +98,13 @@ pet_GenIniBlq(NULL, $1.colIni, $1.colFin);
 	Declar_de_subprogs
 	Sentencias
 	Fin_de_bloque
+	{
+	pet_SacarTS();
+
+	pet_GenFinBlq();
+	}
 	;
+
 
 Declar_de_variables_locales : Marca_ini_declar_variables
 			      Variables_locales
@@ -113,7 +121,7 @@ Declar_de_subprogs : Declar_de_subprogs Declar_subprog
 
 Declar_subprog : Cabecera_subprograma bloque ;
 
-Cabecera_programa : MAIN ;
+Cabecera_programa : PROCED MAIN ABRIRPARENT CERRARPARENT ;
 
 Cabecera_subprograma : PROCED IDENTIFICADOR ABRIRPARENT parametros CERRARPARENT
 	| PROCED error_subprog ;

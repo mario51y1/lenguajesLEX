@@ -1,4 +1,4 @@
-principal
+procedimiento principal()
 {
   variables
   {

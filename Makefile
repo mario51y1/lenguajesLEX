@@ -3,7 +3,7 @@
 prog: y.tab.o
 	gcc -o prog y.tab.o
 
-y.tab.o: y.tab.c
+y.tab.o: yacc
 	gcc -c y.tab.c
 
 main.o: main.c
@@ -23,4 +23,6 @@ todo:
 	make prog
 
 alt:
+	make yacc
+	make lex
 	gcc peticiones.c y.tab.c -o compilador
