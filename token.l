@@ -30,139 +30,294 @@ void actualizarLoc(stEntrada *reg, int tamToken);
 %%
 [ \t]	{colI+=yyleng;};
 
-"\n"	{linea_actual++;
-	colI += yyleng;}
+"\n"	{linea_actual++;	colI += yyleng;}
 
 "["	{ colI += yyleng;return ABRIRCORCH;}
 
 "]"	{ colI += yyleng;return CERRARCORCH;}
 
 "("	{
-	actualizarLoc(&yylval,yyleng);
+	colF = colI + yyleng - 1;
+
+		yylval.colIni = colI;
+		yylval.colFin = colF;
+		yylval.linIni = linI;
+		yylval.linFin = linF;
+
+		colI = colF+1;
+		colF = colI;
+
 	return ABRIRPARENT;
 	}
 
 ")"	{
-	actualizarLoc(&yylval,yyleng);
+	colF = colI + yyleng - 1;
+
+		yylval.colIni = colI;
+		yylval.colFin = colF;
+		yylval.linIni = linI;
+		yylval.linFin = linF;
+
+		colI = colF+1;
+		colF = colI;
+
 	return CERRARPARENT;
 	}
 
 "{"	{
-	actualizarLoc(&yylval,yyleng);
+	colF = colI + yyleng - 1;
+
+	yylval.colIni = colI;
+	yylval.colFin = colF;
+	yylval.linIni = linI;
+	yylval.linFin = linF;
+
+	// Actualizamos para el siguiente
+	colI = colF+1;
+	colF = colI;
 
 	return ABRIRLLAVES;
 	}
 
 "}"	{
-	actualizarLoc(&yylval,yyleng);
+	colF = colI + yyleng - 1;
+
+		yylval.colIni = colI;
+		yylval.colFin = colF;
+		yylval.linIni = linI;
+		yylval.linFin = linF;
+
+		// Actualizamos para el siguiente
+		colI = colF+1;
+		colF = colI;
 	return CERRARLLAVES;
 	}
 
 ";"	{ colI += yyleng;return PUNTOCOMA;}
 
 "**"	{
-	actualizarLoc(&yylval,yyleng);
+	colF = colI + yyleng - 1;
+
+		yylval.colIni = colI;
+		yylval.colFin = colF;
+		yylval.linIni = linI;
+		yylval.linFin = linF;
+
+		// Actualizamos para el siguiente
+		colI = colF+1;
+		colF = colI;
+
 	return MULMUL;
 	}
 
 "/"	{
-	actualizarLoc(&yylval,yyleng);
+	colF = colI + yyleng - 1;
+
+		yylval.colIni = colI;
+		yylval.colFin = colF;
+		yylval.linIni = linI;
+		yylval.linFin = linF;
+
+		// Actualizamos para el siguiente
+		colI = colF+1;
+		colF = colI;
 	yylval.lexema = strdup(yytext);
 	yylval.nParam = 1;
+
 	return MULTIDIV;
 	}
 
 "&&"	{
-	actualizarLoc(&yylval,yyleng);
-	yylval.lexema = strdup(yytext);
+	colF = colI + yyleng - 1;
+
+			yylval.colIni = colI;
+			yylval.colFin = colF;
+			yylval.linIni = linI;
+			yylval.linFin = linF;
+
+			// Actualizamos para el siguiente
+			colI = colF+1;
+			colF = colI;
+		yylval.lexema = strdup(yytext);
 
 	return LOGAND;
 	}
 
 "^"	{
-	actualizarLoc(&yylval,yyleng);
+	colF = colI + yyleng - 1;
+
+		yylval.colIni = colI;
+		yylval.colFin = colF;
+		yylval.linIni = linI;
+		yylval.linFin = linF;
+
+		// Actualizamos para el siguiente
+		colI = colF+1;
+		colF = colI;
 	yylval.lexema = strdup(yytext);
-	
+
 	return EXOR;
 	}
 
 "|"	{
-	actualizarLoc(&yylval,yyleng);
+	colF = colI + yyleng - 1;
+
+		yylval.colIni = colI;
+		yylval.colFin = colF;
+		yylval.linIni = linI;
+		yylval.linFin = linF;
+
+		// Actualizamos para el siguiente
+		colI = colF+1;
+		colF = colI;
 	yylval.lexema = strdup(yytext);
 
 	return ORBIT;
 	}
-	
+
 "||"	{
-	actualizarLoc(&yylval,yyleng);
+	colF = colI + yyleng - 1;
+
+		yylval.colIni = colI;
+		yylval.colFin = colF;
+		yylval.linIni = linI;
+		yylval.linFin = linF;
+
+		// Actualizamos para el siguiente
+		colI = colF+1;
+		colF = colI;
 	yylval.lexema = strdup(yytext);
-	
+
 	return LOGOR;
 	}
 
 "+="	{
-	actualizarLoc(&yylval,yyleng);
-	
+	colF = colI + yyleng - 1;
+
+			yylval.colIni = colI;
+			yylval.colFin = colF;
+			yylval.linIni = linI;
+			yylval.linFin = linF;
+
+			// Actualizamos para el siguiente
+			colI = colF+1;
+			colF = colI;
 	yylval.nParam = 0;
 	yylval.lexema = strdup(yytext);
-	
+
 	return IGUALDAD;
 	}
 
 "-="	{
-	actualizarLoc(&yylval,yyleng);
-	
+	colF = colI + yyleng - 1;
+
+			yylval.colIni = colI;
+			yylval.colFin = colF;
+			yylval.linIni = linI;
+			yylval.linFin = linF;
+
+			// Actualizamos para el siguiente
+			colI = colF+1;
+			colF = colI;
 	yylval.nParam = 1;
 	yylval.lexema = strdup(yytext);
-	
+
 	return IGUALDAD;
 	}
 
 "=="	{
-	actualizarLoc(&yylval,yyleng);
-	
+	colF = colI + yyleng - 1;
+
+			yylval.colIni = colI;
+			yylval.colFin = colF;
+			yylval.linIni = linI;
+			yylval.linFin = linF;
+
+			// Actualizamos para el siguiente
+			colI = colF+1;
+			colF = colI;
 	yylval.nParam = 2;
 	yylval.lexema = strdup(yytext);
-	
+
 	return IGUALDAD;
 	}
 
 "!="	{
-	actualizarLoc(&yylval,yyleng);
-	
+	colF = colI + yyleng - 1;
+
+			yylval.colIni = colI;
+			yylval.colFin = colF;
+			yylval.linIni = linI;
+			yylval.linFin = linF;
+
+			// Actualizamos para el siguiente
+			colI = colF+1;
+			colF = colI;
 	yylval.nParam = 3;
 	yylval.lexema = strdup(yytext);
-	
+
 	return IGUALDAD;
 	}
 
 "<="	{
-	actualizarLoc(&yylval,yyleng);
-	
+	colF = colI + yyleng - 1;
+
+			yylval.colIni = colI;
+			yylval.colFin = colF;
+			yylval.linIni = linI;
+			yylval.linFin = linF;
+
+			// Actualizamos para el siguiente
+			colI = colF+1;
+			colF = colI;
 	yylval.nParam = 0;
 	yylval.lexema = strdup(yytext);
 	return REL;
 	}
 
 ">="	{
-	actualizarLoc(&yylval,yyleng);
-	
+	colF = colI + yyleng - 1;
+
+			yylval.colIni = colI;
+			yylval.colFin = colF;
+			yylval.linIni = linI;
+			yylval.linFin = linF;
+
+			// Actualizamos para el siguiente
+			colI = colF+1;
+			colF = colI;
 	yylval.nParam = 1;
 	yylval.lexema = strdup(yytext);
 	return REL;
 	}
 
 "<"	{
-	actualizarLoc(&yylval,yyleng);
-	
+	colF = colI + yyleng - 1;
+
+			yylval.colIni = colI;
+			yylval.colFin = colF;
+			yylval.linIni = linI;
+			yylval.linFin = linF;
+
+			// Actualizamos para el siguiente
+			colI = colF+1;
+			colF = colI;
 	yylval.nParam = 2;
 	yylval.lexema = strdup(yytext);
 	return REL;
 	}
 
 ">"	{
-	actualizarLoc(&yylval,yyleng);
-	
+	colF = colI + yyleng - 1;
+
+			yylval.colIni = colI;
+			yylval.colFin = colF;
+			yylval.linIni = linI;
+			yylval.linFin = linF;
+
+			// Actualizamos para el siguiente
+			colI = colF+1;
+			colF = colI;
 	yylval.nParam = 3;
 	yylval.lexema = strdup(yytext);
 	return REL;
@@ -171,25 +326,51 @@ void actualizarLoc(stEntrada *reg, int tamToken);
 "%"	{colI+=yyleng;return PORCENTAJE;}
 
 "*"	{
-	actualizarLoc(&yylval,yyleng);
-	
+	colF = colI + yyleng - 1;
+
+			yylval.colIni = colI;
+			yylval.colFin = colF;
+			yylval.linIni = linI;
+			yylval.linFin = linF;
+
+			// Actualizamos para el siguiente
+			colI = colF+1;
+			colF = colI;
+
 	yylval.nParam = 0;
 	yylval.lexema = strdup(yytext);
 	return MULTIDIV;
 	}
 
 "&"	{
-	actualizarLoc(&yylval,yyleng);
-	
+	colF = colI + yyleng - 1;
+
+			yylval.colIni = colI;
+			yylval.colFin = colF;
+			yylval.linIni = linI;
+			yylval.linFin = linF;
+
+			// Actualizamos para el siguiente
+			colI = colF+1;
+			colF = colI;
 	yylval.lexema = strdup(yytext);
-	
+
 	return ANDBIT;
 	}
 
 "--"	{colI+=yyleng;return MENOSMENOS;}
 "!"	{
-	actualizarLoc(&yylval,yyleng);
-	yylval.lexema = strdup(yytext);
+	colF = colI + yyleng - 1;
+
+			yylval.colIni = colI;
+			yylval.colFin = colF;
+			yylval.linIni = linI;
+			yylval.linFin = linF;
+
+			// Actualizamos para el siguiente
+			colI = colF+1;
+			colF = colI;
+			yylval.lexema = strdup(yytext);
 
 	return EXCLAMACION;
 	}
@@ -202,8 +383,17 @@ void actualizarLoc(stEntrada *reg, int tamToken);
 "<<"	{colI+=yyleng;yylval.nParam=1;return AVANRETRO;}
 
 "+"	{
-	actualizarLoc(&yylval,yyleng);
-	
+	colF = colI + yyleng - 1;
+
+		yylval.colIni = colI;
+		yylval.colFin = colF;
+		yylval.linIni = linI;
+		yylval.linFin = linF;
+
+		// Actualizamos para el siguiente
+		colI = colF+1;
+		colF = colI;
+
 	yylval.lexema = strdup(yytext);
 	yylval.nParam = 0;
 
@@ -211,11 +401,20 @@ void actualizarLoc(stEntrada *reg, int tamToken);
 	}
 
 "-"	{
-	actualizarLoc(&yylval,yyleng);
+	colF = colI + yyleng - 1;
+
+		yylval.colIni = colI;
+		yylval.colFin = colF;
+		yylval.linIni = linI;
+		yylval.linFin = linF;
+
+		// Actualizamos para el siguiente
+		colI = colF+1;
+		colF = colI;
 
 	yylval.lexema = strdup(yytext);
-	yylval.nParam = 1;	
-	
+	yylval.nParam = 1;
+
 	return MASMENOS;
 	}
 
@@ -232,22 +431,40 @@ void actualizarLoc(stEntrada *reg, int tamToken);
 
 	yylval.colIni = colI;
 	yylval.colFin = colF;
-	
+
 	colI = colF+1;
 	colF = colI;
-	
+
 	return LEE;
-	}	
+	}
 
 "escribe"	{
-		actualizarLoc(&yylval, yyleng);
-		return ESCRIBE;
+	colF = colI + yyleng - 1;
+
+			yylval.colIni = colI;
+			yylval.colFin = colF;
+			yylval.linIni = linI;
+			yylval.linFin = linF;
+
+			// Actualizamos para el siguiente
+			colI = colF+1;
+			colF = colI;
+			return ESCRIBE;
 		}
 
 "durante"	{colI += yyleng;return DURANTE;}
 
 "si"	{
-	actualizarLoc(&yylval,yyleng);
+	colF = colI + yyleng - 1;
+
+		yylval.colIni = colI;
+		yylval.colFin = colF;
+		yylval.linIni = linI;
+		yylval.linFin = linF;
+
+		// Actualizamos para el siguiente
+		colI = colF+1;
+		colF = colI;
 
 	return CONDSI;
 	}
@@ -255,7 +472,16 @@ void actualizarLoc(stEntrada *reg, int tamToken);
 "mientras"	{colI += yyleng;return CONDMIENTRAS;}
 
 "sino"	{
-	actualizarLoc(&yylval,yyleng);
+	colF = colI + yyleng - 1;
+
+		yylval.colIni = colI;
+		yylval.colFin = colF;
+		yylval.linIni = linI;
+		yylval.linFin = linF;
+
+		// Actualizamos para el siguiente
+		colI = colF+1;
+		colF = colI;
 
 	return CONDSINO;
 	}
@@ -266,54 +492,96 @@ void actualizarLoc(stEntrada *reg, int tamToken);
 "lista_de "	{colI += yyleng;return DEFLIST;}
 
 "booleano"	{
-		colI += yyleng; 
+		colI += yyleng;
 		yylval.tipoDato = BOOLEANO;
 		return TIPO;
 		}
 "real"	{
-	colI += yyleng; 
+	colI += yyleng;
 	yylval.tipoDato = REAL;
 	return TIPO;
 	}
 
 "caracter"	{
-		colI += yyleng; 
-		yylval.tipoDato = REAL;
+		colI += yyleng;
+		yylval.tipoDato = CARACTER;
 		return TIPO;
 		}
 
 "entero"	{
-		colI += yyleng; 
-		yylval.tipoDato = REAL;
+		colI += yyleng;
+		yylval.tipoDato = ENTERO;
 		return TIPO;
 		}
 
 "principal"	{
-		yylval.lexema = strdup(yytext);	
+		yylval.lexema = strdup(yytext);
 
-		actualizarLoc(&yylval,yyleng);
+		colF = colI + yyleng - 1;
 
-		return MAIN;				
+		yylval.colIni = colI;
+		yylval.colFin = colF;
+		yylval.linIni = linI;
+		yylval.linFin = linF;
+
+		// Actualizamos para el siguiente
+		colI = colF+1;
+		colF = colI;
+
+		return MAIN;
 		}
 
-"procedimiento"	{	
-		actualizarLoc(&yylval,yyleng);
+"procedimiento"	{
+		colF = colI + yyleng - 1;
+
+		yylval.lexema = strdup(yytext);
+
+		yylval.colIni = colI;
+		yylval.colFin = colF;
+		yylval.linIni = linI;
+		yylval.linFin = linF;
+
+		// Actualizamos para el siguiente
+		colI = colF+1;
+		colF = colI;
+
 		return PROCED;
 		}
 
 "verdadero"	{
-		actualizarLoc(&yylval,yyleng);
+		colF = colI + yyleng - 1;
+
+		yylval.colIni = colI;
+		yylval.colFin = colF;
+		yylval.linIni = linI;
+		yylval.linFin = linF;
+
+		// Actualizamos para el siguiente
+		colI = colF+1;
+		colF = colI;
+
 
 		yylval.tipoDato = BOOLEANO;
 		yylval.valor.booleano = 1;
+
 		return VERDFALS;
 		}
 
 "falso"	{
-	actualizarLoc(&yylval,yyleng);
-	
+	colF = colI + yyleng - 1;
+
+		yylval.colIni = colI;
+		yylval.colFin = colF;
+		yylval.linIni = linI;
+		yylval.linFin = linF;
+
+		// Actualizamos para el siguiente
+		colI = colF+1;
+		colF = colI;
+
 	yylval.tipoDato = BOOLEANO;
 	yylval.valor.booleano = 0;
+
 	return VERDFALS;
 	}
 
@@ -328,39 +596,79 @@ void actualizarLoc(stEntrada *reg, int tamToken);
 		}
 
 [\+\-]?([0-9])+	{
-		actualizarLoc(&yylval,yyleng);
+		colF = colI + yyleng - 1;
+
+		yylval.colIni = colI;
+		yylval.colFin = colF;
+		yylval.linIni = linI;
+		yylval.linFin = linF;
+
+		// Actualizamos para el siguiente
+		colI = colF+1;
+		colF = colI;
 		yylval.tipoDato = ENTERO;
 		yylval.valor.entero = atoi(yytext);
-		
+
 		return T_ENTERO;
 		}
+
 [\+\-]?([0-9])+\.([0-9])+	{
-				actualizarLoc(&yylval, yyleng);
-				yylval.tipoDato = REAL;
-				yylval.valor.entero = atof(yytext);
-		
-				return T_REAL;
-				}
+	colF = colI + yyleng - 1;
+
+			yylval.colIni = colI;
+			yylval.colFin = colF;
+			yylval.linIni = linI;
+			yylval.linFin = linF;
+
+			// Actualizamos para el siguiente
+			colI = colF+1;
+			colF = colI;
+			yylval.tipoDato = REAL;
+			yylval.valor.real = atof(yytext);
+
+			return T_REAL;
+		}
+
+[a-zA-Z][a-zA-Z0-9]*	{
+					actualizarLoc(&yylval, yyleng);
+					yylval.lexema = strdup(yytext);
+					return IDENTIFICADOR;
+					}
+
 
 \'[^\']\'	{
-		actualizarLoc(&yylval, yyleng);
-		yylval.tipoDato = CARACTER;
+	colF = colI + yyleng - 1;
+
+			yylval.colIni = colI;
+			yylval.colFin = colF;
+			yylval.linIni = linI;
+			yylval.linFin = linF;
+
+			// Actualizamos para el siguiente
+			colI = colF+1;
+			colF = colI;
+					yylval.tipoDato = CARACTER;
 
 		yylval.valor.caracter = yytext[0];
-		
+
 		return T_CARACTER;
 		}
 
 \"[^\"]*\"	{
-		actualizarLoc(&yylval, yyleng);
-		yylval.lexema = strdup(yytext);		
-		return CADENA;
+	colF = colI + yyleng - 1;
+
+			yylval.colIni = colI;
+			yylval.colFin = colF;
+			yylval.linIni = linI;
+			yylval.linFin = linF;
+
+			// Actualizamos para el siguiente
+			colI = colF+1;
+			colF = colI;
+			yylval.lexema = strdup(yytext);
+		return T_CADENA;
 		}
-[a-zA-Z][a-zA-Z0-9]*	{
-			actualizarLoc(&yylval, yyleng);
-			yylval.lexema = strdup(yytext);			
-			return IDENTIFICADOR;
-			}
+
 . ;
 %%
 
@@ -370,10 +678,9 @@ void actualizarLoc(stEntrada *reg, int tamToken) {
 	reg->colIni = colI;
 	reg->colFin = colF;
 	reg->linIni = linI;
-	reg->linFin = linF; 
+	reg->linFin = linF;
 
 	// Actualizamos contadores globales
 	colI = colF+1;
 	colF = colI;
 	}
-

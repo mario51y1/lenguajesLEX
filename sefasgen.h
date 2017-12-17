@@ -10,8 +10,8 @@
   Definicion de la estructura asociada
   a un simbolo de la gramatica
  *****************************************/
- 
- 
+
+
 /** @enum
  * Tipo de entrada en la TS
  */
@@ -94,7 +94,7 @@ typedef struct entrada_ts {
 
 /************************************
   Funciones disponibles para la
-  ejecucion de acciones semánticas
+  ejecucion de acciones semï¿½nticas
  ************************************/
 
 
@@ -142,7 +142,7 @@ void pet_GenENTRADA(char *fmt, char *vars);
 void pet_GenSALIDA(char *fmt, char *vars);
 
 void pet_GenSaltoCond(char *nomVar, char *etq);
-/** @todo Repasar si hace falta el nombre de la VARIABLE ¿??¿ */
+/** @todo Repasar si hace falta el nombre de la VARIABLE ï¿½??ï¿½ */
 void pet_GenSaltoInCond(char *etq);
 
 

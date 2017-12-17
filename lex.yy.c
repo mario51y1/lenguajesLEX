@@ -384,23 +384,23 @@ static yyconst flex_int16_t yy_accept[182] =
     {   0,
         0,    0,   67,   65,    1,    2,   28,   65,   29,   31,
        24,   26,   65,    5,    6,   25,   34,   38,   35,   11,
-       60,   65,    9,   22,   39,   23,   30,   37,   64,    3,
-        4,   13,   64,   64,   64,   64,   64,   64,   64,   64,
-       64,   64,   64,   64,    7,   14,    8,   19,    0,   63,
+       60,   65,    9,   22,   39,   23,   30,   37,   62,    3,
+        4,   13,   62,   62,   62,   62,   62,   62,   62,   62,
+       62,   62,   62,   62,    7,   14,    8,   19,    0,   64,
        12,    0,   10,   36,   60,   16,   27,   17,    0,   40,
-       33,   20,   18,   21,   32,   64,   64,   64,   64,   64,
-       64,   64,   64,   64,   64,   64,   64,   64,   64,   44,
-       64,   64,   15,   62,   61,   64,   64,   64,   64,   64,
-       64,   64,   64,   64,   41,   64,   64,   64,   64,   64,
+       33,   20,   18,   21,   32,   62,   62,   62,   62,   62,
+       62,   62,   62,   62,   62,   62,   62,   62,   62,   44,
+       62,   62,   15,   63,   61,   62,   62,   62,   62,   62,
+       62,   62,   62,   62,   41,   62,   62,   62,   62,   62,
 
-       64,   64,   64,   64,   64,   64,   64,   64,   64,   64,
-       64,   64,   64,   64,   64,   64,   51,   46,   64,   64,
-       64,   64,   64,   64,   64,   57,   64,   48,   47,   64,
-       64,   64,   64,   64,   64,   64,   64,   64,   53,   64,
-       64,    0,   64,   64,   64,   64,   64,   64,   64,   43,
-       42,   64,    0,   64,   64,   64,   64,   64,   50,   52,
-       64,    0,   45,   64,   64,   64,   64,   64,   49,   54,
-       64,   58,   56,   64,   64,   64,   64,   59,   64,   55,
+       62,   62,   62,   62,   62,   62,   62,   62,   62,   62,
+       62,   62,   62,   62,   62,   62,   51,   46,   62,   62,
+       62,   62,   62,   62,   62,   57,   62,   48,   47,   62,
+       62,   62,   62,   62,   62,   62,   62,   62,   53,   62,
+       62,    0,   62,   62,   62,   62,   62,   62,   62,   43,
+       42,   62,    0,   62,   62,   62,   62,   62,   50,   52,
+       62,    0,   45,   62,   62,   62,   62,   62,   49,   54,
+       62,   58,   56,   62,   62,   62,   62,   59,   62,   55,
         0
     } ;
 
@@ -875,100 +875,182 @@ case 2:
 /* rule 2 can match eol */
 YY_RULE_SETUP
 #line 33 "token.l"
-{linea_actual++;
-	colI += yyleng;}
+{linea_actual++;	colI += yyleng;}
 	YY_BREAK
 case 3:
 YY_RULE_SETUP
-#line 36 "token.l"
+#line 35 "token.l"
 { colI += yyleng;return ABRIRCORCH;}
 	YY_BREAK
 case 4:
 YY_RULE_SETUP
-#line 38 "token.l"
+#line 37 "token.l"
 { colI += yyleng;return CERRARCORCH;}
 	YY_BREAK
 case 5:
 YY_RULE_SETUP
-#line 40 "token.l"
+#line 39 "token.l"
 {
-	actualizarLoc(&yylval,yyleng);
+	colF = colI + yyleng - 1;
+
+		yylval.colIni = colI;
+		yylval.colFin = colF;
+		yylval.linIni = linI;
+		yylval.linFin = linF;
+
+		colI = colF+1;
+		colF = colI;
+
 	return ABRIRPARENT;
 	}
 	YY_BREAK
 case 6:
 YY_RULE_SETUP
-#line 45 "token.l"
+#line 53 "token.l"
 {
-	actualizarLoc(&yylval,yyleng);
+	colF = colI + yyleng - 1;
+
+		yylval.colIni = colI;
+		yylval.colFin = colF;
+		yylval.linIni = linI;
+		yylval.linFin = linF;
+
+		colI = colF+1;
+		colF = colI;
+
 	return CERRARPARENT;
 	}
 	YY_BREAK
 case 7:
 YY_RULE_SETUP
-#line 50 "token.l"
+#line 67 "token.l"
 {
-	actualizarLoc(&yylval,yyleng);
+	colF = colI + yyleng - 1;
+
+	yylval.colIni = colI;
+	yylval.colFin = colF;
+	yylval.linIni = linI;
+	yylval.linFin = linF;
+
+	// Actualizamos para el siguiente
+	colI = colF+1;
+	colF = colI;
 
 	return ABRIRLLAVES;
 	}
 	YY_BREAK
 case 8:
 YY_RULE_SETUP
-#line 56 "token.l"
+#line 82 "token.l"
 {
-	actualizarLoc(&yylval,yyleng);
+	colF = colI + yyleng - 1;
+
+		yylval.colIni = colI;
+		yylval.colFin = colF;
+		yylval.linIni = linI;
+		yylval.linFin = linF;
+
+		// Actualizamos para el siguiente
+		colI = colF+1;
+		colF = colI;
 	return CERRARLLAVES;
 	}
 	YY_BREAK
 case 9:
 YY_RULE_SETUP
-#line 61 "token.l"
+#line 96 "token.l"
 { colI += yyleng;return PUNTOCOMA;}
 	YY_BREAK
 case 10:
 YY_RULE_SETUP
-#line 63 "token.l"
+#line 98 "token.l"
 {
-	actualizarLoc(&yylval,yyleng);
+	colF = colI + yyleng - 1;
+
+		yylval.colIni = colI;
+		yylval.colFin = colF;
+		yylval.linIni = linI;
+		yylval.linFin = linF;
+
+		// Actualizamos para el siguiente
+		colI = colF+1;
+		colF = colI;
+
 	return MULMUL;
 	}
 	YY_BREAK
 case 11:
 YY_RULE_SETUP
-#line 68 "token.l"
+#line 113 "token.l"
 {
-	actualizarLoc(&yylval,yyleng);
+	colF = colI + yyleng - 1;
+
+		yylval.colIni = colI;
+		yylval.colFin = colF;
+		yylval.linIni = linI;
+		yylval.linFin = linF;
+
+		// Actualizamos para el siguiente
+		colI = colF+1;
+		colF = colI;
 	yylval.lexema = strdup(yytext);
 	yylval.nParam = 1;
+
 	return MULTIDIV;
 	}
 	YY_BREAK
 case 12:
 YY_RULE_SETUP
-#line 75 "token.l"
+#line 130 "token.l"
 {
-	actualizarLoc(&yylval,yyleng);
-	yylval.lexema = strdup(yytext);
+	colF = colI + yyleng - 1;
+
+			yylval.colIni = colI;
+			yylval.colFin = colF;
+			yylval.linIni = linI;
+			yylval.linFin = linF;
+
+			// Actualizamos para el siguiente
+			colI = colF+1;
+			colF = colI;
+		yylval.lexema = strdup(yytext);
 
 	return LOGAND;
 	}
 	YY_BREAK
 case 13:
 YY_RULE_SETUP
-#line 82 "token.l"
+#line 146 "token.l"
 {
-	actualizarLoc(&yylval,yyleng);
+	colF = colI + yyleng - 1;
+
+		yylval.colIni = colI;
+		yylval.colFin = colF;
+		yylval.linIni = linI;
+		yylval.linFin = linF;
+
+		// Actualizamos para el siguiente
+		colI = colF+1;
+		colF = colI;
 	yylval.lexema = strdup(yytext);
-	
+
 	return EXOR;
 	}
 	YY_BREAK
 case 14:
 YY_RULE_SETUP
-#line 89 "token.l"
+#line 162 "token.l"
 {
-	actualizarLoc(&yylval,yyleng);
+	colF = colI + yyleng - 1;
+
+		yylval.colIni = colI;
+		yylval.colFin = colF;
+		yylval.linIni = linI;
+		yylval.linFin = linF;
+
+		// Actualizamos para el siguiente
+		colI = colF+1;
+		colF = colI;
 	yylval.lexema = strdup(yytext);
 
 	return ORBIT;
@@ -976,68 +1058,117 @@ YY_RULE_SETUP
 	YY_BREAK
 case 15:
 YY_RULE_SETUP
-#line 96 "token.l"
+#line 178 "token.l"
 {
-	actualizarLoc(&yylval,yyleng);
+	colF = colI + yyleng - 1;
+
+		yylval.colIni = colI;
+		yylval.colFin = colF;
+		yylval.linIni = linI;
+		yylval.linFin = linF;
+
+		// Actualizamos para el siguiente
+		colI = colF+1;
+		colF = colI;
 	yylval.lexema = strdup(yytext);
-	
+
 	return LOGOR;
 	}
 	YY_BREAK
 case 16:
 YY_RULE_SETUP
-#line 103 "token.l"
+#line 194 "token.l"
 {
-	actualizarLoc(&yylval,yyleng);
-	
+	colF = colI + yyleng - 1;
+
+			yylval.colIni = colI;
+			yylval.colFin = colF;
+			yylval.linIni = linI;
+			yylval.linFin = linF;
+
+			// Actualizamos para el siguiente
+			colI = colF+1;
+			colF = colI;
 	yylval.nParam = 0;
 	yylval.lexema = strdup(yytext);
-	
+
 	return IGUALDAD;
 	}
 	YY_BREAK
 case 17:
 YY_RULE_SETUP
-#line 112 "token.l"
+#line 211 "token.l"
 {
-	actualizarLoc(&yylval,yyleng);
-	
+	colF = colI + yyleng - 1;
+
+			yylval.colIni = colI;
+			yylval.colFin = colF;
+			yylval.linIni = linI;
+			yylval.linFin = linF;
+
+			// Actualizamos para el siguiente
+			colI = colF+1;
+			colF = colI;
 	yylval.nParam = 1;
 	yylval.lexema = strdup(yytext);
-	
+
 	return IGUALDAD;
 	}
 	YY_BREAK
 case 18:
 YY_RULE_SETUP
-#line 121 "token.l"
+#line 228 "token.l"
 {
-	actualizarLoc(&yylval,yyleng);
-	
+	colF = colI + yyleng - 1;
+
+			yylval.colIni = colI;
+			yylval.colFin = colF;
+			yylval.linIni = linI;
+			yylval.linFin = linF;
+
+			// Actualizamos para el siguiente
+			colI = colF+1;
+			colF = colI;
 	yylval.nParam = 2;
 	yylval.lexema = strdup(yytext);
-	
+
 	return IGUALDAD;
 	}
 	YY_BREAK
 case 19:
 YY_RULE_SETUP
-#line 130 "token.l"
+#line 245 "token.l"
 {
-	actualizarLoc(&yylval,yyleng);
-	
+	colF = colI + yyleng - 1;
+
+			yylval.colIni = colI;
+			yylval.colFin = colF;
+			yylval.linIni = linI;
+			yylval.linFin = linF;
+
+			// Actualizamos para el siguiente
+			colI = colF+1;
+			colF = colI;
 	yylval.nParam = 3;
 	yylval.lexema = strdup(yytext);
-	
+
 	return IGUALDAD;
 	}
 	YY_BREAK
 case 20:
 YY_RULE_SETUP
-#line 139 "token.l"
+#line 262 "token.l"
 {
-	actualizarLoc(&yylval,yyleng);
-	
+	colF = colI + yyleng - 1;
+
+			yylval.colIni = colI;
+			yylval.colFin = colF;
+			yylval.linIni = linI;
+			yylval.linFin = linF;
+
+			// Actualizamos para el siguiente
+			colI = colF+1;
+			colF = colI;
 	yylval.nParam = 0;
 	yylval.lexema = strdup(yytext);
 	return REL;
@@ -1045,10 +1176,18 @@ YY_RULE_SETUP
 	YY_BREAK
 case 21:
 YY_RULE_SETUP
-#line 147 "token.l"
+#line 278 "token.l"
 {
-	actualizarLoc(&yylval,yyleng);
-	
+	colF = colI + yyleng - 1;
+
+			yylval.colIni = colI;
+			yylval.colFin = colF;
+			yylval.linIni = linI;
+			yylval.linFin = linF;
+
+			// Actualizamos para el siguiente
+			colI = colF+1;
+			colF = colI;
 	yylval.nParam = 1;
 	yylval.lexema = strdup(yytext);
 	return REL;
@@ -1056,10 +1195,18 @@ YY_RULE_SETUP
 	YY_BREAK
 case 22:
 YY_RULE_SETUP
-#line 155 "token.l"
+#line 294 "token.l"
 {
-	actualizarLoc(&yylval,yyleng);
-	
+	colF = colI + yyleng - 1;
+
+			yylval.colIni = colI;
+			yylval.colFin = colF;
+			yylval.linIni = linI;
+			yylval.linFin = linF;
+
+			// Actualizamos para el siguiente
+			colI = colF+1;
+			colF = colI;
 	yylval.nParam = 2;
 	yylval.lexema = strdup(yytext);
 	return REL;
@@ -1067,10 +1214,18 @@ YY_RULE_SETUP
 	YY_BREAK
 case 23:
 YY_RULE_SETUP
-#line 163 "token.l"
+#line 310 "token.l"
 {
-	actualizarLoc(&yylval,yyleng);
-	
+	colF = colI + yyleng - 1;
+
+			yylval.colIni = colI;
+			yylval.colFin = colF;
+			yylval.linIni = linI;
+			yylval.linFin = linF;
+
+			// Actualizamos para el siguiente
+			colI = colF+1;
+			colF = colI;
 	yylval.nParam = 3;
 	yylval.lexema = strdup(yytext);
 	return REL;
@@ -1078,15 +1233,24 @@ YY_RULE_SETUP
 	YY_BREAK
 case 24:
 YY_RULE_SETUP
-#line 171 "token.l"
+#line 326 "token.l"
 {colI+=yyleng;return PORCENTAJE;}
 	YY_BREAK
 case 25:
 YY_RULE_SETUP
-#line 173 "token.l"
+#line 328 "token.l"
 {
-	actualizarLoc(&yylval,yyleng);
-	
+	colF = colI + yyleng - 1;
+
+			yylval.colIni = colI;
+			yylval.colFin = colF;
+			yylval.linIni = linI;
+			yylval.linFin = linF;
+
+			// Actualizamos para el siguiente
+			colI = colF+1;
+			colF = colI;
+
 	yylval.nParam = 0;
 	yylval.lexema = strdup(yytext);
 	return MULTIDIV;
@@ -1094,61 +1258,87 @@ YY_RULE_SETUP
 	YY_BREAK
 case 26:
 YY_RULE_SETUP
-#line 181 "token.l"
+#line 345 "token.l"
 {
-	actualizarLoc(&yylval,yyleng);
-	
+	colF = colI + yyleng - 1;
+
+			yylval.colIni = colI;
+			yylval.colFin = colF;
+			yylval.linIni = linI;
+			yylval.linFin = linF;
+
+			// Actualizamos para el siguiente
+			colI = colF+1;
+			colF = colI;
 	yylval.lexema = strdup(yytext);
-	
+
 	return ANDBIT;
 	}
 	YY_BREAK
 case 27:
 YY_RULE_SETUP
-#line 189 "token.l"
+#line 361 "token.l"
 {colI+=yyleng;return MENOSMENOS;}
 	YY_BREAK
 case 28:
 YY_RULE_SETUP
-#line 190 "token.l"
+#line 362 "token.l"
 {
-	actualizarLoc(&yylval,yyleng);
-	yylval.lexema = strdup(yytext);
+	colF = colI + yyleng - 1;
+
+			yylval.colIni = colI;
+			yylval.colFin = colF;
+			yylval.linIni = linI;
+			yylval.linFin = linF;
+
+			// Actualizamos para el siguiente
+			colI = colF+1;
+			colF = colI;
+			yylval.lexema = strdup(yytext);
 
 	return EXCLAMACION;
 	}
 	YY_BREAK
 case 29:
 YY_RULE_SETUP
-#line 197 "token.l"
+#line 378 "token.l"
 {colI+=yyleng;yylval.nParam=0;return UNARIOSLISTA;}
 	YY_BREAK
 case 30:
 YY_RULE_SETUP
-#line 198 "token.l"
+#line 379 "token.l"
 {colI+=yyleng;yylval.nParam=1;return UNARIOSLISTA;}
 	YY_BREAK
 case 31:
 YY_RULE_SETUP
-#line 199 "token.l"
+#line 380 "token.l"
 {colI+=yyleng;yylval.nParam=2;return UNARIOSLISTA;}
 	YY_BREAK
 case 32:
 YY_RULE_SETUP
-#line 201 "token.l"
+#line 382 "token.l"
 {colI+=yyleng;yylval.nParam=0;return AVANRETRO;}
 	YY_BREAK
 case 33:
 YY_RULE_SETUP
-#line 202 "token.l"
+#line 383 "token.l"
 {colI+=yyleng;yylval.nParam=1;return AVANRETRO;}
 	YY_BREAK
 case 34:
 YY_RULE_SETUP
-#line 204 "token.l"
+#line 385 "token.l"
 {
-	actualizarLoc(&yylval,yyleng);
-	
+	colF = colI + yyleng - 1;
+
+		yylval.colIni = colI;
+		yylval.colFin = colF;
+		yylval.linIni = linI;
+		yylval.linFin = linF;
+
+		// Actualizamos para el siguiente
+		colI = colF+1;
+		colF = colI;
+
 	yylval.lexema = strdup(yytext);
 	yylval.nParam = 0;
 
@@ -1157,187 +1347,265 @@ YY_RULE_SETUP
 	YY_BREAK
 case 35:
 YY_RULE_SETUP
-#line 213 "token.l"
+#line 403 "token.l"
 {
-	actualizarLoc(&yylval,yyleng);
+	colF = colI + yyleng - 1;
+
+		yylval.colIni = colI;
+		yylval.colFin = colF;
+		yylval.linIni = linI;
+		yylval.linFin = linF;
+
+		// Actualizamos para el siguiente
+		colI = colF+1;
+		colF = colI;
 
 	yylval.lexema = strdup(yytext);
-	yylval.nParam = 1;	
-	
+	yylval.nParam = 1;
+
 	return MASMENOS;
 	}
 	YY_BREAK
 case 36:
 YY_RULE_SETUP
-#line 222 "token.l"
+#line 421 "token.l"
 {colI+=yyleng;return MASMAS;}
 	YY_BREAK
 case 37:
 YY_RULE_SETUP
-#line 224 "token.l"
+#line 423 "token.l"
 {colI+=yyleng;return ARROBA;}
 	YY_BREAK
 case 38:
 YY_RULE_SETUP
-#line 226 "token.l"
+#line 425 "token.l"
 {colI += yyleng;return COMA;}
 	YY_BREAK
 case 39:
 YY_RULE_SETUP
-#line 227 "token.l"
+#line 426 "token.l"
 {colI += yyleng;return ASIG;}
 	YY_BREAK
 case 40:
 YY_RULE_SETUP
-#line 228 "token.l"
+#line 427 "token.l"
 {colI+=yyleng;return DOSPUNTOSIGUAL;}
 	YY_BREAK
 case 41:
 YY_RULE_SETUP
-#line 230 "token.l"
+#line 429 "token.l"
 {
 	colF = colI + yyleng - 1;
 
 	yylval.colIni = colI;
 	yylval.colFin = colF;
-	
+
 	colI = colF+1;
 	colF = colI;
-	
+
 	return LEE;
-	}	
+	}
 	YY_BREAK
 case 42:
 YY_RULE_SETUP
-#line 242 "token.l"
+#line 441 "token.l"
 {
-		actualizarLoc(&yylval, yyleng);
-		return ESCRIBE;
+	colF = colI + yyleng - 1;
+
+			yylval.colIni = colI;
+			yylval.colFin = colF;
+			yylval.linIni = linI;
+			yylval.linFin = linF;
+
+			// Actualizamos para el siguiente
+			colI = colF+1;
+			colF = colI;
+			return ESCRIBE;
 		}
 	YY_BREAK
 case 43:
 YY_RULE_SETUP
-#line 247 "token.l"
+#line 455 "token.l"
 {colI += yyleng;return DURANTE;}
 	YY_BREAK
 case 44:
 YY_RULE_SETUP
-#line 249 "token.l"
+#line 457 "token.l"
 {
-	actualizarLoc(&yylval,yyleng);
+	colF = colI + yyleng - 1;
+
+		yylval.colIni = colI;
+		yylval.colFin = colF;
+		yylval.linIni = linI;
+		yylval.linFin = linF;
+
+		// Actualizamos para el siguiente
+		colI = colF+1;
+		colF = colI;
 
 	return CONDSI;
 	}
 	YY_BREAK
 case 45:
 YY_RULE_SETUP
-#line 255 "token.l"
+#line 472 "token.l"
 {colI += yyleng;return CONDMIENTRAS;}
 	YY_BREAK
 case 46:
 YY_RULE_SETUP
-#line 257 "token.l"
+#line 474 "token.l"
 {
-	actualizarLoc(&yylval,yyleng);
+	colF = colI + yyleng - 1;
+
+		yylval.colIni = colI;
+		yylval.colFin = colF;
+		yylval.linIni = linI;
+		yylval.linFin = linF;
+
+		// Actualizamos para el siguiente
+		colI = colF+1;
+		colF = colI;
 
 	return CONDSINO;
 	}
 	YY_BREAK
 case 47:
 YY_RULE_SETUP
-#line 263 "token.l"
+#line 489 "token.l"
 {colI += yyleng;return HASTA;}
 	YY_BREAK
 case 48:
 YY_RULE_SETUP
-#line 264 "token.l"
+#line 490 "token.l"
 {colI += yyleng;return HACER;}
 	YY_BREAK
 case 49:
 YY_RULE_SETUP
-#line 266 "token.l"
+#line 492 "token.l"
 {colI += yyleng;return DEFLIST;}
 	YY_BREAK
 case 50:
 YY_RULE_SETUP
-#line 268 "token.l"
+#line 494 "token.l"
 {
-		colI += yyleng; 
+		colI += yyleng;
 		yylval.tipoDato = BOOLEANO;
 		return TIPO;
 		}
 	YY_BREAK
 case 51:
 YY_RULE_SETUP
-#line 273 "token.l"
+#line 499 "token.l"
 {
-	colI += yyleng; 
+	colI += yyleng;
 	yylval.tipoDato = REAL;
 	return TIPO;
 	}
 	YY_BREAK
 case 52:
 YY_RULE_SETUP
-#line 279 "token.l"
+#line 505 "token.l"
 {
-		colI += yyleng; 
-		yylval.tipoDato = REAL;
+		colI += yyleng;
+		yylval.tipoDato = CARACTER;
 		return TIPO;
 		}
 	YY_BREAK
 case 53:
 YY_RULE_SETUP
-#line 285 "token.l"
+#line 511 "token.l"
 {
-		colI += yyleng; 
-		yylval.tipoDato = REAL;
+		colI += yyleng;
+		yylval.tipoDato = ENTERO;
 		return TIPO;
 		}
 	YY_BREAK
 case 54:
 YY_RULE_SETUP
-#line 291 "token.l"
+#line 517 "token.l"
 {
-		yylval.lexema = strdup(yytext);	
+		yylval.lexema = strdup(yytext);
 
-		actualizarLoc(&yylval,yyleng);
+		colF = colI + yyleng - 1;
 
-		return MAIN;				
+		yylval.colIni = colI;
+		yylval.colFin = colF;
+		yylval.linIni = linI;
+		yylval.linFin = linF;
+
+		// Actualizamos para el siguiente
+		colI = colF+1;
+		colF = colI;
+
+		return MAIN;
 		}
 	YY_BREAK
 case 55:
 YY_RULE_SETUP
-#line 299 "token.l"
-{	
-		actualizarLoc(&yylval,yyleng);
+#line 534 "token.l"
+{
+		colF = colI + yyleng - 1;
+
+		yylval.lexema = strdup(yytext);
+
+		yylval.colIni = colI;
+		yylval.colFin = colF;
+		yylval.linIni = linI;
+		yylval.linFin = linF;
+
+		// Actualizamos para el siguiente
+		colI = colF+1;
+		colF = colI;
+
 		return PROCED;
 		}
 	YY_BREAK
 case 56:
 YY_RULE_SETUP
-#line 304 "token.l"
+#line 551 "token.l"
 {
-		actualizarLoc(&yylval,yyleng);
+		colF = colI + yyleng - 1;
+
+		yylval.colIni = colI;
+		yylval.colFin = colF;
+		yylval.linIni = linI;
+		yylval.linFin = linF;
+
+		// Actualizamos para el siguiente
+		colI = colF+1;
+		colF = colI;
+
 
 		yylval.tipoDato = BOOLEANO;
 		yylval.valor.booleano = 1;
+
 		return VERDFALS;
 		}
 	YY_BREAK
 case 57:
 YY_RULE_SETUP
-#line 312 "token.l"
+#line 570 "token.l"
 {
-	actualizarLoc(&yylval,yyleng);
-	
+	colF = colI + yyleng - 1;
+
+		yylval.colIni = colI;
+		yylval.colFin = colF;
+		yylval.linIni = linI;
+		yylval.linFin = linF;
+
+		// Actualizamos para el siguiente
+		colI = colF+1;
+		colF = colI;
+
 	yylval.tipoDato = BOOLEANO;
 	yylval.valor.booleano = 0;
+
 	return VERDFALS;
 	}
 	YY_BREAK
 case 58:
 YY_RULE_SETUP
-#line 320 "token.l"
+#line 588 "token.l"
 {
 		colI+=yyleng;
 		return INICIOVARS;
@@ -1345,7 +1613,7 @@ YY_RULE_SETUP
 	YY_BREAK
 case 59:
 YY_RULE_SETUP
-#line 325 "token.l"
+#line 593 "token.l"
 {
 		colI+=yyleng;
 		return FINVARS;
@@ -1353,69 +1621,105 @@ YY_RULE_SETUP
 	YY_BREAK
 case 60:
 YY_RULE_SETUP
-#line 330 "token.l"
+#line 598 "token.l"
 {
-		actualizarLoc(&yylval,yyleng);
+		colF = colI + yyleng - 1;
+
+		yylval.colIni = colI;
+		yylval.colFin = colF;
+		yylval.linIni = linI;
+		yylval.linFin = linF;
+
+		// Actualizamos para el siguiente
+		colI = colF+1;
+		colF = colI;
 		yylval.tipoDato = ENTERO;
 		yylval.valor.entero = atoi(yytext);
-		
+
 		return T_ENTERO;
 		}
 	YY_BREAK
 case 61:
 YY_RULE_SETUP
-#line 337 "token.l"
+#line 615 "token.l"
 {
-				actualizarLoc(&yylval, yyleng);
-				yylval.tipoDato = REAL;
-				yylval.valor.entero = atof(yytext);
-		
-				return T_REAL;
-				}
+	colF = colI + yyleng - 1;
+
+			yylval.colIni = colI;
+			yylval.colFin = colF;
+			yylval.linIni = linI;
+			yylval.linFin = linF;
+
+			// Actualizamos para el siguiente
+			colI = colF+1;
+			colF = colI;
+			yylval.tipoDato = REAL;
+			yylval.valor.real = atof(yytext);
+
+			return T_REAL;
+		}
 	YY_BREAK
 case 62:
-/* rule 62 can match eol */
 YY_RULE_SETUP
-#line 345 "token.l"
+#line 632 "token.l"
 {
-		actualizarLoc(&yylval, yyleng);
-		yylval.tipoDato = CARACTER;
-
-		yylval.valor.caracter = yytext[0];
-		
-		return T_CARACTER;
-		}
+					actualizarLoc(&yylval, yyleng);
+					yylval.lexema = strdup(yytext);
+					return IDENTIFICADOR;
+					}
 	YY_BREAK
 case 63:
 /* rule 63 can match eol */
 YY_RULE_SETUP
-#line 354 "token.l"
+#line 639 "token.l"
 {
-		actualizarLoc(&yylval, yyleng);
-		yylval.lexema = strdup(yytext);		
-		return CADENA;
+	colF = colI + yyleng - 1;
+
+			yylval.colIni = colI;
+			yylval.colFin = colF;
+			yylval.linIni = linI;
+			yylval.linFin = linF;
+
+			// Actualizamos para el siguiente
+			colI = colF+1;
+			colF = colI;
+					yylval.tipoDato = CARACTER;
+
+		yylval.valor.caracter = yytext[0];
+
+		return T_CARACTER;
 		}
 	YY_BREAK
 case 64:
+/* rule 64 can match eol */
 YY_RULE_SETUP
-#line 359 "token.l"
+#line 657 "token.l"
 {
-			actualizarLoc(&yylval, yyleng);
-			yylval.lexema = strdup(yytext);			
-			return IDENTIFICADOR;
-			}
+	colF = colI + yyleng - 1;
+
+			yylval.colIni = colI;
+			yylval.colFin = colF;
+			yylval.linIni = linI;
+			yylval.linFin = linF;
+
+			// Actualizamos para el siguiente
+			colI = colF+1;
+			colF = colI;
+			yylval.lexema = strdup(yytext);
+		return T_CADENA;
+		}
 	YY_BREAK
 case 65:
 YY_RULE_SETUP
-#line 364 "token.l"
+#line 672 "token.l"
 ;
 	YY_BREAK
 case 66:
 YY_RULE_SETUP
-#line 365 "token.l"
+#line 673 "token.l"
 ECHO;
 	YY_BREAK
-#line 1419 "lex.yy.c"
+#line 1723 "lex.yy.c"
 case YY_STATE_EOF(INITIAL):
 	yyterminate();
 
@@ -2413,7 +2717,7 @@ void yyfree (void * ptr )
 
 #define YYTABLES_NAME "yytables"
 
-#line 365 "token.l"
+#line 673 "token.l"
 
 
 
@@ -2423,11 +2727,10 @@ void actualizarLoc(stEntrada *reg, int tamToken) {
 	reg->colIni = colI;
 	reg->colFin = colF;
 	reg->linIni = linI;
-	reg->linFin = linF; 
+	reg->linFin = linF;
 
 	// Actualizamos contadores globales
 	colI = colF+1;
 	colF = colI;
 	}
-
 

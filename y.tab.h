@@ -64,34 +64,34 @@ extern int yydebug;
     LEE = 274,
     ESCRIBE = 275,
     COMA = 276,
-    VERDFALS = 277,
-    MASMAS = 278,
-    MASMENOS = 279,
-    ARROBA = 280,
-    DURANTE = 281,
-    DOSPUNTOSIGUAL = 282,
-    HASTA = 283,
-    HACER = 284,
-    TIPO = 285,
-    CARACTER = 286,
-    CADENA = 287,
-    IDENTIFICADOR = 288,
-    ENTERO = 289,
-    REAL = 290,
-    LOGOR = 291,
-    LOGAND = 292,
-    ORBIT = 293,
-    EXOR = 294,
-    ANDBIT = 295,
-    IGUALDAD = 296,
-    REL = 297,
-    MULTIDIV = 298,
-    PORCENTAJE = 299,
-    UNARIOSLISTA = 300,
-    EXCLAMACION = 301,
-    MENOSMENOS = 302,
-    MULMUL = 303,
-    AVANRETRO = 304
+    MASMAS = 277,
+    MASMENOS = 278,
+    DURANTE = 279,
+    DOSPUNTOSIGUAL = 280,
+    HASTA = 281,
+    HACER = 282,
+    TIPO = 283,
+    VERDFALS = 284,
+    T_CARACTER = 285,
+    T_CADENA = 286,
+    IDENTIFICADOR = 287,
+    T_ENTERO = 288,
+    T_REAL = 289,
+    LOGOR = 290,
+    LOGAND = 291,
+    ORBIT = 292,
+    EXOR = 293,
+    ANDBIT = 294,
+    IGUALDAD = 295,
+    REL = 296,
+    MULTIDIV = 297,
+    PORCENTAJE = 298,
+    UNARIOSLISTA = 299,
+    EXCLAMACION = 300,
+    MENOSMENOS = 301,
+    MULMUL = 302,
+    AVANRETRO = 303,
+    ARROBA = 304
   };
 #endif
 /* Tokens.  */
@@ -114,34 +114,34 @@ extern int yydebug;
 #define LEE 274
 #define ESCRIBE 275
 #define COMA 276
-#define VERDFALS 277
-#define MASMAS 278
-#define MASMENOS 279
-#define ARROBA 280
-#define DURANTE 281
-#define DOSPUNTOSIGUAL 282
-#define HASTA 283
-#define HACER 284
-#define TIPO 285
-#define CARACTER 286
-#define CADENA 287
-#define IDENTIFICADOR 288
-#define ENTERO 289
-#define REAL 290
-#define LOGOR 291
-#define LOGAND 292
-#define ORBIT 293
-#define EXOR 294
-#define ANDBIT 295
-#define IGUALDAD 296
-#define REL 297
-#define MULTIDIV 298
-#define PORCENTAJE 299
-#define UNARIOSLISTA 300
-#define EXCLAMACION 301
-#define MENOSMENOS 302
-#define MULMUL 303
-#define AVANRETRO 304
+#define MASMAS 277
+#define MASMENOS 278
+#define DURANTE 279
+#define DOSPUNTOSIGUAL 280
+#define HASTA 281
+#define HACER 282
+#define TIPO 283
+#define VERDFALS 284
+#define T_CARACTER 285
+#define T_CADENA 286
+#define IDENTIFICADOR 287
+#define T_ENTERO 288
+#define T_REAL 289
+#define LOGOR 290
+#define LOGAND 291
+#define ORBIT 292
+#define EXOR 293
+#define ANDBIT 294
+#define IGUALDAD 295
+#define REL 296
+#define MULTIDIV 297
+#define PORCENTAJE 298
+#define UNARIOSLISTA 299
+#define EXCLAMACION 300
+#define MENOSMENOS 301
+#define MULMUL 302
+#define AVANRETRO 303
+#define ARROBA 304
 
 /* Value type.  */
 #if ! defined YYSTYPE && ! defined YYSTYPE_IS_DECLARED

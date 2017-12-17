@@ -1,7 +1,7 @@
 procedimiento principal()
 {
   variables
-  {
+    lista_de entero abb;
     booleano vb;
     real vr;
     caracter vc;
@@ -15,31 +15,25 @@ procedimiento principal()
     lista_de real lr;
     lista_de booleano lb;
     lista_de entero le;
-
-  }
   finvariables;
 
   procedimiento funcionA(entero a1,real a2, caracter a3)
   {
     variables
-    {
       entero x1,x2;
-    }
     finvariables;
 
     procedimiento funcionB(caracter b1, booleano b2)
     {
       variables
-      {
         real xf,x2;
-      }finvariables;
+      finvariables;
 
       procedimiento funcionC(booleano c1, entero c2)
       {
         variables
-        {
           real x1;
-        }finvariables;
+        finvariables;
 
         x1 = 1.3;
 
@@ -60,14 +54,12 @@ procedimiento principal()
       procedimiento funcionD(real d1)
       {
         variables
-        {
           caracter dato;
           entero valor;
-        }finvariables;
+        finvariables;
 
         procedimiento funcionE( caracter e1, caracter e2){
-
-          lee "introduzca dos caracteres: ", e1 , e2;
+          lee e1 , e2;
           si (e1 == 'a')
             return e1;
           sino si (e1 == 'b')
@@ -77,12 +69,11 @@ procedimiento principal()
 
         }
 
-        lee "introduzca un valor entero", valor;
+        lee valor;
         if (d1> 0.0){
           variables
-          {
             entero dato;
-          }finvariables;
+          finvariables;
 
           dato = 2;
           dato = valor*20/dato;
