@@ -9,10 +9,10 @@ y.tab.o: y.tab.c
 main.o: main.c
 	gcc -c main.c
 
-y.tab.c: yacc.y lex.yy.c
+yacc: yacc.y lex.yy.c
 	bison -o y.tab.c yacc.y
 
-lex.yy.c: token.l
+lex: token.l
 	flex token.l
 
 limpia:
@@ -21,3 +21,6 @@ limpia:
 todo:
 	make limpia
 	make prog
+
+alt:
+	gcc peticiones.c y.tab.c -o compilador

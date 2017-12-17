@@ -4,11 +4,23 @@
 
 	#include "sefasgen.h"
 
-	extern int yylex();
-	extern int yyparse();
-	extern FILE* yyin;
+	//extern int yylex();
+	//extern int yyparse();
+	//extern FILE* yyin;
 
-	void yyerror(const char* msg);
+	//void yyerror(const char* msg);
+
+	tDato tempTipoDato, tipoTemp, tipoAux;
+	int estado;
+	unsigned int flag = 0;
+
+	char *etqTemp;
+
+	int nParam = 0;
+	int contParam;
+	int totalParam;
+	unsigned char tipoOK;
+	int tamCadena;
 
 	int linea_actual = 1;
 
@@ -73,15 +85,21 @@
 
 Programa : Cabecera_programa bloque ;
 
-bloque : Inicio_de_bloque 
-	Declar_de_variables_locales 
-	Declar_de_subprogs 
-	Sentencias 
-	Fin_de_bloque 
+bloque : Inicio_de_bloque {
+yylval.lexema = strdup("FIN_PARS");
+yylval.tipoDato = NO_ASIG;
+pet_introTS(yylval, MARCA);
+
+pet_GenIniBlq(NULL, $1.colIni, $1.colFin);
+}
+	Declar_de_variables_locales
+	Declar_de_subprogs
+	Sentencias
+	Fin_de_bloque
 	;
 
-Declar_de_variables_locales : Marca_ini_declar_variables 
-			      Variables_locales 	
+Declar_de_variables_locales : Marca_ini_declar_variables
+			      Variables_locales
 			      Marca_fin_declar_variables
 			     |
 ;
@@ -107,12 +125,7 @@ parametros : parametro
   ;
 parametro : tipo IDENTIFICADOR {pet_BuscarPROC(yylval);};
 
-Inicio_de_bloque :  ABRIRLLAVES 
-	{
-	stEntrada j;	
-	yylval.lexema = stdrup("a");
-	pet_introTS(yylval,MARCA);	
-	};
+Inicio_de_bloque :  ABRIRLLAVES ;
 Fin_de_bloque :  CERRARLLAVES ;
 
 Variables_locales : Variables_locales Cuerpo_declar_variables
@@ -172,7 +185,7 @@ expresion : ABRIRPARENT expresion CERRARPARENT
 	| EXCLAMACION expresion
 	| expresion AVANRETRO
 	| expresion MULMUL expresion
-	| expresion MULTIDIV expresion 
+	| expresion MULTIDIV expresion
 	| expresion LOGAND expresion
 	| expresion EXOR expresion
 	| expresion ORBIT expresion
