@@ -119,12 +119,34 @@ Declar_de_subprogs : Declar_de_subprogs Declar_subprog
 	|
   ;
 
-Declar_subprog : Cabecera_subprograma bloque ;
+Declar_subprog : Cabecera_subprograma bloque
+		{
+		pet_GenFinDecProc();
+		}
+;
 
-Cabecera_programa : PROCED MAIN ABRIRPARENT CERRARPARENT ;
+Cabecera_programa : PROCED MAIN ABRIRPARENT CERRARPARENT
+{
+$2.tipoDato = NO_ASIG;
+pet_introTS($2, PROC);
+}
+;
 
-Cabecera_subprograma : PROCED IDENTIFICADOR ABRIRPARENT parametros CERRARPARENT
-	| PROCED error_subprog ;
+
+
+Cabecera_subprograma : PROCED IDENTIFICADOR
+ {
+	 $2.tipoDato = NO_ASIG;
+
+	 estado = pet_introTS($2, PROC);
+	if ( estado )
+		pet_GenDecProc($2.lexema, NO_ASIG);
+	}
+ ABRIRPARENT parametros CERRARPARENT
+ {
+ 	pet_GenFinCabecera();
+ }
+| PROCED error_subprog ;
 error_subprog : error ;
 
 parametros : parametro
@@ -139,11 +161,29 @@ Fin_de_bloque :  CERRARLLAVES ;
 Variables_locales : Variables_locales Cuerpo_declar_variables
 	| Cuerpo_declar_variables
   ;
-Cuerpo_declar_variables : tipo Identificadores PUNTOCOMA
+Cuerpo_declar_variables : tipo {tempTipoDato = $1.tipoDato;} Identificadores PUNTOCOMA
 	| error_decl_variables;
 error_decl_variables : error ;
 
-Identificadores : IDENTIFICADOR | Identificadores COMA IDENTIFICADOR ;
+Identificadores : IDENTIFICADOR
+		{
+			$1.tipoDato = tempTipoDato;
+			estado = pet_introTS($1, VARIABLE);
+
+		if ( estado ) {
+			pet_GenDecVar($1.tipoDato, $1.lexema);
+			}
+		}
+| Identificadores COMA IDENTIFICADOR
+		{
+		$3.tipoDato = tempTipoDato;
+		estado = pet_introTS($3, VARIABLE);
+
+		if ( estado ) {
+			pet_GenDecVar($3.tipoDato, $3.lexema);
+			}
+		}
+;
 
 tipo : TIPO | tipo_lista ;
 tipo_lista : DEFLIST TIPO ;

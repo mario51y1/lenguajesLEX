@@ -6,23 +6,21 @@ prog: y.tab.o
 y.tab.o: yacc
 	gcc -c y.tab.c
 
-main.o: main.c
+main.o:
 	gcc -c main.c
 
-yacc: yacc.y lex.yy.c
+yacc: lex
 	bison -o y.tab.c yacc.y
 
-lex: token.l
+lex:
 	flex token.l
 
 limpia:
-	rm -f prog main.o y.tab.o y.tab.c lex.yy.c
+	rm -f prog main.o y.tab.o y.tab.c lex.yy.c compilador
 
 todo:
 	make limpia
 	make prog
 
-alt:
-	make yacc
-	make lex
+alt: lex yacc
 	gcc peticiones.c y.tab.c -o compilador
