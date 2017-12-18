@@ -95,7 +95,7 @@ bloque : Inicio_de_bloque
 	Declar_de_subprogs
 	Sentencias
 	Fin_de_bloque
-	{eliminarHastaMarca(yylval);}
+	{eliminarHastaMarca();}
 		;
 
 
@@ -210,7 +210,11 @@ Sentencia : bloque
 sentencia_asignacion : IDENTIFICADOR ASIG expresion PUNTOCOMA
 {
 printf("buscando %s para comparar\n", $1.nombre );
-entradaTS  temp = devuelveEntrada(buscaVariableEnScope($1));
+int posicion = buscaVariableEnScope($1);
+if(posicion==-1){
+	muestra();
+}
+entradaTS  temp = devuelveEntrada(posicion);
 tipoTemp = temp.tipoDato;
 
 printf("Comparando %s tipoizq: %d, tipoder: %d\n",temp.nombre,temp.tipoDato,$3.tipoDato);

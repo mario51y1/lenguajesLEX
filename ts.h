@@ -48,7 +48,7 @@ int inserta(entradaTS entrada,tipoEntrada tipo);
 int busca(entradaTS entrada);
 void muestra();
 int buscaHastaMarca(entradaTS entrada);
-int eliminarHastaMarca(entradaTS entrada);
+int eliminarHastaMarca();
 entradaTS  devuelveEntrada(int posicion);
 int buscaVariableEnScope(entradaTS entrada);
 

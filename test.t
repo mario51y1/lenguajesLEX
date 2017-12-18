@@ -44,6 +44,8 @@ procedimiento principal()
 
       funcionC(verdadero,10);
 
+      xf = x2;
+
       x2 = xf * (-10.0);
 
       mientras (x2<10.0) {
