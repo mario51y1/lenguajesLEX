@@ -262,7 +262,6 @@ expresion : ABRIRPARENT expresion CERRARPARENT
 	| IDENTIFICADOR
 	| T_ENTERO
 	| T_REAL
-	| T_CADENA
 	| T_CARACTER
 	| VERDFALS
   | lista
