@@ -210,7 +210,7 @@ Sentencia : bloque
 sentencia_asignacion : IDENTIFICADOR ASIG expresion PUNTOCOMA
 {
 printf("buscando %s para comparar\n", $1.nombre );
-int posicion = buscaVariableEnScope($1);
+int posicion = buscaEnTs($1);
 if(posicion==-1){
 	muestra();
 }

@@ -29,18 +29,18 @@ procedimiento principal()
       finvariables;
 
       procedimiento funcionC(booleano c1, entero c2)
-      {
-        variables
-          real x1;
-        finvariables;
+        {
+          variables
+            real x1;
+          finvariables;
 
-        x1 = 1.3;
+          x1 = 1.3;
 
-        si ( c2 > 10  )
-          c2 = c2 - 1;
-        sino
-          x1 = 3.1;
-      }
+          si ( c2 > 10  )
+            c2 = c2 - 1;
+          sino
+            x1 = 3.1;
+        }
 
       funcionC(verdadero,10);
 
@@ -48,7 +48,7 @@ procedimiento principal()
 
       x2 = xf * (-10.0);
 
-      mientras (x2<10.0) {
+      mientras (x2<10.0){
         x2 = x2*xf;
       }
 

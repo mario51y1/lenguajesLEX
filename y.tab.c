@@ -1601,7 +1601,7 @@ yyreduce:
 #line 211 "yacc.y" /* yacc.c:1646  */
     {
 printf("buscando %s para comparar\n", (yyvsp[-3]).nombre );
-int posicion = buscaVariableEnScope((yyvsp[-3]));
+int posicion = buscaEnTs((yyvsp[-3]));
 if(posicion==-1){
 	muestra();
 }

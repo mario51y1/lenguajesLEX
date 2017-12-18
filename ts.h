@@ -47,7 +47,7 @@ typedef struct {
 int inserta(entradaTS entrada,tipoEntrada tipo);
 int busca(entradaTS entrada);
 void muestra();
-int buscaHastaMarca(entradaTS entrada);
+int buscaEnTs(entradaTS entrada);
 int eliminarHastaMarca();
 entradaTS  devuelveEntrada(int posicion);
 int buscaVariableEnScope(entradaTS entrada);
