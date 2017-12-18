@@ -214,7 +214,7 @@ tipoTemp = devuelveEntrada(buscaHastaMarca($1)).tipoDato;
 	printf("Comparando tipos de 1: %d y %d ", tipoTemp,  $3.tipoDato );
 
 if ( tipoTemp != $3.tipoDato ) {
-	printf("[ERR] Error linea: %d ASIGNACION ", yylineno);
+	printf("[ERR] Error linea: %d ASIGNACION ", linea_actual);
 	printf("tipos no coinciden\n");
 	}
 }

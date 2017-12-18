@@ -1,8 +1,8 @@
-/* A Bison parser, made by GNU Bison 3.0.2.  */
+/* A Bison parser, made by GNU Bison 3.0.4.  */
 
 /* Bison implementation for Yacc-like parsers in C
 
-   Copyright (C) 1984, 1989-1990, 2000-2013 Free Software Foundation, Inc.
+   Copyright (C) 1984, 1989-1990, 2000-2015 Free Software Foundation, Inc.
 
    This program is free software: you can redistribute it and/or modify
    it under the terms of the GNU General Public License as published by
@@ -44,7 +44,7 @@
 #define YYBISON 1
 
 /* Bison version.  */
-#define YYBISON_VERSION "3.0.2"
+#define YYBISON_VERSION "3.0.4"
 
 /* Skeleton name.  */
 #define YYSKELETON_NAME "yacc.c"
@@ -86,12 +86,11 @@
 	int totalParam;
 	unsigned char tipoOK;
 	int tamCadena;
-	tipoEntrada tipoEn;
 
 	int linea_actual = 1;
 
 
-#line 95 "y.tab.c" /* yacc.c:339  */
+#line 94 "y.tab.c" /* yacc.c:339  */
 
 # ifndef YY_NULLPTR
 #  if defined __cplusplus && 201103L <= __cplusplus
@@ -240,7 +239,7 @@ int yyparse (void);
 
 /* Copy the second part of user declarations.  */
 
-#line 244 "y.tab.c" /* yacc.c:358  */
+#line 243 "y.tab.c" /* yacc.c:358  */
 
 #ifdef short
 # undef short
@@ -542,17 +541,17 @@ static const yytype_uint8 yytranslate[] =
   /* YYRLINE[YYN] -- Source line where rule number YYN was defined.  */
 static const yytype_uint16 yyrline[] =
 {
-       0,    88,    88,    91,    90,   104,   107,   110,   111,   113,
-     114,   117,   119,   130,   129,   135,   136,   138,   139,   140,
-     142,   150,   151,   153,   154,   156,   157,   159,   161,   167,
-     175,   175,   176,   202,   203,   207,   208,   209,   210,   211,
-     212,   213,   214,   217,   230,   231,   233,   235,   237,   239,
-     240,   243,   244,   246,   248,   250,   251,   252,   253,   254,
-     255,   256,   257,   258,   259,   260,   261,   262,   263,   264,
-     265,   266,   267,   268,   269,   270,   271,   272,   273,   274,
-     275,   276,   278,   279,   280,   283,   284,   285,   286,   289,
-     291,   292,   295,   297,   298,   302,   304,   305,   308,   310,
-     311
+       0,    87,    87,    90,    89,   102,   105,   108,   109,   111,
+     112,   115,   117,   127,   126,   131,   132,   134,   135,   136,
+     138,   145,   146,   148,   149,   151,   152,   154,   156,   161,
+     168,   168,   169,   195,   196,   200,   201,   202,   203,   204,
+     205,   206,   207,   210,   223,   224,   226,   228,   230,   232,
+     233,   236,   237,   239,   241,   243,   244,   245,   246,   247,
+     248,   249,   250,   251,   252,   253,   254,   255,   256,   257,
+     258,   259,   260,   261,   262,   263,   264,   265,   266,   267,
+     268,   269,   271,   272,   273,   276,   277,   278,   279,   282,
+     284,   285,   288,   290,   291,   295,   297,   298,   301,   303,
+     304
 };
 #endif
 
@@ -1505,78 +1504,72 @@ yyreduce:
   switch (yyn)
     {
         case 3:
-#line 91 "yacc.y" /* yacc.c:1646  */
+#line 90 "yacc.y" /* yacc.c:1646  */
     {
 	yylval.nombre = strdup("INIBLOQUE");
-	tipoEn = MARCA;
-	inserta(yylval, tipoEn);
+	inserta(yylval, MARCA);
 	}
-#line 1515 "y.tab.c" /* yacc.c:1646  */
+#line 1513 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 4:
-#line 100 "yacc.y" /* yacc.c:1646  */
+#line 98 "yacc.y" /* yacc.c:1646  */
     {eliminarHastaMarca(yylval);}
-#line 1521 "y.tab.c" /* yacc.c:1646  */
+#line 1519 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 12:
-#line 120 "yacc.y" /* yacc.c:1646  */
+#line 118 "yacc.y" /* yacc.c:1646  */
     {
 	(yyvsp[-2]).tipoDato = NO_ASIG;
-	tipoEn = PROC;
-	inserta((yyvsp[-2]), tipoEn);
+	inserta((yyvsp[-2]), PROC);
 	}
-#line 1531 "y.tab.c" /* yacc.c:1646  */
+#line 1528 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 13:
-#line 130 "yacc.y" /* yacc.c:1646  */
+#line 127 "yacc.y" /* yacc.c:1646  */
     {
-	 tipoEn = PROC;
-	 estado = inserta((yyvsp[0]), tipoEn);
+	 estado = inserta((yyvsp[0]), PROC);
  }
-#line 1540 "y.tab.c" /* yacc.c:1646  */
+#line 1536 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 20:
-#line 143 "yacc.y" /* yacc.c:1646  */
+#line 139 "yacc.y" /* yacc.c:1646  */
     {
 	(yyvsp[0]).tipoDato = (yyvsp[-1]).tipoDato;
-	tipoEn = PAR_FORMAL;
 	estado = inserta((yyvsp[0]), PAR_FORMAL);
 }
-#line 1550 "y.tab.c" /* yacc.c:1646  */
+#line 1545 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 28:
-#line 162 "yacc.y" /* yacc.c:1646  */
+#line 157 "yacc.y" /* yacc.c:1646  */
     {
 			(yyvsp[0]).tipoDato = tempTipoDato;
-			tipoEn = VARIABLE;
-			estado = inserta((yyvsp[0]), tipoEn);
+			estado = inserta((yyvsp[0]), VARIABLE);
 		}
-#line 1560 "y.tab.c" /* yacc.c:1646  */
+#line 1554 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 29:
-#line 168 "yacc.y" /* yacc.c:1646  */
+#line 162 "yacc.y" /* yacc.c:1646  */
     {
 		(yyvsp[0]).tipoDato = tempTipoDato;
-		tipoEn = VARIABLE;
-		estado = inserta((yyvsp[0]), tipoEn);
+		estado = inserta((yyvsp[0]), VARIABLE);
 		}
-#line 1570 "y.tab.c" /* yacc.c:1646  */
+#line 1563 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 30:
-#line 175 "yacc.y" /* yacc.c:1646  */
+#line 168 "yacc.y" /* yacc.c:1646  */
     {tempTipoDato = (yyvsp[0]).tipoDato;}
-#line 1576 "y.tab.c" /* yacc.c:1646  */
+#line 1569 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 32:
-#line 177 "yacc.y" /* yacc.c:1646  */
+#line 170 "yacc.y" /* yacc.c:1646  */
     {
 
 	switch ((yyvsp[0]).tipoDato) {
@@ -1601,26 +1594,26 @@ yyreduce:
 	}
 
 }
-#line 1605 "y.tab.c" /* yacc.c:1646  */
+#line 1598 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 43:
-#line 218 "yacc.y" /* yacc.c:1646  */
+#line 211 "yacc.y" /* yacc.c:1646  */
     {
 
 tipoTemp = devuelveEntrada(buscaHastaMarca((yyvsp[-3]))).tipoDato;
 	printf("Comparando tipos de 1: %d y %d ", tipoTemp,  (yyvsp[-1]).tipoDato );
 
 if ( tipoTemp != (yyvsp[-1]).tipoDato ) {
-	printf("[ERR] Error linea: %d ASIGNACION ", yylineno);
+	printf("[ERR] Error linea: %d ASIGNACION ", linea_actual);
 	printf("tipos no coinciden\n");
 	}
 }
-#line 1620 "y.tab.c" /* yacc.c:1646  */
+#line 1613 "y.tab.c" /* yacc.c:1646  */
     break;
 
 
-#line 1624 "y.tab.c" /* yacc.c:1646  */
+#line 1617 "y.tab.c" /* yacc.c:1646  */
       default: break;
     }
   /* User semantic actions sometimes alter yychar, and that requires
@@ -1848,7 +1841,7 @@ yyreturn:
 #endif
   return yyresult;
 }
-#line 315 "yacc.y" /* yacc.c:1906  */
+#line 308 "yacc.y" /* yacc.c:1906  */
 
 #include "lex.yy.c"
 #include "ts.h"
