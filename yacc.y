@@ -210,7 +210,7 @@ Sentencia : bloque
 sentencia_asignacion : IDENTIFICADOR ASIG expresion PUNTOCOMA
 {
 printf("buscando %s para comparar\n", $1.nombre );
-entradaTS  temp = devuelveEntrada(buscaHastaProc($1));
+entradaTS  temp = devuelveEntrada(buscaVariableEnScope($1));
 tipoTemp = temp.tipoDato;
 
 printf("Comparando %s tipoizq: %d, tipoder: %d\n",temp.nombre,temp.tipoDato,$3.tipoDato);

@@ -1,8 +1,8 @@
-/* A Bison parser, made by GNU Bison 3.0.4.  */
+/* A Bison parser, made by GNU Bison 3.0.2.  */
 
 /* Bison implementation for Yacc-like parsers in C
 
-   Copyright (C) 1984, 1989-1990, 2000-2015 Free Software Foundation, Inc.
+   Copyright (C) 1984, 1989-1990, 2000-2013 Free Software Foundation, Inc.
 
    This program is free software: you can redistribute it and/or modify
    it under the terms of the GNU General Public License as published by
@@ -44,7 +44,7 @@
 #define YYBISON 1
 
 /* Bison version.  */
-#define YYBISON_VERSION "3.0.4"
+#define YYBISON_VERSION "3.0.2"
 
 /* Skeleton name.  */
 #define YYSKELETON_NAME "yacc.c"
@@ -1601,7 +1601,7 @@ yyreduce:
 #line 211 "yacc.y" /* yacc.c:1646  */
     {
 printf("buscando %s para comparar\n", (yyvsp[-3]).nombre );
-entradaTS  temp = devuelveEntrada(buscaHastaProc((yyvsp[-3])));
+entradaTS  temp = devuelveEntrada(buscaVariableEnScope((yyvsp[-3])));
 tipoTemp = temp.tipoDato;
 
 printf("Comparando %s tipoizq: %d, tipoder: %d\n",temp.nombre,temp.tipoDato,(yyvsp[-1]).tipoDato);

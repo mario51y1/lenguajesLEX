@@ -39,16 +39,28 @@ int busca(entradaTS entrada){
 
 }
 
-int buscaHastaProc(entradaTS entrada){
+int buscaVariableEnScope(entradaTS entrada){
   int j = indice-1;
 
-  while ( TS[j].entrada != PROC && j>=0 && (indice!=0)) {
+  while ( TS[j].entrada != MARCA && j>=0 && (indice!=0)) {
     if(!strcmp(TS[j].nombre, entrada.nombre)){
       printf("Se encontro la entrada en este scope : %s , %d \n", entrada.nombre,j);
       return j;
     }
     else j--;
   }
+  while ( TS[j].entrada == PAR_FORMAL && j>=0 && (indice!=0)) {
+    if(!strcmp(TS[j].nombre, entrada.nombre)){
+      printf("Se encontro la entrada en este scope : %s , %d \n", entrada.nombre,j);
+      return j;
+    }
+    else j--;
+  }
+
+
+  //printf("No se encontro la entrada en este scope: %s\n", entrada.nombre);
+  return -1;
+
 }
 
 int inserta(entradaTS entrada,tipoEntrada tipo){

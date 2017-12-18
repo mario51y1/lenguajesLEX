@@ -50,7 +50,7 @@ void muestra();
 int buscaHastaMarca(entradaTS entrada);
 int eliminarHastaMarca(entradaTS entrada);
 entradaTS  devuelveEntrada(int posicion);
-int buscaHastaProc(entradaTS entrada);
+int buscaVariableEnScope(entradaTS entrada);
 
 extern int yylineno;
 extern FILE *yyin;
