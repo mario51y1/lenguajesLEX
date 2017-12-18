@@ -541,17 +541,17 @@ static const yytype_uint8 yytranslate[] =
   /* YYRLINE[YYN] -- Source line where rule number YYN was defined.  */
 static const yytype_uint16 yyrline[] =
 {
-       0,    87,    87,    90,    89,   100,   103,   106,   107,   109,
-     110,   113,   115,   125,   124,   129,   130,   132,   133,   134,
-     136,   143,   144,   146,   147,   149,   150,   152,   154,   159,
-     166,   166,   167,   193,   194,   198,   199,   200,   201,   202,
-     203,   204,   205,   208,   221,   222,   224,   226,   228,   230,
-     231,   234,   235,   237,   239,   241,   242,   243,   244,   245,
-     246,   247,   248,   249,   250,   251,   252,   253,   254,   255,
-     256,   257,   258,   259,   260,   261,   262,   263,   264,   265,
-     266,   267,   268,   270,   271,   272,   275,   276,   277,   278,
-     281,   283,   284,   287,   289,   290,   294,   296,   297,   300,
-     302,   303
+       0,    87,    87,    90,    89,   102,   105,   108,   109,   111,
+     112,   115,   117,   127,   126,   131,   132,   134,   135,   136,
+     138,   145,   146,   148,   149,   151,   152,   154,   156,   161,
+     168,   168,   169,   195,   196,   200,   201,   202,   203,   204,
+     205,   206,   207,   210,   223,   224,   226,   228,   230,   232,
+     233,   236,   237,   239,   241,   243,   244,   245,   246,   247,
+     248,   249,   250,   251,   252,   253,   254,   255,   256,   257,
+     258,   259,   260,   261,   262,   263,   264,   265,   266,   267,
+     268,   269,   270,   272,   273,   274,   277,   278,   279,   280,
+     283,   285,   286,   289,   291,   292,   296,   298,   299,   302,
+     304,   305
 };
 #endif
 
@@ -1512,58 +1512,64 @@ yyreduce:
 #line 1513 "y.tab.c" /* yacc.c:1646  */
     break;
 
+  case 4:
+#line 98 "yacc.y" /* yacc.c:1646  */
+    {eliminarHastaMarca(yylval);}
+#line 1519 "y.tab.c" /* yacc.c:1646  */
+    break;
+
   case 12:
-#line 116 "yacc.y" /* yacc.c:1646  */
+#line 118 "yacc.y" /* yacc.c:1646  */
     {
 	(yyvsp[-2]).tipoDato = NO_ASIG;
 	inserta((yyvsp[-2]), PROC);
 	}
-#line 1522 "y.tab.c" /* yacc.c:1646  */
+#line 1528 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 13:
-#line 125 "yacc.y" /* yacc.c:1646  */
+#line 127 "yacc.y" /* yacc.c:1646  */
     {
 	 estado = inserta((yyvsp[0]), PROC);
  }
-#line 1530 "y.tab.c" /* yacc.c:1646  */
+#line 1536 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 20:
-#line 137 "yacc.y" /* yacc.c:1646  */
+#line 139 "yacc.y" /* yacc.c:1646  */
     {
 	(yyvsp[0]).tipoDato = (yyvsp[-1]).tipoDato;
 	estado = inserta((yyvsp[0]), PAR_FORMAL);
 }
-#line 1539 "y.tab.c" /* yacc.c:1646  */
+#line 1545 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 28:
-#line 155 "yacc.y" /* yacc.c:1646  */
+#line 157 "yacc.y" /* yacc.c:1646  */
     {
 			(yyvsp[0]).tipoDato = tempTipoDato;
 			estado = inserta((yyvsp[0]), VARIABLE);
 		}
-#line 1548 "y.tab.c" /* yacc.c:1646  */
+#line 1554 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 29:
-#line 160 "yacc.y" /* yacc.c:1646  */
+#line 162 "yacc.y" /* yacc.c:1646  */
     {
 		(yyvsp[0]).tipoDato = tempTipoDato;
 		estado = inserta((yyvsp[0]), VARIABLE);
 		}
-#line 1557 "y.tab.c" /* yacc.c:1646  */
-    break;
-
-  case 30:
-#line 166 "yacc.y" /* yacc.c:1646  */
-    {tempTipoDato = (yyvsp[0]).tipoDato;}
 #line 1563 "y.tab.c" /* yacc.c:1646  */
     break;
 
-  case 32:
+  case 30:
 #line 168 "yacc.y" /* yacc.c:1646  */
+    {tempTipoDato = (yyvsp[0]).tipoDato;}
+#line 1569 "y.tab.c" /* yacc.c:1646  */
+    break;
+
+  case 32:
+#line 170 "yacc.y" /* yacc.c:1646  */
     {
 
 	switch ((yyvsp[0]).tipoDato) {
@@ -1588,14 +1594,14 @@ yyreduce:
 	}
 
 }
-#line 1592 "y.tab.c" /* yacc.c:1646  */
+#line 1598 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 43:
-#line 209 "yacc.y" /* yacc.c:1646  */
+#line 211 "yacc.y" /* yacc.c:1646  */
     {
 
-tipoTemp = devuelveEntrada(busca((yyvsp[-3]))).tipoDato;
+tipoTemp = devuelveEntrada(buscaHastaMarca((yyvsp[-3]))).tipoDato;
 	printf("Comparando tipos de 1: %d y %d ", tipoTemp,  (yyvsp[-1]).tipoDato );
 
 if ( tipoTemp != (yyvsp[-1]).tipoDato ) {
@@ -1603,11 +1609,11 @@ if ( tipoTemp != (yyvsp[-1]).tipoDato ) {
 	printf("tipos no coinciden\n");
 	}
 }
-#line 1607 "y.tab.c" /* yacc.c:1646  */
+#line 1613 "y.tab.c" /* yacc.c:1646  */
     break;
 
 
-#line 1611 "y.tab.c" /* yacc.c:1646  */
+#line 1617 "y.tab.c" /* yacc.c:1646  */
       default: break;
     }
   /* User semantic actions sometimes alter yychar, and that requires
@@ -1835,7 +1841,7 @@ yyreturn:
 #endif
   return yyresult;
 }
-#line 307 "yacc.y" /* yacc.c:1906  */
+#line 309 "yacc.y" /* yacc.c:1906  */
 
 #include "lex.yy.c"
 #include "ts.h"

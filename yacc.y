@@ -94,7 +94,9 @@ bloque : Inicio_de_bloque
 	Declar_de_variables_locales
 	Declar_de_subprogs
 	Sentencias
-	Fin_de_bloque	;
+	Fin_de_bloque
+	{eliminarHastaMarca(yylval);}
+		;
 
 
 Declar_de_variables_locales : Marca_ini_declar_variables
@@ -208,7 +210,7 @@ Sentencia : bloque
 sentencia_asignacion : IDENTIFICADOR ASIG expresion PUNTOCOMA
 {
 
-tipoTemp = devuelveEntrada(busca($1)).tipoDato;
+tipoTemp = devuelveEntrada(buscaHastaMarca($1)).tipoDato;
 	printf("Comparando tipos de 1: %d y %d ", tipoTemp,  $3.tipoDato );
 
 if ( tipoTemp != $3.tipoDato ) {

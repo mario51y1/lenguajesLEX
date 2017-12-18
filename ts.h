@@ -47,6 +47,8 @@ typedef struct {
 int inserta(entradaTS entrada,tipoEntrada tipo);
 int busca(entradaTS entrada);
 void muestra();
+int buscaHastaMarca(entradaTS entrada);
+int eliminarHastaMarca(entradaTS entrada);
 entradaTS devuelveEntrada(int posicion);
 
 extern int yylineno;
