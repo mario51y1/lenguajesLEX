@@ -13,7 +13,10 @@ procedimiento principal()
 
     lista_de real lr;
     lista_de booleano lb;
-    lista_de entero le;
+    lista_de entero pe,pe2;
+    lista_de real pf;
+    lista_de caracter pc;
+
   finvariables;
 
   procedimiento funcionA(entero a1,real a2, caracter a3)
