@@ -545,13 +545,13 @@ static const yytype_uint16 yyrline[] =
      112,   115,   117,   127,   126,   131,   132,   134,   135,   136,
      138,   145,   146,   148,   149,   151,   152,   154,   156,   161,
      168,   168,   169,   195,   196,   200,   201,   202,   203,   204,
-     205,   206,   207,   210,   225,   226,   228,   230,   232,   234,
-     235,   238,   239,   241,   243,   245,   246,   247,   248,   249,
-     250,   251,   252,   253,   254,   255,   256,   257,   258,   259,
-     260,   261,   262,   263,   264,   265,   266,   267,   268,   269,
-     270,   271,   273,   274,   275,   278,   279,   280,   281,   284,
-     286,   287,   290,   292,   293,   297,   299,   300,   303,   305,
-     306
+     205,   206,   207,   210,   224,   225,   227,   229,   231,   233,
+     234,   237,   238,   240,   242,   244,   245,   246,   247,   248,
+     249,   250,   251,   252,   253,   254,   255,   256,   257,   258,
+     259,   260,   261,   262,   263,   264,   265,   266,   267,   268,
+     269,   270,   272,   273,   274,   277,   278,   279,   280,   283,
+     285,   286,   289,   291,   292,   296,   298,   299,   302,   304,
+     305
 };
 #endif
 
@@ -1600,22 +1600,21 @@ yyreduce:
   case 43:
 #line 211 "yacc.y" /* yacc.c:1646  */
     {
+printf("buscando %s para comparar\n", (yyvsp[-3]).nombre );
 entradaTS temp = devuelveEntrada(buscaHastaMarca((yyvsp[-3])));
 tipoTemp = temp.tipoDato;
-char * nombre;
-nombre = temp.nombre;
-	printf("Comparando tipos de %s: %d y %d ",temp.nombre, tipoTemp,  (yyvsp[-1]).tipoDato );
 
+printf("Comparando %s tipoizq: %d, tipoder: %d\n",temp.nombre,temp.tipoDato,(yyvsp[-1]).tipoDato);
 if ( tipoTemp != (yyvsp[-1]).tipoDato ) {
 	printf("[ERR] Error linea: %d ASIGNACION ", linea_actual);
 	printf("tipos no coinciden\n");
 	}
 }
-#line 1615 "y.tab.c" /* yacc.c:1646  */
+#line 1614 "y.tab.c" /* yacc.c:1646  */
     break;
 
 
-#line 1619 "y.tab.c" /* yacc.c:1646  */
+#line 1618 "y.tab.c" /* yacc.c:1646  */
       default: break;
     }
   /* User semantic actions sometimes alter yychar, and that requires
@@ -1843,7 +1842,7 @@ yyreturn:
 #endif
   return yyresult;
 }
-#line 310 "yacc.y" /* yacc.c:1906  */
+#line 309 "yacc.y" /* yacc.c:1906  */
 
 #include "lex.yy.c"
 #include "ts.h"

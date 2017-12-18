@@ -209,12 +209,11 @@ Sentencia : bloque
 
 sentencia_asignacion : IDENTIFICADOR ASIG expresion PUNTOCOMA
 {
+printf("buscando %s para comparar\n", $1.nombre );
 entradaTS temp = devuelveEntrada(buscaHastaMarca($1));
 tipoTemp = temp.tipoDato;
-char * nombre;
-nombre = temp.nombre;
-	printf("Comparando tipos de %s: %d y %d ",temp.nombre, tipoTemp,  $3.tipoDato );
 
+printf("Comparando %s tipoizq: %d, tipoder: %d\n",temp.nombre,temp.tipoDato,$3.tipoDato);
 if ( tipoTemp != $3.tipoDato ) {
 	printf("[ERR] Error linea: %d ASIGNACION ", linea_actual);
 	printf("tipos no coinciden\n");
