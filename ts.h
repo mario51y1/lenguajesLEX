@@ -49,7 +49,8 @@ int busca(entradaTS entrada);
 void muestra();
 int buscaHastaMarca(entradaTS entrada);
 int eliminarHastaMarca(entradaTS entrada);
-entradaTS devuelveEntrada(int posicion);
+entradaTS  devuelveEntrada(int posicion);
+int buscaHastaProc(entradaTS entrada);
 
 extern int yylineno;
 extern FILE *yyin;

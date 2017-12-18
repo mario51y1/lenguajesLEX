@@ -1601,7 +1601,7 @@ yyreduce:
 #line 211 "yacc.y" /* yacc.c:1646  */
     {
 printf("buscando %s para comparar\n", (yyvsp[-3]).nombre );
-entradaTS temp = devuelveEntrada(buscaHastaMarca((yyvsp[-3])));
+entradaTS  temp = devuelveEntrada(buscaHastaProc((yyvsp[-3])));
 tipoTemp = temp.tipoDato;
 
 printf("Comparando %s tipoizq: %d, tipoder: %d\n",temp.nombre,temp.tipoDato,(yyvsp[-1]).tipoDato);

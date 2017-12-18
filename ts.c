@@ -39,6 +39,18 @@ int busca(entradaTS entrada){
 
 }
 
+int buscaHastaProc(entradaTS entrada){
+  int j = indice-1;
+
+  while ( TS[j].entrada != PROC && j>=0 && (indice!=0)) {
+    if(!strcmp(TS[j].nombre, entrada.nombre)){
+      printf("Se encontro la entrada en este scope : %s , %d \n", entrada.nombre,j);
+      return j;
+    }
+    else j--;
+  }
+}
+
 int inserta(entradaTS entrada,tipoEntrada tipo){
   if(tipo == MARCA || buscaHastaMarca(entrada) == -1){
 
@@ -60,7 +72,7 @@ int inserta(entradaTS entrada,tipoEntrada tipo){
 
 entradaTS devuelveEntrada(int posicion){
   if(posicion<=indice && posicion>=0)
-    return TS[posicion];
+    return  TS[posicion];
 }
 
 int eliminarHastaMarca(entradaTS entrada){
