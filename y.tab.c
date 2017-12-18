@@ -1,8 +1,8 @@
-/* A Bison parser, made by GNU Bison 3.0.4.  */
+/* A Bison parser, made by GNU Bison 3.0.2.  */
 
 /* Bison implementation for Yacc-like parsers in C
 
-   Copyright (C) 1984, 1989-1990, 2000-2015 Free Software Foundation, Inc.
+   Copyright (C) 1984, 1989-1990, 2000-2013 Free Software Foundation, Inc.
 
    This program is free software: you can redistribute it and/or modify
    it under the terms of the GNU General Public License as published by
@@ -44,7 +44,7 @@
 #define YYBISON 1
 
 /* Bison version.  */
-#define YYBISON_VERSION "3.0.4"
+#define YYBISON_VERSION "3.0.2"
 
 /* Skeleton name.  */
 #define YYSKELETON_NAME "yacc.c"
@@ -545,15 +545,6 @@ static const yytype_uint16 yyrline[] =
      112,   115,   117,   127,   126,   131,   132,   134,   135,   136,
      138,   145,   146,   148,   149,   151,   152,   154,   156,   161,
      168,   168,   169,   195,   196,   200,   201,   202,   203,   204,
-<<<<<<< Updated upstream
-     205,   206,   207,   210,   223,   224,   226,   228,   230,   232,
-     233,   236,   237,   239,   241,   243,   244,   245,   246,   247,
-     248,   249,   250,   251,   252,   253,   254,   255,   256,   257,
-     258,   259,   260,   261,   262,   263,   264,   265,   266,   267,
-     268,   269,   271,   272,   273,   276,   277,   278,   279,   282,
-     284,   285,   288,   290,   291,   295,   297,   298,   301,   303,
-     304
-=======
      205,   206,   207,   210,   225,   226,   228,   230,   232,   234,
      235,   238,   239,   241,   243,   245,   246,   247,   248,   249,
      250,   251,   252,   253,   254,   255,   256,   257,   258,   259,
@@ -561,7 +552,6 @@ static const yytype_uint16 yyrline[] =
      270,   271,   273,   274,   275,   278,   279,   280,   281,   284,
      286,   287,   290,   292,   293,   297,   299,   300,   303,   305,
      306
->>>>>>> Stashed changes
 };
 #endif
 
@@ -1614,26 +1604,18 @@ entradaTS temp = devuelveEntrada(buscaHastaMarca((yyvsp[-3])));
 tipoTemp = temp.tipoDato;
 char * nombre;
 nombre = temp.nombre;
-	printf("Comparando tipos de %s: %d y %d ",nombre, tipoTemp,  (yyvsp[-1]).tipoDato );
+	printf("Comparando tipos de %s: %d y %d ",temp.nombre, tipoTemp,  (yyvsp[-1]).tipoDato );
 
 if ( tipoTemp != (yyvsp[-1]).tipoDato ) {
 	printf("[ERR] Error linea: %d ASIGNACION ", linea_actual);
 	printf("tipos no coinciden\n");
 	}
 }
-<<<<<<< Updated upstream
-#line 1613 "y.tab.c" /* yacc.c:1646  */
-    break;
-
-
-#line 1617 "y.tab.c" /* yacc.c:1646  */
-=======
 #line 1615 "y.tab.c" /* yacc.c:1646  */
     break;
 
 
 #line 1619 "y.tab.c" /* yacc.c:1646  */
->>>>>>> Stashed changes
       default: break;
     }
   /* User semantic actions sometimes alter yychar, and that requires
@@ -1861,11 +1843,7 @@ yyreturn:
 #endif
   return yyresult;
 }
-<<<<<<< Updated upstream
-#line 308 "yacc.y" /* yacc.c:1906  */
-=======
 #line 310 "yacc.y" /* yacc.c:1906  */
->>>>>>> Stashed changes
 
 #include "lex.yy.c"
 #include "ts.h"

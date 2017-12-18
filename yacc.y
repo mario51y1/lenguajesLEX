@@ -213,7 +213,7 @@ entradaTS temp = devuelveEntrada(buscaHastaMarca($1));
 tipoTemp = temp.tipoDato;
 char * nombre;
 nombre = temp.nombre;
-	printf("Comparando tipos de %s: %d y %d ",nombre, tipoTemp,  $3.tipoDato );
+	printf("Comparando tipos de %s: %d y %d ",temp.nombre, tipoTemp,  $3.tipoDato );
 
 if ( tipoTemp != $3.tipoDato ) {
 	printf("[ERR] Error linea: %d ASIGNACION ", linea_actual);

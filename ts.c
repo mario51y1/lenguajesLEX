@@ -9,9 +9,9 @@ unsigned int subprog;
 entradaTS TS[MAX_TS];
 
 int buscaHastaMarca(entradaTS entrada){
-  int j = indice;
+  int j = indice-1;
 
-  while ( TS[j].entrada != MARCA && j>0 && (indice!=0)) {
+  while ( TS[j].entrada != MARCA && j>=0 && (indice!=0)) {
     if(!strcmp(TS[j].nombre, entrada.nombre)){
       printf("Se encontro la entrada en este scope : %s , %d \n", entrada.nombre,j);
       return j;
