@@ -41,17 +41,6 @@ procedimiento principal()
           sino
             x1 = 3.1;
         }
-
-      funcionC(verdadero,10);
-
-      xf = x2;
-
-      x2 = xf * (-10.0);
-
-      mientras (x2<10.0){
-        x2 = x2*xf;
-      }
-
       procedimiento funcionD(real d1)
       {
         variables
@@ -59,14 +48,14 @@ procedimiento principal()
           entero valor;
         finvariables;
 
-        procedimiento funcionE( caracter e1, caracter e2){
+        procedimiento funcionE( caracter e1, caracter e2,caracter devolver){
           lee e1 , e2;
           si (e1 == 'a')
-            return e1;
+            devolver = e1;
           sino si (e1 == 'b')
-            return e2;
-          else
-            return ' ' ;
+            devolver =  e2;
+          sino
+            devolver = ' ' ;
 
         }
 
@@ -85,6 +74,18 @@ procedimiento principal()
         }
         return d1;
       }
+
+
+      funcionC(verdadero,10);
+
+      x2 = xf * (-10.0);
+
+      mientras (x2<10.0){
+        x2 = x2*xf;
+      }
+
+
+
     pe = pe <-10;
     pf = pf <-10.0;
     pc = pc<-'#';

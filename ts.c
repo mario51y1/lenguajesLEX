@@ -42,7 +42,6 @@ int busca(entradaTS entrada){
 int buscaEnTs(entradaTS entrada){
   int j = indice-1;
 
-
   while(j>=0  && (indice!=0)){
     while (TS[j].entrada != MARCA && (j>=0)) {
       if(!strcmp(TS[j].nombre, entrada.nombre)){
@@ -54,9 +53,9 @@ int buscaEnTs(entradaTS entrada){
     j--;
     printf("No se encontro en este scope \n");
     printf("Revisando parametros\n");
-    while (TS[j].entrada == PAR_FORMAL && (j>=0) && (indice!=0)) {
+    while (TS[j].entrada == PAR_FORMAL && (j>=0)) {
       if(!strcmp(TS[j].nombre, entrada.nombre)){
-        printf("Se encontro la entrada en : %s , %d \n", entrada.nombre,j);
+        printf("Se encontro la entrada en parametro : %s , %d \n", entrada.nombre,j);
         return j;
       }
       else j--;
