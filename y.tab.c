@@ -543,15 +543,15 @@ static const yytype_uint16 yyrline[] =
 {
        0,    87,    87,    90,    89,   100,   103,   106,   107,   109,
      110,   113,   115,   125,   124,   129,   130,   132,   133,   134,
-     136,   143,   144,   146,   147,   149,   150,   151,   153,   158,
-     165,   165,   166,   192,   193,   197,   198,   199,   200,   201,
-     202,   203,   204,   207,   220,   221,   223,   225,   227,   229,
-     230,   233,   234,   236,   238,   240,   241,   242,   243,   244,
-     245,   246,   247,   248,   249,   250,   251,   252,   253,   254,
-     255,   256,   257,   258,   259,   260,   261,   262,   263,   264,
-     265,   266,   267,   269,   270,   271,   274,   275,   276,   277,
-     280,   282,   283,   286,   288,   289,   293,   295,   296,   299,
-     301,   302
+     136,   143,   144,   146,   147,   149,   150,   152,   154,   159,
+     166,   166,   167,   193,   194,   198,   199,   200,   201,   202,
+     203,   204,   205,   208,   221,   222,   224,   226,   228,   230,
+     231,   234,   235,   237,   239,   241,   242,   243,   244,   245,
+     246,   247,   248,   249,   250,   251,   252,   253,   254,   255,
+     256,   257,   258,   259,   260,   261,   262,   263,   264,   265,
+     266,   267,   268,   270,   271,   272,   275,   276,   277,   278,
+     281,   283,   284,   287,   289,   290,   294,   296,   297,   300,
+     302,   303
 };
 #endif
 
@@ -1539,7 +1539,7 @@ yyreduce:
     break;
 
   case 28:
-#line 154 "yacc.y" /* yacc.c:1646  */
+#line 155 "yacc.y" /* yacc.c:1646  */
     {
 			(yyvsp[0]).tipoDato = tempTipoDato;
 			estado = inserta((yyvsp[0]), VARIABLE);
@@ -1548,7 +1548,7 @@ yyreduce:
     break;
 
   case 29:
-#line 159 "yacc.y" /* yacc.c:1646  */
+#line 160 "yacc.y" /* yacc.c:1646  */
     {
 		(yyvsp[0]).tipoDato = tempTipoDato;
 		estado = inserta((yyvsp[0]), VARIABLE);
@@ -1557,13 +1557,13 @@ yyreduce:
     break;
 
   case 30:
-#line 165 "yacc.y" /* yacc.c:1646  */
+#line 166 "yacc.y" /* yacc.c:1646  */
     {tempTipoDato = (yyvsp[0]).tipoDato;}
 #line 1563 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 32:
-#line 167 "yacc.y" /* yacc.c:1646  */
+#line 168 "yacc.y" /* yacc.c:1646  */
     {
 
 	switch ((yyvsp[0]).tipoDato) {
@@ -1592,7 +1592,7 @@ yyreduce:
     break;
 
   case 43:
-#line 208 "yacc.y" /* yacc.c:1646  */
+#line 209 "yacc.y" /* yacc.c:1646  */
     {
 
 tipoTemp = devuelveEntrada(busca((yyvsp[-3]))).tipoDato;
@@ -1835,7 +1835,7 @@ yyreturn:
 #endif
   return yyresult;
 }
-#line 306 "yacc.y" /* yacc.c:1906  */
+#line 307 "yacc.y" /* yacc.c:1906  */
 
 #include "lex.yy.c"
 #include "ts.h"
