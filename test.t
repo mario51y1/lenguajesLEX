@@ -1,7 +1,6 @@
 procedimiento principal()
 {
   variables
-    lista_de entero abb;
     booleano vb;
     real vr;
     caracter vc;

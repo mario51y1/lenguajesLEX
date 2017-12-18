@@ -21,6 +21,7 @@
 	int totalParam;
 	unsigned char tipoOK;
 	int tamCadena;
+	tipoEntrada tipoEn;
 
 	int linea_actual = 1;
 
@@ -89,7 +90,8 @@ Programa : Cabecera_programa bloque ;
 bloque : Inicio_de_bloque
 	{
 	yylval.nombre = strdup("INIBLOQUE");
-	inserta(yylval, MARCA);
+	tipoEn = MARCA;
+	inserta(yylval, tipoEn);
 	}
 	Declar_de_variables_locales
 	Declar_de_subprogs
@@ -117,7 +119,8 @@ Declar_subprog : Cabecera_subprograma bloque;
 Cabecera_programa : PROCED MAIN ABRIRPARENT CERRARPARENT
 	{
 	$2.tipoDato = NO_ASIG;
-	inserta($2, PROC);
+	tipoEn = PROC;
+	inserta($2, tipoEn);
 	}
 ;
 
@@ -125,7 +128,8 @@ Cabecera_programa : PROCED MAIN ABRIRPARENT CERRARPARENT
 
 Cabecera_subprograma : PROCED IDENTIFICADOR
  {
-	 estado = inserta($2, PROC);
+	 tipoEn = PROC;
+	 estado = inserta($2, tipoEn);
  }
  ABRIRPARENT parametros CERRARPARENT
 | PROCED error_subprog ;
@@ -138,6 +142,7 @@ parametros : parametro
 parametro : tipo IDENTIFICADOR
 	{
 	$2.tipoDato = $1.tipoDato;
+	tipoEn = PAR_FORMAL;
 	estado = inserta($2, PAR_FORMAL);
 }
 ;
@@ -156,12 +161,14 @@ error_decl_variables : error ;
 Identificadores : IDENTIFICADOR
 		{
 			$1.tipoDato = tempTipoDato;
-			estado = inserta($1, VARIABLE);
+			tipoEn = VARIABLE;
+			estado = inserta($1, tipoEn);
 		}
 | Identificadores COMA IDENTIFICADOR
 		{
 		$3.tipoDato = tempTipoDato;
-		estado = inserta($3, VARIABLE);
+		tipoEn = VARIABLE;
+		estado = inserta($3, tipoEn);
 		}
 ;
 
