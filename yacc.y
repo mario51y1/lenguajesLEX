@@ -147,7 +147,8 @@ Variables_locales : Variables_locales Cuerpo_declar_variables
 	| Cuerpo_declar_variables
   ;
 Cuerpo_declar_variables : tipo Identificadores PUNTOCOMA
-	| error_decl_variables;
+	| error_decl_variables
+	;
 error_decl_variables : error ;
 
 Identificadores : IDENTIFICADOR
@@ -208,11 +209,11 @@ sentencia_asignacion : IDENTIFICADOR ASIG expresion PUNTOCOMA
 {
 
 tipoTemp = devuelveEntrada(busca($1)).tipoDato;
+	printf("Comparando tipos de 1: %d y %d ", tipoTemp,  $3.tipoDato );
 
 if ( tipoTemp != $3.tipoDato ) {
-	printf(stderr, "[ERR] Error linea: %d ASIGNACION "
-		, yylineno);
-	printf(stderr, "tipos no coinciden\n");
+	printf("[ERR] Error linea: %d ASIGNACION ", yylineno);
+	printf("tipos no coinciden\n");
 	}
 }
 ;

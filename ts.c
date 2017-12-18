@@ -26,8 +26,7 @@ int busca(entradaTS entrada){
 }
 
 int inserta(entradaTS entrada,tipoEntrada tipo){
-
-  if( busca(entrada) == -1){
+  if( busca(entrada) == -1 || tipo = MARCA){
 
     TS[indice].entrada = tipo;
     TS[indice].nombre = entrada.nombre;

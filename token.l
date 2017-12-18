@@ -270,7 +270,6 @@ extern entradaTS yylval;
 [\+\-]?([0-9])+\.([0-9])+	{
 			yylval.tipoDato = REAL;
 			yylval.valor.real = atof(yytext);
-
 			return T_REAL;
 		}
 

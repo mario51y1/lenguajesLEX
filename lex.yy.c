@@ -1300,13 +1300,12 @@ YY_RULE_SETUP
 {
 			yylval.tipoDato = REAL;
 			yylval.valor.real = atof(yytext);
-
 			return T_REAL;
 		}
 	YY_BREAK
 case 62:
 YY_RULE_SETUP
-#line 277 "token.l"
+#line 276 "token.l"
 {
 					yylval.nombre = strdup(yytext);
 					return IDENTIFICADOR;
@@ -1315,7 +1314,7 @@ YY_RULE_SETUP
 case 63:
 /* rule 63 can match eol */
 YY_RULE_SETUP
-#line 283 "token.l"
+#line 282 "token.l"
 {
 
 		yylval.tipoDato = CARACTER;
@@ -1328,22 +1327,22 @@ YY_RULE_SETUP
 case 64:
 /* rule 64 can match eol */
 YY_RULE_SETUP
-#line 292 "token.l"
+#line 291 "token.l"
 {
 		return T_CADENA;
 		}
 	YY_BREAK
 case 65:
 YY_RULE_SETUP
-#line 296 "token.l"
+#line 295 "token.l"
 ;
 	YY_BREAK
 case 66:
 YY_RULE_SETUP
-#line 297 "token.l"
+#line 296 "token.l"
 ECHO;
 	YY_BREAK
-#line 1347 "lex.yy.c"
+#line 1346 "lex.yy.c"
 case YY_STATE_EOF(INITIAL):
 	yyterminate();
 
@@ -2341,7 +2340,7 @@ void yyfree (void * ptr )
 
 #define YYTABLES_NAME "yytables"
 
-#line 297 "token.l"
+#line 296 "token.l"
 
 
 

@@ -1596,11 +1596,11 @@ yyreduce:
     {
 
 tipoTemp = devuelveEntrada(busca((yyvsp[-3]))).tipoDato;
+	printf("Comparando tipos de 1: %d y %d ", tipoTemp,  (yyvsp[-1]).tipoDato );
 
 if ( tipoTemp != (yyvsp[-1]).tipoDato ) {
-	printf(stderr, "[ERR] Error linea: %d ASIGNACION "
-		, yylineno);
-	printf(stderr, "tipos no coinciden\n");
+	printf("[ERR] Error linea: %d ASIGNACION ", yylineno);
+	printf("tipos no coinciden\n");
 	}
 }
 #line 1607 "y.tab.c" /* yacc.c:1646  */
