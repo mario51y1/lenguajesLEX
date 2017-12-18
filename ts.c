@@ -19,7 +19,7 @@ int buscaHastaMarca(entradaTS entrada){
     else j--;
   }
 
-  printf("No se encontro la entrada en este scope: %s\n", entrada.nombre);
+  //printf("No se encontro la entrada en este scope: %s\n", entrada.nombre);
   return -1;
 }
 
