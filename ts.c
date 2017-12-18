@@ -34,7 +34,7 @@ int busca(entradaTS entrada){
     else j++;
   }
 
-  printf("No se encontro la entrada: %s\n", entrada.nombre);
+//  printf("No se encontro la entrada: %s\n", entrada.nombre);
   return -1;
 
 }
@@ -49,7 +49,7 @@ int inserta(entradaTS entrada,tipoEntrada tipo){
     TS[indice].valor = entrada.valor;
 
     indice++;
-    printf("Insertada entrada: %s\n", entrada.nombre );
+    printf("Insertado: %s, Tentrada : %d , Tipo: %d\n", entrada.nombre, entrada.entrada , entrada.tipoDato  );
 
     return 1;
   } else {
