@@ -4,7 +4,7 @@ procedimiento principal()
     booleano vb;
     real vr;
     caracter vc;
-    entero ve;
+    entero ve,veA;
 
     booleano vb1, vb2, vb3;
     real vr1, vr2, vr3;
@@ -32,7 +32,7 @@ procedimiento principal()
       finvariables;
 
       procedimiento funcionC(booleano c1, entero c2)
-        {
+      {
           variables
             real x1;
           finvariables;
@@ -44,48 +44,48 @@ procedimiento principal()
           sino
             x1 = 3.1;
         }
-      procedimiento funcionD(real d1)
+      procedimiento funcionD(real d1,entero ee1)
       {
         variables
           caracter dato;
           entero valor;
         finvariables;
 
-        procedimiento funcionE( caracter e1, caracter e2,caracter devolver){
-          lee e1 , e2;
+        procedimiento funcionE( caracter e1, caracter e2,caracter devolver)
+        {
           si (e1 == 'a')
             devolver = e1;
           sino si (e1 == 'b')
             devolver =  e2;
           sino
             devolver = ' ' ;
-
         }
 
-        lee valor;
-        if (d1> 0.0){
+        si ( d1>0.0 ){
           variables
             entero dato;
           finvariables;
-
           dato = 2;
           dato = valor*20/dato;
-        }else{
+        }sino{
           valor = valor * 100;
           d1 = d1 /1000.0;
 
         }
-        return d1;
       }
+    }
+  }
 
 
-      funcionC(verdadero,10);
+      funcionC(verdadero,3);
+
+      funcionD(3.5,7);
 
       x2 = xf * (-10.0);
 
-      mientras (x2<10.0){
+      mientras(x2<10.0)
         x2 = x2*xf;
-      }
+
 
 
 
@@ -93,20 +93,21 @@ procedimiento principal()
     pf = pf <-10.0;
     pc = pc<-'#';
 
-    if(?(pe<-20)==20)
-      ve = pe->;
-    else
+    si(pe == 20){
+      ve = pe;
+      }
+    sino{
       pe = pe * pe2;
       pe = pe2 - pe <- 10 * (20/2000);
-
+      }
     }
 
-  }
 
-  funcionA(3);
 
-  si (ve == veA) {
+  funcionA(3,3.5,'a');
+
+  si(ve == veA)
     ve = 5 ;
-  }
+
 
 }
