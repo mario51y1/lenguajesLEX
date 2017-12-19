@@ -79,7 +79,7 @@ int inserta(entradaTS entrada,tipoEntrada tipo){
     TS[indice].tipoDato = entrada.tipoDato;
     TS[indice].parametros = entrada.parametros;
     TS[indice].valor = entrada.valor;
-    //printf("Insertado: %s, Tentrada : %d , Tipo: %d\n", TS[indice].nombre,  TS[indice].entrada , TS[indice].tipoDato  );
+    printf("Insertado: %s, Tentrada : %d , Tipo: %d\n", TS[indice].nombre,  TS[indice].entrada , TS[indice].tipoDato  );
 
     indice++;
 

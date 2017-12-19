@@ -86,10 +86,11 @@
 
 //Pagina 45 pdf de practicas - simplificar BNF
 
-Programa : Cabecera_programa bloque {muestra();};
+Programa : Cabecera_programa bloque {muestra();printf("Compilacion Terminada\n");};
 
 bloque : Inicio_de_bloque
 	{
+	yylval.tipoDato = NO_ASIG;
 	yylval.nombre = strdup("INIBLOQUE");
 	inserta(yylval, MARCA);
 	}
@@ -97,7 +98,9 @@ bloque : Inicio_de_bloque
 	Declar_de_subprogs
 	Sentencias
 	Fin_de_bloque
-	{eliminarHastaMarca();muestra();}
+	{
+		eliminarHastaMarca();//muestra();
+	}
 		;
 
 
@@ -228,18 +231,19 @@ if(posicion==-1){
 entradaTS  temp = devuelveEntrada(posicion);
 tipoTemp = temp.tipoDato;
 
-//printf("Comparando %s tipoizq: %d, tipoder: %d\n",temp.nombre,temp.tipoDato,$3.tipoDato);
+//printf("Comparando %s tipoIzq: %d, tipoder: %d\n",temp.nombre,temp.tipoDato,$3.tipoDato);
 if ( tipoTemp != $3.tipoDato ) {
-	//printf("[ERR] Error linea: %d ASIGNACION ", linea_actual);
-	//printf("tipos no coinciden\n");
+	printf("[ERR] Error linea: %d ASIGNACION ", linea_actual);
+	printf("tipos no coinciden\n");
 	}
 }
 ;
 
-sentencia_if : CONDSI ABRIRPARENT expresion CERRARPARENT Sentencia
-	| CONDSI ABRIRPARENT expresion CERRARPARENT Sentencia CONDSINO Sentencia;
+sentencia_if : CONDSI ABRIRPARENT expresion CERRARPARENT Sentencia { if($3.tipoDato != BOOLEANO ) printf("Fallo tipo de condicional\n");}
+	| CONDSI ABRIRPARENT expresion CERRARPARENT Sentencia CONDSINO Sentencia { if($3.tipoDato != BOOLEANO ) printf("Fallo tipo de condicional\n");}
+	;
 
-sentencia_while : CONDMIENTRAS ABRIRPARENT expresion CERRARPARENT Sentencia ;
+sentencia_while : CONDMIENTRAS ABRIRPARENT expresion CERRARPARENT Sentencia { if($3.tipoDato != BOOLEANO ) printf("Fallo tipo de condicional\n");} ;
 
 sentencia_entrada : LEE Identificadores PUNTOCOMA ;
 
@@ -262,7 +266,7 @@ ABRIRPARENT  lista_expresiones  CERRARPARENT PUNTOCOMA
 		printf("Procedimiento no definido: %s\n" , $1.nombre );
 	} else{
 		 entradaTS temp = devuelveEntrada(posicion);
-		 printf("Procedimiento:  %s , %d\n", temp.nombre, temp.parametros );
+		 printf("Llamada Procedimiento:  %s , %d\n", temp.nombre, temp.parametros );
 		 //muestra();
 		 if( temp.parametros == contParam){
 
@@ -284,17 +288,17 @@ expresion : ABRIRPARENT expresion CERRARPARENT
 	| expresion AVANRETRO
 	| expresion MULMUL expresion
 	| expresion MULTIDIV expresion
-	| expresion LOGAND expresion
-	| expresion EXOR expresion
-	| expresion ORBIT expresion
-	| expresion LOGOR expresion
-	| expresion REL expresion
-	| expresion IGUALDAD expresion
+	| expresion LOGAND expresion {$$.tipoDato = BOOLEANO;}
+	| expresion EXOR expresion {$$.tipoDato = BOOLEANO;}
+	| expresion ORBIT expresion {$$.tipoDato = BOOLEANO;}
+	| expresion LOGOR expresion {$$.tipoDato = BOOLEANO;}
+	| expresion REL expresion {$$.tipoDato = BOOLEANO;}
+	| expresion IGUALDAD expresion {$$.tipoDato = BOOLEANO;}
 	| expresion PORCENTAJE expresion
-	| expresion ANDBIT expresion
+	| expresion ANDBIT expresion {$$.tipoDato = BOOLEANO;}
 	| expresion MASMENOS expresion
 	| expresion MASMAS expresion ARROBA expresion
-	| IDENTIFICADOR
+	| IDENTIFICADOR { int posicion2 = buscaEnTs($1); if(posicion2 == -1) printf("Variable no definida\n"); else { entradaTS temp = devuelveEntrada(posicion2); $$.tipoDato = temp.tipoDato; } }
 	| T_REAL {$$.tipoDato = $1.tipoDato; }
 	| T_ENTERO {$$.tipoDato = $1.tipoDato; }
 	| T_CARACTER {$$.tipoDato = $1.tipoDato; }

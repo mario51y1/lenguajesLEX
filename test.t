@@ -51,31 +51,9 @@ procedimiento principal()
           entero valor;
         finvariables;
 
-        procedimiento funcionE( caracter e1, caracter e2,caracter devolver)
-        {
-          si (e1 == 'a')
-            devolver = e1;
-          sino si (e1 == 'b')
-            devolver =  e2;
-          sino
-            devolver = ' ' ;
-        }
-
-        si ( d1>0.0 ){
-          variables
-            entero dato;
-          finvariables;
-          dato = 2;
-          dato = valor*20/dato;
-        }sino{
-          valor = valor * 100;
-          d1 = d1 /1000.0;
-
-        }
       }
     }
   }
-
 
       funcionC(verdadero,3);
 
@@ -87,27 +65,10 @@ procedimiento principal()
         x2 = x2*xf;
 
 
+      funcionA(3,3.5,'a');
 
-
-    pe = pe <-10;
-    pf = pf <-10.0;
-    pc = pc<-'#';
-
-    si(pe == 20){
-      ve = pe;
-      }
-    sino{
-      pe = pe * pe2;
-      pe = pe2 - pe <- 10 * (20/2000);
-      }
-    }
-
-
-
-  funcionA(3,3.5,'a');
-
-  si(ve == veA)
-    ve = 5 ;
+      si(ve == veA)
+        ve = 5 ;
 
 
 }
