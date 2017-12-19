@@ -245,7 +245,9 @@ sentencia_if : CONDSI ABRIRPARENT expresion CERRARPARENT Sentencia { if($3.tipoD
 
 sentencia_while : CONDMIENTRAS ABRIRPARENT expresion CERRARPARENT Sentencia { if($3.tipoDato != BOOLEANO ) printf("Fallo tipo de condicional\n");} ;
 
-sentencia_entrada : LEE Identificadores PUNTOCOMA ;
+sentencia_entrada : LEE Identificadores PUNTOCOMA
+
+;
 
 sentencia_salida : ESCRIBE lista_expresiones_o_cadena PUNTOCOMA ;
 
@@ -277,27 +279,343 @@ ABRIRPARENT  lista_expresiones  CERRARPARENT PUNTOCOMA
 }
 ;
 
-sentencia_for : DURANTE IDENTIFICADOR DOSPUNTOSIGUAL  expresion HASTA expresion HACER Sentencia ;
+sentencia_for : DURANTE IDENTIFICADOR DOSPUNTOSIGUAL  expresion HASTA expresion HACER Sentencia
+{
+			if (($4.tipoDato == ENTERO) && ($6.tipoDato==$4.tipoDato) ){
+
+			} else {
+
+				fprintf(stderr, "ERROR linea: %d \n ", linea_actual);
+				fprintf(stderr, "Op con tipo de dato incorrecto \n");
+
+				$$.tipoDato = DESC;
+				}
+}
+
+ ;
 
 expresion : ABRIRPARENT expresion CERRARPARENT
-  	| MASMENOS expresion %prec EXCLAMACION
+  | MASMENOS expresion %prec EXCLAMACION
+	{
+				if ( ($2.tipoDato != BOOLEANO)
+					&& ($2.tipoDato != LISTA_BOOLEANO) ) {
+
+					$$.tipoDato = $2.tipoDato;
+
+				} else {
+
+					fprintf(stderr, "ERROR linea: %d \n ", linea_actual);
+					fprintf(stderr, "Op con tipo de dato incorrecto \n");
+
+					$$.tipoDato = DESC;
+					}
+		}
 	| UNARIOSLISTA expresion
+	{
+				if ($2.tipoDato > CARACTER) {
+
+					$$.tipoDato = $2.tipoDato;
+
+				} else {
+
+					fprintf(stderr, "ERROR linea: %d \n ", linea_actual);
+					fprintf(stderr, "Op con tipo de dato incorrecto \n");
+
+					$$.tipoDato = DESC;
+					}
+	}
 	| MASMAS expresion
+	{
+				if ($2.tipoDato > CARACTER) {
+
+					$$.tipoDato = $2.tipoDato;
+
+				} else {
+
+					fprintf(stderr, "ERROR linea: %d \n ", linea_actual);
+					fprintf(stderr, "Op con tipo de dato incorrecto \n");
+
+					$$.tipoDato = DESC;
+					}
+	}
 	| MENOSMENOS expresion
+	{
+				if ($2.tipoDato > CARACTER) {
+
+					$$.tipoDato = $2.tipoDato;
+
+				} else {
+
+					fprintf(stderr, "ERROR linea: %d \n ", linea_actual);
+					fprintf(stderr, "Op con tipo de dato incorrecto \n");
+
+					$$.tipoDato = DESC;
+					}
+	}
 	| EXCLAMACION expresion
+	{
+				if ($2.tipoDato == BOOLEANO) {
+
+					$$.tipoDato = $2.tipoDato;
+
+				} else {
+
+					fprintf(stderr, "ERROR linea: %d \n ", linea_actual);
+					fprintf(stderr, "Op con tipo de dato incorrecto \n");
+
+					$$.tipoDato = DESC;
+					}
+	}
 	| expresion AVANRETRO
-	| expresion MULMUL expresion
+	{
+		{
+					if ($1.tipoDato > CARACTER) {
+
+						$$.tipoDato = $1.tipoDato;
+
+					} else {
+
+						fprintf(stderr, "ERROR linea: %d \n ", linea_actual);
+						fprintf(stderr, "Op con tipo de dato incorrecto \n");
+
+						$$.tipoDato = DESC;
+						}
+		}
+	}
+	| expresion MULMUL expresion{
+		{
+					if (($1.tipoDato > CARACTER) && ($3.tipoDato == $1.tipoDato)) {
+
+						$$.tipoDato = $1.tipoDato;
+
+					} else {
+
+						fprintf(stderr, "ERROR linea: %d \n ", linea_actual);
+						fprintf(stderr, "Op con tipo de dato incorrecto \n");
+
+						$$.tipoDato = DESC;
+						}
+		}
+	}
 	| expresion MULTIDIV expresion
-	| expresion LOGAND expresion {$$.tipoDato = BOOLEANO;}
-	| expresion EXOR expresion {$$.tipoDato = BOOLEANO;}
-	| expresion ORBIT expresion {$$.tipoDato = BOOLEANO;}
-	| expresion LOGOR expresion {$$.tipoDato = BOOLEANO;}
-	| expresion REL expresion {$$.tipoDato = BOOLEANO;}
-	| expresion IGUALDAD expresion {$$.tipoDato = BOOLEANO;}
+	{
+		if ( $1.tipoDato == $3.tipoDato ) {
+
+
+			if ( ($1.tipoDato != BOOLEANO)
+				&& ($1.tipoDato != LISTA_BOOLEANO) ) {
+
+				$$.tipoDato = $1.tipoDato;
+
+			} else {
+
+				fprintf(stderr, "ERROR linea: %d \n ", linea_actual);
+				fprintf(stderr, "Op +/- con tipo de dato");
+				fprintf(stderr, "incorrecto");
+
+				$$.tipoDato = DESC;
+				}
+		} else {
+
+			fprintf(stderr, "ERROR linea: %d +/-", linea_actual);
+			fprintf(stderr, " Tipos no coinciden \n");
+			$$.tipoDato = DESC;
+			}
+	}
+	| expresion LOGAND expresion
+	{
+				if (($1.tipoDato == BOOLEANO) && ($3.tipoDato == $1.tipoDato) ) {
+
+					$$.tipoDato = $1.tipoDato;
+
+				} else {
+
+					fprintf(stderr, "ERROR linea: %d \n ", linea_actual);
+					fprintf(stderr, "Op con tipo de dato incorrecto \n");
+
+					$$.tipoDato = DESC;
+					}
+	}
+	| expresion EXOR expresion
+	{
+				if (($1.tipoDato == BOOLEANO) && ($3.tipoDato == $1.tipoDato) ) {
+
+					$$.tipoDato = $1.tipoDato;
+
+				} else {
+
+					fprintf(stderr, "ERROR linea: %d \n ", linea_actual);
+					fprintf(stderr, "Op con tipo de dato incorrecto \n");
+
+					$$.tipoDato = DESC;
+					}
+	}
+	| expresion ORBIT expresion
+	{
+				if (($1.tipoDato == BOOLEANO) && ($3.tipoDato == $1.tipoDato) ) {
+
+					$$.tipoDato = $1.tipoDato;
+
+				} else {
+
+					fprintf(stderr, "ERROR linea: %d \n ", linea_actual);
+					fprintf(stderr, "Op con tipo de dato incorrecto \n");
+
+					$$.tipoDato = DESC;
+					}
+	}
+	| expresion LOGOR expresion
+	{
+				if (($1.tipoDato == BOOLEANO) && ($3.tipoDato == $1.tipoDato) ) {
+
+					$$.tipoDato = $1.tipoDato;
+
+				} else {
+
+					fprintf(stderr, "ERROR linea: %d \n ", linea_actual);
+					fprintf(stderr, "Op con tipo de dato incorrecto \n");
+
+					$$.tipoDato = DESC;
+					}
+	}
+	| expresion REL expresion
+	{
+		if ( ($1.tipoDato < BOOLEANO) && ($3.tipoDato < BOOLEANO) ) {
+
+			if ( ($1.tipoDato > DESC) && ($3.tipoDato > DESC)  ) {
+
+				$$.tipoDato = BOOLEANO;
+
+			} else {
+
+				fprintf(stderr, "ERROR linea: %d \n ", linea_actual);
+				fprintf(stderr, "Op +/- con tipo de dato");
+				fprintf(stderr, "incorrecto\n");
+
+				$$.tipoDato = DESC;
+				}
+		} else {
+
+			fprintf(stderr, "ERROR linea: %d +/-", linea_actual);
+			fprintf(stderr, " Tipos no coinciden \n");
+			$$.tipoDato = DESC;
+			}
+	}
+	| expresion IGUALDAD expresion
+	{
+		if( ($1.tipoDato < LISTA_REAL) && ($3.tipoDato == $1.tipoDato)   ) {
+
+				$$.tipoDato = BOOLEANO;
+
+			} else {
+
+				fprintf(stderr, "ERROR linea: %d \n ", linea_actual);
+				fprintf(stderr, "Op +/- con tipo de dato");
+				fprintf(stderr, "incorrecto\n");
+
+				$$.tipoDato = DESC;
+			}
+	}
 	| expresion PORCENTAJE expresion
-	| expresion ANDBIT expresion {$$.tipoDato = BOOLEANO;}
+	{
+				if (($1.tipoDato > CARACTER) && ($3.tipoDato == ENTERO)) {
+
+					$$.tipoDato = $1.tipoDato;
+
+				} else {
+
+					fprintf(stderr, "ERROR linea: %d \n ", linea_actual);
+					fprintf(stderr, "Op con tipo de dato incorrecto \n");
+
+					$$.tipoDato = DESC;
+					}
+	}
+	| expresion ANDBIT expresion
+	{
+				if (($1.tipoDato == BOOLEANO) && ($3.tipoDato == $1.tipoDato) ) {
+
+					$$.tipoDato = $1.tipoDato;
+
+				} else {
+
+					fprintf(stderr, "ERROR linea: %d \n ", linea_actual);
+					fprintf(stderr, "Op con tipo de dato incorrecto \n");
+
+					$$.tipoDato = DESC;
+					}
+	}
 	| expresion MASMENOS expresion
+	{
+		if ( ($1.tipoDato < BOOLEANO) && ($3.tipoDato < BOOLEANO) ) {
+
+			if ( ($1.tipoDato > DESC) && ($3.tipoDato > DESC)  ) {
+
+				if(($1.tipoDato == REAL) || ($3.tipoDato == REAL))
+					$$.tipoDato = REAL;
+				else
+					$$.tipoDato == $1.tipoDato;
+
+			} else {
+
+				fprintf(stderr, "ERROR linea: %d \n ", linea_actual);
+				fprintf(stderr, "Op +/- con tipo de dato");
+				fprintf(stderr, "incorrecto\n");
+
+				$$.tipoDato = DESC;
+				}
+		} else {
+
+			fprintf(stderr, "ERROR linea: %d +/-", linea_actual);
+			fprintf(stderr, " Tipos no coinciden \n");
+			$$.tipoDato = DESC;
+			}
+	}
 	| expresion MASMAS expresion ARROBA expresion
+	{
+				if ($1.tipoDato > CARACTER) {
+
+					switch ($3.tipoDato) {
+						case NO_ASIG:
+						tempTipoDato = 0;
+						break;
+						case DESC:
+						tempTipoDato = 0;
+						break;
+						case ENTERO:
+						tempTipoDato = LISTA_ENTERO;
+						break;
+						case REAL:
+						tempTipoDato = LISTA_REAL;
+						break;
+						case BOOLEANO:
+						tempTipoDato = LISTA_BOOLEANO;
+						break;
+						case CARACTER:
+						tempTipoDato = LISTA_CARACTER;
+						break;
+					}
+					if(tempTipoDato == $1.tipoDato){
+						if($5.tipoDato != ENTERO){
+							fprintf(stderr, "ERROR linea: %d \n ", linea_actual);
+							fprintf(stderr, "Posicion no valida \n");
+							$$.tipoDato = DESC;
+
+						}else{
+							$$.tipoDato = $1.tipoDato;
+						}
+					}else{
+						fprintf(stderr, "ERROR linea: %d \n ", linea_actual);
+						fprintf(stderr, "Valor distinto tipo de dato de lista \n");
+						$$.tipoDato = DESC;
+					}
+				} else {
+
+					fprintf(stderr, "ERROR linea: %d \n ", linea_actual);
+					fprintf(stderr, "Op con tipo de dato incorrecto \n");
+
+					$$.tipoDato = DESC;
+					}
+	}
 	| IDENTIFICADOR { int posicion2 = buscaEnTs($1); if(posicion2 == -1) printf("Variable no definida\n"); else { entradaTS temp = devuelveEntrada(posicion2); $$.tipoDato = temp.tipoDato; } }
 	| T_REAL {$$.tipoDato = $1.tipoDato; }
 	| T_ENTERO {$$.tipoDato = $1.tipoDato; }

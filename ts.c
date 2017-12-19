@@ -79,7 +79,7 @@ int inserta(entradaTS entrada,tipoEntrada tipo){
     TS[indice].tipoDato = entrada.tipoDato;
     TS[indice].parametros = entrada.parametros;
     TS[indice].valor = entrada.valor;
-    printf("Insertado: %s, Tentrada : %d , Tipo: %d\n", TS[indice].nombre,  TS[indice].entrada , TS[indice].tipoDato  );
+    //printf("Insertado: %s, Tentrada : %d , Tipo: %d\n", TS[indice].nombre,  TS[indice].entrada , TS[indice].tipoDato  );
 
     indice++;
 
@@ -104,7 +104,7 @@ int eliminarHastaMarca(){
   }
 
   indice = j;
-  printf("Eliminando scope hasta: %d\n", indice);
+  //printf("Eliminando scope hasta: %d\n", indice);
   return 0;
 
 }
@@ -125,10 +125,10 @@ int actualiza(int posicion,entradaTS entrada){
 }
 
 void muestra(){
-  printf("mostrando TS: \n" );
+//  printf("mostrando TS: \n" );
   int j = 0;
   while ( (j<=(indice-1)) && (indice!=0)) {
-    printf("tipoEntrada: %i , nombre: %s  , parametros: %d \n",TS[j].entrada, TS[j].nombre, TS[j].parametros );
+  //  printf("tipoEntrada: %i , nombre: %s  , parametros: %d \n",TS[j].entrada, TS[j].nombre, TS[j].parametros );
     j++;
   }
 

@@ -551,9 +551,9 @@ static const yytype_uint16 yyrline[] =
      253,   256,   257,   259,   259,   280,   282,   283,   284,   285,
      286,   287,   288,   289,   290,   291,   292,   293,   294,   295,
      296,   297,   298,   299,   300,   301,   302,   303,   304,   305,
-     306,   307,   308,   310,   317,   324,   327,   328,   329,   330,
-     333,   335,   336,   339,   341,   342,   346,   348,   349,   352,
-     354,   355
+     306,   307,   308,   310,   318,   325,   328,   329,   330,   331,
+     334,   336,   337,   340,   342,   343,   347,   349,   350,   353,
+     355,   356
 };
 #endif
 
@@ -1632,8 +1632,8 @@ tipoTemp = temp.tipoDato;
 
 //printf("Comparando %s tipoIzq: %d, tipoder: %d\n",temp.nombre,temp.tipoDato,$3.tipoDato);
 if ( tipoTemp != (yyvsp[-1]).tipoDato ) {
-	printf("[ERR] Error linea: %d ASIGNACION ", linea_actual);
-	printf("tipos no coinciden\n");
+	//printf("[ERR] Error linea: %d ASIGNACION ", linea_actual);
+	//printf("tipos no coinciden\n");
 	}
 }
 #line 1640 "y.tab.c" /* yacc.c:1646  */
@@ -1670,15 +1670,15 @@ if ( tipoTemp != (yyvsp[-1]).tipoDato ) {
 #line 264 "yacc.y" /* yacc.c:1646  */
     {
 	if(posicion == -1){
-		printf("Procedimiento no definido: %s\n" , (yyvsp[-5]).nombre );
+		//printf("Procedimiento no definido: %s\n" , $1.nombre );
 	} else{
 		 entradaTS temp = devuelveEntrada(posicion);
-		 printf("Llamada Procedimiento:  %s , %d\n", temp.nombre, temp.parametros );
+		// printf("Llamada Procedimiento:  %s , %d\n", temp.nombre, temp.parametros );
 		 //muestra();
 		 if( temp.parametros == contParam){
 
 		 }else{
-				printf("Numero de expresiones erroneo: %s ,%d,%d \n", (yyvsp[-5]).nombre, temp.parametros ,contParam );
+			//	printf("Numero de expresiones erroneo: %s ,%d,%d \n", $1.nombre, temp.parametros ,contParam );
 		 }
 	 }
 }
@@ -1768,25 +1768,26 @@ if ( tipoTemp != (yyvsp[-1]).tipoDato ) {
     {
 	contParam++;
 	entradaTS temp = devuelveEntrada(posicion + contParam );
-	if(temp.tipoDato != (yyvsp[0]).tipoDato)
-		printf("Tipo param erroneo: %d ,%d ,%d \n", temp.tipoDato, (yyvsp[0]).tipoDato, contParam );
+	//if(temp.tipoDato != $3.tipoDato)
+
+		//printf("Tipo param erroneo: %d ,%d ,%d \n", temp.tipoDato, $3.tipoDato, contParam );
 }
-#line 1775 "y.tab.c" /* yacc.c:1646  */
+#line 1776 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 84:
-#line 318 "yacc.y" /* yacc.c:1646  */
+#line 319 "yacc.y" /* yacc.c:1646  */
     {
  	contParam++;
  	entradaTS temp = devuelveEntrada(posicion + contParam );
- 	if(temp.tipoDato != (yyvsp[0]).tipoDato)
- 		printf("Tipo param erroneo: %d ,%d ,%d \n", temp.tipoDato, (yyvsp[0]).tipoDato, contParam );
+ 	//	if(temp.tipoDato != $1.tipoDato)
+ 		//printf("Tipo param erroneo: %d ,%d ,%d \n", temp.tipoDato, $1.tipoDato, contParam );
  }
-#line 1786 "y.tab.c" /* yacc.c:1646  */
+#line 1787 "y.tab.c" /* yacc.c:1646  */
     break;
 
 
-#line 1790 "y.tab.c" /* yacc.c:1646  */
+#line 1791 "y.tab.c" /* yacc.c:1646  */
       default: break;
     }
   /* User semantic actions sometimes alter yychar, and that requires
@@ -2014,7 +2015,7 @@ yyreturn:
 #endif
   return yyresult;
 }
-#line 359 "yacc.y" /* yacc.c:1906  */
+#line 360 "yacc.y" /* yacc.c:1906  */
 
 #include "lex.yy.c"
 

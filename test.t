@@ -51,11 +51,14 @@ procedimiento principal()
           entero valor;
         finvariables;
 
+        funcionC(verdadero,3);
+
+
       }
+      xf = x2;
     }
   }
 
-      funcionC(verdadero,3);
 
       funcionD(3.5,7);
 
