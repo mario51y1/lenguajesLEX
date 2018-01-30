@@ -405,28 +405,53 @@ expresion : ABRIRPARENT expresion CERRARPARENT{
 	}
 	| expresion MULTIDIV expresion
 	{
-		if ( $1.tipoDato == $3.tipoDato ) {
-
-
-			if ( ($1.tipoDato != BOOLEANO)
-				&& ($1.tipoDato != LISTA_BOOLEANO) ) {
-
+		if ($1.tipoDato == LISTA_ENTERO || $1.tipoDato == LISTA_REAL){
+ 
+			if($3.tipoDato == REAL){
+				$$.tipoDato == LISTA_REAL;
+			} else if ($3.tipoDato == ENTERO) {
 				$$.tipoDato = $1.tipoDato;
-
 			} else {
-
-				fprintf(stderr, "ERROR linea: %d \n ", linea_actual);
-				fprintf(stderr, "Op * o /  con tipo de dato");
-				fprintf(stderr, "incorrecto");
-
+				fprintf(stderr, "ERROR linea: %d * o /", linea_actual);
+				fprintf(stderr, " Tipos no coinciden \n");
 				$$.tipoDato = DESC;
+			}
+
+		} else if ($1.tipoDato == REAL || $1.tipoDato == ENTERO) {
+			if ($2.dif = 0) {
+				if ($3.tipoDato == $1.tipoDato) {
+					$$.tipoDato = $1.tipoDato;
+				} else if ($3.tipoDato == REAL){
+					$$.tipoDato == REAL;
+				} else if ($3.tipoDato == LISTA_ENTERO || $3.tipoDato == LISTA_REAL) {
+					if ($1.tipoDato == ENTERO){
+						$$.tipoDato = $3.tipoDato;
+					} else {
+						$$.tipoDato = LISTA_REAL;
+					}
+				} else {
+					fprintf(stderr, "ERROR linea: %d * o /", linea_actual);
+					fprintf(stderr, " Tipos no coinciden \n");
+					$$.tipoDato = DESC;
 				}
+					
+			} else {
+				if ($3.tipoDato == $1.tipoDato) {
+					$$.tipoDato = $1.tipoDato;
+				} else if ($3.tipoDato == REAL){
+					$$.tipoDato == REAL;
+				} else {
+					fprintf(stderr, "ERROR linea: %d * o /", linea_actual);
+					fprintf(stderr, " Tipos no coinciden \n");
+					$$.tipoDato = DESC;
+				}
+			}
 		} else {
 
 			fprintf(stderr, "ERROR linea: %d * o /", linea_actual);
 			fprintf(stderr, " Tipos no coinciden \n");
 			$$.tipoDato = DESC;
-			}
+		}
 	}
 	| expresion LOGAND expresion
 	{
@@ -552,29 +577,48 @@ expresion : ABRIRPARENT expresion CERRARPARENT{
 	}
 	| expresion MASMENOS expresion
 	{
-		if ( ($1.tipoDato < BOOLEANO) && ($3.tipoDato < BOOLEANO) ) {
-
-			if ( ($1.tipoDato > DESC) && ($3.tipoDato > DESC)  ) {
-
-				if(($1.tipoDato == REAL) || ($3.tipoDato == REAL))
-					$$.tipoDato = REAL;
-				else
-					$$.tipoDato == $1.tipoDato;
-
+		if ($1.tipoDato == LISTA_ENTERO || $1.tipoDato == LISTA_REAL){
+ 
+			if($3.tipoDato == REAL){
+				$$.tipoDato == LISTA_REAL;
+			} else if ($3.tipoDato == ENTERO) {
+				$$.tipoDato = $1.tipoDato;
 			} else {
-
-				fprintf(stderr, "ERROR linea: %d \n ", linea_actual);
-				fprintf(stderr, "Op +/- con tipo de dato");
-				fprintf(stderr, "incorrecto\n");
-
+				fprintf(stderr, "ERROR linea: %d * o /", linea_actual);
+				fprintf(stderr, " Tipos no coinciden \n");
 				$$.tipoDato = DESC;
-				}
-		} else {
-
-			fprintf(stderr, "ERROR linea: %d +/-", linea_actual);
-			fprintf(stderr, " Tipos no coinciden \n");
-			$$.tipoDato = DESC;
 			}
+
+		} else if ($1.tipoDato == REAL || $1.tipoDato == ENTERO) {
+			if ($2.dif = 0) {
+				if ($3.tipoDato == $1.tipoDato) {
+					$$.tipoDato = $1.tipoDato;
+				} else if ($3.tipoDato == REAL){
+					$$.tipoDato == REAL;
+				} else if ($3.tipoDato == LISTA_ENTERO || $3.tipoDato == LISTA_REAL) {
+					if ($1.tipoDato == ENTERO){
+						$$.tipoDato = $3.tipoDato;
+					} else {
+						$$.tipoDato = LISTA_REAL;
+					}
+				} else {
+					fprintf(stderr, "ERROR linea: %d * o /", linea_actual);
+					fprintf(stderr, " Tipos no coinciden \n");
+					$$.tipoDato = DESC;
+				}
+					
+			} else {
+				if ($3.tipoDato == $1.tipoDato) {
+					$$.tipoDato = $1.tipoDato;
+				} else if ($3.tipoDato == REAL){
+					$$.tipoDato == REAL;
+				} else {
+					fprintf(stderr, "ERROR linea: %d * o /", linea_actual);
+					fprintf(stderr, " Tipos no coinciden \n");
+					$$.tipoDato = DESC;
+				}
+			}
+		}	
 	}
 	| expresion MASMAS expresion ARROBA expresion
 	{
