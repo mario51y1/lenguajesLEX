@@ -97,12 +97,12 @@ procedimiento principal()
 			}
 		}
 
-		pe= pe-10 ;
-		pf= pf-10.0 ;
-		pc= pc-'#' ;
+		pe = pe - 10;
+		pf = pf - 10.0 ;
+		pc = pc - '#' ;
 
 		si(?(pe<20) == 20) {
-			ve = pe-3 ;
+			ve = pe - 3 ;
 		}
 		sino
 		{
