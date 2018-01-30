@@ -23,6 +23,24 @@ int buscaHastaMarca(entradaTS entrada){
   return -1;
 }
 
+dtipo listaASimple(dtipo i){
+
+  switch (i) {
+    case LISTA_REAL:
+      return REAL;
+    break;
+    case LISTA_ENTERO:
+      return ENTERO;
+    break;
+    case LISTA_CARACTER:
+      return CARACTER;
+    break;
+    case LISTA_BOOLEANO:
+      return BOOLEANO;
+    break;
+  }
+}
+
 int busca(entradaTS entrada){
   int j = 0;
 

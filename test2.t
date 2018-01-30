@@ -101,12 +101,12 @@ procedimiento principal()
 		pf = pf - 10.0 ;
 		pc = pc - '#' ;
 
-		si(?(pe<20) == 20) {
-			ve = pe - 3 ;
+		si(?(pe) == 20) {
+			ve = pe@0 ;
 		}
 		sino
 		{
-			pe= pe*pe2 ;
+			pe= pe * pe2 ;
 			pe= pe2 - pe - 10*(20/2000) ;
 		}
 	}

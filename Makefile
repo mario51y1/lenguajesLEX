@@ -10,7 +10,7 @@ main.o:
 	gcc -c main.c
 
 yacc: lex
-	bison -dy -o y.tab.c yacc.y
+	bison -dyv -o y.tab.c yacc.y
 
 lex:
 	flex token.l
@@ -20,7 +20,7 @@ limpia:
 
 todo:
 	make limpia
-	make prog
+	make alt
 
 alt: lex yacc
 	gcc ts.c y.tab.c -o compilador

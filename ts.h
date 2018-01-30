@@ -52,6 +52,7 @@ int eliminarHastaMarca();
 entradaTS  devuelveEntrada(int posicion);
 int buscaVariableEnScope(entradaTS entrada);
 int buscaProc(entradaTS entrada);
+dtipo listaASimple(dtipo i);
 
 extern int yylineno;
 extern FILE *yyin;

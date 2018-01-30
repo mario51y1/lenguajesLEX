@@ -63,7 +63,7 @@
 %token T_ENTERO
 %token T_REAL
 
-
+%right ARROBA
 %left LOGOR
 %left LOGAND
 %left ORBIT
@@ -79,7 +79,6 @@
 %right MASMAS
 %right MULMUL
 %left AVANRETRO
-%right ARROBA
 
 
 %%
@@ -386,6 +385,23 @@ expresion : ABRIRPARENT expresion CERRARPARENT{
 
 						$$.tipoDato = DESC;
 						}
+		}
+	}
+	| expresion ARROBA expresion
+	{
+		if ($1.tipoDato > LISTA_REAL){
+
+			if($3.tipoDato == ENTERO){
+				$$.tipoDato = listaASimple($1.tipoDato);
+			} else {
+				fprintf(stderr, "ERROR linea: %d * o /", linea_actual);
+				fprintf(stderr, " Debe ser entero para acceder a posicion \n");
+				$$.tipoDato = DESC;
+			}
+
+		}else{
+			fprintf(stderr, "ERROR linea: %d * o /", linea_actual);
+			fprintf(stderr, "Debe ser una lista\n");
 		}
 	}
 	| expresion MULMUL expresion{
