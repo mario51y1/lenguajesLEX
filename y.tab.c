@@ -547,13 +547,13 @@ static const yytype_uint16 yyrline[] =
      117,   120,   122,   131,   131,   140,   141,   143,   144,   145,
      147,   159,   160,   162,   163,   165,   166,   168,   170,   175,
      182,   182,   183,   209,   210,   214,   215,   216,   217,   218,
-     219,   220,   221,   224,   242,   243,   246,   248,   250,   252,
-     253,   256,   257,   259,   259,   280,   282,   283,   284,   285,
-     286,   287,   288,   289,   290,   291,   292,   293,   294,   295,
-     296,   297,   298,   299,   300,   301,   302,   303,   304,   305,
-     306,   307,   308,   310,   318,   325,   328,   329,   330,   331,
-     334,   336,   337,   340,   342,   343,   347,   349,   350,   353,
-     355,   356
+     219,   220,   221,   224,   242,   243,   246,   248,   252,   254,
+     255,   258,   259,   261,   261,   282,   297,   300,   315,   329,
+     343,   357,   371,   387,   402,   427,   441,   455,   469,   483,
+     506,   521,   535,   549,   575,   621,   626,   627,   628,   629,
+     630,   631,   632,   634,   645,   655,   658,   659,   660,   661,
+     664,   666,   667,   670,   672,   673,   677,   679,   680,   683,
+     685,   686
 };
 #endif
 
@@ -1632,8 +1632,8 @@ tipoTemp = temp.tipoDato;
 
 //printf("Comparando %s tipoIzq: %d, tipoder: %d\n",temp.nombre,temp.tipoDato,$3.tipoDato);
 if ( tipoTemp != (yyvsp[-1]).tipoDato ) {
-	//printf("[ERR] Error linea: %d ASIGNACION ", linea_actual);
-	//printf("tipos no coinciden\n");
+	printf("[ERR] Error linea: %d ASIGNACION ", linea_actual);
+	printf("tipos no coinciden\n");
 	}
 }
 #line 1640 "y.tab.c" /* yacc.c:1646  */
@@ -1658,7 +1658,7 @@ if ( tipoTemp != (yyvsp[-1]).tipoDato ) {
     break;
 
   case 53:
-#line 259 "yacc.y" /* yacc.c:1646  */
+#line 261 "yacc.y" /* yacc.c:1646  */
     {
 	contParam = 0;
 	posicion = busca((yyvsp[0]));
@@ -1667,127 +1667,513 @@ if ( tipoTemp != (yyvsp[-1]).tipoDato ) {
     break;
 
   case 54:
-#line 264 "yacc.y" /* yacc.c:1646  */
+#line 266 "yacc.y" /* yacc.c:1646  */
     {
 	if(posicion == -1){
-		//printf("Procedimiento no definido: %s\n" , $1.nombre );
+		printf("Procedimiento no definido: %s\n" , (yyvsp[-5]).nombre );
 	} else{
 		 entradaTS temp = devuelveEntrada(posicion);
-		// printf("Llamada Procedimiento:  %s , %d\n", temp.nombre, temp.parametros );
+		 printf("Llamada Procedimiento:  %s , %d\n", temp.nombre, temp.parametros );
 		 //muestra();
 		 if( temp.parametros == contParam){
 
 		 }else{
-			//	printf("Numero de expresiones erroneo: %s ,%d,%d \n", $1.nombre, temp.parametros ,contParam );
+				printf("Numero de expresiones erroneo: %s ,%d,%d \n", (yyvsp[-5]).nombre, temp.parametros ,contParam );
 		 }
 	 }
 }
 #line 1686 "y.tab.c" /* yacc.c:1646  */
     break;
 
-  case 65:
-#line 291 "yacc.y" /* yacc.c:1646  */
-    {(yyval).tipoDato = BOOLEANO;}
-#line 1692 "y.tab.c" /* yacc.c:1646  */
+  case 55:
+#line 283 "yacc.y" /* yacc.c:1646  */
+    {
+			if (((yyvsp[-4]).tipoDato == ENTERO) && ((yyvsp[-2]).tipoDato==(yyvsp[-4]).tipoDato) ){
+
+			} else {
+
+				fprintf(stderr, "ERROR linea: %d \n ", linea_actual);
+				fprintf(stderr, "Op con tipo de dato incorrecto \n");
+
+				(yyval).tipoDato = DESC;
+				}
+}
+#line 1702 "y.tab.c" /* yacc.c:1646  */
     break;
 
-  case 66:
-#line 292 "yacc.y" /* yacc.c:1646  */
-    {(yyval).tipoDato = BOOLEANO;}
-#line 1698 "y.tab.c" /* yacc.c:1646  */
-    break;
-
-  case 67:
-#line 293 "yacc.y" /* yacc.c:1646  */
-    {(yyval).tipoDato = BOOLEANO;}
-#line 1704 "y.tab.c" /* yacc.c:1646  */
-    break;
-
-  case 68:
-#line 294 "yacc.y" /* yacc.c:1646  */
-    {(yyval).tipoDato = BOOLEANO;}
+  case 56:
+#line 297 "yacc.y" /* yacc.c:1646  */
+    {
+						(yyval) = (yyvsp[-1]);
+						}
 #line 1710 "y.tab.c" /* yacc.c:1646  */
     break;
 
+  case 57:
+#line 301 "yacc.y" /* yacc.c:1646  */
+    {
+				if ( ((yyvsp[0]).tipoDato != BOOLEANO)
+					&& ((yyvsp[0]).tipoDato != LISTA_BOOLEANO) ) {
+
+					(yyval).tipoDato = (yyvsp[0]).tipoDato;
+
+				} else {
+
+					fprintf(stderr, "ERROR linea: %d \n ", linea_actual);
+					fprintf(stderr, "Op con tipo de dato incorrecto \n");
+
+					(yyval).tipoDato = DESC;
+					}
+		}
+#line 1729 "y.tab.c" /* yacc.c:1646  */
+    break;
+
+  case 58:
+#line 316 "yacc.y" /* yacc.c:1646  */
+    {
+				if ((yyvsp[0]).tipoDato > CARACTER) {
+
+					(yyval).tipoDato = (yyvsp[0]).tipoDato;
+
+				} else {
+
+					fprintf(stderr, "ERROR linea: %d \n ", linea_actual);
+					fprintf(stderr, "Op con tipo de dato incorrecto \n");
+
+					(yyval).tipoDato = DESC;
+					}
+	}
+#line 1747 "y.tab.c" /* yacc.c:1646  */
+    break;
+
+  case 59:
+#line 330 "yacc.y" /* yacc.c:1646  */
+    {
+				if ((yyvsp[0]).tipoDato > CARACTER) {
+
+					(yyval).tipoDato = (yyvsp[0]).tipoDato;
+
+				} else {
+
+					fprintf(stderr, "ERROR linea: %d \n ", linea_actual);
+					fprintf(stderr, "Op con tipo de dato incorrecto \n");
+
+					(yyval).tipoDato = DESC;
+					}
+	}
+#line 1765 "y.tab.c" /* yacc.c:1646  */
+    break;
+
+  case 60:
+#line 344 "yacc.y" /* yacc.c:1646  */
+    {
+				if ((yyvsp[0]).tipoDato > CARACTER) {
+
+					(yyval).tipoDato = (yyvsp[0]).tipoDato;
+
+				} else {
+
+					fprintf(stderr, "ERROR linea: %d \n ", linea_actual);
+					fprintf(stderr, "Op con tipo de dato incorrecto \n");
+
+					(yyval).tipoDato = DESC;
+					}
+	}
+#line 1783 "y.tab.c" /* yacc.c:1646  */
+    break;
+
+  case 61:
+#line 358 "yacc.y" /* yacc.c:1646  */
+    {
+				if ((yyvsp[0]).tipoDato == BOOLEANO) {
+
+					(yyval).tipoDato = (yyvsp[0]).tipoDato;
+
+				} else {
+
+					fprintf(stderr, "ERROR linea: %d \n ", linea_actual);
+					fprintf(stderr, "Op con tipo de dato incorrecto \n");
+
+					(yyval).tipoDato = DESC;
+					}
+	}
+#line 1801 "y.tab.c" /* yacc.c:1646  */
+    break;
+
+  case 62:
+#line 372 "yacc.y" /* yacc.c:1646  */
+    {
+		{
+					if ((yyvsp[-1]).tipoDato > CARACTER) {
+
+						(yyval).tipoDato = (yyvsp[-1]).tipoDato;
+
+					} else {
+
+						fprintf(stderr, "ERROR linea: %d \n ", linea_actual);
+						fprintf(stderr, "Op con tipo de dato incorrecto \n");
+
+						(yyval).tipoDato = DESC;
+						}
+		}
+	}
+#line 1821 "y.tab.c" /* yacc.c:1646  */
+    break;
+
+  case 63:
+#line 387 "yacc.y" /* yacc.c:1646  */
+    {
+		{
+					if (((yyvsp[-2]).tipoDato > CARACTER) && ((yyvsp[0]).tipoDato == (yyvsp[-2]).tipoDato)) {
+
+						(yyval).tipoDato = (yyvsp[-2]).tipoDato;
+
+					} else {
+
+						fprintf(stderr, "ERROR linea: %d \n ", linea_actual);
+						fprintf(stderr, "Op con tipo de dato incorrecto \n");
+
+						(yyval).tipoDato = DESC;
+						}
+		}
+	}
+#line 1841 "y.tab.c" /* yacc.c:1646  */
+    break;
+
+  case 64:
+#line 403 "yacc.y" /* yacc.c:1646  */
+    {
+		if ( (yyvsp[-2]).tipoDato == (yyvsp[0]).tipoDato ) {
+
+
+			if ( ((yyvsp[-2]).tipoDato != BOOLEANO)
+				&& ((yyvsp[-2]).tipoDato != LISTA_BOOLEANO) ) {
+
+				(yyval).tipoDato = (yyvsp[-2]).tipoDato;
+
+			} else {
+
+				fprintf(stderr, "ERROR linea: %d \n ", linea_actual);
+				fprintf(stderr, "Op +/- con tipo de dato");
+				fprintf(stderr, "incorrecto");
+
+				(yyval).tipoDato = DESC;
+				}
+		} else {
+
+			fprintf(stderr, "ERROR linea: %d +/-", linea_actual);
+			fprintf(stderr, " Tipos no coinciden \n");
+			(yyval).tipoDato = DESC;
+			}
+	}
+#line 1870 "y.tab.c" /* yacc.c:1646  */
+    break;
+
+  case 65:
+#line 428 "yacc.y" /* yacc.c:1646  */
+    {
+				if (((yyvsp[-2]).tipoDato == BOOLEANO) && ((yyvsp[0]).tipoDato == (yyvsp[-2]).tipoDato) ) {
+
+					(yyval).tipoDato = (yyvsp[-2]).tipoDato;
+
+				} else {
+
+					fprintf(stderr, "ERROR linea: %d \n ", linea_actual);
+					fprintf(stderr, "Op con tipo de dato incorrecto \n");
+
+					(yyval).tipoDato = DESC;
+					}
+	}
+#line 1888 "y.tab.c" /* yacc.c:1646  */
+    break;
+
+  case 66:
+#line 442 "yacc.y" /* yacc.c:1646  */
+    {
+				if (((yyvsp[-2]).tipoDato == BOOLEANO) && ((yyvsp[0]).tipoDato == (yyvsp[-2]).tipoDato) ) {
+
+					(yyval).tipoDato = (yyvsp[-2]).tipoDato;
+
+				} else {
+
+					fprintf(stderr, "ERROR linea: %d \n ", linea_actual);
+					fprintf(stderr, "Op con tipo de dato incorrecto \n");
+
+					(yyval).tipoDato = DESC;
+					}
+	}
+#line 1906 "y.tab.c" /* yacc.c:1646  */
+    break;
+
+  case 67:
+#line 456 "yacc.y" /* yacc.c:1646  */
+    {
+				if (((yyvsp[-2]).tipoDato == BOOLEANO) && ((yyvsp[0]).tipoDato == (yyvsp[-2]).tipoDato) ) {
+
+					(yyval).tipoDato = (yyvsp[-2]).tipoDato;
+
+				} else {
+
+					fprintf(stderr, "ERROR linea: %d \n ", linea_actual);
+					fprintf(stderr, "Op con tipo de dato incorrecto \n");
+
+					(yyval).tipoDato = DESC;
+					}
+	}
+#line 1924 "y.tab.c" /* yacc.c:1646  */
+    break;
+
+  case 68:
+#line 470 "yacc.y" /* yacc.c:1646  */
+    {
+				if (((yyvsp[-2]).tipoDato == BOOLEANO) && ((yyvsp[0]).tipoDato == (yyvsp[-2]).tipoDato) ) {
+
+					(yyval).tipoDato = (yyvsp[-2]).tipoDato;
+
+				} else {
+
+					fprintf(stderr, "ERROR linea: %d \n ", linea_actual);
+					fprintf(stderr, "Op con tipo de dato incorrecto \n");
+
+					(yyval).tipoDato = DESC;
+					}
+	}
+#line 1942 "y.tab.c" /* yacc.c:1646  */
+    break;
+
   case 69:
-#line 295 "yacc.y" /* yacc.c:1646  */
-    {(yyval).tipoDato = BOOLEANO;}
-#line 1716 "y.tab.c" /* yacc.c:1646  */
+#line 484 "yacc.y" /* yacc.c:1646  */
+    {
+		if ( ((yyvsp[-2]).tipoDato < BOOLEANO) && ((yyvsp[0]).tipoDato < BOOLEANO) ) {
+
+			if ( ((yyvsp[-2]).tipoDato > DESC) && ((yyvsp[0]).tipoDato > DESC)  ) {
+
+				(yyval).tipoDato = BOOLEANO;
+
+			} else {
+
+				fprintf(stderr, "ERROR linea: %d \n ", linea_actual);
+				fprintf(stderr, "Op +/- con tipo de dato");
+				fprintf(stderr, "incorrecto\n");
+
+				(yyval).tipoDato = DESC;
+				}
+		} else {
+
+			fprintf(stderr, "ERROR linea: %d +/-", linea_actual);
+			fprintf(stderr, " Tipos no coinciden \n");
+			(yyval).tipoDato = DESC;
+			}
+	}
+#line 1969 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 70:
-#line 296 "yacc.y" /* yacc.c:1646  */
-    {(yyval).tipoDato = BOOLEANO;}
-#line 1722 "y.tab.c" /* yacc.c:1646  */
+#line 507 "yacc.y" /* yacc.c:1646  */
+    {
+		if( ((yyvsp[-2]).tipoDato < LISTA_REAL) && ((yyvsp[0]).tipoDato == (yyvsp[-2]).tipoDato)   ) {
+
+				(yyval).tipoDato = BOOLEANO;
+
+			} else {
+
+				fprintf(stderr, "ERROR linea: %d \n ", linea_actual);
+				fprintf(stderr, "Op +/- con tipo de dato");
+				fprintf(stderr, "incorrecto\n");
+
+				(yyval).tipoDato = DESC;
+			}
+	}
+#line 1988 "y.tab.c" /* yacc.c:1646  */
+    break;
+
+  case 71:
+#line 522 "yacc.y" /* yacc.c:1646  */
+    {
+				if (((yyvsp[-2]).tipoDato > CARACTER) && ((yyvsp[0]).tipoDato == ENTERO)) {
+
+					(yyval).tipoDato = (yyvsp[-2]).tipoDato;
+
+				} else {
+
+					fprintf(stderr, "ERROR linea: %d \n ", linea_actual);
+					fprintf(stderr, "Op con tipo de dato incorrecto \n");
+
+					(yyval).tipoDato = DESC;
+					}
+	}
+#line 2006 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 72:
-#line 298 "yacc.y" /* yacc.c:1646  */
-    {(yyval).tipoDato = BOOLEANO;}
-#line 1728 "y.tab.c" /* yacc.c:1646  */
+#line 536 "yacc.y" /* yacc.c:1646  */
+    {
+				if (((yyvsp[-2]).tipoDato == BOOLEANO) && ((yyvsp[0]).tipoDato == (yyvsp[-2]).tipoDato) ) {
+
+					(yyval).tipoDato = (yyvsp[-2]).tipoDato;
+
+				} else {
+
+					fprintf(stderr, "ERROR linea: %d \n ", linea_actual);
+					fprintf(stderr, "Op con tipo de dato incorrecto \n");
+
+					(yyval).tipoDato = DESC;
+					}
+	}
+#line 2024 "y.tab.c" /* yacc.c:1646  */
+    break;
+
+  case 73:
+#line 550 "yacc.y" /* yacc.c:1646  */
+    {
+		if ( ((yyvsp[-2]).tipoDato < BOOLEANO) && ((yyvsp[0]).tipoDato < BOOLEANO) ) {
+
+			if ( ((yyvsp[-2]).tipoDato > DESC) && ((yyvsp[0]).tipoDato > DESC)  ) {
+
+				if(((yyvsp[-2]).tipoDato == REAL) || ((yyvsp[0]).tipoDato == REAL))
+					(yyval).tipoDato = REAL;
+				else
+					(yyval).tipoDato == (yyvsp[-2]).tipoDato;
+
+			} else {
+
+				fprintf(stderr, "ERROR linea: %d \n ", linea_actual);
+				fprintf(stderr, "Op +/- con tipo de dato");
+				fprintf(stderr, "incorrecto\n");
+
+				(yyval).tipoDato = DESC;
+				}
+		} else {
+
+			fprintf(stderr, "ERROR linea: %d +/-", linea_actual);
+			fprintf(stderr, " Tipos no coinciden \n");
+			(yyval).tipoDato = DESC;
+			}
+	}
+#line 2054 "y.tab.c" /* yacc.c:1646  */
+    break;
+
+  case 74:
+#line 576 "yacc.y" /* yacc.c:1646  */
+    {
+				if ((yyvsp[-4]).tipoDato > CARACTER) {
+
+					switch ((yyvsp[-2]).tipoDato) {
+						case NO_ASIG:
+						tempTipoDato = 0;
+						break;
+						case DESC:
+						tempTipoDato = 0;
+						break;
+						case ENTERO:
+						tempTipoDato = LISTA_ENTERO;
+						break;
+						case REAL:
+						tempTipoDato = LISTA_REAL;
+						break;
+						case BOOLEANO:
+						tempTipoDato = LISTA_BOOLEANO;
+						break;
+						case CARACTER:
+						tempTipoDato = LISTA_CARACTER;
+						break;
+					}
+					if(tempTipoDato == (yyvsp[-4]).tipoDato){
+						if((yyvsp[0]).tipoDato != ENTERO){
+							fprintf(stderr, "ERROR linea: %d \n ", linea_actual);
+							fprintf(stderr, "Posicion no valida \n");
+							(yyval).tipoDato = DESC;
+
+						}else{
+							(yyval).tipoDato = (yyvsp[-4]).tipoDato;
+						}
+					}else{
+						fprintf(stderr, "ERROR linea: %d \n ", linea_actual);
+						fprintf(stderr, "Valor distinto tipo de dato de lista \n");
+						(yyval).tipoDato = DESC;
+					}
+				} else {
+
+					fprintf(stderr, "ERROR linea: %d \n ", linea_actual);
+					fprintf(stderr, "Op con tipo de dato incorrecto \n");
+
+					(yyval).tipoDato = DESC;
+					}
+	}
+#line 2104 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 75:
-#line 301 "yacc.y" /* yacc.c:1646  */
-    { int posicion2 = buscaEnTs((yyvsp[0])); if(posicion2 == -1) printf("Variable no definida\n"); else { entradaTS temp = devuelveEntrada(posicion2); (yyval).tipoDato = temp.tipoDato; } }
-#line 1734 "y.tab.c" /* yacc.c:1646  */
+#line 621 "yacc.y" /* yacc.c:1646  */
+    {
+		int posicion2 = buscaEnTs((yyvsp[0]));
+		if(posicion2 == -1){
+			fprintf(stderr, "ERROR linea: %d Variable no definida \n", linea_actual);
+}else { entradaTS temp = devuelveEntrada(posicion2); (yyval).tipoDato = temp.tipoDato; } }
+#line 2114 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 76:
-#line 302 "yacc.y" /* yacc.c:1646  */
+#line 626 "yacc.y" /* yacc.c:1646  */
     {(yyval).tipoDato = (yyvsp[0]).tipoDato; }
-#line 1740 "y.tab.c" /* yacc.c:1646  */
+#line 2120 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 77:
-#line 303 "yacc.y" /* yacc.c:1646  */
+#line 627 "yacc.y" /* yacc.c:1646  */
     {(yyval).tipoDato = (yyvsp[0]).tipoDato; }
-#line 1746 "y.tab.c" /* yacc.c:1646  */
+#line 2126 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 78:
-#line 304 "yacc.y" /* yacc.c:1646  */
+#line 628 "yacc.y" /* yacc.c:1646  */
     {(yyval).tipoDato = (yyvsp[0]).tipoDato; }
-#line 1752 "y.tab.c" /* yacc.c:1646  */
+#line 2132 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 79:
-#line 305 "yacc.y" /* yacc.c:1646  */
+#line 629 "yacc.y" /* yacc.c:1646  */
     {(yyval).tipoDato = (yyvsp[0]).tipoDato; }
-#line 1758 "y.tab.c" /* yacc.c:1646  */
+#line 2138 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 80:
-#line 306 "yacc.y" /* yacc.c:1646  */
+#line 630 "yacc.y" /* yacc.c:1646  */
     {(yyval).tipoDato = (yyvsp[0]).tipoDato; }
-#line 1764 "y.tab.c" /* yacc.c:1646  */
+#line 2144 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 83:
-#line 311 "yacc.y" /* yacc.c:1646  */
+#line 635 "yacc.y" /* yacc.c:1646  */
     {
 	contParam++;
 	entradaTS temp = devuelveEntrada(posicion + contParam );
-	//if(temp.tipoDato != $3.tipoDato)
+	if(temp.tipoDato != (yyvsp[0]).tipoDato){
+		printf("[ERR] Error linea: %d", linea_actual);
+		printf("Tipo param erroneo: %d ,%d ,%d \n", temp.tipoDato, (yyvsp[0]).tipoDato, contParam );
 
-		//printf("Tipo param erroneo: %d ,%d ,%d \n", temp.tipoDato, $3.tipoDato, contParam );
+	}
+
 }
-#line 1776 "y.tab.c" /* yacc.c:1646  */
+#line 2159 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 84:
-#line 319 "yacc.y" /* yacc.c:1646  */
+#line 646 "yacc.y" /* yacc.c:1646  */
     {
  	contParam++;
  	entradaTS temp = devuelveEntrada(posicion + contParam );
- 	//	if(temp.tipoDato != $1.tipoDato)
- 		//printf("Tipo param erroneo: %d ,%d ,%d \n", temp.tipoDato, $1.tipoDato, contParam );
+ 	if(temp.tipoDato != (yyvsp[0]).tipoDato){
+
+		printf("[ERR] Error linea: %d", linea_actual);
+		printf("Tipo param erroneo: %d ,%d ,%d \n", temp.tipoDato, (yyvsp[0]).tipoDato, contParam );
+	}
  }
-#line 1787 "y.tab.c" /* yacc.c:1646  */
+#line 2173 "y.tab.c" /* yacc.c:1646  */
     break;
 
 
-#line 1791 "y.tab.c" /* yacc.c:1646  */
+#line 2177 "y.tab.c" /* yacc.c:1646  */
       default: break;
     }
   /* User semantic actions sometimes alter yychar, and that requires
@@ -2015,7 +2401,7 @@ yyreturn:
 #endif
   return yyresult;
 }
-#line 360 "yacc.y" /* yacc.c:1906  */
+#line 690 "yacc.y" /* yacc.c:1906  */
 
 #include "lex.yy.c"
 

@@ -294,7 +294,9 @@ sentencia_for : DURANTE IDENTIFICADOR DOSPUNTOSIGUAL  expresion HASTA expresion 
 
  ;
 
-expresion : ABRIRPARENT expresion CERRARPARENT
+expresion : ABRIRPARENT expresion CERRARPARENT{
+						$$ = $2;
+						}
   | MASMENOS expresion %prec EXCLAMACION
 	{
 				if ( ($2.tipoDato != BOOLEANO)
@@ -616,7 +618,11 @@ expresion : ABRIRPARENT expresion CERRARPARENT
 					$$.tipoDato = DESC;
 					}
 	}
-	| IDENTIFICADOR { int posicion2 = buscaEnTs($1); if(posicion2 == -1) printf("Variable no definida\n"); else { entradaTS temp = devuelveEntrada(posicion2); $$.tipoDato = temp.tipoDato; } }
+	| IDENTIFICADOR {
+		int posicion2 = buscaEnTs($1);
+		if(posicion2 == -1){
+			fprintf(stderr, "ERROR linea: %d Variable no definida \n", linea_actual);
+}else { entradaTS temp = devuelveEntrada(posicion2); $$.tipoDato = temp.tipoDato; } }
 	| T_REAL {$$.tipoDato = $1.tipoDato; }
 	| T_ENTERO {$$.tipoDato = $1.tipoDato; }
 	| T_CARACTER {$$.tipoDato = $1.tipoDato; }
@@ -629,15 +635,22 @@ lista_expresiones : lista_expresiones COMA expresion
 {
 	contParam++;
 	entradaTS temp = devuelveEntrada(posicion + contParam );
-	if(temp.tipoDato != $3.tipoDato)
+	if(temp.tipoDato != $3.tipoDato){
+		printf("[ERR] Error linea: %d", linea_actual);
 		printf("Tipo param erroneo: %d ,%d ,%d \n", temp.tipoDato, $3.tipoDato, contParam );
+
+	}
+
 }
  | expresion
  {
  	contParam++;
  	entradaTS temp = devuelveEntrada(posicion + contParam );
- 	if(temp.tipoDato != $1.tipoDato)
- 		printf("Tipo param erroneo: %d ,%d ,%d \n", temp.tipoDato, $1.tipoDato, contParam );
+ 	if(temp.tipoDato != $1.tipoDato){
+
+		printf("[ERR] Error linea: %d", linea_actual);
+		printf("Tipo param erroneo: %d ,%d ,%d \n", temp.tipoDato, $1.tipoDato, contParam );
+	}
  }
  |
   ;
