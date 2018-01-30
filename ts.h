@@ -14,11 +14,11 @@ typedef enum {
 
   typedef enum {
       NO_ASIG = 0
-  	, DESC			/**< Desconocido / Erroneo */
-  	, ENTERO
-    , REAL
-    , BOOLEANO
-    , CARACTER
+  	, DESC			//< Desconocido / Erroneo 1
+  	, ENTERO    //2
+    , REAL      //3
+    , BOOLEANO  //4
+    , CARACTER  //5
     , LISTA_REAL
     , LISTA_ENTERO
     , LISTA_BOOLEANO

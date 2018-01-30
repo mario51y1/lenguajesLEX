@@ -226,15 +226,19 @@ sentencia_asignacion : IDENTIFICADOR ASIG expresion PUNTOCOMA
 //printf("buscando %s para comparar\n", $1.nombre );
 int posicion = buscaEnTs($1);
 if(posicion==-1){
-	muestra();
-}
-entradaTS  temp = devuelveEntrada(posicion);
-tipoTemp = temp.tipoDato;
-
-//printf("Comparando %s tipoIzq: %d, tipoder: %d\n",temp.nombre,temp.tipoDato,$3.tipoDato);
-if ( tipoTemp != $3.tipoDato ) {
 	printf("[ERR] Error linea: %d ASIGNACION ", linea_actual);
-	printf("tipos no coinciden\n");
+	printf("variable no definida\n");
+}
+	else{
+		entradaTS  temp = devuelveEntrada(posicion);
+		tipoTemp = temp.tipoDato;
+
+		//printf("Comparando %s tipoIzq: %d, tipoder: %d\n",temp.nombre,temp.tipoDato,$3.tipoDato);
+		if ( tipoTemp != $3.tipoDato ) {
+			printf("[ERR] Error linea: %d ASIGNACION ", linea_actual);
+			printf("tipos no coinciden dato izq = %d, der = %d\n",tipoTemp,$3.tipoDato);
+			}
+
 	}
 }
 ;
@@ -412,14 +416,14 @@ expresion : ABRIRPARENT expresion CERRARPARENT{
 			} else {
 
 				fprintf(stderr, "ERROR linea: %d \n ", linea_actual);
-				fprintf(stderr, "Op +/- con tipo de dato");
+				fprintf(stderr, "Op * o /  con tipo de dato");
 				fprintf(stderr, "incorrecto");
 
 				$$.tipoDato = DESC;
 				}
 		} else {
 
-			fprintf(stderr, "ERROR linea: %d +/-", linea_actual);
+			fprintf(stderr, "ERROR linea: %d * o /", linea_actual);
 			fprintf(stderr, " Tipos no coinciden \n");
 			$$.tipoDato = DESC;
 			}
@@ -621,8 +625,10 @@ expresion : ABRIRPARENT expresion CERRARPARENT{
 	| IDENTIFICADOR {
 		int posicion2 = buscaEnTs($1);
 		if(posicion2 == -1){
-			fprintf(stderr, "ERROR linea: %d Variable no definida \n", linea_actual);
-}else { entradaTS temp = devuelveEntrada(posicion2); $$.tipoDato = temp.tipoDato; } }
+			fprintf(stderr, "ERROR linea: %d Variable no definida: [%s]  \n", linea_actual,$1.nombre);
+}else {
+	entradaTS temp = devuelveEntrada(posicion2); $$.tipoDato = temp.tipoDato; }
+}
 	| T_REAL {$$.tipoDato = $1.tipoDato; }
 	| T_ENTERO {$$.tipoDato = $1.tipoDato; }
 	| T_CARACTER {$$.tipoDato = $1.tipoDato; }

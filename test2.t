@@ -30,13 +30,13 @@ procedimiento principal()
 		{
       variables
         real xf,x2;
+				real t1,t2;
       finvariables;
 
       procedimiento funcionC(booleano c1, entero c2)
 			{
         variables
           real x1;
-          real t1,t2;
         finvariables;
 
         x1 = 1.3;
@@ -52,7 +52,7 @@ procedimiento principal()
       xf = 3.1;
       t1 = 0.3;
       t2 = 3.1;
-			x2 = xf*(t1 - t2)/10.0+2;
+			x2 = xf*(t1 - t2)/10.0;
 
 			mientras(x2/t1-xf<10.0) {
 				x2 = x2/xf ;
