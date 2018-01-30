@@ -1,8 +1,8 @@
-/* A Bison parser, made by GNU Bison 3.0.4.  */
+/* A Bison parser, made by GNU Bison 3.0.2.  */
 
 /* Bison implementation for Yacc-like parsers in C
 
-   Copyright (C) 1984, 1989-1990, 2000-2015 Free Software Foundation, Inc.
+   Copyright (C) 1984, 1989-1990, 2000-2013 Free Software Foundation, Inc.
 
    This program is free software: you can redistribute it and/or modify
    it under the terms of the GNU General Public License as published by
@@ -44,7 +44,7 @@
 #define YYBISON 1
 
 /* Bison version.  */
-#define YYBISON_VERSION "3.0.4"
+#define YYBISON_VERSION "3.0.2"
 
 /* Skeleton name.  */
 #define YYSKELETON_NAME "yacc.c"
@@ -550,10 +550,10 @@ static const yytype_uint16 yyrline[] =
      219,   220,   221,   224,   246,   247,   250,   252,   256,   258,
      259,   262,   263,   265,   265,   286,   301,   304,   319,   333,
      347,   361,   375,   391,   406,   456,   470,   484,   498,   512,
-     535,   550,   564,   578,   623,   669,   676,   677,   678,   679,
-     680,   681,   682,   684,   695,   705,   708,   709,   710,   711,
-     714,   716,   717,   720,   722,   723,   727,   729,   730,   733,
-     735,   736
+     535,   550,   564,   578,   627,   673,   680,   681,   682,   683,
+     684,   685,   686,   688,   699,   709,   712,   713,   714,   715,
+     718,   720,   721,   724,   726,   727,   731,   733,   734,   737,
+     739,   740
 };
 #endif
 
@@ -1848,7 +1848,7 @@ if(posicion==-1){
 #line 407 "yacc.y" /* yacc.c:1646  */
     {
 		if ((yyvsp[-2]).tipoDato == LISTA_ENTERO || (yyvsp[-2]).tipoDato == LISTA_REAL){
- 
+
 			if((yyvsp[0]).tipoDato == REAL){
 				(yyval).tipoDato == LISTA_REAL;
 			} else if ((yyvsp[0]).tipoDato == ENTERO) {
@@ -1876,7 +1876,7 @@ if(posicion==-1){
 					fprintf(stderr, " Tipos no coinciden \n");
 					(yyval).tipoDato = DESC;
 				}
-					
+
 			} else {
 				if ((yyvsp[0]).tipoDato == (yyvsp[-2]).tipoDato) {
 					(yyval).tipoDato = (yyvsp[-2]).tipoDato;
@@ -2056,7 +2056,8 @@ if(posicion==-1){
 #line 579 "yacc.y" /* yacc.c:1646  */
     {
 		if ((yyvsp[-2]).tipoDato == LISTA_ENTERO || (yyvsp[-2]).tipoDato == LISTA_REAL){
- 
+
+
 			if((yyvsp[0]).tipoDato == REAL){
 				(yyval).tipoDato == LISTA_REAL;
 			} else if ((yyvsp[0]).tipoDato == ENTERO) {
@@ -2066,6 +2067,9 @@ if(posicion==-1){
 				fprintf(stderr, " Tipos no coinciden \n");
 				(yyval).tipoDato = DESC;
 			}
+
+			fprintf(stderr, "[EEEEE]izq %d der %d / \n", (yyvsp[-2]).tipoDato,(yyvsp[0]).tipoDato);
+
 
 		} else if ((yyvsp[-2]).tipoDato == REAL || (yyvsp[-2]).tipoDato == ENTERO) {
 			if ((yyvsp[-1]).dif = 0) {
@@ -2084,7 +2088,7 @@ if(posicion==-1){
 					fprintf(stderr, " Tipos no coinciden \n");
 					(yyval).tipoDato = DESC;
 				}
-					
+
 			} else {
 				if ((yyvsp[0]).tipoDato == (yyvsp[-2]).tipoDato) {
 					(yyval).tipoDato = (yyvsp[-2]).tipoDato;
@@ -2096,13 +2100,13 @@ if(posicion==-1){
 					(yyval).tipoDato = DESC;
 				}
 			}
-		}	
+		}
 	}
-#line 2102 "y.tab.c" /* yacc.c:1646  */
+#line 2106 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 74:
-#line 624 "yacc.y" /* yacc.c:1646  */
+#line 628 "yacc.y" /* yacc.c:1646  */
     {
 				if ((yyvsp[-4]).tipoDato > CARACTER) {
 
@@ -2148,11 +2152,11 @@ if(posicion==-1){
 					(yyval).tipoDato = DESC;
 					}
 	}
-#line 2152 "y.tab.c" /* yacc.c:1646  */
+#line 2156 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 75:
-#line 669 "yacc.y" /* yacc.c:1646  */
+#line 673 "yacc.y" /* yacc.c:1646  */
     {
 		int posicion2 = buscaEnTs((yyvsp[0]));
 		if(posicion2 == -1){
@@ -2160,41 +2164,41 @@ if(posicion==-1){
 }else {
 	entradaTS temp = devuelveEntrada(posicion2); (yyval).tipoDato = temp.tipoDato; }
 }
-#line 2164 "y.tab.c" /* yacc.c:1646  */
+#line 2168 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 76:
-#line 676 "yacc.y" /* yacc.c:1646  */
+#line 680 "yacc.y" /* yacc.c:1646  */
     {(yyval).tipoDato = (yyvsp[0]).tipoDato; }
-#line 2170 "y.tab.c" /* yacc.c:1646  */
+#line 2174 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 77:
-#line 677 "yacc.y" /* yacc.c:1646  */
+#line 681 "yacc.y" /* yacc.c:1646  */
     {(yyval).tipoDato = (yyvsp[0]).tipoDato; }
-#line 2176 "y.tab.c" /* yacc.c:1646  */
+#line 2180 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 78:
-#line 678 "yacc.y" /* yacc.c:1646  */
+#line 682 "yacc.y" /* yacc.c:1646  */
     {(yyval).tipoDato = (yyvsp[0]).tipoDato; }
-#line 2182 "y.tab.c" /* yacc.c:1646  */
+#line 2186 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 79:
-#line 679 "yacc.y" /* yacc.c:1646  */
+#line 683 "yacc.y" /* yacc.c:1646  */
     {(yyval).tipoDato = (yyvsp[0]).tipoDato; }
-#line 2188 "y.tab.c" /* yacc.c:1646  */
+#line 2192 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 80:
-#line 680 "yacc.y" /* yacc.c:1646  */
+#line 684 "yacc.y" /* yacc.c:1646  */
     {(yyval).tipoDato = (yyvsp[0]).tipoDato; }
-#line 2194 "y.tab.c" /* yacc.c:1646  */
+#line 2198 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 83:
-#line 685 "yacc.y" /* yacc.c:1646  */
+#line 689 "yacc.y" /* yacc.c:1646  */
     {
 	contParam++;
 	entradaTS temp = devuelveEntrada(posicion + contParam );
@@ -2205,11 +2209,11 @@ if(posicion==-1){
 	}
 
 }
-#line 2209 "y.tab.c" /* yacc.c:1646  */
+#line 2213 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 84:
-#line 696 "yacc.y" /* yacc.c:1646  */
+#line 700 "yacc.y" /* yacc.c:1646  */
     {
  	contParam++;
  	entradaTS temp = devuelveEntrada(posicion + contParam );
@@ -2219,11 +2223,11 @@ if(posicion==-1){
 		printf("Tipo param erroneo: %d ,%d ,%d \n", temp.tipoDato, (yyvsp[0]).tipoDato, contParam );
 	}
  }
-#line 2223 "y.tab.c" /* yacc.c:1646  */
+#line 2227 "y.tab.c" /* yacc.c:1646  */
     break;
 
 
-#line 2227 "y.tab.c" /* yacc.c:1646  */
+#line 2231 "y.tab.c" /* yacc.c:1646  */
       default: break;
     }
   /* User semantic actions sometimes alter yychar, and that requires
@@ -2451,7 +2455,7 @@ yyreturn:
 #endif
   return yyresult;
 }
-#line 740 "yacc.y" /* yacc.c:1906  */
+#line 744 "yacc.y" /* yacc.c:1906  */
 
 #include "lex.yy.c"
 

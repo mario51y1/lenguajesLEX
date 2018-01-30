@@ -406,7 +406,7 @@ expresion : ABRIRPARENT expresion CERRARPARENT{
 	| expresion MULTIDIV expresion
 	{
 		if ($1.tipoDato == LISTA_ENTERO || $1.tipoDato == LISTA_REAL){
- 
+
 			if($3.tipoDato == REAL){
 				$$.tipoDato == LISTA_REAL;
 			} else if ($3.tipoDato == ENTERO) {
@@ -434,7 +434,7 @@ expresion : ABRIRPARENT expresion CERRARPARENT{
 					fprintf(stderr, " Tipos no coinciden \n");
 					$$.tipoDato = DESC;
 				}
-					
+
 			} else {
 				if ($3.tipoDato == $1.tipoDato) {
 					$$.tipoDato = $1.tipoDato;
@@ -578,7 +578,8 @@ expresion : ABRIRPARENT expresion CERRARPARENT{
 	| expresion MASMENOS expresion
 	{
 		if ($1.tipoDato == LISTA_ENTERO || $1.tipoDato == LISTA_REAL){
- 
+
+
 			if($3.tipoDato == REAL){
 				$$.tipoDato == LISTA_REAL;
 			} else if ($3.tipoDato == ENTERO) {
@@ -588,6 +589,9 @@ expresion : ABRIRPARENT expresion CERRARPARENT{
 				fprintf(stderr, " Tipos no coinciden \n");
 				$$.tipoDato = DESC;
 			}
+
+			fprintf(stderr, "[EEEEE]izq %d der %d / \n", $1.tipoDato,$3.tipoDato);
+
 
 		} else if ($1.tipoDato == REAL || $1.tipoDato == ENTERO) {
 			if ($2.dif = 0) {
@@ -606,7 +610,7 @@ expresion : ABRIRPARENT expresion CERRARPARENT{
 					fprintf(stderr, " Tipos no coinciden \n");
 					$$.tipoDato = DESC;
 				}
-					
+
 			} else {
 				if ($3.tipoDato == $1.tipoDato) {
 					$$.tipoDato = $1.tipoDato;
@@ -618,7 +622,7 @@ expresion : ABRIRPARENT expresion CERRARPARENT{
 					$$.tipoDato = DESC;
 				}
 			}
-		}	
+		}
 	}
 	| expresion MASMAS expresion ARROBA expresion
 	{
