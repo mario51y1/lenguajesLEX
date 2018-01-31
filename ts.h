@@ -53,6 +53,7 @@ entradaTS  devuelveEntrada(int posicion);
 int buscaVariableEnScope(entradaTS entrada);
 int buscaProc(entradaTS entrada);
 dtipo listaASimple(dtipo i);
+dtipo simpleALista(dtipo i);
 
 extern int yylineno;
 extern FILE *yyin;

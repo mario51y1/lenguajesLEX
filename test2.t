@@ -97,17 +97,21 @@ procedimiento principal()
 			}
 		}
 
-		pe = pe - 10;
-		pf = pf - 10.0 ;
-		pc = pc - '#' ;
+		pe = pe++10@0;
+		pf = pf++10.0@0 ;
+		pc = pc++'#'@0 ;
 
-		si(?(pe) == 20) {
-			ve = pe@0 ;
+		si( ?(pe++ 20@0) == 20) {
+			ve = 3 + pe@0 ;
 		}
 		sino
 		{
-			pe= pe * pe2 ;
-			pe= pe2 - pe - 10*(20/2000) ;
+			pe = pe * ve ;
+			pe = pe;
+			pe = 1 + pe;
+			ve = pe2@0;
+			pe2 = pe2 - pe2@0  ;
 		}
 	}
+	funcionA(ve1,vr1,vc1);
 }

@@ -97,7 +97,7 @@ Gramática
    56          | MASMENOS expresion
    57          | UNARIOSLISTA expresion
    58          | MASMAS expresion
-   59          | MENOSMENOS expresion
+   59          | expresion MENOSMENOS expresion
    60          | EXCLAMACION expresion
    61          | expresion AVANRETRO
    62          | expresion ARROBA expresion
@@ -585,24 +585,23 @@ Estado 28
     T_REAL         desplazar e ir al estado 65
     UNARIOSLISTA   desplazar e ir al estado 66
     EXCLAMACION    desplazar e ir al estado 67
-    MENOSMENOS     desplazar e ir al estado 68
 
-    expcad                      ir al estado 69
-    lista_expresiones_o_cadena  ir al estado 70
-    expresion                   ir al estado 71
-    error_expresion             ir al estado 72
-    lista                       ir al estado 73
-    lista_enteros               ir al estado 74
-    lista_reales                ir al estado 75
-    lista_booleanos             ir al estado 76
-    lista_caracteres            ir al estado 77
+    expcad                      ir al estado 68
+    lista_expresiones_o_cadena  ir al estado 69
+    expresion                   ir al estado 70
+    error_expresion             ir al estado 71
+    lista                       ir al estado 72
+    lista_enteros               ir al estado 73
+    lista_reales                ir al estado 74
+    lista_booleanos             ir al estado 75
+    lista_caracteres            ir al estado 76
 
 
 Estado 29
 
    54 sentencia_for: DURANTE . IDENTIFICADOR DOSPUNTOSIGUAL expresion HASTA expresion HACER Sentencia
 
-    IDENTIFICADOR  desplazar e ir al estado 78
+    IDENTIFICADOR  desplazar e ir al estado 77
 
 
 Estado 30
@@ -610,11 +609,11 @@ Estado 30
    42 sentencia_asignacion: IDENTIFICADOR . ASIG expresion PUNTOCOMA
    53 llamada_proced: IDENTIFICADOR . $@3 ABRIRPARENT lista_expresiones CERRARPARENT PUNTOCOMA
 
-    ASIG  desplazar e ir al estado 79
+    ASIG  desplazar e ir al estado 78
 
     $default  reduce usando la regla 52 ($@3)
 
-    $@3  ir al estado 80
+    $@3  ir al estado 79
 
 
 Estado 31
@@ -637,7 +636,7 @@ Estado 33
 
     ABRIRLLAVES  desplazar e ir al estado 6
 
-    bloque            ir al estado 81
+    bloque            ir al estado 80
     Inicio_de_bloque  ir al estado 8
 
 
@@ -647,7 +646,7 @@ Estado 34
    32 Sentencias: Sentencias . Sentencia
 
     ABRIRLLAVES    desplazar e ir al estado 6
-    CERRARLLAVES   desplazar e ir al estado 82
+    CERRARLLAVES   desplazar e ir al estado 81
     CONDSI         desplazar e ir al estado 25
     CONDMIENTRAS   desplazar e ir al estado 26
     LEE            desplazar e ir al estado 27
@@ -657,8 +656,8 @@ Estado 34
 
     bloque                ir al estado 31
     Inicio_de_bloque      ir al estado 8
-    Fin_de_bloque         ir al estado 83
-    Sentencia             ir al estado 84
+    Fin_de_bloque         ir al estado 82
+    Sentencia             ir al estado 83
     sentencia_asignacion  ir al estado 36
     sentencia_if          ir al estado 37
     sentencia_while       ir al estado 38
@@ -735,7 +734,7 @@ Estado 44
 
     7 Marca_fin_declar_variables: FINVARS . PUNTOCOMA
 
-    PUNTOCOMA  desplazar e ir al estado 85
+    PUNTOCOMA  desplazar e ir al estado 84
 
 
 Estado 45
@@ -764,8 +763,8 @@ Estado 48
    24 Cuerpo_declar_variables: tipo Identificadores . PUNTOCOMA
    28 Identificadores: Identificadores . COMA IDENTIFICADOR
 
-    PUNTOCOMA  desplazar e ir al estado 86
-    COMA       desplazar e ir al estado 87
+    PUNTOCOMA  desplazar e ir al estado 85
+    COMA       desplazar e ir al estado 86
 
 
 Estado 49
@@ -781,7 +780,7 @@ Estado 50
 
     $default  reduce usando la regla 12 ($@2)
 
-    $@2  ir al estado 88
+    $@2  ir al estado 87
 
 
 Estado 51
@@ -808,15 +807,14 @@ Estado 52
     T_REAL         desplazar e ir al estado 65
     UNARIOSLISTA   desplazar e ir al estado 66
     EXCLAMACION    desplazar e ir al estado 67
-    MENOSMENOS     desplazar e ir al estado 68
 
-    expresion         ir al estado 89
-    error_expresion   ir al estado 72
-    lista             ir al estado 73
-    lista_enteros     ir al estado 74
-    lista_reales      ir al estado 75
-    lista_booleanos   ir al estado 76
-    lista_caracteres  ir al estado 77
+    expresion         ir al estado 88
+    error_expresion   ir al estado 71
+    lista             ir al estado 72
+    lista_enteros     ir al estado 73
+    lista_reales      ir al estado 74
+    lista_booleanos   ir al estado 75
+    lista_caracteres  ir al estado 76
 
 
 Estado 53
@@ -835,15 +833,14 @@ Estado 53
     T_REAL         desplazar e ir al estado 65
     UNARIOSLISTA   desplazar e ir al estado 66
     EXCLAMACION    desplazar e ir al estado 67
-    MENOSMENOS     desplazar e ir al estado 68
 
-    expresion         ir al estado 90
-    error_expresion   ir al estado 72
-    lista             ir al estado 73
-    lista_enteros     ir al estado 74
-    lista_reales      ir al estado 75
-    lista_booleanos   ir al estado 76
-    lista_caracteres  ir al estado 77
+    expresion         ir al estado 89
+    error_expresion   ir al estado 71
+    lista             ir al estado 72
+    lista_enteros     ir al estado 73
+    lista_reales      ir al estado 74
+    lista_booleanos   ir al estado 75
+    lista_caracteres  ir al estado 76
 
 
 Estado 54
@@ -851,8 +848,8 @@ Estado 54
    28 Identificadores: Identificadores . COMA IDENTIFICADOR
    46 sentencia_entrada: LEE Identificadores . PUNTOCOMA
 
-    PUNTOCOMA  desplazar e ir al estado 91
-    COMA       desplazar e ir al estado 87
+    PUNTOCOMA  desplazar e ir al estado 90
+    COMA       desplazar e ir al estado 86
 
 
 Estado 55
@@ -869,15 +866,15 @@ Estado 56
    96 lista_booleanos: ABRIRCORCH . Booleanos CERRARCORCH
    99 lista_caracteres: ABRIRCORCH . Caracteres CERRARCORCH
 
-    VERDFALS    desplazar e ir al estado 92
-    T_CARACTER  desplazar e ir al estado 93
-    T_ENTERO    desplazar e ir al estado 94
-    T_REAL      desplazar e ir al estado 95
+    VERDFALS    desplazar e ir al estado 91
+    T_CARACTER  desplazar e ir al estado 92
+    T_ENTERO    desplazar e ir al estado 93
+    T_REAL      desplazar e ir al estado 94
 
-    Enteros     ir al estado 96
-    Reales      ir al estado 97
-    Booleanos   ir al estado 98
-    Caracteres  ir al estado 99
+    Enteros     ir al estado 95
+    Reales      ir al estado 96
+    Booleanos   ir al estado 97
+    Caracteres  ir al estado 98
 
 
 Estado 57
@@ -896,15 +893,14 @@ Estado 57
     T_REAL         desplazar e ir al estado 65
     UNARIOSLISTA   desplazar e ir al estado 66
     EXCLAMACION    desplazar e ir al estado 67
-    MENOSMENOS     desplazar e ir al estado 68
 
-    expresion         ir al estado 100
-    error_expresion   ir al estado 72
-    lista             ir al estado 73
-    lista_enteros     ir al estado 74
-    lista_reales      ir al estado 75
-    lista_booleanos   ir al estado 76
-    lista_caracteres  ir al estado 77
+    expresion         ir al estado 99
+    error_expresion   ir al estado 71
+    lista             ir al estado 72
+    lista_enteros     ir al estado 73
+    lista_reales      ir al estado 74
+    lista_booleanos   ir al estado 75
+    lista_caracteres  ir al estado 76
 
 
 Estado 58
@@ -923,15 +919,14 @@ Estado 58
     T_REAL         desplazar e ir al estado 65
     UNARIOSLISTA   desplazar e ir al estado 66
     EXCLAMACION    desplazar e ir al estado 67
-    MENOSMENOS     desplazar e ir al estado 68
 
-    expresion         ir al estado 101
-    error_expresion   ir al estado 72
-    lista             ir al estado 73
-    lista_enteros     ir al estado 74
-    lista_reales      ir al estado 75
-    lista_booleanos   ir al estado 76
-    lista_caracteres  ir al estado 77
+    expresion         ir al estado 100
+    error_expresion   ir al estado 71
+    lista             ir al estado 72
+    lista_enteros     ir al estado 73
+    lista_reales      ir al estado 74
+    lista_booleanos   ir al estado 75
+    lista_caracteres  ir al estado 76
 
 
 Estado 59
@@ -950,15 +945,14 @@ Estado 59
     T_REAL         desplazar e ir al estado 65
     UNARIOSLISTA   desplazar e ir al estado 66
     EXCLAMACION    desplazar e ir al estado 67
-    MENOSMENOS     desplazar e ir al estado 68
 
-    expresion         ir al estado 102
-    error_expresion   ir al estado 72
-    lista             ir al estado 73
-    lista_enteros     ir al estado 74
-    lista_reales      ir al estado 75
-    lista_booleanos   ir al estado 76
-    lista_caracteres  ir al estado 77
+    expresion         ir al estado 101
+    error_expresion   ir al estado 71
+    lista             ir al estado 72
+    lista_enteros     ir al estado 73
+    lista_reales      ir al estado 74
+    lista_booleanos   ir al estado 75
+    lista_caracteres  ir al estado 76
 
 
 Estado 60
@@ -1019,15 +1013,14 @@ Estado 66
     T_REAL         desplazar e ir al estado 65
     UNARIOSLISTA   desplazar e ir al estado 66
     EXCLAMACION    desplazar e ir al estado 67
-    MENOSMENOS     desplazar e ir al estado 68
 
-    expresion         ir al estado 103
-    error_expresion   ir al estado 72
-    lista             ir al estado 73
-    lista_enteros     ir al estado 74
-    lista_reales      ir al estado 75
-    lista_booleanos   ir al estado 76
-    lista_caracteres  ir al estado 77
+    expresion         ir al estado 102
+    error_expresion   ir al estado 71
+    lista             ir al estado 72
+    lista_enteros     ir al estado 73
+    lista_reales      ir al estado 74
+    lista_booleanos   ir al estado 75
+    lista_caracteres  ir al estado 76
 
 
 Estado 67
@@ -1046,64 +1039,37 @@ Estado 67
     T_REAL         desplazar e ir al estado 65
     UNARIOSLISTA   desplazar e ir al estado 66
     EXCLAMACION    desplazar e ir al estado 67
-    MENOSMENOS     desplazar e ir al estado 68
 
-    expresion         ir al estado 104
-    error_expresion   ir al estado 72
-    lista             ir al estado 73
-    lista_enteros     ir al estado 74
-    lista_reales      ir al estado 75
-    lista_booleanos   ir al estado 76
-    lista_caracteres  ir al estado 77
+    expresion         ir al estado 103
+    error_expresion   ir al estado 71
+    lista             ir al estado 72
+    lista_enteros     ir al estado 73
+    lista_reales      ir al estado 74
+    lista_booleanos   ir al estado 75
+    lista_caracteres  ir al estado 76
 
 
 Estado 68
-
-   59 expresion: MENOSMENOS . expresion
-
-    error          desplazar e ir al estado 55
-    ABRIRCORCH     desplazar e ir al estado 56
-    ABRIRPARENT    desplazar e ir al estado 57
-    MASMAS         desplazar e ir al estado 58
-    MASMENOS       desplazar e ir al estado 59
-    VERDFALS       desplazar e ir al estado 60
-    T_CARACTER     desplazar e ir al estado 61
-    IDENTIFICADOR  desplazar e ir al estado 63
-    T_ENTERO       desplazar e ir al estado 64
-    T_REAL         desplazar e ir al estado 65
-    UNARIOSLISTA   desplazar e ir al estado 66
-    EXCLAMACION    desplazar e ir al estado 67
-    MENOSMENOS     desplazar e ir al estado 68
-
-    expresion         ir al estado 105
-    error_expresion   ir al estado 72
-    lista             ir al estado 73
-    lista_enteros     ir al estado 74
-    lista_reales      ir al estado 75
-    lista_booleanos   ir al estado 76
-    lista_caracteres  ir al estado 77
-
-
-Estado 69
 
    50 lista_expresiones_o_cadena: expcad .
 
     $default  reduce usando la regla 50 (lista_expresiones_o_cadena)
 
 
-Estado 70
+Estado 69
 
    47 sentencia_salida: ESCRIBE lista_expresiones_o_cadena . PUNTOCOMA
    51 lista_expresiones_o_cadena: lista_expresiones_o_cadena . COMA expcad
 
-    PUNTOCOMA  desplazar e ir al estado 106
-    COMA       desplazar e ir al estado 107
+    PUNTOCOMA  desplazar e ir al estado 104
+    COMA       desplazar e ir al estado 105
 
 
-Estado 71
+Estado 70
 
    48 expcad: expresion .
-   61 expresion: expresion . AVANRETRO
+   59 expresion: expresion . MENOSMENOS expresion
+   61          | expresion . AVANRETRO
    62          | expresion . ARROBA expresion
    63          | expresion . MULMUL expresion
    64          | expresion . MULTIDIV expresion
@@ -1118,74 +1084,75 @@ Estado 71
    73          | expresion . MASMENOS expresion
    74          | expresion . MASMAS expresion ARROBA expresion
 
-    MASMAS      desplazar e ir al estado 108
-    MASMENOS    desplazar e ir al estado 109
-    ARROBA      desplazar e ir al estado 110
-    LOGOR       desplazar e ir al estado 111
-    LOGAND      desplazar e ir al estado 112
-    ORBIT       desplazar e ir al estado 113
-    EXOR        desplazar e ir al estado 114
-    ANDBIT      desplazar e ir al estado 115
-    IGUALDAD    desplazar e ir al estado 116
-    REL         desplazar e ir al estado 117
-    MULTIDIV    desplazar e ir al estado 118
-    PORCENTAJE  desplazar e ir al estado 119
-    MULMUL      desplazar e ir al estado 120
-    AVANRETRO   desplazar e ir al estado 121
+    MASMAS      desplazar e ir al estado 106
+    MASMENOS    desplazar e ir al estado 107
+    ARROBA      desplazar e ir al estado 108
+    LOGOR       desplazar e ir al estado 109
+    LOGAND      desplazar e ir al estado 110
+    ORBIT       desplazar e ir al estado 111
+    EXOR        desplazar e ir al estado 112
+    ANDBIT      desplazar e ir al estado 113
+    IGUALDAD    desplazar e ir al estado 114
+    REL         desplazar e ir al estado 115
+    MULTIDIV    desplazar e ir al estado 116
+    PORCENTAJE  desplazar e ir al estado 117
+    MENOSMENOS  desplazar e ir al estado 118
+    MULMUL      desplazar e ir al estado 119
+    AVANRETRO   desplazar e ir al estado 120
 
     $default  reduce usando la regla 48 (expcad)
 
 
-Estado 72
+Estado 71
 
    81 expresion: error_expresion .
 
     $default  reduce usando la regla 81 (expresion)
 
 
-Estado 73
+Estado 72
 
    80 expresion: lista .
 
     $default  reduce usando la regla 80 (expresion)
 
 
-Estado 74
+Estado 73
 
    86 lista: lista_enteros .
 
     $default  reduce usando la regla 86 (lista)
 
 
-Estado 75
+Estado 74
 
    87 lista: lista_reales .
 
     $default  reduce usando la regla 87 (lista)
 
 
-Estado 76
+Estado 75
 
    88 lista: lista_booleanos .
 
     $default  reduce usando la regla 88 (lista)
 
 
-Estado 77
+Estado 76
 
    89 lista: lista_caracteres .
 
     $default  reduce usando la regla 89 (lista)
 
 
-Estado 78
+Estado 77
 
    54 sentencia_for: DURANTE IDENTIFICADOR . DOSPUNTOSIGUAL expresion HASTA expresion HACER Sentencia
 
-    DOSPUNTOSIGUAL  desplazar e ir al estado 122
+    DOSPUNTOSIGUAL  desplazar e ir al estado 121
 
 
-Estado 79
+Estado 78
 
    42 sentencia_asignacion: IDENTIFICADOR ASIG . expresion PUNTOCOMA
 
@@ -1201,85 +1168,122 @@ Estado 79
     T_REAL         desplazar e ir al estado 65
     UNARIOSLISTA   desplazar e ir al estado 66
     EXCLAMACION    desplazar e ir al estado 67
-    MENOSMENOS     desplazar e ir al estado 68
 
-    expresion         ir al estado 123
-    error_expresion   ir al estado 72
-    lista             ir al estado 73
-    lista_enteros     ir al estado 74
-    lista_reales      ir al estado 75
-    lista_booleanos   ir al estado 76
-    lista_caracteres  ir al estado 77
+    expresion         ir al estado 122
+    error_expresion   ir al estado 71
+    lista             ir al estado 72
+    lista_enteros     ir al estado 73
+    lista_reales      ir al estado 74
+    lista_booleanos   ir al estado 75
+    lista_caracteres  ir al estado 76
 
 
-Estado 80
+Estado 79
 
    53 llamada_proced: IDENTIFICADOR $@3 . ABRIRPARENT lista_expresiones CERRARPARENT PUNTOCOMA
 
-    ABRIRPARENT  desplazar e ir al estado 124
+    ABRIRPARENT  desplazar e ir al estado 123
 
 
-Estado 81
+Estado 80
 
    10 Declar_subprog: Cabecera_subprograma bloque .
 
     $default  reduce usando la regla 10 (Declar_subprog)
 
 
-Estado 82
+Estado 81
 
    21 Fin_de_bloque: CERRARLLAVES .
 
     $default  reduce usando la regla 21 (Fin_de_bloque)
 
 
-Estado 83
+Estado 82
 
     3 bloque: Inicio_de_bloque $@1 Declar_de_variables_locales Declar_de_subprogs Sentencias Fin_de_bloque .
 
     $default  reduce usando la regla 3 (bloque)
 
 
-Estado 84
+Estado 83
 
    32 Sentencias: Sentencias Sentencia .
 
     $default  reduce usando la regla 32 (Sentencias)
 
 
-Estado 85
+Estado 84
 
     7 Marca_fin_declar_variables: FINVARS PUNTOCOMA .
 
     $default  reduce usando la regla 7 (Marca_fin_declar_variables)
 
 
-Estado 86
+Estado 85
 
    24 Cuerpo_declar_variables: tipo Identificadores PUNTOCOMA .
 
     $default  reduce usando la regla 24 (Cuerpo_declar_variables)
 
 
-Estado 87
+Estado 86
 
    28 Identificadores: Identificadores COMA . IDENTIFICADOR
 
-    IDENTIFICADOR  desplazar e ir al estado 125
+    IDENTIFICADOR  desplazar e ir al estado 124
+
+
+Estado 87
+
+   13 Cabecera_subprograma: PROCED IDENTIFICADOR $@2 . ABRIRPARENT parametros CERRARPARENT
+
+    ABRIRPARENT  desplazar e ir al estado 125
 
 
 Estado 88
 
-   13 Cabecera_subprograma: PROCED IDENTIFICADOR $@2 . ABRIRPARENT parametros CERRARPARENT
+   43 sentencia_if: CONDSI ABRIRPARENT expresion . CERRARPARENT Sentencia
+   44             | CONDSI ABRIRPARENT expresion . CERRARPARENT Sentencia CONDSINO Sentencia
+   59 expresion: expresion . MENOSMENOS expresion
+   61          | expresion . AVANRETRO
+   62          | expresion . ARROBA expresion
+   63          | expresion . MULMUL expresion
+   64          | expresion . MULTIDIV expresion
+   65          | expresion . LOGAND expresion
+   66          | expresion . EXOR expresion
+   67          | expresion . ORBIT expresion
+   68          | expresion . LOGOR expresion
+   69          | expresion . REL expresion
+   70          | expresion . IGUALDAD expresion
+   71          | expresion . PORCENTAJE expresion
+   72          | expresion . ANDBIT expresion
+   73          | expresion . MASMENOS expresion
+   74          | expresion . MASMAS expresion ARROBA expresion
 
-    ABRIRPARENT  desplazar e ir al estado 126
+    CERRARPARENT  desplazar e ir al estado 126
+    MASMAS        desplazar e ir al estado 106
+    MASMENOS      desplazar e ir al estado 107
+    ARROBA        desplazar e ir al estado 108
+    LOGOR         desplazar e ir al estado 109
+    LOGAND        desplazar e ir al estado 110
+    ORBIT         desplazar e ir al estado 111
+    EXOR          desplazar e ir al estado 112
+    ANDBIT        desplazar e ir al estado 113
+    IGUALDAD      desplazar e ir al estado 114
+    REL           desplazar e ir al estado 115
+    MULTIDIV      desplazar e ir al estado 116
+    PORCENTAJE    desplazar e ir al estado 117
+    MENOSMENOS    desplazar e ir al estado 118
+    MULMUL        desplazar e ir al estado 119
+    AVANRETRO     desplazar e ir al estado 120
 
 
 Estado 89
 
-   43 sentencia_if: CONDSI ABRIRPARENT expresion . CERRARPARENT Sentencia
-   44             | CONDSI ABRIRPARENT expresion . CERRARPARENT Sentencia CONDSINO Sentencia
-   61 expresion: expresion . AVANRETRO
+   45 sentencia_while: CONDMIENTRAS ABRIRPARENT expresion . CERRARPARENT Sentencia
+   59 expresion: expresion . MENOSMENOS expresion
+   61          | expresion . AVANRETRO
    62          | expresion . ARROBA expresion
    63          | expresion . MULMUL expresion
    64          | expresion . MULTIDIV expresion
@@ -1295,166 +1299,135 @@ Estado 89
    74          | expresion . MASMAS expresion ARROBA expresion
 
     CERRARPARENT  desplazar e ir al estado 127
-    MASMAS        desplazar e ir al estado 108
-    MASMENOS      desplazar e ir al estado 109
-    ARROBA        desplazar e ir al estado 110
-    LOGOR         desplazar e ir al estado 111
-    LOGAND        desplazar e ir al estado 112
-    ORBIT         desplazar e ir al estado 113
-    EXOR          desplazar e ir al estado 114
-    ANDBIT        desplazar e ir al estado 115
-    IGUALDAD      desplazar e ir al estado 116
-    REL           desplazar e ir al estado 117
-    MULTIDIV      desplazar e ir al estado 118
-    PORCENTAJE    desplazar e ir al estado 119
-    MULMUL        desplazar e ir al estado 120
-    AVANRETRO     desplazar e ir al estado 121
+    MASMAS        desplazar e ir al estado 106
+    MASMENOS      desplazar e ir al estado 107
+    ARROBA        desplazar e ir al estado 108
+    LOGOR         desplazar e ir al estado 109
+    LOGAND        desplazar e ir al estado 110
+    ORBIT         desplazar e ir al estado 111
+    EXOR          desplazar e ir al estado 112
+    ANDBIT        desplazar e ir al estado 113
+    IGUALDAD      desplazar e ir al estado 114
+    REL           desplazar e ir al estado 115
+    MULTIDIV      desplazar e ir al estado 116
+    PORCENTAJE    desplazar e ir al estado 117
+    MENOSMENOS    desplazar e ir al estado 118
+    MULMUL        desplazar e ir al estado 119
+    AVANRETRO     desplazar e ir al estado 120
 
 
 Estado 90
-
-   45 sentencia_while: CONDMIENTRAS ABRIRPARENT expresion . CERRARPARENT Sentencia
-   61 expresion: expresion . AVANRETRO
-   62          | expresion . ARROBA expresion
-   63          | expresion . MULMUL expresion
-   64          | expresion . MULTIDIV expresion
-   65          | expresion . LOGAND expresion
-   66          | expresion . EXOR expresion
-   67          | expresion . ORBIT expresion
-   68          | expresion . LOGOR expresion
-   69          | expresion . REL expresion
-   70          | expresion . IGUALDAD expresion
-   71          | expresion . PORCENTAJE expresion
-   72          | expresion . ANDBIT expresion
-   73          | expresion . MASMENOS expresion
-   74          | expresion . MASMAS expresion ARROBA expresion
-
-    CERRARPARENT  desplazar e ir al estado 128
-    MASMAS        desplazar e ir al estado 108
-    MASMENOS      desplazar e ir al estado 109
-    ARROBA        desplazar e ir al estado 110
-    LOGOR         desplazar e ir al estado 111
-    LOGAND        desplazar e ir al estado 112
-    ORBIT         desplazar e ir al estado 113
-    EXOR          desplazar e ir al estado 114
-    ANDBIT        desplazar e ir al estado 115
-    IGUALDAD      desplazar e ir al estado 116
-    REL           desplazar e ir al estado 117
-    MULTIDIV      desplazar e ir al estado 118
-    PORCENTAJE    desplazar e ir al estado 119
-    MULMUL        desplazar e ir al estado 120
-    AVANRETRO     desplazar e ir al estado 121
-
-
-Estado 91
 
    46 sentencia_entrada: LEE Identificadores PUNTOCOMA .
 
     $default  reduce usando la regla 46 (sentencia_entrada)
 
 
-Estado 92
+Estado 91
 
    97 Booleanos: VERDFALS .
 
     $default  reduce usando la regla 97 (Booleanos)
 
 
-Estado 93
+Estado 92
 
   100 Caracteres: T_CARACTER .
 
     $default  reduce usando la regla 100 (Caracteres)
 
 
-Estado 94
+Estado 93
 
    91 Enteros: T_ENTERO .
 
     $default  reduce usando la regla 91 (Enteros)
 
 
-Estado 95
+Estado 94
 
    94 Reales: T_REAL .
 
     $default  reduce usando la regla 94 (Reales)
 
 
-Estado 96
+Estado 95
 
    90 lista_enteros: ABRIRCORCH Enteros . CERRARCORCH
    92 Enteros: Enteros . COMA T_ENTERO
 
-    CERRARCORCH  desplazar e ir al estado 129
-    COMA         desplazar e ir al estado 130
+    CERRARCORCH  desplazar e ir al estado 128
+    COMA         desplazar e ir al estado 129
 
 
-Estado 97
+Estado 96
 
    93 lista_reales: ABRIRCORCH Reales . CERRARCORCH
    95 Reales: Reales . COMA T_REAL
 
-    CERRARCORCH  desplazar e ir al estado 131
-    COMA         desplazar e ir al estado 132
+    CERRARCORCH  desplazar e ir al estado 130
+    COMA         desplazar e ir al estado 131
 
 
-Estado 98
+Estado 97
 
    96 lista_booleanos: ABRIRCORCH Booleanos . CERRARCORCH
    98 Booleanos: Booleanos . COMA VERDFALS
 
-    CERRARCORCH  desplazar e ir al estado 133
-    COMA         desplazar e ir al estado 134
+    CERRARCORCH  desplazar e ir al estado 132
+    COMA         desplazar e ir al estado 133
 
 
-Estado 99
+Estado 98
 
    99 lista_caracteres: ABRIRCORCH Caracteres . CERRARCORCH
   101 Caracteres: Caracteres . COMA T_CARACTER
 
-    CERRARCORCH  desplazar e ir al estado 135
-    COMA         desplazar e ir al estado 136
+    CERRARCORCH  desplazar e ir al estado 134
+    COMA         desplazar e ir al estado 135
+
+
+Estado 99
+
+   55 expresion: ABRIRPARENT expresion . CERRARPARENT
+   59          | expresion . MENOSMENOS expresion
+   61          | expresion . AVANRETRO
+   62          | expresion . ARROBA expresion
+   63          | expresion . MULMUL expresion
+   64          | expresion . MULTIDIV expresion
+   65          | expresion . LOGAND expresion
+   66          | expresion . EXOR expresion
+   67          | expresion . ORBIT expresion
+   68          | expresion . LOGOR expresion
+   69          | expresion . REL expresion
+   70          | expresion . IGUALDAD expresion
+   71          | expresion . PORCENTAJE expresion
+   72          | expresion . ANDBIT expresion
+   73          | expresion . MASMENOS expresion
+   74          | expresion . MASMAS expresion ARROBA expresion
+
+    CERRARPARENT  desplazar e ir al estado 136
+    MASMAS        desplazar e ir al estado 106
+    MASMENOS      desplazar e ir al estado 107
+    ARROBA        desplazar e ir al estado 108
+    LOGOR         desplazar e ir al estado 109
+    LOGAND        desplazar e ir al estado 110
+    ORBIT         desplazar e ir al estado 111
+    EXOR          desplazar e ir al estado 112
+    ANDBIT        desplazar e ir al estado 113
+    IGUALDAD      desplazar e ir al estado 114
+    REL           desplazar e ir al estado 115
+    MULTIDIV      desplazar e ir al estado 116
+    PORCENTAJE    desplazar e ir al estado 117
+    MENOSMENOS    desplazar e ir al estado 118
+    MULMUL        desplazar e ir al estado 119
+    AVANRETRO     desplazar e ir al estado 120
 
 
 Estado 100
 
-   55 expresion: ABRIRPARENT expresion . CERRARPARENT
-   61          | expresion . AVANRETRO
-   62          | expresion . ARROBA expresion
-   63          | expresion . MULMUL expresion
-   64          | expresion . MULTIDIV expresion
-   65          | expresion . LOGAND expresion
-   66          | expresion . EXOR expresion
-   67          | expresion . ORBIT expresion
-   68          | expresion . LOGOR expresion
-   69          | expresion . REL expresion
-   70          | expresion . IGUALDAD expresion
-   71          | expresion . PORCENTAJE expresion
-   72          | expresion . ANDBIT expresion
-   73          | expresion . MASMENOS expresion
-   74          | expresion . MASMAS expresion ARROBA expresion
-
-    CERRARPARENT  desplazar e ir al estado 137
-    MASMAS        desplazar e ir al estado 108
-    MASMENOS      desplazar e ir al estado 109
-    ARROBA        desplazar e ir al estado 110
-    LOGOR         desplazar e ir al estado 111
-    LOGAND        desplazar e ir al estado 112
-    ORBIT         desplazar e ir al estado 113
-    EXOR          desplazar e ir al estado 114
-    ANDBIT        desplazar e ir al estado 115
-    IGUALDAD      desplazar e ir al estado 116
-    REL           desplazar e ir al estado 117
-    MULTIDIV      desplazar e ir al estado 118
-    PORCENTAJE    desplazar e ir al estado 119
-    MULMUL        desplazar e ir al estado 120
-    AVANRETRO     desplazar e ir al estado 121
-
-
-Estado 101
-
    58 expresion: MASMAS expresion .
+   59          | expresion . MENOSMENOS expresion
    61          | expresion . AVANRETRO
    62          | expresion . ARROBA expresion
    63          | expresion . MULMUL expresion
@@ -1470,16 +1443,17 @@ Estado 101
    73          | expresion . MASMENOS expresion
    74          | expresion . MASMAS expresion ARROBA expresion
 
-    MASMAS     desplazar e ir al estado 108
-    MULMUL     desplazar e ir al estado 120
-    AVANRETRO  desplazar e ir al estado 121
+    MASMAS     desplazar e ir al estado 106
+    MULMUL     desplazar e ir al estado 119
+    AVANRETRO  desplazar e ir al estado 120
 
     $default  reduce usando la regla 58 (expresion)
 
 
-Estado 102
+Estado 101
 
    56 expresion: MASMENOS expresion .
+   59          | expresion . MENOSMENOS expresion
    61          | expresion . AVANRETRO
    62          | expresion . ARROBA expresion
    63          | expresion . MULMUL expresion
@@ -1495,16 +1469,18 @@ Estado 102
    73          | expresion . MASMENOS expresion
    74          | expresion . MASMAS expresion ARROBA expresion
 
-    MASMAS     desplazar e ir al estado 108
-    MULMUL     desplazar e ir al estado 120
-    AVANRETRO  desplazar e ir al estado 121
+    MASMAS      desplazar e ir al estado 106
+    MENOSMENOS  desplazar e ir al estado 118
+    MULMUL      desplazar e ir al estado 119
+    AVANRETRO   desplazar e ir al estado 120
 
     $default  reduce usando la regla 56 (expresion)
 
 
-Estado 103
+Estado 102
 
    57 expresion: UNARIOSLISTA expresion .
+   59          | expresion . MENOSMENOS expresion
    61          | expresion . AVANRETRO
    62          | expresion . ARROBA expresion
    63          | expresion . MULMUL expresion
@@ -1520,16 +1496,18 @@ Estado 103
    73          | expresion . MASMENOS expresion
    74          | expresion . MASMAS expresion ARROBA expresion
 
-    MASMAS     desplazar e ir al estado 108
-    MULMUL     desplazar e ir al estado 120
-    AVANRETRO  desplazar e ir al estado 121
+    MASMAS      desplazar e ir al estado 106
+    MENOSMENOS  desplazar e ir al estado 118
+    MULMUL      desplazar e ir al estado 119
+    AVANRETRO   desplazar e ir al estado 120
 
     $default  reduce usando la regla 57 (expresion)
 
 
-Estado 104
+Estado 103
 
-   60 expresion: EXCLAMACION expresion .
+   59 expresion: expresion . MENOSMENOS expresion
+   60          | EXCLAMACION expresion .
    61          | expresion . AVANRETRO
    62          | expresion . ARROBA expresion
    63          | expresion . MULMUL expresion
@@ -1545,46 +1523,22 @@ Estado 104
    73          | expresion . MASMENOS expresion
    74          | expresion . MASMAS expresion ARROBA expresion
 
-    MASMAS     desplazar e ir al estado 108
-    MULMUL     desplazar e ir al estado 120
-    AVANRETRO  desplazar e ir al estado 121
+    MASMAS      desplazar e ir al estado 106
+    MENOSMENOS  desplazar e ir al estado 118
+    MULMUL      desplazar e ir al estado 119
+    AVANRETRO   desplazar e ir al estado 120
 
     $default  reduce usando la regla 60 (expresion)
 
 
-Estado 105
-
-   59 expresion: MENOSMENOS expresion .
-   61          | expresion . AVANRETRO
-   62          | expresion . ARROBA expresion
-   63          | expresion . MULMUL expresion
-   64          | expresion . MULTIDIV expresion
-   65          | expresion . LOGAND expresion
-   66          | expresion . EXOR expresion
-   67          | expresion . ORBIT expresion
-   68          | expresion . LOGOR expresion
-   69          | expresion . REL expresion
-   70          | expresion . IGUALDAD expresion
-   71          | expresion . PORCENTAJE expresion
-   72          | expresion . ANDBIT expresion
-   73          | expresion . MASMENOS expresion
-   74          | expresion . MASMAS expresion ARROBA expresion
-
-    MASMAS     desplazar e ir al estado 108
-    MULMUL     desplazar e ir al estado 120
-    AVANRETRO  desplazar e ir al estado 121
-
-    $default  reduce usando la regla 59 (expresion)
-
-
-Estado 106
+Estado 104
 
    47 sentencia_salida: ESCRIBE lista_expresiones_o_cadena PUNTOCOMA .
 
     $default  reduce usando la regla 47 (sentencia_salida)
 
 
-Estado 107
+Estado 105
 
    51 lista_expresiones_o_cadena: lista_expresiones_o_cadena COMA . expcad
 
@@ -1601,19 +1555,18 @@ Estado 107
     T_REAL         desplazar e ir al estado 65
     UNARIOSLISTA   desplazar e ir al estado 66
     EXCLAMACION    desplazar e ir al estado 67
-    MENOSMENOS     desplazar e ir al estado 68
 
-    expcad            ir al estado 138
-    expresion         ir al estado 71
-    error_expresion   ir al estado 72
-    lista             ir al estado 73
-    lista_enteros     ir al estado 74
-    lista_reales      ir al estado 75
-    lista_booleanos   ir al estado 76
-    lista_caracteres  ir al estado 77
+    expcad            ir al estado 137
+    expresion         ir al estado 70
+    error_expresion   ir al estado 71
+    lista             ir al estado 72
+    lista_enteros     ir al estado 73
+    lista_reales      ir al estado 74
+    lista_booleanos   ir al estado 75
+    lista_caracteres  ir al estado 76
 
 
-Estado 108
+Estado 106
 
    74 expresion: expresion MASMAS . expresion ARROBA expresion
 
@@ -1629,18 +1582,17 @@ Estado 108
     T_REAL         desplazar e ir al estado 65
     UNARIOSLISTA   desplazar e ir al estado 66
     EXCLAMACION    desplazar e ir al estado 67
-    MENOSMENOS     desplazar e ir al estado 68
 
-    expresion         ir al estado 139
-    error_expresion   ir al estado 72
-    lista             ir al estado 73
-    lista_enteros     ir al estado 74
-    lista_reales      ir al estado 75
-    lista_booleanos   ir al estado 76
-    lista_caracteres  ir al estado 77
+    expresion         ir al estado 138
+    error_expresion   ir al estado 71
+    lista             ir al estado 72
+    lista_enteros     ir al estado 73
+    lista_reales      ir al estado 74
+    lista_booleanos   ir al estado 75
+    lista_caracteres  ir al estado 76
 
 
-Estado 109
+Estado 107
 
    73 expresion: expresion MASMENOS . expresion
 
@@ -1656,18 +1608,17 @@ Estado 109
     T_REAL         desplazar e ir al estado 65
     UNARIOSLISTA   desplazar e ir al estado 66
     EXCLAMACION    desplazar e ir al estado 67
-    MENOSMENOS     desplazar e ir al estado 68
 
-    expresion         ir al estado 140
-    error_expresion   ir al estado 72
-    lista             ir al estado 73
-    lista_enteros     ir al estado 74
-    lista_reales      ir al estado 75
-    lista_booleanos   ir al estado 76
-    lista_caracteres  ir al estado 77
+    expresion         ir al estado 139
+    error_expresion   ir al estado 71
+    lista             ir al estado 72
+    lista_enteros     ir al estado 73
+    lista_reales      ir al estado 74
+    lista_booleanos   ir al estado 75
+    lista_caracteres  ir al estado 76
 
 
-Estado 110
+Estado 108
 
    62 expresion: expresion ARROBA . expresion
 
@@ -1683,18 +1634,17 @@ Estado 110
     T_REAL         desplazar e ir al estado 65
     UNARIOSLISTA   desplazar e ir al estado 66
     EXCLAMACION    desplazar e ir al estado 67
-    MENOSMENOS     desplazar e ir al estado 68
 
-    expresion         ir al estado 141
-    error_expresion   ir al estado 72
-    lista             ir al estado 73
-    lista_enteros     ir al estado 74
-    lista_reales      ir al estado 75
-    lista_booleanos   ir al estado 76
-    lista_caracteres  ir al estado 77
+    expresion         ir al estado 140
+    error_expresion   ir al estado 71
+    lista             ir al estado 72
+    lista_enteros     ir al estado 73
+    lista_reales      ir al estado 74
+    lista_booleanos   ir al estado 75
+    lista_caracteres  ir al estado 76
 
 
-Estado 111
+Estado 109
 
    68 expresion: expresion LOGOR . expresion
 
@@ -1710,18 +1660,17 @@ Estado 111
     T_REAL         desplazar e ir al estado 65
     UNARIOSLISTA   desplazar e ir al estado 66
     EXCLAMACION    desplazar e ir al estado 67
-    MENOSMENOS     desplazar e ir al estado 68
 
-    expresion         ir al estado 142
-    error_expresion   ir al estado 72
-    lista             ir al estado 73
-    lista_enteros     ir al estado 74
-    lista_reales      ir al estado 75
-    lista_booleanos   ir al estado 76
-    lista_caracteres  ir al estado 77
+    expresion         ir al estado 141
+    error_expresion   ir al estado 71
+    lista             ir al estado 72
+    lista_enteros     ir al estado 73
+    lista_reales      ir al estado 74
+    lista_booleanos   ir al estado 75
+    lista_caracteres  ir al estado 76
 
 
-Estado 112
+Estado 110
 
    65 expresion: expresion LOGAND . expresion
 
@@ -1737,18 +1686,17 @@ Estado 112
     T_REAL         desplazar e ir al estado 65
     UNARIOSLISTA   desplazar e ir al estado 66
     EXCLAMACION    desplazar e ir al estado 67
-    MENOSMENOS     desplazar e ir al estado 68
 
-    expresion         ir al estado 143
-    error_expresion   ir al estado 72
-    lista             ir al estado 73
-    lista_enteros     ir al estado 74
-    lista_reales      ir al estado 75
-    lista_booleanos   ir al estado 76
-    lista_caracteres  ir al estado 77
+    expresion         ir al estado 142
+    error_expresion   ir al estado 71
+    lista             ir al estado 72
+    lista_enteros     ir al estado 73
+    lista_reales      ir al estado 74
+    lista_booleanos   ir al estado 75
+    lista_caracteres  ir al estado 76
 
 
-Estado 113
+Estado 111
 
    67 expresion: expresion ORBIT . expresion
 
@@ -1764,18 +1712,17 @@ Estado 113
     T_REAL         desplazar e ir al estado 65
     UNARIOSLISTA   desplazar e ir al estado 66
     EXCLAMACION    desplazar e ir al estado 67
-    MENOSMENOS     desplazar e ir al estado 68
 
-    expresion         ir al estado 144
-    error_expresion   ir al estado 72
-    lista             ir al estado 73
-    lista_enteros     ir al estado 74
-    lista_reales      ir al estado 75
-    lista_booleanos   ir al estado 76
-    lista_caracteres  ir al estado 77
+    expresion         ir al estado 143
+    error_expresion   ir al estado 71
+    lista             ir al estado 72
+    lista_enteros     ir al estado 73
+    lista_reales      ir al estado 74
+    lista_booleanos   ir al estado 75
+    lista_caracteres  ir al estado 76
 
 
-Estado 114
+Estado 112
 
    66 expresion: expresion EXOR . expresion
 
@@ -1791,18 +1738,17 @@ Estado 114
     T_REAL         desplazar e ir al estado 65
     UNARIOSLISTA   desplazar e ir al estado 66
     EXCLAMACION    desplazar e ir al estado 67
-    MENOSMENOS     desplazar e ir al estado 68
 
-    expresion         ir al estado 145
-    error_expresion   ir al estado 72
-    lista             ir al estado 73
-    lista_enteros     ir al estado 74
-    lista_reales      ir al estado 75
-    lista_booleanos   ir al estado 76
-    lista_caracteres  ir al estado 77
+    expresion         ir al estado 144
+    error_expresion   ir al estado 71
+    lista             ir al estado 72
+    lista_enteros     ir al estado 73
+    lista_reales      ir al estado 74
+    lista_booleanos   ir al estado 75
+    lista_caracteres  ir al estado 76
 
 
-Estado 115
+Estado 113
 
    72 expresion: expresion ANDBIT . expresion
 
@@ -1818,18 +1764,17 @@ Estado 115
     T_REAL         desplazar e ir al estado 65
     UNARIOSLISTA   desplazar e ir al estado 66
     EXCLAMACION    desplazar e ir al estado 67
-    MENOSMENOS     desplazar e ir al estado 68
 
-    expresion         ir al estado 146
-    error_expresion   ir al estado 72
-    lista             ir al estado 73
-    lista_enteros     ir al estado 74
-    lista_reales      ir al estado 75
-    lista_booleanos   ir al estado 76
-    lista_caracteres  ir al estado 77
+    expresion         ir al estado 145
+    error_expresion   ir al estado 71
+    lista             ir al estado 72
+    lista_enteros     ir al estado 73
+    lista_reales      ir al estado 74
+    lista_booleanos   ir al estado 75
+    lista_caracteres  ir al estado 76
 
 
-Estado 116
+Estado 114
 
    70 expresion: expresion IGUALDAD . expresion
 
@@ -1845,18 +1790,17 @@ Estado 116
     T_REAL         desplazar e ir al estado 65
     UNARIOSLISTA   desplazar e ir al estado 66
     EXCLAMACION    desplazar e ir al estado 67
-    MENOSMENOS     desplazar e ir al estado 68
 
-    expresion         ir al estado 147
-    error_expresion   ir al estado 72
-    lista             ir al estado 73
-    lista_enteros     ir al estado 74
-    lista_reales      ir al estado 75
-    lista_booleanos   ir al estado 76
-    lista_caracteres  ir al estado 77
+    expresion         ir al estado 146
+    error_expresion   ir al estado 71
+    lista             ir al estado 72
+    lista_enteros     ir al estado 73
+    lista_reales      ir al estado 74
+    lista_booleanos   ir al estado 75
+    lista_caracteres  ir al estado 76
 
 
-Estado 117
+Estado 115
 
    69 expresion: expresion REL . expresion
 
@@ -1872,18 +1816,17 @@ Estado 117
     T_REAL         desplazar e ir al estado 65
     UNARIOSLISTA   desplazar e ir al estado 66
     EXCLAMACION    desplazar e ir al estado 67
-    MENOSMENOS     desplazar e ir al estado 68
 
-    expresion         ir al estado 148
-    error_expresion   ir al estado 72
-    lista             ir al estado 73
-    lista_enteros     ir al estado 74
-    lista_reales      ir al estado 75
-    lista_booleanos   ir al estado 76
-    lista_caracteres  ir al estado 77
+    expresion         ir al estado 147
+    error_expresion   ir al estado 71
+    lista             ir al estado 72
+    lista_enteros     ir al estado 73
+    lista_reales      ir al estado 74
+    lista_booleanos   ir al estado 75
+    lista_caracteres  ir al estado 76
 
 
-Estado 118
+Estado 116
 
    64 expresion: expresion MULTIDIV . expresion
 
@@ -1899,18 +1842,17 @@ Estado 118
     T_REAL         desplazar e ir al estado 65
     UNARIOSLISTA   desplazar e ir al estado 66
     EXCLAMACION    desplazar e ir al estado 67
-    MENOSMENOS     desplazar e ir al estado 68
 
-    expresion         ir al estado 149
-    error_expresion   ir al estado 72
-    lista             ir al estado 73
-    lista_enteros     ir al estado 74
-    lista_reales      ir al estado 75
-    lista_booleanos   ir al estado 76
-    lista_caracteres  ir al estado 77
+    expresion         ir al estado 148
+    error_expresion   ir al estado 71
+    lista             ir al estado 72
+    lista_enteros     ir al estado 73
+    lista_reales      ir al estado 74
+    lista_booleanos   ir al estado 75
+    lista_caracteres  ir al estado 76
 
 
-Estado 119
+Estado 117
 
    71 expresion: expresion PORCENTAJE . expresion
 
@@ -1926,18 +1868,43 @@ Estado 119
     T_REAL         desplazar e ir al estado 65
     UNARIOSLISTA   desplazar e ir al estado 66
     EXCLAMACION    desplazar e ir al estado 67
-    MENOSMENOS     desplazar e ir al estado 68
+
+    expresion         ir al estado 149
+    error_expresion   ir al estado 71
+    lista             ir al estado 72
+    lista_enteros     ir al estado 73
+    lista_reales      ir al estado 74
+    lista_booleanos   ir al estado 75
+    lista_caracteres  ir al estado 76
+
+
+Estado 118
+
+   59 expresion: expresion MENOSMENOS . expresion
+
+    error          desplazar e ir al estado 55
+    ABRIRCORCH     desplazar e ir al estado 56
+    ABRIRPARENT    desplazar e ir al estado 57
+    MASMAS         desplazar e ir al estado 58
+    MASMENOS       desplazar e ir al estado 59
+    VERDFALS       desplazar e ir al estado 60
+    T_CARACTER     desplazar e ir al estado 61
+    IDENTIFICADOR  desplazar e ir al estado 63
+    T_ENTERO       desplazar e ir al estado 64
+    T_REAL         desplazar e ir al estado 65
+    UNARIOSLISTA   desplazar e ir al estado 66
+    EXCLAMACION    desplazar e ir al estado 67
 
     expresion         ir al estado 150
-    error_expresion   ir al estado 72
-    lista             ir al estado 73
-    lista_enteros     ir al estado 74
-    lista_reales      ir al estado 75
-    lista_booleanos   ir al estado 76
-    lista_caracteres  ir al estado 77
+    error_expresion   ir al estado 71
+    lista             ir al estado 72
+    lista_enteros     ir al estado 73
+    lista_reales      ir al estado 74
+    lista_booleanos   ir al estado 75
+    lista_caracteres  ir al estado 76
 
 
-Estado 120
+Estado 119
 
    63 expresion: expresion MULMUL . expresion
 
@@ -1953,25 +1920,24 @@ Estado 120
     T_REAL         desplazar e ir al estado 65
     UNARIOSLISTA   desplazar e ir al estado 66
     EXCLAMACION    desplazar e ir al estado 67
-    MENOSMENOS     desplazar e ir al estado 68
 
     expresion         ir al estado 151
-    error_expresion   ir al estado 72
-    lista             ir al estado 73
-    lista_enteros     ir al estado 74
-    lista_reales      ir al estado 75
-    lista_booleanos   ir al estado 76
-    lista_caracteres  ir al estado 77
+    error_expresion   ir al estado 71
+    lista             ir al estado 72
+    lista_enteros     ir al estado 73
+    lista_reales      ir al estado 74
+    lista_booleanos   ir al estado 75
+    lista_caracteres  ir al estado 76
 
 
-Estado 121
+Estado 120
 
    61 expresion: expresion AVANRETRO .
 
     $default  reduce usando la regla 61 (expresion)
 
 
-Estado 122
+Estado 121
 
    54 sentencia_for: DURANTE IDENTIFICADOR DOSPUNTOSIGUAL . expresion HASTA expresion HACER Sentencia
 
@@ -1987,21 +1953,21 @@ Estado 122
     T_REAL         desplazar e ir al estado 65
     UNARIOSLISTA   desplazar e ir al estado 66
     EXCLAMACION    desplazar e ir al estado 67
-    MENOSMENOS     desplazar e ir al estado 68
 
     expresion         ir al estado 152
-    error_expresion   ir al estado 72
-    lista             ir al estado 73
-    lista_enteros     ir al estado 74
-    lista_reales      ir al estado 75
-    lista_booleanos   ir al estado 76
-    lista_caracteres  ir al estado 77
+    error_expresion   ir al estado 71
+    lista             ir al estado 72
+    lista_enteros     ir al estado 73
+    lista_reales      ir al estado 74
+    lista_booleanos   ir al estado 75
+    lista_caracteres  ir al estado 76
 
 
-Estado 123
+Estado 122
 
    42 sentencia_asignacion: IDENTIFICADOR ASIG expresion . PUNTOCOMA
-   61 expresion: expresion . AVANRETRO
+   59 expresion: expresion . MENOSMENOS expresion
+   61          | expresion . AVANRETRO
    62          | expresion . ARROBA expresion
    63          | expresion . MULMUL expresion
    64          | expresion . MULTIDIV expresion
@@ -2017,23 +1983,24 @@ Estado 123
    74          | expresion . MASMAS expresion ARROBA expresion
 
     PUNTOCOMA   desplazar e ir al estado 153
-    MASMAS      desplazar e ir al estado 108
-    MASMENOS    desplazar e ir al estado 109
-    ARROBA      desplazar e ir al estado 110
-    LOGOR       desplazar e ir al estado 111
-    LOGAND      desplazar e ir al estado 112
-    ORBIT       desplazar e ir al estado 113
-    EXOR        desplazar e ir al estado 114
-    ANDBIT      desplazar e ir al estado 115
-    IGUALDAD    desplazar e ir al estado 116
-    REL         desplazar e ir al estado 117
-    MULTIDIV    desplazar e ir al estado 118
-    PORCENTAJE  desplazar e ir al estado 119
-    MULMUL      desplazar e ir al estado 120
-    AVANRETRO   desplazar e ir al estado 121
+    MASMAS      desplazar e ir al estado 106
+    MASMENOS    desplazar e ir al estado 107
+    ARROBA      desplazar e ir al estado 108
+    LOGOR       desplazar e ir al estado 109
+    LOGAND      desplazar e ir al estado 110
+    ORBIT       desplazar e ir al estado 111
+    EXOR        desplazar e ir al estado 112
+    ANDBIT      desplazar e ir al estado 113
+    IGUALDAD    desplazar e ir al estado 114
+    REL         desplazar e ir al estado 115
+    MULTIDIV    desplazar e ir al estado 116
+    PORCENTAJE  desplazar e ir al estado 117
+    MENOSMENOS  desplazar e ir al estado 118
+    MULMUL      desplazar e ir al estado 119
+    AVANRETRO   desplazar e ir al estado 120
 
 
-Estado 124
+Estado 123
 
    53 llamada_proced: IDENTIFICADOR $@3 ABRIRPARENT . lista_expresiones CERRARPARENT PUNTOCOMA
 
@@ -2049,29 +2016,28 @@ Estado 124
     T_REAL         desplazar e ir al estado 65
     UNARIOSLISTA   desplazar e ir al estado 66
     EXCLAMACION    desplazar e ir al estado 67
-    MENOSMENOS     desplazar e ir al estado 68
 
     CERRARPARENT  reduce usando la regla 85 (lista_expresiones)
     COMA          reduce usando la regla 85 (lista_expresiones)
 
     expresion          ir al estado 154
-    error_expresion    ir al estado 72
+    error_expresion    ir al estado 71
     lista_expresiones  ir al estado 155
-    lista              ir al estado 73
-    lista_enteros      ir al estado 74
-    lista_reales       ir al estado 75
-    lista_booleanos    ir al estado 76
-    lista_caracteres   ir al estado 77
+    lista              ir al estado 72
+    lista_enteros      ir al estado 73
+    lista_reales       ir al estado 74
+    lista_booleanos    ir al estado 75
+    lista_caracteres   ir al estado 76
 
 
-Estado 125
+Estado 124
 
    28 Identificadores: Identificadores COMA IDENTIFICADOR .
 
     $default  reduce usando la regla 28 (Identificadores)
 
 
-Estado 126
+Estado 125
 
    13 Cabecera_subprograma: PROCED IDENTIFICADOR $@2 ABRIRPARENT . parametros CERRARPARENT
 
@@ -2086,7 +2052,7 @@ Estado 126
     tipo_lista  ir al estado 23
 
 
-Estado 127
+Estado 126
 
    43 sentencia_if: CONDSI ABRIRPARENT expresion CERRARPARENT . Sentencia
    44             | CONDSI ABRIRPARENT expresion CERRARPARENT . Sentencia CONDSINO Sentencia
@@ -2111,7 +2077,7 @@ Estado 127
     sentencia_for         ir al estado 42
 
 
-Estado 128
+Estado 127
 
    45 sentencia_while: CONDMIENTRAS ABRIRPARENT expresion CERRARPARENT . Sentencia
 
@@ -2135,79 +2101,80 @@ Estado 128
     sentencia_for         ir al estado 42
 
 
-Estado 129
+Estado 128
 
    90 lista_enteros: ABRIRCORCH Enteros CERRARCORCH .
 
     $default  reduce usando la regla 90 (lista_enteros)
 
 
-Estado 130
+Estado 129
 
    92 Enteros: Enteros COMA . T_ENTERO
 
     T_ENTERO  desplazar e ir al estado 161
 
 
-Estado 131
+Estado 130
 
    93 lista_reales: ABRIRCORCH Reales CERRARCORCH .
 
     $default  reduce usando la regla 93 (lista_reales)
 
 
-Estado 132
+Estado 131
 
    95 Reales: Reales COMA . T_REAL
 
     T_REAL  desplazar e ir al estado 162
 
 
-Estado 133
+Estado 132
 
    96 lista_booleanos: ABRIRCORCH Booleanos CERRARCORCH .
 
     $default  reduce usando la regla 96 (lista_booleanos)
 
 
-Estado 134
+Estado 133
 
    98 Booleanos: Booleanos COMA . VERDFALS
 
     VERDFALS  desplazar e ir al estado 163
 
 
-Estado 135
+Estado 134
 
    99 lista_caracteres: ABRIRCORCH Caracteres CERRARCORCH .
 
     $default  reduce usando la regla 99 (lista_caracteres)
 
 
-Estado 136
+Estado 135
 
   101 Caracteres: Caracteres COMA . T_CARACTER
 
     T_CARACTER  desplazar e ir al estado 164
 
 
-Estado 137
+Estado 136
 
    55 expresion: ABRIRPARENT expresion CERRARPARENT .
 
     $default  reduce usando la regla 55 (expresion)
 
 
-Estado 138
+Estado 137
 
    51 lista_expresiones_o_cadena: lista_expresiones_o_cadena COMA expcad .
 
     $default  reduce usando la regla 51 (lista_expresiones_o_cadena)
 
 
-Estado 139
+Estado 138
 
-   61 expresion: expresion . AVANRETRO
+   59 expresion: expresion . MENOSMENOS expresion
+   61          | expresion . AVANRETRO
    62          | expresion . ARROBA expresion
    63          | expresion . MULMUL expresion
    64          | expresion . MULTIDIV expresion
@@ -2223,25 +2190,27 @@ Estado 139
    74          | expresion . MASMAS expresion ARROBA expresion
    74          | expresion MASMAS expresion . ARROBA expresion
 
-    MASMAS      desplazar e ir al estado 108
-    MASMENOS    desplazar e ir al estado 109
+    MASMAS      desplazar e ir al estado 106
+    MASMENOS    desplazar e ir al estado 107
     ARROBA      desplazar e ir al estado 165
-    LOGOR       desplazar e ir al estado 111
-    LOGAND      desplazar e ir al estado 112
-    ORBIT       desplazar e ir al estado 113
-    EXOR        desplazar e ir al estado 114
-    ANDBIT      desplazar e ir al estado 115
-    IGUALDAD    desplazar e ir al estado 116
-    REL         desplazar e ir al estado 117
-    MULTIDIV    desplazar e ir al estado 118
-    PORCENTAJE  desplazar e ir al estado 119
-    MULMUL      desplazar e ir al estado 120
-    AVANRETRO   desplazar e ir al estado 121
+    LOGOR       desplazar e ir al estado 109
+    LOGAND      desplazar e ir al estado 110
+    ORBIT       desplazar e ir al estado 111
+    EXOR        desplazar e ir al estado 112
+    ANDBIT      desplazar e ir al estado 113
+    IGUALDAD    desplazar e ir al estado 114
+    REL         desplazar e ir al estado 115
+    MULTIDIV    desplazar e ir al estado 116
+    PORCENTAJE  desplazar e ir al estado 117
+    MENOSMENOS  desplazar e ir al estado 118
+    MULMUL      desplazar e ir al estado 119
+    AVANRETRO   desplazar e ir al estado 120
 
 
-Estado 140
+Estado 139
 
-   61 expresion: expresion . AVANRETRO
+   59 expresion: expresion . MENOSMENOS expresion
+   61          | expresion . AVANRETRO
    62          | expresion . ARROBA expresion
    63          | expresion . MULMUL expresion
    64          | expresion . MULTIDIV expresion
@@ -2257,18 +2226,20 @@ Estado 140
    73          | expresion MASMENOS expresion .
    74          | expresion . MASMAS expresion ARROBA expresion
 
-    MASMAS      desplazar e ir al estado 108
-    MULTIDIV    desplazar e ir al estado 118
-    PORCENTAJE  desplazar e ir al estado 119
-    MULMUL      desplazar e ir al estado 120
-    AVANRETRO   desplazar e ir al estado 121
+    MASMAS      desplazar e ir al estado 106
+    MULTIDIV    desplazar e ir al estado 116
+    PORCENTAJE  desplazar e ir al estado 117
+    MENOSMENOS  desplazar e ir al estado 118
+    MULMUL      desplazar e ir al estado 119
+    AVANRETRO   desplazar e ir al estado 120
 
     $default  reduce usando la regla 73 (expresion)
 
 
-Estado 141
+Estado 140
 
-   61 expresion: expresion . AVANRETRO
+   59 expresion: expresion . MENOSMENOS expresion
+   61          | expresion . AVANRETRO
    62          | expresion . ARROBA expresion
    62          | expresion ARROBA expresion .
    63          | expresion . MULMUL expresion
@@ -2284,27 +2255,29 @@ Estado 141
    73          | expresion . MASMENOS expresion
    74          | expresion . MASMAS expresion ARROBA expresion
 
-    MASMAS      desplazar e ir al estado 108
-    MASMENOS    desplazar e ir al estado 109
-    ARROBA      desplazar e ir al estado 110
-    LOGOR       desplazar e ir al estado 111
-    LOGAND      desplazar e ir al estado 112
-    ORBIT       desplazar e ir al estado 113
-    EXOR        desplazar e ir al estado 114
-    ANDBIT      desplazar e ir al estado 115
-    IGUALDAD    desplazar e ir al estado 116
-    REL         desplazar e ir al estado 117
-    MULTIDIV    desplazar e ir al estado 118
-    PORCENTAJE  desplazar e ir al estado 119
-    MULMUL      desplazar e ir al estado 120
-    AVANRETRO   desplazar e ir al estado 121
+    MASMAS      desplazar e ir al estado 106
+    MASMENOS    desplazar e ir al estado 107
+    ARROBA      desplazar e ir al estado 108
+    LOGOR       desplazar e ir al estado 109
+    LOGAND      desplazar e ir al estado 110
+    ORBIT       desplazar e ir al estado 111
+    EXOR        desplazar e ir al estado 112
+    ANDBIT      desplazar e ir al estado 113
+    IGUALDAD    desplazar e ir al estado 114
+    REL         desplazar e ir al estado 115
+    MULTIDIV    desplazar e ir al estado 116
+    PORCENTAJE  desplazar e ir al estado 117
+    MENOSMENOS  desplazar e ir al estado 118
+    MULMUL      desplazar e ir al estado 119
+    AVANRETRO   desplazar e ir al estado 120
 
     $default  reduce usando la regla 62 (expresion)
 
 
-Estado 142
+Estado 141
 
-   61 expresion: expresion . AVANRETRO
+   59 expresion: expresion . MENOSMENOS expresion
+   61          | expresion . AVANRETRO
    62          | expresion . ARROBA expresion
    63          | expresion . MULMUL expresion
    64          | expresion . MULTIDIV expresion
@@ -2320,25 +2293,27 @@ Estado 142
    73          | expresion . MASMENOS expresion
    74          | expresion . MASMAS expresion ARROBA expresion
 
-    MASMAS      desplazar e ir al estado 108
-    MASMENOS    desplazar e ir al estado 109
-    LOGAND      desplazar e ir al estado 112
-    ORBIT       desplazar e ir al estado 113
-    EXOR        desplazar e ir al estado 114
-    ANDBIT      desplazar e ir al estado 115
-    IGUALDAD    desplazar e ir al estado 116
-    REL         desplazar e ir al estado 117
-    MULTIDIV    desplazar e ir al estado 118
-    PORCENTAJE  desplazar e ir al estado 119
-    MULMUL      desplazar e ir al estado 120
-    AVANRETRO   desplazar e ir al estado 121
+    MASMAS      desplazar e ir al estado 106
+    MASMENOS    desplazar e ir al estado 107
+    LOGAND      desplazar e ir al estado 110
+    ORBIT       desplazar e ir al estado 111
+    EXOR        desplazar e ir al estado 112
+    ANDBIT      desplazar e ir al estado 113
+    IGUALDAD    desplazar e ir al estado 114
+    REL         desplazar e ir al estado 115
+    MULTIDIV    desplazar e ir al estado 116
+    PORCENTAJE  desplazar e ir al estado 117
+    MENOSMENOS  desplazar e ir al estado 118
+    MULMUL      desplazar e ir al estado 119
+    AVANRETRO   desplazar e ir al estado 120
 
     $default  reduce usando la regla 68 (expresion)
 
 
-Estado 143
+Estado 142
 
-   61 expresion: expresion . AVANRETRO
+   59 expresion: expresion . MENOSMENOS expresion
+   61          | expresion . AVANRETRO
    62          | expresion . ARROBA expresion
    63          | expresion . MULMUL expresion
    64          | expresion . MULTIDIV expresion
@@ -2354,24 +2329,26 @@ Estado 143
    73          | expresion . MASMENOS expresion
    74          | expresion . MASMAS expresion ARROBA expresion
 
-    MASMAS      desplazar e ir al estado 108
-    MASMENOS    desplazar e ir al estado 109
-    ORBIT       desplazar e ir al estado 113
-    EXOR        desplazar e ir al estado 114
-    ANDBIT      desplazar e ir al estado 115
-    IGUALDAD    desplazar e ir al estado 116
-    REL         desplazar e ir al estado 117
-    MULTIDIV    desplazar e ir al estado 118
-    PORCENTAJE  desplazar e ir al estado 119
-    MULMUL      desplazar e ir al estado 120
-    AVANRETRO   desplazar e ir al estado 121
+    MASMAS      desplazar e ir al estado 106
+    MASMENOS    desplazar e ir al estado 107
+    ORBIT       desplazar e ir al estado 111
+    EXOR        desplazar e ir al estado 112
+    ANDBIT      desplazar e ir al estado 113
+    IGUALDAD    desplazar e ir al estado 114
+    REL         desplazar e ir al estado 115
+    MULTIDIV    desplazar e ir al estado 116
+    PORCENTAJE  desplazar e ir al estado 117
+    MENOSMENOS  desplazar e ir al estado 118
+    MULMUL      desplazar e ir al estado 119
+    AVANRETRO   desplazar e ir al estado 120
 
     $default  reduce usando la regla 65 (expresion)
 
 
-Estado 144
+Estado 143
 
-   61 expresion: expresion . AVANRETRO
+   59 expresion: expresion . MENOSMENOS expresion
+   61          | expresion . AVANRETRO
    62          | expresion . ARROBA expresion
    63          | expresion . MULMUL expresion
    64          | expresion . MULTIDIV expresion
@@ -2387,23 +2364,25 @@ Estado 144
    73          | expresion . MASMENOS expresion
    74          | expresion . MASMAS expresion ARROBA expresion
 
-    MASMAS      desplazar e ir al estado 108
-    MASMENOS    desplazar e ir al estado 109
-    EXOR        desplazar e ir al estado 114
-    ANDBIT      desplazar e ir al estado 115
-    IGUALDAD    desplazar e ir al estado 116
-    REL         desplazar e ir al estado 117
-    MULTIDIV    desplazar e ir al estado 118
-    PORCENTAJE  desplazar e ir al estado 119
-    MULMUL      desplazar e ir al estado 120
-    AVANRETRO   desplazar e ir al estado 121
+    MASMAS      desplazar e ir al estado 106
+    MASMENOS    desplazar e ir al estado 107
+    EXOR        desplazar e ir al estado 112
+    ANDBIT      desplazar e ir al estado 113
+    IGUALDAD    desplazar e ir al estado 114
+    REL         desplazar e ir al estado 115
+    MULTIDIV    desplazar e ir al estado 116
+    PORCENTAJE  desplazar e ir al estado 117
+    MENOSMENOS  desplazar e ir al estado 118
+    MULMUL      desplazar e ir al estado 119
+    AVANRETRO   desplazar e ir al estado 120
 
     $default  reduce usando la regla 67 (expresion)
 
 
-Estado 145
+Estado 144
 
-   61 expresion: expresion . AVANRETRO
+   59 expresion: expresion . MENOSMENOS expresion
+   61          | expresion . AVANRETRO
    62          | expresion . ARROBA expresion
    63          | expresion . MULMUL expresion
    64          | expresion . MULTIDIV expresion
@@ -2419,22 +2398,24 @@ Estado 145
    73          | expresion . MASMENOS expresion
    74          | expresion . MASMAS expresion ARROBA expresion
 
-    MASMAS      desplazar e ir al estado 108
-    MASMENOS    desplazar e ir al estado 109
-    ANDBIT      desplazar e ir al estado 115
-    IGUALDAD    desplazar e ir al estado 116
-    REL         desplazar e ir al estado 117
-    MULTIDIV    desplazar e ir al estado 118
-    PORCENTAJE  desplazar e ir al estado 119
-    MULMUL      desplazar e ir al estado 120
-    AVANRETRO   desplazar e ir al estado 121
+    MASMAS      desplazar e ir al estado 106
+    MASMENOS    desplazar e ir al estado 107
+    ANDBIT      desplazar e ir al estado 113
+    IGUALDAD    desplazar e ir al estado 114
+    REL         desplazar e ir al estado 115
+    MULTIDIV    desplazar e ir al estado 116
+    PORCENTAJE  desplazar e ir al estado 117
+    MENOSMENOS  desplazar e ir al estado 118
+    MULMUL      desplazar e ir al estado 119
+    AVANRETRO   desplazar e ir al estado 120
 
     $default  reduce usando la regla 66 (expresion)
 
 
-Estado 146
+Estado 145
 
-   61 expresion: expresion . AVANRETRO
+   59 expresion: expresion . MENOSMENOS expresion
+   61          | expresion . AVANRETRO
    62          | expresion . ARROBA expresion
    63          | expresion . MULMUL expresion
    64          | expresion . MULTIDIV expresion
@@ -2450,21 +2431,23 @@ Estado 146
    73          | expresion . MASMENOS expresion
    74          | expresion . MASMAS expresion ARROBA expresion
 
-    MASMAS      desplazar e ir al estado 108
-    MASMENOS    desplazar e ir al estado 109
-    IGUALDAD    desplazar e ir al estado 116
-    REL         desplazar e ir al estado 117
-    MULTIDIV    desplazar e ir al estado 118
-    PORCENTAJE  desplazar e ir al estado 119
-    MULMUL      desplazar e ir al estado 120
-    AVANRETRO   desplazar e ir al estado 121
+    MASMAS      desplazar e ir al estado 106
+    MASMENOS    desplazar e ir al estado 107
+    IGUALDAD    desplazar e ir al estado 114
+    REL         desplazar e ir al estado 115
+    MULTIDIV    desplazar e ir al estado 116
+    PORCENTAJE  desplazar e ir al estado 117
+    MENOSMENOS  desplazar e ir al estado 118
+    MULMUL      desplazar e ir al estado 119
+    AVANRETRO   desplazar e ir al estado 120
 
     $default  reduce usando la regla 72 (expresion)
 
 
-Estado 147
+Estado 146
 
-   61 expresion: expresion . AVANRETRO
+   59 expresion: expresion . MENOSMENOS expresion
+   61          | expresion . AVANRETRO
    62          | expresion . ARROBA expresion
    63          | expresion . MULMUL expresion
    64          | expresion . MULTIDIV expresion
@@ -2480,20 +2463,22 @@ Estado 147
    73          | expresion . MASMENOS expresion
    74          | expresion . MASMAS expresion ARROBA expresion
 
-    MASMAS      desplazar e ir al estado 108
-    MASMENOS    desplazar e ir al estado 109
-    REL         desplazar e ir al estado 117
-    MULTIDIV    desplazar e ir al estado 118
-    PORCENTAJE  desplazar e ir al estado 119
-    MULMUL      desplazar e ir al estado 120
-    AVANRETRO   desplazar e ir al estado 121
+    MASMAS      desplazar e ir al estado 106
+    MASMENOS    desplazar e ir al estado 107
+    REL         desplazar e ir al estado 115
+    MULTIDIV    desplazar e ir al estado 116
+    PORCENTAJE  desplazar e ir al estado 117
+    MENOSMENOS  desplazar e ir al estado 118
+    MULMUL      desplazar e ir al estado 119
+    AVANRETRO   desplazar e ir al estado 120
 
     $default  reduce usando la regla 70 (expresion)
 
 
-Estado 148
+Estado 147
 
-   61 expresion: expresion . AVANRETRO
+   59 expresion: expresion . MENOSMENOS expresion
+   61          | expresion . AVANRETRO
    62          | expresion . ARROBA expresion
    63          | expresion . MULMUL expresion
    64          | expresion . MULTIDIV expresion
@@ -2509,19 +2494,21 @@ Estado 148
    73          | expresion . MASMENOS expresion
    74          | expresion . MASMAS expresion ARROBA expresion
 
-    MASMAS      desplazar e ir al estado 108
-    MASMENOS    desplazar e ir al estado 109
-    MULTIDIV    desplazar e ir al estado 118
-    PORCENTAJE  desplazar e ir al estado 119
-    MULMUL      desplazar e ir al estado 120
-    AVANRETRO   desplazar e ir al estado 121
+    MASMAS      desplazar e ir al estado 106
+    MASMENOS    desplazar e ir al estado 107
+    MULTIDIV    desplazar e ir al estado 116
+    PORCENTAJE  desplazar e ir al estado 117
+    MENOSMENOS  desplazar e ir al estado 118
+    MULMUL      desplazar e ir al estado 119
+    AVANRETRO   desplazar e ir al estado 120
 
     $default  reduce usando la regla 69 (expresion)
 
 
-Estado 149
+Estado 148
 
-   61 expresion: expresion . AVANRETRO
+   59 expresion: expresion . MENOSMENOS expresion
+   61          | expresion . AVANRETRO
    62          | expresion . ARROBA expresion
    63          | expresion . MULMUL expresion
    64          | expresion . MULTIDIV expresion
@@ -2537,16 +2524,18 @@ Estado 149
    73          | expresion . MASMENOS expresion
    74          | expresion . MASMAS expresion ARROBA expresion
 
-    MASMAS     desplazar e ir al estado 108
-    MULMUL     desplazar e ir al estado 120
-    AVANRETRO  desplazar e ir al estado 121
+    MASMAS      desplazar e ir al estado 106
+    MENOSMENOS  desplazar e ir al estado 118
+    MULMUL      desplazar e ir al estado 119
+    AVANRETRO   desplazar e ir al estado 120
 
     $default  reduce usando la regla 64 (expresion)
 
 
-Estado 150
+Estado 149
 
-   61 expresion: expresion . AVANRETRO
+   59 expresion: expresion . MENOSMENOS expresion
+   61          | expresion . AVANRETRO
    62          | expresion . ARROBA expresion
    63          | expresion . MULMUL expresion
    64          | expresion . MULTIDIV expresion
@@ -2562,16 +2551,45 @@ Estado 150
    73          | expresion . MASMENOS expresion
    74          | expresion . MASMAS expresion ARROBA expresion
 
-    MASMAS     desplazar e ir al estado 108
-    MULMUL     desplazar e ir al estado 120
-    AVANRETRO  desplazar e ir al estado 121
+    MASMAS      desplazar e ir al estado 106
+    MENOSMENOS  desplazar e ir al estado 118
+    MULMUL      desplazar e ir al estado 119
+    AVANRETRO   desplazar e ir al estado 120
 
     $default  reduce usando la regla 71 (expresion)
 
 
+Estado 150
+
+   59 expresion: expresion . MENOSMENOS expresion
+   59          | expresion MENOSMENOS expresion .
+   61          | expresion . AVANRETRO
+   62          | expresion . ARROBA expresion
+   63          | expresion . MULMUL expresion
+   64          | expresion . MULTIDIV expresion
+   65          | expresion . LOGAND expresion
+   66          | expresion . EXOR expresion
+   67          | expresion . ORBIT expresion
+   68          | expresion . LOGOR expresion
+   69          | expresion . REL expresion
+   70          | expresion . IGUALDAD expresion
+   71          | expresion . PORCENTAJE expresion
+   72          | expresion . ANDBIT expresion
+   73          | expresion . MASMENOS expresion
+   74          | expresion . MASMAS expresion ARROBA expresion
+
+    MASMAS      desplazar e ir al estado 106
+    MENOSMENOS  desplazar e ir al estado 118
+    MULMUL      desplazar e ir al estado 119
+    AVANRETRO   desplazar e ir al estado 120
+
+    $default  reduce usando la regla 59 (expresion)
+
+
 Estado 151
 
-   61 expresion: expresion . AVANRETRO
+   59 expresion: expresion . MENOSMENOS expresion
+   61          | expresion . AVANRETRO
    62          | expresion . ARROBA expresion
    63          | expresion . MULMUL expresion
    63          | expresion MULMUL expresion .
@@ -2587,8 +2605,8 @@ Estado 151
    73          | expresion . MASMENOS expresion
    74          | expresion . MASMAS expresion ARROBA expresion
 
-    MULMUL     desplazar e ir al estado 120
-    AVANRETRO  desplazar e ir al estado 121
+    MULMUL     desplazar e ir al estado 119
+    AVANRETRO  desplazar e ir al estado 120
 
     $default  reduce usando la regla 63 (expresion)
 
@@ -2596,7 +2614,8 @@ Estado 151
 Estado 152
 
    54 sentencia_for: DURANTE IDENTIFICADOR DOSPUNTOSIGUAL expresion . HASTA expresion HACER Sentencia
-   61 expresion: expresion . AVANRETRO
+   59 expresion: expresion . MENOSMENOS expresion
+   61          | expresion . AVANRETRO
    62          | expresion . ARROBA expresion
    63          | expresion . MULMUL expresion
    64          | expresion . MULTIDIV expresion
@@ -2611,21 +2630,22 @@ Estado 152
    73          | expresion . MASMENOS expresion
    74          | expresion . MASMAS expresion ARROBA expresion
 
-    MASMAS      desplazar e ir al estado 108
-    MASMENOS    desplazar e ir al estado 109
+    MASMAS      desplazar e ir al estado 106
+    MASMENOS    desplazar e ir al estado 107
     HASTA       desplazar e ir al estado 166
-    ARROBA      desplazar e ir al estado 110
-    LOGOR       desplazar e ir al estado 111
-    LOGAND      desplazar e ir al estado 112
-    ORBIT       desplazar e ir al estado 113
-    EXOR        desplazar e ir al estado 114
-    ANDBIT      desplazar e ir al estado 115
-    IGUALDAD    desplazar e ir al estado 116
-    REL         desplazar e ir al estado 117
-    MULTIDIV    desplazar e ir al estado 118
-    PORCENTAJE  desplazar e ir al estado 119
-    MULMUL      desplazar e ir al estado 120
-    AVANRETRO   desplazar e ir al estado 121
+    ARROBA      desplazar e ir al estado 108
+    LOGOR       desplazar e ir al estado 109
+    LOGAND      desplazar e ir al estado 110
+    ORBIT       desplazar e ir al estado 111
+    EXOR        desplazar e ir al estado 112
+    ANDBIT      desplazar e ir al estado 113
+    IGUALDAD    desplazar e ir al estado 114
+    REL         desplazar e ir al estado 115
+    MULTIDIV    desplazar e ir al estado 116
+    PORCENTAJE  desplazar e ir al estado 117
+    MENOSMENOS  desplazar e ir al estado 118
+    MULMUL      desplazar e ir al estado 119
+    AVANRETRO   desplazar e ir al estado 120
 
 
 Estado 153
@@ -2637,7 +2657,8 @@ Estado 153
 
 Estado 154
 
-   61 expresion: expresion . AVANRETRO
+   59 expresion: expresion . MENOSMENOS expresion
+   61          | expresion . AVANRETRO
    62          | expresion . ARROBA expresion
    63          | expresion . MULMUL expresion
    64          | expresion . MULTIDIV expresion
@@ -2653,20 +2674,21 @@ Estado 154
    74          | expresion . MASMAS expresion ARROBA expresion
    84 lista_expresiones: expresion .
 
-    MASMAS      desplazar e ir al estado 108
-    MASMENOS    desplazar e ir al estado 109
-    ARROBA      desplazar e ir al estado 110
-    LOGOR       desplazar e ir al estado 111
-    LOGAND      desplazar e ir al estado 112
-    ORBIT       desplazar e ir al estado 113
-    EXOR        desplazar e ir al estado 114
-    ANDBIT      desplazar e ir al estado 115
-    IGUALDAD    desplazar e ir al estado 116
-    REL         desplazar e ir al estado 117
-    MULTIDIV    desplazar e ir al estado 118
-    PORCENTAJE  desplazar e ir al estado 119
-    MULMUL      desplazar e ir al estado 120
-    AVANRETRO   desplazar e ir al estado 121
+    MASMAS      desplazar e ir al estado 106
+    MASMENOS    desplazar e ir al estado 107
+    ARROBA      desplazar e ir al estado 108
+    LOGOR       desplazar e ir al estado 109
+    LOGAND      desplazar e ir al estado 110
+    ORBIT       desplazar e ir al estado 111
+    EXOR        desplazar e ir al estado 112
+    ANDBIT      desplazar e ir al estado 113
+    IGUALDAD    desplazar e ir al estado 114
+    REL         desplazar e ir al estado 115
+    MULTIDIV    desplazar e ir al estado 116
+    PORCENTAJE  desplazar e ir al estado 117
+    MENOSMENOS  desplazar e ir al estado 118
+    MULMUL      desplazar e ir al estado 119
+    AVANRETRO   desplazar e ir al estado 120
 
     $default  reduce usando la regla 84 (lista_expresiones)
 
@@ -2766,15 +2788,14 @@ Estado 165
     T_REAL         desplazar e ir al estado 65
     UNARIOSLISTA   desplazar e ir al estado 66
     EXCLAMACION    desplazar e ir al estado 67
-    MENOSMENOS     desplazar e ir al estado 68
 
     expresion         ir al estado 173
-    error_expresion   ir al estado 72
-    lista             ir al estado 73
-    lista_enteros     ir al estado 74
-    lista_reales      ir al estado 75
-    lista_booleanos   ir al estado 76
-    lista_caracteres  ir al estado 77
+    error_expresion   ir al estado 71
+    lista             ir al estado 72
+    lista_enteros     ir al estado 73
+    lista_reales      ir al estado 74
+    lista_booleanos   ir al estado 75
+    lista_caracteres  ir al estado 76
 
 
 Estado 166
@@ -2793,15 +2814,14 @@ Estado 166
     T_REAL         desplazar e ir al estado 65
     UNARIOSLISTA   desplazar e ir al estado 66
     EXCLAMACION    desplazar e ir al estado 67
-    MENOSMENOS     desplazar e ir al estado 68
 
     expresion         ir al estado 174
-    error_expresion   ir al estado 72
-    lista             ir al estado 73
-    lista_enteros     ir al estado 74
-    lista_reales      ir al estado 75
-    lista_booleanos   ir al estado 76
-    lista_caracteres  ir al estado 77
+    error_expresion   ir al estado 71
+    lista             ir al estado 72
+    lista_enteros     ir al estado 73
+    lista_reales      ir al estado 74
+    lista_booleanos   ir al estado 75
+    lista_caracteres  ir al estado 76
 
 
 Estado 167
@@ -2827,15 +2847,14 @@ Estado 168
     T_REAL         desplazar e ir al estado 65
     UNARIOSLISTA   desplazar e ir al estado 66
     EXCLAMACION    desplazar e ir al estado 67
-    MENOSMENOS     desplazar e ir al estado 68
 
     expresion         ir al estado 176
-    error_expresion   ir al estado 72
-    lista             ir al estado 73
-    lista_enteros     ir al estado 74
-    lista_reales      ir al estado 75
-    lista_booleanos   ir al estado 76
-    lista_caracteres  ir al estado 77
+    error_expresion   ir al estado 71
+    lista             ir al estado 72
+    lista_enteros     ir al estado 73
+    lista_reales      ir al estado 74
+    lista_booleanos   ir al estado 75
+    lista_caracteres  ir al estado 76
 
 
 Estado 169
@@ -2890,7 +2909,8 @@ Estado 172
 
 Estado 173
 
-   61 expresion: expresion . AVANRETRO
+   59 expresion: expresion . MENOSMENOS expresion
+   61          | expresion . AVANRETRO
    62          | expresion . ARROBA expresion
    62          | expresion ARROBA expresion .
    63          | expresion . MULMUL expresion
@@ -2907,20 +2927,21 @@ Estado 173
    74          | expresion . MASMAS expresion ARROBA expresion
    74          | expresion MASMAS expresion ARROBA expresion .
 
-    MASMAS      desplazar e ir al estado 108
-    MASMENOS    desplazar e ir al estado 109
-    ARROBA      desplazar e ir al estado 110
-    LOGOR       desplazar e ir al estado 111
-    LOGAND      desplazar e ir al estado 112
-    ORBIT       desplazar e ir al estado 113
-    EXOR        desplazar e ir al estado 114
-    ANDBIT      desplazar e ir al estado 115
-    IGUALDAD    desplazar e ir al estado 116
-    REL         desplazar e ir al estado 117
-    MULTIDIV    desplazar e ir al estado 118
-    PORCENTAJE  desplazar e ir al estado 119
-    MULMUL      desplazar e ir al estado 120
-    AVANRETRO   desplazar e ir al estado 121
+    MASMAS      desplazar e ir al estado 106
+    MASMENOS    desplazar e ir al estado 107
+    ARROBA      desplazar e ir al estado 108
+    LOGOR       desplazar e ir al estado 109
+    LOGAND      desplazar e ir al estado 110
+    ORBIT       desplazar e ir al estado 111
+    EXOR        desplazar e ir al estado 112
+    ANDBIT      desplazar e ir al estado 113
+    IGUALDAD    desplazar e ir al estado 114
+    REL         desplazar e ir al estado 115
+    MULTIDIV    desplazar e ir al estado 116
+    PORCENTAJE  desplazar e ir al estado 117
+    MENOSMENOS  desplazar e ir al estado 118
+    MULMUL      desplazar e ir al estado 119
+    AVANRETRO   desplazar e ir al estado 120
 
     $default  reduce usando la regla 74 (expresion)
 
@@ -2928,7 +2949,8 @@ Estado 173
 Estado 174
 
    54 sentencia_for: DURANTE IDENTIFICADOR DOSPUNTOSIGUAL expresion HASTA expresion . HACER Sentencia
-   61 expresion: expresion . AVANRETRO
+   59 expresion: expresion . MENOSMENOS expresion
+   61          | expresion . AVANRETRO
    62          | expresion . ARROBA expresion
    63          | expresion . MULMUL expresion
    64          | expresion . MULTIDIV expresion
@@ -2943,21 +2965,22 @@ Estado 174
    73          | expresion . MASMENOS expresion
    74          | expresion . MASMAS expresion ARROBA expresion
 
-    MASMAS      desplazar e ir al estado 108
-    MASMENOS    desplazar e ir al estado 109
+    MASMAS      desplazar e ir al estado 106
+    MASMENOS    desplazar e ir al estado 107
     HACER       desplazar e ir al estado 179
-    ARROBA      desplazar e ir al estado 110
-    LOGOR       desplazar e ir al estado 111
-    LOGAND      desplazar e ir al estado 112
-    ORBIT       desplazar e ir al estado 113
-    EXOR        desplazar e ir al estado 114
-    ANDBIT      desplazar e ir al estado 115
-    IGUALDAD    desplazar e ir al estado 116
-    REL         desplazar e ir al estado 117
-    MULTIDIV    desplazar e ir al estado 118
-    PORCENTAJE  desplazar e ir al estado 119
-    MULMUL      desplazar e ir al estado 120
-    AVANRETRO   desplazar e ir al estado 121
+    ARROBA      desplazar e ir al estado 108
+    LOGOR       desplazar e ir al estado 109
+    LOGAND      desplazar e ir al estado 110
+    ORBIT       desplazar e ir al estado 111
+    EXOR        desplazar e ir al estado 112
+    ANDBIT      desplazar e ir al estado 113
+    IGUALDAD    desplazar e ir al estado 114
+    REL         desplazar e ir al estado 115
+    MULTIDIV    desplazar e ir al estado 116
+    PORCENTAJE  desplazar e ir al estado 117
+    MENOSMENOS  desplazar e ir al estado 118
+    MULMUL      desplazar e ir al estado 119
+    AVANRETRO   desplazar e ir al estado 120
 
 
 Estado 175
@@ -2969,7 +2992,8 @@ Estado 175
 
 Estado 176
 
-   61 expresion: expresion . AVANRETRO
+   59 expresion: expresion . MENOSMENOS expresion
+   61          | expresion . AVANRETRO
    62          | expresion . ARROBA expresion
    63          | expresion . MULMUL expresion
    64          | expresion . MULTIDIV expresion
@@ -2985,20 +3009,21 @@ Estado 176
    74          | expresion . MASMAS expresion ARROBA expresion
    83 lista_expresiones: lista_expresiones COMA expresion .
 
-    MASMAS      desplazar e ir al estado 108
-    MASMENOS    desplazar e ir al estado 109
-    ARROBA      desplazar e ir al estado 110
-    LOGOR       desplazar e ir al estado 111
-    LOGAND      desplazar e ir al estado 112
-    ORBIT       desplazar e ir al estado 113
-    EXOR        desplazar e ir al estado 114
-    ANDBIT      desplazar e ir al estado 115
-    IGUALDAD    desplazar e ir al estado 116
-    REL         desplazar e ir al estado 117
-    MULTIDIV    desplazar e ir al estado 118
-    PORCENTAJE  desplazar e ir al estado 119
-    MULMUL      desplazar e ir al estado 120
-    AVANRETRO   desplazar e ir al estado 121
+    MASMAS      desplazar e ir al estado 106
+    MASMENOS    desplazar e ir al estado 107
+    ARROBA      desplazar e ir al estado 108
+    LOGOR       desplazar e ir al estado 109
+    LOGAND      desplazar e ir al estado 110
+    ORBIT       desplazar e ir al estado 111
+    EXOR        desplazar e ir al estado 112
+    ANDBIT      desplazar e ir al estado 113
+    IGUALDAD    desplazar e ir al estado 114
+    REL         desplazar e ir al estado 115
+    MULTIDIV    desplazar e ir al estado 116
+    PORCENTAJE  desplazar e ir al estado 117
+    MENOSMENOS  desplazar e ir al estado 118
+    MULMUL      desplazar e ir al estado 119
+    AVANRETRO   desplazar e ir al estado 120
 
     $default  reduce usando la regla 83 (lista_expresiones)
 

@@ -277,6 +277,7 @@ ABRIRPARENT  lista_expresiones  CERRARPARENT PUNTOCOMA
 
 		 }else{
 				printf("Numero de expresiones erroneo: %s ,%d,%d \n", $1.nombre, temp.parametros ,contParam );
+				$$.tipoDato = DESC;
 		 }
 	 }
 }
@@ -318,9 +319,20 @@ expresion : ABRIRPARENT expresion CERRARPARENT{
 	| UNARIOSLISTA expresion
 	{
 				if ($2.tipoDato > CARACTER) {
-
-					$$.tipoDato = $2.tipoDato;
-
+					switch ($1.dif) {
+						case 0:
+							$$.tipoDato = ENTERO;
+						break;
+						case 1:
+							$$.tipoDato = listaASimple($2.tipoDato);
+						break;
+						case 2:
+							$$.tipoDato = $2.tipoDato;
+						break;
+						default:
+							$$.tipoDato = DESC;
+						break;
+					}
 				} else {
 
 					fprintf(stderr, "ERROR linea: %d \n ", linea_actual);
@@ -343,16 +355,21 @@ expresion : ABRIRPARENT expresion CERRARPARENT{
 					$$.tipoDato = DESC;
 					}
 	}
-	| MENOSMENOS expresion
+	| expresion MENOSMENOS expresion
 	{
-				if ($2.tipoDato > CARACTER) {
+				if ($1.tipoDato > CARACTER) {
+					if($3.tipoDato == ENTERO){
+						$$.tipoDato = $1.tipoDato;
 
-					$$.tipoDato = $2.tipoDato;
-
+					}else{
+						fprintf(stderr, "ERROR linea: %d  -", linea_actual);
+						fprintf(stderr, "No es un entero\n");
+						$$.tipoDato = DESC;
+					}
 				} else {
 
-					fprintf(stderr, "ERROR linea: %d \n ", linea_actual);
-					fprintf(stderr, "Op con tipo de dato incorrecto \n");
+					fprintf(stderr, "ERROR linea: %d  -", linea_actual);
+					fprintf(stderr, "No es una lista\n");
 
 					$$.tipoDato = DESC;
 					}
@@ -389,19 +406,21 @@ expresion : ABRIRPARENT expresion CERRARPARENT{
 	}
 	| expresion ARROBA expresion
 	{
-		if ($1.tipoDato > LISTA_REAL){
+		if ($1.tipoDato > CARACTER){
 
 			if($3.tipoDato == ENTERO){
 				$$.tipoDato = listaASimple($1.tipoDato);
 			} else {
-				fprintf(stderr, "ERROR linea: %d * o /", linea_actual);
+				fprintf(stderr, "ERROR linea: %d -", linea_actual);
 				fprintf(stderr, " Debe ser entero para acceder a posicion \n");
 				$$.tipoDato = DESC;
 			}
 
 		}else{
-			fprintf(stderr, "ERROR linea: %d * o /", linea_actual);
-			fprintf(stderr, "Debe ser una lista\n");
+			fprintf(stderr, "ERROR linea: %d -", linea_actual);
+			fprintf(stderr, "No es una lista %s \n",$1.nombre);
+			$$.tipoDato = DESC;
+
 		}
 	}
 	| expresion MULMUL expresion{
@@ -428,7 +447,7 @@ expresion : ABRIRPARENT expresion CERRARPARENT{
 			} else if ($3.tipoDato == ENTERO) {
 				$$.tipoDato = $1.tipoDato;
 			} else {
-				fprintf(stderr, "ERROR linea: %d * o /", linea_actual);
+				fprintf(stderr, "ERROR linea: %d 1", linea_actual);
 				fprintf(stderr, " Tipos no coinciden \n");
 				$$.tipoDato = DESC;
 			}
@@ -446,7 +465,7 @@ expresion : ABRIRPARENT expresion CERRARPARENT{
 						$$.tipoDato = LISTA_REAL;
 					}
 				} else {
-					fprintf(stderr, "ERROR linea: %d * o /", linea_actual);
+					fprintf(stderr, "ERROR linea: %d 2", linea_actual);
 					fprintf(stderr, " Tipos no coinciden \n");
 					$$.tipoDato = DESC;
 				}
@@ -457,14 +476,14 @@ expresion : ABRIRPARENT expresion CERRARPARENT{
 				} else if ($3.tipoDato == REAL){
 					$$.tipoDato == REAL;
 				} else {
-					fprintf(stderr, "ERROR linea: %d * o /", linea_actual);
+					fprintf(stderr, "ERROR linea: %d 3", linea_actual);
 					fprintf(stderr, " Tipos no coinciden \n");
 					$$.tipoDato = DESC;
 				}
 			}
 		} else {
 
-			fprintf(stderr, "ERROR linea: %d * o /", linea_actual);
+			fprintf(stderr, "ERROR linea: %d 4", linea_actual);
 			fprintf(stderr, " Tipos no coinciden \n");
 			$$.tipoDato = DESC;
 		}
@@ -601,16 +620,16 @@ expresion : ABRIRPARENT expresion CERRARPARENT{
 			} else if ($3.tipoDato == ENTERO) {
 				$$.tipoDato = $1.tipoDato;
 			} else {
-				fprintf(stderr, "ERROR linea: %d * o /", linea_actual);
+				fprintf(stderr, "ERROR linea: %d 1", linea_actual);
 				fprintf(stderr, " Tipos no coinciden \n");
 				$$.tipoDato = DESC;
 			}
 
-			fprintf(stderr, "[EEEEE]izq %d der %d / \n", $1.tipoDato,$3.tipoDato);
+			//fprintf(stderr, "[EEEEE]izq %d der %d / \n", $1.tipoDato,$3.tipoDato);
 
 
 		} else if ($1.tipoDato == REAL || $1.tipoDato == ENTERO) {
-			if ($2.dif = 0) {
+			if ($2.dif == 0) {
 				if ($3.tipoDato == $1.tipoDato) {
 					$$.tipoDato = $1.tipoDato;
 				} else if ($3.tipoDato == REAL){
@@ -622,7 +641,7 @@ expresion : ABRIRPARENT expresion CERRARPARENT{
 						$$.tipoDato = LISTA_REAL;
 					}
 				} else {
-					fprintf(stderr, "ERROR linea: %d * o /", linea_actual);
+					fprintf(stderr, "ERROR linea: %d 2", linea_actual);
 					fprintf(stderr, " Tipos no coinciden \n");
 					$$.tipoDato = DESC;
 				}
@@ -633,8 +652,8 @@ expresion : ABRIRPARENT expresion CERRARPARENT{
 				} else if ($3.tipoDato == REAL){
 					$$.tipoDato == REAL;
 				} else {
-					fprintf(stderr, "ERROR linea: %d * o /", linea_actual);
-					fprintf(stderr, " Tipos no coinciden \n");
+					fprintf(stderr, "ERROR linea: %d - 3", linea_actual);
+					fprintf(stderr, " Orden incorrecto \n");
 					$$.tipoDato = DESC;
 				}
 			}
@@ -643,48 +662,22 @@ expresion : ABRIRPARENT expresion CERRARPARENT{
 	| expresion MASMAS expresion ARROBA expresion
 	{
 				if ($1.tipoDato > CARACTER) {
-
-					switch ($3.tipoDato) {
-						case NO_ASIG:
-						tempTipoDato = 0;
-						break;
-						case DESC:
-						tempTipoDato = 0;
-						break;
-						case ENTERO:
-						tempTipoDato = LISTA_ENTERO;
-						break;
-						case REAL:
-						tempTipoDato = LISTA_REAL;
-						break;
-						case BOOLEANO:
-						tempTipoDato = LISTA_BOOLEANO;
-						break;
-						case CARACTER:
-						tempTipoDato = LISTA_CARACTER;
-						break;
-					}
-					if(tempTipoDato == $1.tipoDato){
-						if($5.tipoDato != ENTERO){
-							fprintf(stderr, "ERROR linea: %d \n ", linea_actual);
-							fprintf(stderr, "Posicion no valida \n");
-							$$.tipoDato = DESC;
-
-						}else{
-							$$.tipoDato = $1.tipoDato;
-						}
+						if($3.tipoDato == listaASimple($1.tipoDato)){
+							if($5.tipoDato == ENTERO){
+								$$.tipoDato = $1.tipoDato;
+							}else{
+								fprintf(stderr, "ERROR linea: %d Valor distinto de entero: [%s]  \n", linea_actual,$5.nombre);
+							}
 					}else{
-						fprintf(stderr, "ERROR linea: %d \n ", linea_actual);
-						fprintf(stderr, "Valor distinto tipo de dato de lista \n");
-						$$.tipoDato = DESC;
+						fprintf(stderr, "ERROR linea: %d Valor distinto de lista: [%s]  \n", linea_actual,$3.nombre);
 					}
-				} else {
+				}else{
+					fprintf(stderr, "ERROR linea: %d No es una lista: [%s]  \n", linea_actual,$1.nombre);
 
-					fprintf(stderr, "ERROR linea: %d \n ", linea_actual);
-					fprintf(stderr, "Op con tipo de dato incorrecto \n");
+				}
 
-					$$.tipoDato = DESC;
-					}
+
+
 	}
 	| IDENTIFICADOR {
 		int posicion2 = buscaEnTs($1);

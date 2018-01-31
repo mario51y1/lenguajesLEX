@@ -41,6 +41,24 @@ dtipo listaASimple(dtipo i){
   }
 }
 
+dtipo simpleALista(dtipo i){
+
+  switch (i) {
+    case BOOLEANO:
+      return LISTA_BOOLEANO;
+    break;
+    case REAL:
+      return LISTA_REAL;
+    break;
+    case ENTERO:
+      return LISTA_ENTERO;
+    break;
+    case CARACTER:
+      return LISTA_CARACTER;
+    break;
+  }
+}
+
 int busca(entradaTS entrada){
   int j = 0;
 
