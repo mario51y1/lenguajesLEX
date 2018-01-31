@@ -110,7 +110,7 @@ procedimiento principal()
 			pe = pe;
 			pe = 1 + pe;
 			ve = pe2@0;
-			pe2 = pe2 - pe2@0  ;
+			pe2 = pe2++(10 - (20/2000))@3  ;
 		}
 	}
 	funcionA(ve1,vr1,vc1);
