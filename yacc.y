@@ -4,6 +4,8 @@
 
 	#include "ts.h"
 
+	#define semantico
+
 	//extern int yylex();
 	//extern int yyparse();
 	//extern FILE* yyin;
@@ -83,6 +85,7 @@
 
 %%
 
+//#if defined semantico
 //Pagina 45 pdf de practicas - simplificar BNF
 
 Programa : Cabecera_programa bloque {muestra();printf("Compilacion Terminada\n");};
@@ -137,7 +140,7 @@ Cabecera_subprograma : PROCED IDENTIFICADOR {
  ABRIRPARENT parametros CERRARPARENT
 
 | PROCED error_subprog ;
-error_subprog : error 
+error_subprog : error
 	{ 	printf("[Error SÍNTÁCTICO: linea %d] Error creación de subprograma ", linea_actual);
 
 	};
@@ -167,7 +170,7 @@ Variables_locales : Variables_locales Cuerpo_declar_variables
 Cuerpo_declar_variables : tipo Identificadores PUNTOCOMA
 	| error_decl_variables
 	;
-error_decl_variables : error 	
+error_decl_variables : error
 	{ printf("[Error SÍNTÁCTICO: linea %d] Error declaración de variables ", linea_actual);
 	};
 
@@ -227,6 +230,8 @@ Sentencia : bloque
 
 sentencia_asignacion : IDENTIFICADOR ASIG expresion PUNTOCOMA
 {
+	#if defined semantico
+
 //printf("buscando %s para comparar\n", $1.nombre );
 int posicion = buscaEnTs($1);
 if(posicion==-1){
@@ -244,17 +249,18 @@ if(posicion==-1){
 			}
 
 	}
+	#endif
 }
 ;
 
-sentencia_if : CONDSI ABRIRPARENT expresion CERRARPARENT Sentencia 
+sentencia_if : CONDSI ABRIRPARENT expresion CERRARPARENT Sentencia
 	{ if($3.tipoDato != BOOLEANO ) printf("[Error SEMÁNTICO: linea %d] Condicional no booleana\n",linea_actual);
 	}
-	| CONDSI ABRIRPARENT expresion CERRARPARENT Sentencia CONDSINO Sentencia 
+	| CONDSI ABRIRPARENT expresion CERRARPARENT Sentencia CONDSINO Sentencia
 	{ if($3.tipoDato != BOOLEANO ) printf("[Error SEMÁNTICO: linea %d] Condicional no booleana\n",linea_actual);
 	};
 
-sentencia_while : CONDMIENTRAS ABRIRPARENT expresion CERRARPARENT Sentencia 
+sentencia_while : CONDMIENTRAS ABRIRPARENT expresion CERRARPARENT Sentencia
 	{ if($3.tipoDato != BOOLEANO ) printf("[Error SEMÁNTICO: linea %d] Condicional no booleana\n",linea_actual);
 	};
 
@@ -730,7 +736,7 @@ lista_expresiones : lista_expresiones COMA expresion
  	contParam++;
  	entradaTS temp = devuelveEntrada(posicion + contParam );
  	if(temp.tipoDato != $1.tipoDato){
-					
+
 		fprintf(stderr, "[Error SEMÁNTICO: linea %d] \n ", linea_actual);
 
 		printf("Tipo param erroneo: %d ,%d ,%d \n", temp.tipoDato, $1.tipoDato, contParam );
@@ -770,8 +776,8 @@ Caracteres: T_CARACTER
 | Caracteres COMA T_CARACTER
 ;
 
-
 %%
+
 #include "lex.yy.c"
 
 
