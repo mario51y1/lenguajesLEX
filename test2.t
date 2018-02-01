@@ -97,7 +97,7 @@ procedimiento principal()
 			}
 		}
 
-		pe = ;
+		pe = pf;
 		pf = pf++10.0@0 ;
 		pc = pc++'#'@0 ;
 

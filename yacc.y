@@ -4,7 +4,7 @@
 
 	#include "ts.h"
 
-	#define semantico
+	#define semantico 
 
 	//extern int yylex();
 	//extern int yyparse();
@@ -88,22 +88,36 @@
 //#if defined semantico
 //Pagina 45 pdf de practicas - simplificar BNF
 
-Programa : Cabecera_programa bloque {muestra();printf("Compilacion Terminada\n");};
+Programa : Cabecera_programa bloque 
+
+		{
+		#if defined semantico
+			muestra();printf("Compilacion Terminada\n");
+		#endif
+		}
+		;
 
 bloque : Inicio_de_bloque
+
 	{
-	yylval.tipoDato = NO_ASIG;
-	yylval.nombre = strdup("INIBLOQUE");
-	inserta(yylval, MARCA);
-	}
+	#if defined semantico
+		yylval.tipoDato = NO_ASIG;
+		yylval.nombre = strdup("INIBLOQUE");
+		inserta(yylval, MARCA);
+		#endif
+		}
+
 	Declar_de_variables_locales
 	Declar_de_subprogs
 	Sentencias
 	Fin_de_bloque
+
 	{
+	#if defined semantico
 		eliminarHastaMarca();//muestra();
-	}
-		;
+		#endif
+		}
+	;
 
 
 Declar_de_variables_locales : Marca_ini_declar_variables
@@ -122,96 +136,128 @@ Declar_de_subprogs : Declar_de_subprogs Declar_subprog
 Declar_subprog : Cabecera_subprograma bloque;
 
 Cabecera_programa : PROCED MAIN ABRIRPARENT CERRARPARENT
-{
-	$2.tipoDato = NO_ASIG;
-	inserta($2, PROC);
-}
+	
+	{
+	#if defined semantico
+		$2.tipoDato = NO_ASIG;
+		inserta($2, PROC);
+		#endif
+		}
 ;
 
 
 
-Cabecera_subprograma : PROCED IDENTIFICADOR {
+Cabecera_subprograma : PROCED IDENTIFICADOR 
+
+	{
+	#if defined semantico
 		contParam = 0;
-	 $2.tipoDato = NO_ASIG;
-	 $2.parametros = 0;
-	 estado = inserta($2, PROC);
-	 posicion = ultimaPosicion();
- }
+		$2.tipoDato = NO_ASIG;
+		$2.parametros = 0;
+		estado = inserta($2, PROC);
+		posicion = ultimaPosicion();
+		#endif
+		}
  ABRIRPARENT parametros CERRARPARENT
 
 | PROCED error_subprog ;
 error_subprog : error
-	{ 	printf("[Error SÍNTÁCTICO: linea %d] Error creación de subprograma ", linea_actual);
 
-	};
+	{
+	#if defined semantico 	
+		printf("[Error SÍNTÁCTICO: linea %d] Error creación de subprograma ", linea_actual);
+	
+	#endif
+	}
 
 parametros : parametro
 	| parametros COMA parametro
 	|
   ;
 parametro : tipo IDENTIFICADOR
+
 	{
-	contParam++;
-	entradaTS temp = devuelveEntrada(posicion);
-	temp.parametros++;
-	actualiza(posicion,temp);
-	$$.tipoDato = $1.tipoDato;
-	$2.tipoDato = $1.tipoDato;
-	estado = inserta($2, PAR_FORMAL);
-}
-;
+	#if defined semantico
+		contParam++;
+		entradaTS temp = devuelveEntrada(posicion);
+		temp.parametros++;
+		actualiza(posicion,temp);
+		$$.tipoDato = $1.tipoDato;
+		$2.tipoDato = $1.tipoDato;
+		estado = inserta($2, PAR_FORMAL);
+	#endif
+	}
+	;
 
 Inicio_de_bloque :  ABRIRLLAVES ;
 Fin_de_bloque :  CERRARLLAVES ;
 
 Variables_locales : Variables_locales Cuerpo_declar_variables
 	| Cuerpo_declar_variables
-  ;
+ 	;
+
 Cuerpo_declar_variables : tipo Identificadores PUNTOCOMA
 	| error_decl_variables
 	;
+
 error_decl_variables : error
-	{ printf("[Error SÍNTÁCTICO: linea %d] Error declaración de variables ", linea_actual);
-	};
+	
+	{
+	#if defined semantico 
+		printf("[Error SÍNTÁCTICO: linea %d] Error declaración de variables ", linea_actual);
+	#endif
+	}
+	;
 
 Identificadores : IDENTIFICADOR
-		{
-			$1.tipoDato = tempTipoDato;
-			estado = inserta($1, VARIABLE);
-		}
-| Identificadores COMA IDENTIFICADOR
-		{
-		$3.tipoDato = tempTipoDato;
-		estado = inserta($3, VARIABLE);
-		}
-;
-
-tipo : TIPO {tempTipoDato = $1.tipoDato;} | tipo_lista  ;
-tipo_lista : DEFLIST TIPO
-{
-
-	switch ($2.tipoDato) {
-		case NO_ASIG:
-		tempTipoDato = 0;
-		break;
-		case DESC:
-		tempTipoDato = 0;
-		break;
-		case ENTERO:
-		tempTipoDato = LISTA_ENTERO;
-		break;
-		case REAL:
-		tempTipoDato = LISTA_REAL;
-		break;
-		case BOOLEANO:
-		tempTipoDato = LISTA_BOOLEANO;
-		break;
-		case CARACTER:
-		tempTipoDato = LISTA_CARACTER;
-		break;
+	{
+	#if defined semantico
+		
+		$1.tipoDato = tempTipoDato;
+		estado = inserta($1, VARIABLE);
+	#endif
 	}
 
-} ;
+	| Identificadores COMA IDENTIFICADOR
+			{
+		#if defined semantico
+			$3.tipoDato = tempTipoDato;
+			estado = inserta($3, VARIABLE);
+		#endif
+		}
+	;
+
+tipo : TIPO 
+
+	{
+	#if defined semantico
+		tempTipoDato = $1.tipoDato;} | tipo_lista  ;
+		tipo_lista : DEFLIST TIPO
+		{
+
+			switch ($2.tipoDato) {
+				case NO_ASIG:
+				tempTipoDato = 0;
+				break;
+				case DESC:
+				tempTipoDato = 0;
+				break;
+				case ENTERO:
+				tempTipoDato = LISTA_ENTERO;
+				break;
+				case REAL:
+				tempTipoDato = LISTA_REAL;
+				break;
+				case BOOLEANO:
+				tempTipoDato = LISTA_BOOLEANO;
+				break;
+				case CARACTER:
+				tempTipoDato = LISTA_CARACTER;
+				break;
+			}
+	#endif
+	}
+	;
 
 Sentencias : Sentencias Sentencia
 	| Sentencia
@@ -224,45 +270,61 @@ Sentencia : bloque
 	| sentencia_while
 	| sentencia_entrada
 	| sentencia_salida
-  | llamada_proced
+	| llamada_proced
 	| sentencia_for
 ;
 
 sentencia_asignacion : IDENTIFICADOR ASIG expresion PUNTOCOMA
-{
+
+	{
 	#if defined semantico
 
-//printf("buscando %s para comparar\n", $1.nombre );
-int posicion = buscaEnTs($1);
-if(posicion==-1){
-	printf("[Error SEMÁNTICO: linea %d] ASIGNACION ", linea_actual);
-	printf("variable no definida\n");
-}
-	else{
-		entradaTS  temp = devuelveEntrada(posicion);
-		tipoTemp = temp.tipoDato;
+		//printf("buscando %s para comparar\n", $1.nombre );
+		int posicion = buscaEnTs($1);
+		if(posicion==-1){
+		printf("[Error SEMÁNTICO: linea %d] ASIGNACION ", linea_actual);
+		printf("variable no definida\n");
+		}
+		else{
+			entradaTS  temp = devuelveEntrada(posicion);
+			tipoTemp = temp.tipoDato;
 
-		//printf("Comparando %s tipoIzq: %d, tipoder: %d\n",temp.nombre,temp.tipoDato,$3.tipoDato);
-		if ( tipoTemp != $3.tipoDato ) {
-			printf("[Error SEMÁNTICO: linea %d] ASIGNACION ", linea_actual);
-			printf("tipos no coinciden dato izq = %d, der = %d\n",tipoTemp,$3.tipoDato);
-			}
+			//printf("Comparando %s tipoIzq: %d, tipoder: %d\n",temp.nombre,temp.tipoDato,$3.tipoDato);
+			if ( tipoTemp != $3.tipoDato ) {
+				printf("[Error SEMÁNTICO: linea %d] ASIGNACION ", linea_actual);
+				printf("tipos no coinciden dato izq = %d, der = %d\n",tipoTemp,$3.tipoDato);
+				}
 
-	}
+		}
 	#endif
-}
+	}
 ;
 
 sentencia_if : CONDSI ABRIRPARENT expresion CERRARPARENT Sentencia
-	{ if($3.tipoDato != BOOLEANO ) printf("[Error SEMÁNTICO: linea %d] Condicional no booleana\n",linea_actual);
+	
+	{
+	#if defined semantico	
+		if($3.tipoDato != BOOLEANO ) printf("[Error SEMÁNTICO: linea %d] Condicional no booleana\n",linea_actual);
+	#endif
 	}
+
 	| CONDSI ABRIRPARENT expresion CERRARPARENT Sentencia CONDSINO Sentencia
-	{ if($3.tipoDato != BOOLEANO ) printf("[Error SEMÁNTICO: linea %d] Condicional no booleana\n",linea_actual);
-	};
+	
+	{
+	#if defined semantico
+		if($3.tipoDato != BOOLEANO ) printf("[Error SEMÁNTICO: linea %d] Condicional no booleana\n",linea_actual);
+	#endif
+	}
+	;
 
 sentencia_while : CONDMIENTRAS ABRIRPARENT expresion CERRARPARENT Sentencia
-	{ if($3.tipoDato != BOOLEANO ) printf("[Error SEMÁNTICO: linea %d] Condicional no booleana\n",linea_actual);
-	};
+	
+	{
+	#if defined semantico
+		if($3.tipoDato != BOOLEANO ) printf("[Error SEMÁNTICO: linea %d] Condicional no booleana\n",linea_actual);
+	#endif
+	}
+	;
 
 sentencia_entrada : LEE Identificadores PUNTOCOMA
 
@@ -277,31 +339,177 @@ expcad : expresion
 lista_expresiones_o_cadena : expcad
 	| lista_expresiones_o_cadena COMA expcad  ;
 
-llamada_proced : IDENTIFICADOR {
-	contParam = 0;
-	posicion = busca($1);
-}
-ABRIRPARENT  lista_expresiones  CERRARPARENT PUNTOCOMA
-{
-	if(posicion == -1){
-		printf("[Error SEMÁNTICO: linea %d] Procedimiento no definido: %s\n" ,linea_actual, $1.nombre );
-	} else{
-		 entradaTS temp = devuelveEntrada(posicion);
-		 printf("Llamada Procedimiento:  %s , %d\n", temp.nombre, temp.parametros );
-		 //muestra();
-		 if( temp.parametros == contParam){
+llamada_proced : IDENTIFICADOR 
+	
+	{
+	#if defined semantico
+		contParam = 0;
+		posicion = busca($1);
+	#endif
+	}
+	;
 
-		 }else{
-				printf("[Error SEMANTICO: linea %d] Numero de expresiones erroneo: %s ,%d,%d \n",linea_actual, $1.nombre, temp.parametros ,contParam );
-				$$.tipoDato = DESC;
+| ABRIRPARENT  lista_expresiones  CERRARPARENT PUNTOCOMA
+
+	{
+	#if defined semantico
+		if(posicion == -1){
+			printf("[Error SEMÁNTICO: linea %d] Procedimiento no definido: %s\n" ,linea_actual, $1.nombre );
+		} else{
+			 entradaTS temp = devuelveEntrada(posicion);
+			 printf("Llamada Procedimiento:  %s , %d\n", temp.nombre, temp.parametros );
+			 //muestra();
+			 if( temp.parametros == contParam){
+
+			 }else{
+					printf("[Error SEMANTICO: linea %d] Numero de expresiones erroneo: %s ,%d,%d \n",linea_actual, $1.nombre, temp.parametros ,contParam );
+					$$.tipoDato = DESC;
+			 }
 		 }
-	 }
-}
-;
+	#endif
+	}
+	;
 
 sentencia_for : DURANTE IDENTIFICADOR DOSPUNTOSIGUAL  expresion HASTA expresion HACER Sentencia
-{
-			if (($4.tipoDato == ENTERO) && ($6.tipoDato==$4.tipoDato) ){
+
+	{
+	#if defined semantico
+		if (($4.tipoDato == ENTERO) && ($6.tipoDato==$4.tipoDato) ){
+
+		} else {
+
+			fprintf(stderr, "[Error SEMÁNTICO: linea %d] \n ", linea_actual);
+			fprintf(stderr, "Op con tipo de dato incorrecto \n");
+
+			$$.tipoDato = DESC;
+			}
+	#endif
+	}
+ 	;
+
+expresion : ABRIRPARENT expresion CERRARPARENT
+
+	{
+	#if defined semantico
+		$$ = $2;
+	#endif
+	}
+
+ 	| MASMENOS expresion %prec EXCLAMACION
+	
+	{
+	#if defined semantico
+		if ( ($2.tipoDato != BOOLEANO)
+			&& ($2.tipoDato != LISTA_BOOLEANO) ) {
+
+			$$.tipoDato = $2.tipoDato;
+
+		} else {
+
+			fprintf(stderr, "[Error SEMÁNTICO: linea %d] \n ", linea_actual);
+			fprintf(stderr, "Op con tipo de dato incorrecto \n");
+
+			$$.tipoDato = DESC;
+			}
+	#endif
+	}
+
+	| UNARIOSLISTA expresion
+	
+	{
+	#if defined semantico
+		if ($2.tipoDato > CARACTER) {
+			switch ($1.dif) {
+				case 0:
+					$$.tipoDato = ENTERO;
+				break;
+				case 1:
+					$$.tipoDato = listaASimple($2.tipoDato);
+				break;
+				case 2:
+					$$.tipoDato = $2.tipoDato;
+				break;
+				default:
+					$$.tipoDato = DESC;
+				break;
+			}
+		} else {
+
+			fprintf(stderr, "[Error SEMÁNTICO: linea %d] \n ", linea_actual);
+			fprintf(stderr, "Op con tipo de dato incorrecto \n");
+
+			$$.tipoDato = DESC;
+			}
+	#endif
+	}
+
+	| MASMAS expresion
+
+	{
+	#if defined semantico
+		if ($2.tipoDato > CARACTER) {
+			$$.tipoDato = $2.tipoDato;
+
+		} else {
+
+			fprintf(stderr, "[Error SEMÁNTICO: linea %d] \n ", linea_actual);
+			fprintf(stderr, "Op con tipo de dato incorrecto \n");
+
+			$$.tipoDato = DESC;
+			}
+	#endif
+	}
+	
+	| expresion MENOSMENOS expresion
+
+	{
+	#if defined semantico
+		if ($1.tipoDato > CARACTER) {
+
+			if($3.tipoDato == ENTERO){
+				$$.tipoDato = $1.tipoDato;
+
+			}else{
+				fprintf(stderr, "[Error SEMÁNTICO: linea %d] \n ", linea_actual);
+				fprintf(stderr, "No es un entero\n");
+				$$.tipoDato = DESC;
+			}
+		} else {
+
+			fprintf(stderr, "[Error SEMÁNTICO: linea %d] \n ", linea_actual);
+			fprintf(stderr, "No es una lista\n");
+
+			$$.tipoDato = DESC;
+		}
+	#endif
+	}
+	
+	| EXCLAMACION expresion
+
+	{
+	#if defined semantico
+		if ($2.tipoDato == BOOLEANO) {
+
+			$$.tipoDato = $2.tipoDato;
+
+		} else {
+
+			fprintf(stderr, "[Error SEMÁNTICO: linea %d] \n ", linea_actual);
+			fprintf(stderr, "Op con tipo de dato incorrecto \n");
+
+			$$.tipoDato = DESC;
+		}
+	#endif
+	}
+
+	| expresion AVANRETRO
+	
+	{
+	#if defined semantico
+		{
+			if ($1.tipoDato > CARACTER) {
+
+				$$.tipoDato = $1.tipoDato;
 
 			} else {
 
@@ -309,119 +517,15 @@ sentencia_for : DURANTE IDENTIFICADOR DOSPUNTOSIGUAL  expresion HASTA expresion 
 				fprintf(stderr, "Op con tipo de dato incorrecto \n");
 
 				$$.tipoDato = DESC;
-				}
-}
-
- ;
-
-expresion : ABRIRPARENT expresion CERRARPARENT{
-						$$ = $2;
-						}
-  | MASMENOS expresion %prec EXCLAMACION
-	{
-				if ( ($2.tipoDato != BOOLEANO)
-					&& ($2.tipoDato != LISTA_BOOLEANO) ) {
-
-					$$.tipoDato = $2.tipoDato;
-
-				} else {
-
-					fprintf(stderr, "[Error SEMÁNTICO: linea %d] \n ", linea_actual);
-					fprintf(stderr, "Op con tipo de dato incorrecto \n");
-
-					$$.tipoDato = DESC;
-					}
+			}
 		}
-	| UNARIOSLISTA expresion
-	{
-				if ($2.tipoDato > CARACTER) {
-					switch ($1.dif) {
-						case 0:
-							$$.tipoDato = ENTERO;
-						break;
-						case 1:
-							$$.tipoDato = listaASimple($2.tipoDato);
-						break;
-						case 2:
-							$$.tipoDato = $2.tipoDato;
-						break;
-						default:
-							$$.tipoDato = DESC;
-						break;
-					}
-				} else {
-
-					fprintf(stderr, "[Error SEMÁNTICO: linea %d] \n ", linea_actual);
-					fprintf(stderr, "Op con tipo de dato incorrecto \n");
-
-					$$.tipoDato = DESC;
-					}
+	#endif
 	}
-	| MASMAS expresion
-	{
-				if ($2.tipoDato > CARACTER) {
 
-					$$.tipoDato = $2.tipoDato;
-
-				} else {
-
-					fprintf(stderr, "[Error SEMÁNTICO: linea %d] \n ", linea_actual);
-					fprintf(stderr, "Op con tipo de dato incorrecto \n");
-
-					$$.tipoDato = DESC;
-					}
-	}
-	| expresion MENOSMENOS expresion
-	{
-				if ($1.tipoDato > CARACTER) {
-					if($3.tipoDato == ENTERO){
-						$$.tipoDato = $1.tipoDato;
-
-					}else{
-						fprintf(stderr, "[Error SEMÁNTICO: linea %d] \n ", linea_actual);
-						fprintf(stderr, "No es un entero\n");
-						$$.tipoDato = DESC;
-					}
-				} else {
-
-					fprintf(stderr, "[Error SEMÁNTICO: linea %d] \n ", linea_actual);
-					fprintf(stderr, "No es una lista\n");
-
-					$$.tipoDato = DESC;
-					}
-	}
-	| EXCLAMACION expresion
-	{
-				if ($2.tipoDato == BOOLEANO) {
-
-					$$.tipoDato = $2.tipoDato;
-
-				} else {
-
-					fprintf(stderr, "[Error SEMÁNTICO: linea %d] \n ", linea_actual);
-					fprintf(stderr, "Op con tipo de dato incorrecto \n");
-
-					$$.tipoDato = DESC;
-					}
-	}
-	| expresion AVANRETRO
-	{
-		{
-					if ($1.tipoDato > CARACTER) {
-
-						$$.tipoDato = $1.tipoDato;
-
-					} else {
-
-						fprintf(stderr, "[Error SEMÁNTICO: linea %d] \n ", linea_actual);
-						fprintf(stderr, "Op con tipo de dato incorrecto \n");
-
-						$$.tipoDato = DESC;
-						}
-		}
-	}
 	| expresion ARROBA expresion
+
 	{
+	#if defined semantico
 		if ($1.tipoDato > CARACTER){
 
 			if($3.tipoDato == ENTERO){
@@ -438,24 +542,31 @@ expresion : ABRIRPARENT expresion CERRARPARENT{
 			$$.tipoDato = DESC;
 
 		}
+	#endif
 	}
-	| expresion MULMUL expresion{
-		{
-					if (($1.tipoDato > CARACTER) && ($3.tipoDato == $1.tipoDato)) {
 
-						$$.tipoDato = $1.tipoDato;
+	| expresion MULMUL expresion
 
-					} else {
-
-						fprintf(stderr, "[Error SEMÁNTICO: linea %d] \n ", linea_actual);
-						fprintf(stderr, "Op con tipo de dato incorrecto \n");
-
-						$$.tipoDato = DESC;
-						}
-		}
-	}
-	| expresion MULTIDIV expresion
 	{
+	#if defined semantico	
+		if (($1.tipoDato > CARACTER) && ($3.tipoDato == $1.tipoDato)) {
+
+			$$.tipoDato = $1.tipoDato;
+
+		} else {
+
+			fprintf(stderr, "[Error SEMÁNTICO: linea %d] \n ", linea_actual);
+			fprintf(stderr, "Op con tipo de dato incorrecto \n");
+
+			$$.tipoDato = DESC;
+		}
+	#endif
+	}
+
+	| expresion MULTIDIV expresion
+
+	{
+	#if defined semantico
 		if ($1.tipoDato == LISTA_ENTERO || $1.tipoDato == LISTA_REAL){
 
 			if($3.tipoDato == REAL){
@@ -503,37 +614,50 @@ expresion : ABRIRPARENT expresion CERRARPARENT{
 			fprintf(stderr, " Tipos no coinciden \n");
 			$$.tipoDato = DESC;
 		}
+	#endif
 	}
+
 	| expresion LOGAND expresion
+
 	{
-				if (($1.tipoDato == BOOLEANO) && ($3.tipoDato == $1.tipoDato) ) {
+	#if defined semantico
+		if (($1.tipoDato == BOOLEANO) && ($3.tipoDato == $1.tipoDato) ) {
 
-					$$.tipoDato = $1.tipoDato;
+			$$.tipoDato = $1.tipoDato;
 
-				} else {
+		} else {
 
-					fprintf(stderr, "[Error SEMÁNTICO: linea %d] \n ", linea_actual);
-					fprintf(stderr, "Op con tipo de dato incorrecto \n");
+			fprintf(stderr, "[Error SEMÁNTICO: linea %d] \n ", linea_actual);
+			fprintf(stderr, "Op con tipo de dato incorrecto \n");
 
-					$$.tipoDato = DESC;
-					}
+			$$.tipoDato = DESC;
+		}
+	#endif
 	}
+
 	| expresion EXOR expresion
+
 	{
-				if (($1.tipoDato == BOOLEANO) && ($3.tipoDato == $1.tipoDato) ) {
+	#if defined semantico
 
-					$$.tipoDato = $1.tipoDato;
+		if (($1.tipoDato == BOOLEANO) && ($3.tipoDato == $1.tipoDato) ) {
 
-				} else {
+			$$.tipoDato = $1.tipoDato;
 
-					fprintf(stderr, "[Error SEMÁNTICO: linea %d] \n ", linea_actual);
-					fprintf(stderr, "Op con tipo de dato incorrecto \n");
+		} else {
 
-					$$.tipoDato = DESC;
-					}
+			fprintf(stderr, "[Error SEMÁNTICO: linea %d] \n ", linea_actual);
+			fprintf(stderr, "Op con tipo de dato incorrecto \n");
+
+			$$.tipoDato = DESC;
+		}
+	#endif
 	}
+
 	| expresion ORBIT expresion
+
 	{
+	#if defined semantico
 				if (($1.tipoDato == BOOLEANO) && ($3.tipoDato == $1.tipoDato) ) {
 
 					$$.tipoDato = $1.tipoDato;
@@ -545,9 +669,13 @@ expresion : ABRIRPARENT expresion CERRARPARENT{
 
 					$$.tipoDato = DESC;
 					}
+	#endif
 	}
+
 	| expresion LOGOR expresion
+
 	{
+	#if defined semantico
 				if (($1.tipoDato == BOOLEANO) && ($3.tipoDato == $1.tipoDato) ) {
 
 					$$.tipoDato = $1.tipoDato;
@@ -559,9 +687,13 @@ expresion : ABRIRPARENT expresion CERRARPARENT{
 
 					$$.tipoDato = DESC;
 					}
+	#endif
 	}
+
 	| expresion REL expresion
+
 	{
+	#if defined semantico
 		if ( ($1.tipoDato < BOOLEANO) && ($3.tipoDato < BOOLEANO) ) {
 
 			if ( ($1.tipoDato > DESC) && ($3.tipoDato > DESC)  ) {
@@ -582,9 +714,13 @@ expresion : ABRIRPARENT expresion CERRARPARENT{
 			fprintf(stderr, " Tipos no coinciden \n");
 			$$.tipoDato = DESC;
 			}
+	#endif
 	}
+
 	| expresion IGUALDAD expresion
+
 	{
+	#if defined semantico
 		if( ($1.tipoDato < LISTA_REAL) && ($3.tipoDato == $1.tipoDato)   ) {
 
 				$$.tipoDato = BOOLEANO;
@@ -597,23 +733,31 @@ expresion : ABRIRPARENT expresion CERRARPARENT{
 
 				$$.tipoDato = DESC;
 			}
+	#endif
 	}
+
 	| expresion PORCENTAJE expresion
+
 	{
-				if (($1.tipoDato > CARACTER) && ($3.tipoDato == ENTERO)) {
+	#if defined semantico
+		if (($1.tipoDato > CARACTER) && ($3.tipoDato == ENTERO)) {
 
-					$$.tipoDato = $1.tipoDato;
+			$$.tipoDato = $1.tipoDato;
 
-				} else {
+		} else {
 
-					fprintf(stderr, "[Error SEMÁNTICO: linea %d] \n ", linea_actual);
-					fprintf(stderr, "Op con tipo de dato incorrecto \n");
+			fprintf(stderr, "[Error SEMÁNTICO: linea %d] \n ", linea_actual);
+			fprintf(stderr, "Op con tipo de dato incorrecto \n");
 
-					$$.tipoDato = DESC;
-					}
+			$$.tipoDato = DESC;
+		}
+	#endif
 	}
+
 	| expresion ANDBIT expresion
+
 	{
+	#if defined semantico
 				if (($1.tipoDato == BOOLEANO) && ($3.tipoDato == $1.tipoDato) ) {
 
 					$$.tipoDato = $1.tipoDato;
@@ -625,9 +769,13 @@ expresion : ABRIRPARENT expresion CERRARPARENT{
 
 					$$.tipoDato = DESC;
 					}
+	#endif
 	}
+
 	| expresion MASMENOS expresion
+
 	{
+	#if defined semantico
 		if ($1.tipoDato == LISTA_ENTERO || $1.tipoDato == LISTA_REAL){
 
 
@@ -674,75 +822,126 @@ expresion : ABRIRPARENT expresion CERRARPARENT{
 				}
 			}
 		}
+	#endif
 	}
+
 	| expresion MASMAS expresion ARROBA expresion
+
 	{
-				if ($1.tipoDato > CARACTER) {
-						if($3.tipoDato == listaASimple($1.tipoDato)){
-							if($5.tipoDato == ENTERO){
-								$$.tipoDato = $1.tipoDato;
-							}else{
-								fprintf(stderr, "[Error SEMÁNTICO: linea %d] \n ", linea_actual);
-
-								fprintf(stderr, "Valor distinto de entero: [%s]  \n", linea_actual,$5.nombre);
-							}
-					}else{
-						fprintf(stderr, "[Error SEMÁNTICO: linea %d] \n ", linea_actual);
-
-						fprintf(stderr, "Valor distinto de lista: [%s]  \n", linea_actual,$3.nombre);
-					}
+	#if defined semantico
+		if ($1.tipoDato > CARACTER) {
+			if($3.tipoDato == listaASimple($1.tipoDato)){
+				if($5.tipoDato == ENTERO){
+					$$.tipoDato = $1.tipoDato;
 				}else{
 					fprintf(stderr, "[Error SEMÁNTICO: linea %d] \n ", linea_actual);
 
-					fprintf(stderr, "No es una lista: [%s]  \n", linea_actual,$1.nombre);
-
+					fprintf(stderr, "Valor distinto de entero: [%s]  \n", linea_actual,$5.nombre);
 				}
+			}else{
+				fprintf(stderr, "[Error SEMÁNTICO: linea %d] \n ", linea_actual);
 
+				fprintf(stderr, "Valor distinto de lista: [%s]  \n", linea_actual,$3.nombre);
+			}
+		}else{
+			fprintf(stderr, "[Error SEMÁNTICO: linea %d] \n ", linea_actual);
 
+			fprintf(stderr, "No es una lista: [%s]  \n", linea_actual,$1.nombre);
 
+		}
+	#endif
 	}
-	| IDENTIFICADOR {
+
+	| IDENTIFICADOR 
+
+	{
+	#if defined semantico
 		int posicion2 = buscaEnTs($1);
 		if(posicion2 == -1){
 			fprintf(stderr, "[Error SEMÁNTICO: linea %d] \n ", linea_actual);
 
 			fprintf(stderr, "Variable no definida: [%s]  \n", linea_actual,$1.nombre);
-}else {
-	entradaTS temp = devuelveEntrada(posicion2); $$.tipoDato = temp.tipoDato; }
-}
-	| T_REAL {$$.tipoDato = $1.tipoDato; }
-	| T_ENTERO {$$.tipoDato = $1.tipoDato; }
-	| T_CARACTER {$$.tipoDato = $1.tipoDato; }
-	| VERDFALS {$$.tipoDato = $1.tipoDato; }
-  | lista {$$.tipoDato = $1.tipoDato; }
+		}else {
+			entradaTS temp = devuelveEntrada(posicion2); $$.tipoDato = temp.tipoDato; }
+	#endif
+	}
+	
+	| T_REAL 
+
+	{
+	#if defined semantico
+	$$.tipoDato = $1.tipoDato; 
+	#endif
+	}
+
+	| T_ENTERO 
+
+	{
+	#if defined semantico
+	$$.tipoDato = $1.tipoDato; 
+	#endif
+	}
+
+	| T_CARACTER 
+
+	{
+	#if defined semantico
+	$$.tipoDato = $1.tipoDato;
+	#endif
+	}
+
+	| VERDFALS 	
+
+	{
+	#if defined semantico
+	$$.tipoDato = $1.tipoDato; 
+	#endif
+	}
+
+	| lista 
+
+	{
+	#if defined semantico
+	$$.tipoDato = $1.tipoDato; 
+	#endif
+	}
+
   |	error_expresion	;
+
 error_expresion : error ;
 
 lista_expresiones : lista_expresiones COMA expresion
-{
-	contParam++;
-	entradaTS temp = devuelveEntrada(posicion + contParam );
-	if(temp.tipoDato != $3.tipoDato){
 
-		fprintf(stderr, "[Error SEMÁNTICO: linea %d] \n ", linea_actual);
+	{
+	#if defined semantico
+		contParam++;
+		entradaTS temp = devuelveEntrada(posicion + contParam );
+		if(temp.tipoDato != $3.tipoDato){
 
-		printf("Tipo param erroneo: %d ,%d ,%d \n", temp.tipoDato, $3.tipoDato, contParam );
+			fprintf(stderr, "[Error SEMÁNTICO: linea %d] \n ", linea_actual);
 
+			printf("Tipo param erroneo: %d ,%d ,%d \n", temp.tipoDato, $3.tipoDato, contParam );
+
+		}
+	#endif
 	}
 
-}
- | expresion
- {
- 	contParam++;
- 	entradaTS temp = devuelveEntrada(posicion + contParam );
- 	if(temp.tipoDato != $1.tipoDato){
+ 	| expresion
 
-		fprintf(stderr, "[Error SEMÁNTICO: linea %d] \n ", linea_actual);
+	{
+	#if defined semantico
+	 	contParam++;
+	 	entradaTS temp = devuelveEntrada(posicion + contParam );
+	 	if(temp.tipoDato != $1.tipoDato){
 
-		printf("Tipo param erroneo: %d ,%d ,%d \n", temp.tipoDato, $1.tipoDato, contParam );
+			fprintf(stderr, "[Error SEMÁNTICO: linea %d] \n ", linea_actual);
+
+			printf("Tipo param erroneo: %d ,%d ,%d \n", temp.tipoDato, $1.tipoDato, contParam );
+		}
+	#endif
 	}
- }
- |
+
+	|
   ;
 
 lista : lista_enteros
