@@ -1,8 +1,8 @@
-/* A Bison parser, made by GNU Bison 3.0.2.  */
+/* A Bison parser, made by GNU Bison 3.0.4.  */
 
 /* Bison implementation for Yacc-like parsers in C
 
-   Copyright (C) 1984, 1989-1990, 2000-2013 Free Software Foundation, Inc.
+   Copyright (C) 1984, 1989-1990, 2000-2015 Free Software Foundation, Inc.
 
    This program is free software: you can redistribute it and/or modify
    it under the terms of the GNU General Public License as published by
@@ -44,7 +44,7 @@
 #define YYBISON 1
 
 /* Bison version.  */
-#define YYBISON_VERSION "3.0.2"
+#define YYBISON_VERSION "3.0.4"
 
 /* Skeleton name.  */
 #define YYSKELETON_NAME "yacc.c"
@@ -544,16 +544,16 @@ static const yytype_uint8 yytranslate[] =
 static const yytype_uint16 yyrline[] =
 {
        0,    88,    88,    91,    90,   106,   109,   112,   113,   115,
-     116,   119,   121,   130,   130,   139,   140,   142,   143,   144,
-     146,   158,   159,   161,   162,   164,   165,   167,   169,   174,
-     181,   181,   182,   208,   209,   213,   214,   215,   216,   217,
-     218,   219,   220,   223,   245,   246,   249,   251,   255,   257,
-     258,   261,   262,   264,   264,   286,   301,   304,   319,   344,
-     358,   377,   391,   407,   426,   441,   491,   505,   519,   533,
-     547,   570,   585,   599,   613,   662,   682,   689,   690,   691,
-     692,   693,   694,   695,   697,   708,   718,   721,   722,   723,
-     724,   727,   729,   730,   733,   735,   736,   740,   742,   743,
-     746,   748,   749
+     116,   119,   121,   130,   130,   139,   140,   145,   146,   147,
+     149,   161,   162,   164,   165,   167,   168,   170,   174,   179,
+     186,   186,   187,   213,   214,   218,   219,   220,   221,   222,
+     223,   224,   225,   228,   250,   253,   257,   261,   265,   267,
+     268,   271,   272,   274,   274,   296,   311,   314,   329,   354,
+     368,   387,   401,   417,   436,   451,   501,   515,   529,   543,
+     557,   580,   595,   609,   623,   672,   698,   707,   708,   709,
+     710,   711,   712,   713,   715,   728,   739,   742,   743,   744,
+     745,   748,   750,   751,   754,   756,   757,   761,   763,   764,
+     767,   769,   770
 };
 #endif
 
@@ -1559,8 +1559,16 @@ yyreduce:
 #line 1560 "y.tab.c" /* yacc.c:1646  */
     break;
 
+  case 16:
+#line 141 "yacc.y" /* yacc.c:1646  */
+    { 	printf("[Error SÍNTÁCTICO: linea %d] Error creación de subprograma ", linea_actual);
+
+	}
+#line 1568 "y.tab.c" /* yacc.c:1646  */
+    break;
+
   case 20:
-#line 147 "yacc.y" /* yacc.c:1646  */
+#line 150 "yacc.y" /* yacc.c:1646  */
     {
 	contParam++;
 	entradaTS temp = devuelveEntrada(posicion);
@@ -1570,35 +1578,42 @@ yyreduce:
 	(yyvsp[0]).tipoDato = (yyvsp[-1]).tipoDato;
 	estado = inserta((yyvsp[0]), PAR_FORMAL);
 }
-#line 1574 "y.tab.c" /* yacc.c:1646  */
+#line 1582 "y.tab.c" /* yacc.c:1646  */
+    break;
+
+  case 27:
+#line 171 "yacc.y" /* yacc.c:1646  */
+    { printf("[Error SÍNTÁCTICO: linea %d] Error declaración de variables ", linea_actual);
+	}
+#line 1589 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 28:
-#line 170 "yacc.y" /* yacc.c:1646  */
+#line 175 "yacc.y" /* yacc.c:1646  */
     {
 			(yyvsp[0]).tipoDato = tempTipoDato;
 			estado = inserta((yyvsp[0]), VARIABLE);
 		}
-#line 1583 "y.tab.c" /* yacc.c:1646  */
+#line 1598 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 29:
-#line 175 "yacc.y" /* yacc.c:1646  */
+#line 180 "yacc.y" /* yacc.c:1646  */
     {
 		(yyvsp[0]).tipoDato = tempTipoDato;
 		estado = inserta((yyvsp[0]), VARIABLE);
 		}
-#line 1592 "y.tab.c" /* yacc.c:1646  */
+#line 1607 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 30:
-#line 181 "yacc.y" /* yacc.c:1646  */
+#line 186 "yacc.y" /* yacc.c:1646  */
     {tempTipoDato = (yyvsp[0]).tipoDato;}
-#line 1598 "y.tab.c" /* yacc.c:1646  */
+#line 1613 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 32:
-#line 183 "yacc.y" /* yacc.c:1646  */
+#line 188 "yacc.y" /* yacc.c:1646  */
     {
 
 	switch ((yyvsp[0]).tipoDato) {
@@ -1623,16 +1638,16 @@ yyreduce:
 	}
 
 }
-#line 1627 "y.tab.c" /* yacc.c:1646  */
+#line 1642 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 43:
-#line 224 "yacc.y" /* yacc.c:1646  */
+#line 229 "yacc.y" /* yacc.c:1646  */
     {
 //printf("buscando %s para comparar\n", $1.nombre );
 int posicion = buscaEnTs((yyvsp[-3]));
 if(posicion==-1){
-	printf("[ERR] Error linea: %d ASIGNACION ", linea_actual);
+	printf("[Error SEMÁNTICO: linea %d] ASIGNACION ", linea_actual);
 	printf("variable no definida\n");
 }
 	else{
@@ -1641,47 +1656,50 @@ if(posicion==-1){
 
 		//printf("Comparando %s tipoIzq: %d, tipoder: %d\n",temp.nombre,temp.tipoDato,$3.tipoDato);
 		if ( tipoTemp != (yyvsp[-1]).tipoDato ) {
-			printf("[ERR] Error linea: %d ASIGNACION ", linea_actual);
+			printf("[Error SEMÁNTICO: linea %d] ASIGNACION ", linea_actual);
 			printf("tipos no coinciden dato izq = %d, der = %d\n",tipoTemp,(yyvsp[-1]).tipoDato);
 			}
 
 	}
 }
-#line 1651 "y.tab.c" /* yacc.c:1646  */
+#line 1666 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 44:
-#line 245 "yacc.y" /* yacc.c:1646  */
-    { if((yyvsp[-2]).tipoDato != BOOLEANO ) printf("Fallo tipo de condicional\n");}
-#line 1657 "y.tab.c" /* yacc.c:1646  */
+#line 251 "yacc.y" /* yacc.c:1646  */
+    { if((yyvsp[-2]).tipoDato != BOOLEANO ) printf("[Error SEMÁNTICO: linea %d] Condicional no booleana\n",linea_actual);
+	}
+#line 1673 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 45:
-#line 246 "yacc.y" /* yacc.c:1646  */
-    { if((yyvsp[-4]).tipoDato != BOOLEANO ) printf("Fallo tipo de condicional\n");}
-#line 1663 "y.tab.c" /* yacc.c:1646  */
+#line 254 "yacc.y" /* yacc.c:1646  */
+    { if((yyvsp[-4]).tipoDato != BOOLEANO ) printf("[Error SEMÁNTICO: linea %d] Condicional no booleana\n",linea_actual);
+	}
+#line 1680 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 46:
-#line 249 "yacc.y" /* yacc.c:1646  */
-    { if((yyvsp[-2]).tipoDato != BOOLEANO ) printf("Fallo tipo de condicional\n");}
-#line 1669 "y.tab.c" /* yacc.c:1646  */
+#line 258 "yacc.y" /* yacc.c:1646  */
+    { if((yyvsp[-2]).tipoDato != BOOLEANO ) printf("[Error SEMÁNTICO: linea %d] Condicional no booleana\n",linea_actual);
+	}
+#line 1687 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 53:
-#line 264 "yacc.y" /* yacc.c:1646  */
+#line 274 "yacc.y" /* yacc.c:1646  */
     {
 	contParam = 0;
 	posicion = busca((yyvsp[0]));
 }
-#line 1678 "y.tab.c" /* yacc.c:1646  */
+#line 1696 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 54:
-#line 269 "yacc.y" /* yacc.c:1646  */
+#line 279 "yacc.y" /* yacc.c:1646  */
     {
 	if(posicion == -1){
-		printf("Procedimiento no definido: %s\n" , (yyvsp[-5]).nombre );
+		printf("[Error SEMÁNTICO: linea %d] Procedimiento no definido: %s\n" ,linea_actual, (yyvsp[-5]).nombre );
 	} else{
 		 entradaTS temp = devuelveEntrada(posicion);
 		 printf("Llamada Procedimiento:  %s , %d\n", temp.nombre, temp.parametros );
@@ -1689,40 +1707,40 @@ if(posicion==-1){
 		 if( temp.parametros == contParam){
 
 		 }else{
-				printf("Numero de expresiones erroneo: %s ,%d,%d \n", (yyvsp[-5]).nombre, temp.parametros ,contParam );
+				printf("[Error SEMANTICO: linea %d] Numero de expresiones erroneo: %s ,%d,%d \n",linea_actual, (yyvsp[-5]).nombre, temp.parametros ,contParam );
 				(yyval).tipoDato = DESC;
 		 }
 	 }
 }
-#line 1698 "y.tab.c" /* yacc.c:1646  */
+#line 1716 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 55:
-#line 287 "yacc.y" /* yacc.c:1646  */
+#line 297 "yacc.y" /* yacc.c:1646  */
     {
 			if (((yyvsp[-4]).tipoDato == ENTERO) && ((yyvsp[-2]).tipoDato==(yyvsp[-4]).tipoDato) ){
 
 			} else {
 
-				fprintf(stderr, "ERROR linea: %d \n ", linea_actual);
+				fprintf(stderr, "[Error SEMÁNTICO: linea %d] \n ", linea_actual);
 				fprintf(stderr, "Op con tipo de dato incorrecto \n");
 
 				(yyval).tipoDato = DESC;
 				}
 }
-#line 1714 "y.tab.c" /* yacc.c:1646  */
+#line 1732 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 56:
-#line 301 "yacc.y" /* yacc.c:1646  */
+#line 311 "yacc.y" /* yacc.c:1646  */
     {
 						(yyval) = (yyvsp[-1]);
 						}
-#line 1722 "y.tab.c" /* yacc.c:1646  */
+#line 1740 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 57:
-#line 305 "yacc.y" /* yacc.c:1646  */
+#line 315 "yacc.y" /* yacc.c:1646  */
     {
 				if ( ((yyvsp[0]).tipoDato != BOOLEANO)
 					&& ((yyvsp[0]).tipoDato != LISTA_BOOLEANO) ) {
@@ -1731,17 +1749,17 @@ if(posicion==-1){
 
 				} else {
 
-					fprintf(stderr, "ERROR linea: %d \n ", linea_actual);
+					fprintf(stderr, "[Error SEMÁNTICO: linea %d] \n ", linea_actual);
 					fprintf(stderr, "Op con tipo de dato incorrecto \n");
 
 					(yyval).tipoDato = DESC;
 					}
 		}
-#line 1741 "y.tab.c" /* yacc.c:1646  */
+#line 1759 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 58:
-#line 320 "yacc.y" /* yacc.c:1646  */
+#line 330 "yacc.y" /* yacc.c:1646  */
     {
 				if ((yyvsp[0]).tipoDato > CARACTER) {
 					switch ((yyvsp[-1]).dif) {
@@ -1760,25 +1778,7 @@ if(posicion==-1){
 					}
 				} else {
 
-					fprintf(stderr, "ERROR linea: %d \n ", linea_actual);
-					fprintf(stderr, "Op con tipo de dato incorrecto \n");
-
-					(yyval).tipoDato = DESC;
-					}
-	}
-#line 1770 "y.tab.c" /* yacc.c:1646  */
-    break;
-
-  case 59:
-#line 345 "yacc.y" /* yacc.c:1646  */
-    {
-				if ((yyvsp[0]).tipoDato > CARACTER) {
-
-					(yyval).tipoDato = (yyvsp[0]).tipoDato;
-
-				} else {
-
-					fprintf(stderr, "ERROR linea: %d \n ", linea_actual);
+					fprintf(stderr, "[Error SEMÁNTICO: linea %d] \n ", linea_actual);
 					fprintf(stderr, "Op con tipo de dato incorrecto \n");
 
 					(yyval).tipoDato = DESC;
@@ -1787,40 +1787,40 @@ if(posicion==-1){
 #line 1788 "y.tab.c" /* yacc.c:1646  */
     break;
 
+  case 59:
+#line 355 "yacc.y" /* yacc.c:1646  */
+    {
+				if ((yyvsp[0]).tipoDato > CARACTER) {
+
+					(yyval).tipoDato = (yyvsp[0]).tipoDato;
+
+				} else {
+
+					fprintf(stderr, "[Error SEMÁNTICO: linea %d] \n ", linea_actual);
+					fprintf(stderr, "Op con tipo de dato incorrecto \n");
+
+					(yyval).tipoDato = DESC;
+					}
+	}
+#line 1806 "y.tab.c" /* yacc.c:1646  */
+    break;
+
   case 60:
-#line 359 "yacc.y" /* yacc.c:1646  */
+#line 369 "yacc.y" /* yacc.c:1646  */
     {
 				if ((yyvsp[-2]).tipoDato > CARACTER) {
 					if((yyvsp[0]).tipoDato == ENTERO){
 						(yyval).tipoDato = (yyvsp[-2]).tipoDato;
 
 					}else{
-						fprintf(stderr, "ERROR linea: %d  -", linea_actual);
+						fprintf(stderr, "[Error SEMÁNTICO: linea %d] \n ", linea_actual);
 						fprintf(stderr, "No es un entero\n");
 						(yyval).tipoDato = DESC;
 					}
 				} else {
 
-					fprintf(stderr, "ERROR linea: %d  -", linea_actual);
+					fprintf(stderr, "[Error SEMÁNTICO: linea %d] \n ", linea_actual);
 					fprintf(stderr, "No es una lista\n");
-
-					(yyval).tipoDato = DESC;
-					}
-	}
-#line 1811 "y.tab.c" /* yacc.c:1646  */
-    break;
-
-  case 61:
-#line 378 "yacc.y" /* yacc.c:1646  */
-    {
-				if ((yyvsp[0]).tipoDato == BOOLEANO) {
-
-					(yyval).tipoDato = (yyvsp[0]).tipoDato;
-
-				} else {
-
-					fprintf(stderr, "ERROR linea: %d \n ", linea_actual);
-					fprintf(stderr, "Op con tipo de dato incorrecto \n");
 
 					(yyval).tipoDato = DESC;
 					}
@@ -1828,8 +1828,26 @@ if(posicion==-1){
 #line 1829 "y.tab.c" /* yacc.c:1646  */
     break;
 
+  case 61:
+#line 388 "yacc.y" /* yacc.c:1646  */
+    {
+				if ((yyvsp[0]).tipoDato == BOOLEANO) {
+
+					(yyval).tipoDato = (yyvsp[0]).tipoDato;
+
+				} else {
+
+					fprintf(stderr, "[Error SEMÁNTICO: linea %d] \n ", linea_actual);
+					fprintf(stderr, "Op con tipo de dato incorrecto \n");
+
+					(yyval).tipoDato = DESC;
+					}
+	}
+#line 1847 "y.tab.c" /* yacc.c:1646  */
+    break;
+
   case 62:
-#line 392 "yacc.y" /* yacc.c:1646  */
+#line 402 "yacc.y" /* yacc.c:1646  */
     {
 		{
 					if ((yyvsp[-1]).tipoDato > CARACTER) {
@@ -1838,41 +1856,41 @@ if(posicion==-1){
 
 					} else {
 
-						fprintf(stderr, "ERROR linea: %d \n ", linea_actual);
+						fprintf(stderr, "[Error SEMÁNTICO: linea %d] \n ", linea_actual);
 						fprintf(stderr, "Op con tipo de dato incorrecto \n");
 
 						(yyval).tipoDato = DESC;
 						}
 		}
 	}
-#line 1849 "y.tab.c" /* yacc.c:1646  */
+#line 1867 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 63:
-#line 408 "yacc.y" /* yacc.c:1646  */
+#line 418 "yacc.y" /* yacc.c:1646  */
     {
 		if ((yyvsp[-2]).tipoDato > CARACTER){
 
 			if((yyvsp[0]).tipoDato == ENTERO){
 				(yyval).tipoDato = listaASimple((yyvsp[-2]).tipoDato);
 			} else {
-				fprintf(stderr, "ERROR linea: %d -", linea_actual);
+				fprintf(stderr, "[Error SEMÁNTICO: linea %d] \n ", linea_actual);
 				fprintf(stderr, " Debe ser entero para acceder a posicion \n");
 				(yyval).tipoDato = DESC;
 			}
 
 		}else{
-			fprintf(stderr, "ERROR linea: %d -", linea_actual);
+			fprintf(stderr, "[Error SEMÁNTICO: linea %d] \n ", linea_actual);
 			fprintf(stderr, "No es una lista %s \n",(yyvsp[-2]).nombre);
 			(yyval).tipoDato = DESC;
 
 		}
 	}
-#line 1872 "y.tab.c" /* yacc.c:1646  */
+#line 1890 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 64:
-#line 426 "yacc.y" /* yacc.c:1646  */
+#line 436 "yacc.y" /* yacc.c:1646  */
     {
 		{
 					if (((yyvsp[-2]).tipoDato > CARACTER) && ((yyvsp[0]).tipoDato == (yyvsp[-2]).tipoDato)) {
@@ -1881,18 +1899,18 @@ if(posicion==-1){
 
 					} else {
 
-						fprintf(stderr, "ERROR linea: %d \n ", linea_actual);
+						fprintf(stderr, "[Error SEMÁNTICO: linea %d] \n ", linea_actual);
 						fprintf(stderr, "Op con tipo de dato incorrecto \n");
 
 						(yyval).tipoDato = DESC;
 						}
 		}
 	}
-#line 1892 "y.tab.c" /* yacc.c:1646  */
+#line 1910 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 65:
-#line 442 "yacc.y" /* yacc.c:1646  */
+#line 452 "yacc.y" /* yacc.c:1646  */
     {
 		if ((yyvsp[-2]).tipoDato == LISTA_ENTERO || (yyvsp[-2]).tipoDato == LISTA_REAL){
 
@@ -1901,7 +1919,7 @@ if(posicion==-1){
 			} else if ((yyvsp[0]).tipoDato == ENTERO) {
 				(yyval).tipoDato = (yyvsp[-2]).tipoDato;
 			} else {
-				fprintf(stderr, "ERROR linea: %d 1", linea_actual);
+				fprintf(stderr, "[Error SEMÁNTICO: linea %d] \n ", linea_actual);
 				fprintf(stderr, " Tipos no coinciden \n");
 				(yyval).tipoDato = DESC;
 			}
@@ -1919,7 +1937,7 @@ if(posicion==-1){
 						(yyval).tipoDato = LISTA_REAL;
 					}
 				} else {
-					fprintf(stderr, "ERROR linea: %d 2", linea_actual);
+					fprintf(stderr, "[Error SEMÁNTICO: linea %d] \n ", linea_actual);
 					fprintf(stderr, " Tipos no coinciden \n");
 					(yyval).tipoDato = DESC;
 				}
@@ -1930,41 +1948,23 @@ if(posicion==-1){
 				} else if ((yyvsp[0]).tipoDato == REAL){
 					(yyval).tipoDato == REAL;
 				} else {
-					fprintf(stderr, "ERROR linea: %d 3", linea_actual);
+					fprintf(stderr, "[Error SEMÁNTICO: linea %d] \n ", linea_actual);
 					fprintf(stderr, " Tipos no coinciden \n");
 					(yyval).tipoDato = DESC;
 				}
 			}
 		} else {
 
-			fprintf(stderr, "ERROR linea: %d 4", linea_actual);
+			fprintf(stderr, "[Error SEMÁNTICO: linea %d] \n ", linea_actual);
 			fprintf(stderr, " Tipos no coinciden \n");
 			(yyval).tipoDato = DESC;
 		}
 	}
-#line 1946 "y.tab.c" /* yacc.c:1646  */
-    break;
-
-  case 66:
-#line 492 "yacc.y" /* yacc.c:1646  */
-    {
-				if (((yyvsp[-2]).tipoDato == BOOLEANO) && ((yyvsp[0]).tipoDato == (yyvsp[-2]).tipoDato) ) {
-
-					(yyval).tipoDato = (yyvsp[-2]).tipoDato;
-
-				} else {
-
-					fprintf(stderr, "ERROR linea: %d \n ", linea_actual);
-					fprintf(stderr, "Op con tipo de dato incorrecto \n");
-
-					(yyval).tipoDato = DESC;
-					}
-	}
 #line 1964 "y.tab.c" /* yacc.c:1646  */
     break;
 
-  case 67:
-#line 506 "yacc.y" /* yacc.c:1646  */
+  case 66:
+#line 502 "yacc.y" /* yacc.c:1646  */
     {
 				if (((yyvsp[-2]).tipoDato == BOOLEANO) && ((yyvsp[0]).tipoDato == (yyvsp[-2]).tipoDato) ) {
 
@@ -1972,7 +1972,7 @@ if(posicion==-1){
 
 				} else {
 
-					fprintf(stderr, "ERROR linea: %d \n ", linea_actual);
+					fprintf(stderr, "[Error SEMÁNTICO: linea %d] \n ", linea_actual);
 					fprintf(stderr, "Op con tipo de dato incorrecto \n");
 
 					(yyval).tipoDato = DESC;
@@ -1981,8 +1981,8 @@ if(posicion==-1){
 #line 1982 "y.tab.c" /* yacc.c:1646  */
     break;
 
-  case 68:
-#line 520 "yacc.y" /* yacc.c:1646  */
+  case 67:
+#line 516 "yacc.y" /* yacc.c:1646  */
     {
 				if (((yyvsp[-2]).tipoDato == BOOLEANO) && ((yyvsp[0]).tipoDato == (yyvsp[-2]).tipoDato) ) {
 
@@ -1990,7 +1990,7 @@ if(posicion==-1){
 
 				} else {
 
-					fprintf(stderr, "ERROR linea: %d \n ", linea_actual);
+					fprintf(stderr, "[Error SEMÁNTICO: linea %d] \n ", linea_actual);
 					fprintf(stderr, "Op con tipo de dato incorrecto \n");
 
 					(yyval).tipoDato = DESC;
@@ -1999,8 +1999,8 @@ if(posicion==-1){
 #line 2000 "y.tab.c" /* yacc.c:1646  */
     break;
 
-  case 69:
-#line 534 "yacc.y" /* yacc.c:1646  */
+  case 68:
+#line 530 "yacc.y" /* yacc.c:1646  */
     {
 				if (((yyvsp[-2]).tipoDato == BOOLEANO) && ((yyvsp[0]).tipoDato == (yyvsp[-2]).tipoDato) ) {
 
@@ -2008,7 +2008,7 @@ if(posicion==-1){
 
 				} else {
 
-					fprintf(stderr, "ERROR linea: %d \n ", linea_actual);
+					fprintf(stderr, "[Error SEMÁNTICO: linea %d] \n ", linea_actual);
 					fprintf(stderr, "Op con tipo de dato incorrecto \n");
 
 					(yyval).tipoDato = DESC;
@@ -2017,8 +2017,26 @@ if(posicion==-1){
 #line 2018 "y.tab.c" /* yacc.c:1646  */
     break;
 
+  case 69:
+#line 544 "yacc.y" /* yacc.c:1646  */
+    {
+				if (((yyvsp[-2]).tipoDato == BOOLEANO) && ((yyvsp[0]).tipoDato == (yyvsp[-2]).tipoDato) ) {
+
+					(yyval).tipoDato = (yyvsp[-2]).tipoDato;
+
+				} else {
+
+					fprintf(stderr, "[Error SEMÁNTICO: linea %d] \n ", linea_actual);
+					fprintf(stderr, "Op con tipo de dato incorrecto \n");
+
+					(yyval).tipoDato = DESC;
+					}
+	}
+#line 2036 "y.tab.c" /* yacc.c:1646  */
+    break;
+
   case 70:
-#line 548 "yacc.y" /* yacc.c:1646  */
+#line 558 "yacc.y" /* yacc.c:1646  */
     {
 		if ( ((yyvsp[-2]).tipoDato < BOOLEANO) && ((yyvsp[0]).tipoDato < BOOLEANO) ) {
 
@@ -2028,7 +2046,7 @@ if(posicion==-1){
 
 			} else {
 
-				fprintf(stderr, "ERROR linea: %d \n ", linea_actual);
+				fprintf(stderr, "[Error SEMÁNTICO: linea %d] \n ", linea_actual);
 				fprintf(stderr, "Op +/- con tipo de dato");
 				fprintf(stderr, "incorrecto\n");
 
@@ -2036,16 +2054,16 @@ if(posicion==-1){
 				}
 		} else {
 
-			fprintf(stderr, "ERROR linea: %d +/-", linea_actual);
+			fprintf(stderr, "[Error SEMÁNTICO: linea %d] \n ", linea_actual);
 			fprintf(stderr, " Tipos no coinciden \n");
 			(yyval).tipoDato = DESC;
 			}
 	}
-#line 2045 "y.tab.c" /* yacc.c:1646  */
+#line 2063 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 71:
-#line 571 "yacc.y" /* yacc.c:1646  */
+#line 581 "yacc.y" /* yacc.c:1646  */
     {
 		if( ((yyvsp[-2]).tipoDato < LISTA_REAL) && ((yyvsp[0]).tipoDato == (yyvsp[-2]).tipoDato)   ) {
 
@@ -2053,18 +2071,18 @@ if(posicion==-1){
 
 			} else {
 
-				fprintf(stderr, "ERROR linea: %d \n ", linea_actual);
+				fprintf(stderr, "[Error SEMÁNTICO: linea %d] \n ", linea_actual);
 				fprintf(stderr, "Op +/- con tipo de dato");
 				fprintf(stderr, "incorrecto\n");
 
 				(yyval).tipoDato = DESC;
 			}
 	}
-#line 2064 "y.tab.c" /* yacc.c:1646  */
+#line 2082 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 72:
-#line 586 "yacc.y" /* yacc.c:1646  */
+#line 596 "yacc.y" /* yacc.c:1646  */
     {
 				if (((yyvsp[-2]).tipoDato > CARACTER) && ((yyvsp[0]).tipoDato == ENTERO)) {
 
@@ -2072,25 +2090,7 @@ if(posicion==-1){
 
 				} else {
 
-					fprintf(stderr, "ERROR linea: %d \n ", linea_actual);
-					fprintf(stderr, "Op con tipo de dato incorrecto \n");
-
-					(yyval).tipoDato = DESC;
-					}
-	}
-#line 2082 "y.tab.c" /* yacc.c:1646  */
-    break;
-
-  case 73:
-#line 600 "yacc.y" /* yacc.c:1646  */
-    {
-				if (((yyvsp[-2]).tipoDato == BOOLEANO) && ((yyvsp[0]).tipoDato == (yyvsp[-2]).tipoDato) ) {
-
-					(yyval).tipoDato = (yyvsp[-2]).tipoDato;
-
-				} else {
-
-					fprintf(stderr, "ERROR linea: %d \n ", linea_actual);
+					fprintf(stderr, "[Error SEMÁNTICO: linea %d] \n ", linea_actual);
 					fprintf(stderr, "Op con tipo de dato incorrecto \n");
 
 					(yyval).tipoDato = DESC;
@@ -2099,8 +2099,26 @@ if(posicion==-1){
 #line 2100 "y.tab.c" /* yacc.c:1646  */
     break;
 
+  case 73:
+#line 610 "yacc.y" /* yacc.c:1646  */
+    {
+				if (((yyvsp[-2]).tipoDato == BOOLEANO) && ((yyvsp[0]).tipoDato == (yyvsp[-2]).tipoDato) ) {
+
+					(yyval).tipoDato = (yyvsp[-2]).tipoDato;
+
+				} else {
+
+					fprintf(stderr, "[Error SEMÁNTICO: linea %d] \n ", linea_actual);
+					fprintf(stderr, "Op con tipo de dato incorrecto \n");
+
+					(yyval).tipoDato = DESC;
+					}
+	}
+#line 2118 "y.tab.c" /* yacc.c:1646  */
+    break;
+
   case 74:
-#line 614 "yacc.y" /* yacc.c:1646  */
+#line 624 "yacc.y" /* yacc.c:1646  */
     {
 		if ((yyvsp[-2]).tipoDato == LISTA_ENTERO || (yyvsp[-2]).tipoDato == LISTA_REAL){
 
@@ -2110,7 +2128,7 @@ if(posicion==-1){
 			} else if ((yyvsp[0]).tipoDato == ENTERO) {
 				(yyval).tipoDato = (yyvsp[-2]).tipoDato;
 			} else {
-				fprintf(stderr, "ERROR linea: %d 1", linea_actual);
+				fprintf(stderr, "[Error SEMÁNTICO: linea %d] \n ", linea_actual);
 				fprintf(stderr, " Tipos no coinciden \n");
 				(yyval).tipoDato = DESC;
 			}
@@ -2131,7 +2149,7 @@ if(posicion==-1){
 						(yyval).tipoDato = LISTA_REAL;
 					}
 				} else {
-					fprintf(stderr, "ERROR linea: %d 2", linea_actual);
+					fprintf(stderr, "[Error SEMÁNTICO: linea %d] \n ", linea_actual);
 					fprintf(stderr, " Tipos no coinciden \n");
 					(yyval).tipoDato = DESC;
 				}
@@ -2142,113 +2160,124 @@ if(posicion==-1){
 				} else if ((yyvsp[0]).tipoDato == REAL){
 					(yyval).tipoDato == REAL;
 				} else {
-					fprintf(stderr, "ERROR linea: %d - 3", linea_actual);
+					fprintf(stderr, "[Error SEMÁNTICO: linea %d] \n ", linea_actual);
 					fprintf(stderr, " Orden incorrecto \n");
 					(yyval).tipoDato = DESC;
 				}
 			}
 		}
 	}
-#line 2153 "y.tab.c" /* yacc.c:1646  */
+#line 2171 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 75:
-#line 663 "yacc.y" /* yacc.c:1646  */
+#line 673 "yacc.y" /* yacc.c:1646  */
     {
 				if ((yyvsp[-4]).tipoDato > CARACTER) {
 						if((yyvsp[-2]).tipoDato == listaASimple((yyvsp[-4]).tipoDato)){
 							if((yyvsp[0]).tipoDato == ENTERO){
 								(yyval).tipoDato = (yyvsp[-4]).tipoDato;
 							}else{
-								fprintf(stderr, "ERROR linea: %d Valor distinto de entero: [%s]  \n", linea_actual,(yyvsp[0]).nombre);
+								fprintf(stderr, "[Error SEMÁNTICO: linea %d] \n ", linea_actual);
+
+								fprintf(stderr, "Valor distinto de entero: [%s]  \n", linea_actual,(yyvsp[0]).nombre);
 							}
 					}else{
-						fprintf(stderr, "ERROR linea: %d Valor distinto de lista: [%s]  \n", linea_actual,(yyvsp[-2]).nombre);
+						fprintf(stderr, "[Error SEMÁNTICO: linea %d] \n ", linea_actual);
+
+						fprintf(stderr, "Valor distinto de lista: [%s]  \n", linea_actual,(yyvsp[-2]).nombre);
 					}
 				}else{
-					fprintf(stderr, "ERROR linea: %d No es una lista: [%s]  \n", linea_actual,(yyvsp[-4]).nombre);
+					fprintf(stderr, "[Error SEMÁNTICO: linea %d] \n ", linea_actual);
+
+					fprintf(stderr, "No es una lista: [%s]  \n", linea_actual,(yyvsp[-4]).nombre);
 
 				}
 
 
 
 	}
-#line 2177 "y.tab.c" /* yacc.c:1646  */
-    break;
-
-  case 76:
-#line 682 "yacc.y" /* yacc.c:1646  */
-    {
-		int posicion2 = buscaEnTs((yyvsp[0]));
-		if(posicion2 == -1){
-			fprintf(stderr, "ERROR linea: %d Variable no definida: [%s]  \n", linea_actual,(yyvsp[0]).nombre);
-}else {
-	entradaTS temp = devuelveEntrada(posicion2); (yyval).tipoDato = temp.tipoDato; }
-}
-#line 2189 "y.tab.c" /* yacc.c:1646  */
-    break;
-
-  case 77:
-#line 689 "yacc.y" /* yacc.c:1646  */
-    {(yyval).tipoDato = (yyvsp[0]).tipoDato; }
-#line 2195 "y.tab.c" /* yacc.c:1646  */
-    break;
-
-  case 78:
-#line 690 "yacc.y" /* yacc.c:1646  */
-    {(yyval).tipoDato = (yyvsp[0]).tipoDato; }
 #line 2201 "y.tab.c" /* yacc.c:1646  */
     break;
 
-  case 79:
-#line 691 "yacc.y" /* yacc.c:1646  */
+  case 76:
+#line 698 "yacc.y" /* yacc.c:1646  */
+    {
+		int posicion2 = buscaEnTs((yyvsp[0]));
+		if(posicion2 == -1){
+			fprintf(stderr, "[Error SEMÁNTICO: linea %d] \n ", linea_actual);
+
+			fprintf(stderr, "Variable no definida: [%s]  \n", linea_actual,(yyvsp[0]).nombre);
+}else {
+	entradaTS temp = devuelveEntrada(posicion2); (yyval).tipoDato = temp.tipoDato; }
+}
+#line 2215 "y.tab.c" /* yacc.c:1646  */
+    break;
+
+  case 77:
+#line 707 "yacc.y" /* yacc.c:1646  */
     {(yyval).tipoDato = (yyvsp[0]).tipoDato; }
-#line 2207 "y.tab.c" /* yacc.c:1646  */
+#line 2221 "y.tab.c" /* yacc.c:1646  */
+    break;
+
+  case 78:
+#line 708 "yacc.y" /* yacc.c:1646  */
+    {(yyval).tipoDato = (yyvsp[0]).tipoDato; }
+#line 2227 "y.tab.c" /* yacc.c:1646  */
+    break;
+
+  case 79:
+#line 709 "yacc.y" /* yacc.c:1646  */
+    {(yyval).tipoDato = (yyvsp[0]).tipoDato; }
+#line 2233 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 80:
-#line 692 "yacc.y" /* yacc.c:1646  */
+#line 710 "yacc.y" /* yacc.c:1646  */
     {(yyval).tipoDato = (yyvsp[0]).tipoDato; }
-#line 2213 "y.tab.c" /* yacc.c:1646  */
+#line 2239 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 81:
-#line 693 "yacc.y" /* yacc.c:1646  */
+#line 711 "yacc.y" /* yacc.c:1646  */
     {(yyval).tipoDato = (yyvsp[0]).tipoDato; }
-#line 2219 "y.tab.c" /* yacc.c:1646  */
+#line 2245 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 84:
-#line 698 "yacc.y" /* yacc.c:1646  */
+#line 716 "yacc.y" /* yacc.c:1646  */
     {
 	contParam++;
 	entradaTS temp = devuelveEntrada(posicion + contParam );
 	if(temp.tipoDato != (yyvsp[0]).tipoDato){
-		printf("[ERR] Error linea: %d", linea_actual);
+
+		fprintf(stderr, "[Error SEMÁNTICO: linea %d] \n ", linea_actual);
+
 		printf("Tipo param erroneo: %d ,%d ,%d \n", temp.tipoDato, (yyvsp[0]).tipoDato, contParam );
 
 	}
 
 }
-#line 2234 "y.tab.c" /* yacc.c:1646  */
+#line 2262 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 85:
-#line 709 "yacc.y" /* yacc.c:1646  */
+#line 729 "yacc.y" /* yacc.c:1646  */
     {
  	contParam++;
  	entradaTS temp = devuelveEntrada(posicion + contParam );
  	if(temp.tipoDato != (yyvsp[0]).tipoDato){
+					
+		fprintf(stderr, "[Error SEMÁNTICO: linea %d] \n ", linea_actual);
 
-		printf("[ERR] Error linea: %d", linea_actual);
 		printf("Tipo param erroneo: %d ,%d ,%d \n", temp.tipoDato, (yyvsp[0]).tipoDato, contParam );
 	}
  }
-#line 2248 "y.tab.c" /* yacc.c:1646  */
+#line 2277 "y.tab.c" /* yacc.c:1646  */
     break;
 
 
-#line 2252 "y.tab.c" /* yacc.c:1646  */
+#line 2281 "y.tab.c" /* yacc.c:1646  */
       default: break;
     }
   /* User semantic actions sometimes alter yychar, and that requires
@@ -2476,14 +2505,14 @@ yyreturn:
 #endif
   return yyresult;
 }
-#line 753 "yacc.y" /* yacc.c:1906  */
+#line 774 "yacc.y" /* yacc.c:1906  */
 
 #include "lex.yy.c"
 
 
 void yyerror(const char *msg)
 {
-	printf("[Linea %d]: %s\n", linea_actual,msg);
+	printf("[Error : linea %d]: %s\n", linea_actual,msg);
 }
 
 #include "main.c"
